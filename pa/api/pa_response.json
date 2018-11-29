@@ -1,0 +1,81 @@
+
+    "PAResponse": {
+      "description": "Response to a PA request",
+      "type": "object",
+      "properties": {
+        "usedNFVIPops": {
+          "description": "Array of all used NFVI PoPs with mapped VNFs",
+          "type": "array",
+          "items": {
+            "description": "NFVIPoP with mapped VNFs",
+            "type": "object",
+            "properties": {
+              "NFVIPoPID": {
+                "description": "NFVI PoP ID",
+                "type": "string"
+              },
+              "mappedVNFs": {
+                "description": "all VNFs mapped in this NFVI PoP",
+                "type": "array",
+                "items": {
+                  "description": "VNF ID",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "usedLLs": {
+          "description": "Array of all used LL between NFVIPoPs by the mapped Network Service VLs",
+          "type": "array",
+          "items": {
+            "description": "LLs with mapped VLs",
+            "type": "object",
+            "properties": {
+              "LLID": {
+                "description": "LL ID",
+                "type": "string"
+              },
+              "mappedVLs": {
+                "description": "all VLs mapped in this LL between NFVI PoP",
+                "type": "array",
+                "items": {
+                  "description": "VL ID",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "usedVLs": {
+          "description": "Array of all used VL inside NFVIPoPs by the mapped Network Service VLs",
+          "type": "array",
+          "items": {
+            "description": "Intra NFVIPoP VLs with mapped VLs on top of them",
+            "type": "object",
+            "properties": {
+              "NFVIPoP": {
+                "description": "NFVIPoP ID",
+                "type": "string"
+              },
+              "mappedVLs": {
+                "description": "all VLs mapped in this LL between NFVI PoP",
+                "type": "array",
+                "items": {
+                  "description": "VL ID",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "totalLatency": {
+          "description": "Network Sewrvice latency after placement",
+          "type": "number"
+        },
+        "totalCost": {
+          "description": "cost of mapping the Network Service expressed in euros",
+          "type": "number"
+        }
+      }
+    }

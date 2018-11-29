@@ -1,0 +1,47 @@
+SO
+==
+
+Requirements
+============
+Python 3.5.2+
+pip3
+
+install osm python lib:
+$ git clone https://osm.etsi.org/gerrit/osm/osmclient.git
+from the new created folder "osmclient" run:
+$ sudo python3 setup.py install
+
+MongoDB, just running, no configuration needed.
+
+Install
+=======
+
+git clone https://5g-transformer.eu/git/5g-transformer.5gt-so
+
+Configuration files
+===================
+Check values in the following configuration files:
+
+5GT-SO/mtp.properties
+5GT-SO/db/db.properties
+5GT-SO/coreMano/coreMano.properties
+5GT-SO/sm/rooe/rooe.properties
+
+Usage
+=====
+To run the server, execute the following from the "5GT-so/nbi/python-flask-server" directory:
+
+pip3 install -r requirements.txt  # only the first time
+python3 -m swagger_server
+
+by open your browser to here:
+
+http://localhost:8080/5gt/so/v1/ui/
+
+you can check all operations definitions and test them.
+
+Test
+====
+
+from the "5GT-SO/test" folder run:
+python regression_test.py

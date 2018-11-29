@@ -1,0 +1,304 @@
+---
+swagger: "2.0"
+info:
+  description: "REST-API server for the North Bound Interface\
+    \ of the 5GT-SO. Find more at http://5g-transformer.eu"
+  version: "1.0"
+  title: "5GT-SO NBI"
+host: "localhost:8080"
+basePath: "/5gt/so/v1"
+tags:
+- name: "5GT-SO NBI"
+  description: "access to 5GT-SO"
+schemes:
+- "http"
+paths:
+  /ns:
+    post:
+      tags:
+      - "network service"
+      summary: "Creates and returns a Network Service identifier (nsId)"
+      description: ""
+      operationId: "create_ns_identifier"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Network Service information"
+        required: true
+        schema:
+          $ref: "#/definitions/CreateNsIdentifierRequest"
+      responses:
+        201:
+          description: "Created"
+          schema:
+            $ref: "#/definitions/inline_response_201"
+        400:
+          description: "Bad Request"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+  /ns/{nsId}:
+    get:
+      tags:
+      - "network service"
+      summary: "Returns information of the network service referenced by nsId"
+      description: ""
+      operationId: "query_ns"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nsId"
+        in: "path"
+        description: "ID of the network service"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful Operation"
+          schema:
+            $ref: "#/definitions/NsInfo"
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+  /ns/{nsId}/instantiate:
+    put:
+      tags:
+      - "network service"
+      summary: "Instantiates the Network Service referenced by nsId"
+      description: ""
+      operationId: "instantiate_ns"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nsId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Network Service information"
+        required: true
+        schema:
+          $ref: "#/definitions/NsInstantiationRequest"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/inline_response_200"
+        400:
+          description: "Bad Request"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+  /operation/{operationId}:
+    get:
+      tags:
+      - "operation"
+      summary: "Returns the status of an operation by its operation Id"
+      description: ""
+      operationId: "get_operation_status"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "operationId"
+        in: "path"
+        description: "ID of the operation to return its status"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/inline_response_200_1"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.operation_controller"
+  /ns/{nsId}/terminate:
+    put:
+      tags:
+      - "network service"
+      summary: "Terminates the Network Service identified by nsId."
+      description: ""
+      operationId: "terminate_ns"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nsId"
+        in: "path"
+        description: "ID of the network service"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/inline_response_200"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+  /ns/nsd/{nsdId}/{version}:
+    get:
+      tags:
+      - "network service"
+      summary: "Returns information of the network service referenced by nsId"
+      description: ""
+      operationId: "query_nsd"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nsdId"
+        in: "path"
+        description: "ID of the network service descriptor"
+        required: true
+        type: "string"
+      - name: "version"
+        in: "path"
+        description: "Version of the network service descriptor"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful Operation"
+          schema:
+            type: "object"
+            properties: {}
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+  /ns/vnfd/{vnfdId}/{version}:
+    get:
+      tags:
+      - "network service"
+      summary: "Returns information of the virtual network function referenced by\
+        \ vnfId"
+      description: ""
+      operationId: "query_vnfd"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "vnfdId"
+        in: "path"
+        description: "ID of the virtual network function descriptor"
+        required: true
+        type: "string"
+      - name: "version"
+        in: "path"
+        description: "Version of the virtual network function descriptor"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful Operation"
+          schema:
+            type: "object"
+            properties: {}
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+definitions:
+  CreateNsIdentifierRequest:
+    type: "object"
+    required:
+    - "nsName"
+    - "nsdId"
+    properties:
+      nsdId:
+        type: "string"
+      nsName:
+        type: "string"
+      nsDescription:
+        type: "string"
+    example:
+      nsdId: "nsdId"
+      nsName: "nsName"
+      nsDescription: "nsDescription"
+    xml:
+      name: "NsIdentifierRequest"
+  NsInfo:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+      sapInfo:
+        type: "array"
+        items:
+          $ref: "#/definitions/SapInfo"
+    example:
+      status: "status"
+      sapInfo:
+      - sapInstanceId: "sapInstanceId"
+        sapName: "sapName"
+        description: "description"
+        address: "10.10.10.10"
+      - sapInstanceId: "sapInstanceId2"
+        sapName: "sapName2"
+        description: "description2"
+        address: "10.10.10.11"
+  NsInstantiationRequest:
+    type: "object"
+    required:
+    - "flavourId"
+    - "nsInstantiationLevelId"
+    properties:
+      flavourId:
+        type: "string"
+      nsInstantiationLevelId:
+        type: "string"
+    example:
+      flavourId: "flavourId"
+      nsInstantiationLevelId: "nsInstantiationLevelId"
+  inline_response_201:
+    required:
+    - "nsId"
+    properties:
+      nsId:
+        type: "string"
+    example:
+      nsId: "nsId"
+  inline_response_200:
+    required:
+    - "operationId"
+    properties:
+      operationId:
+        type: "string"
+    example:
+      operationId: "operationId"
+  inline_response_200_1:
+    required:
+    - "status"
+    properties:
+      status:
+        type: "string"
+    example:
+      status: "status"
+  SapInfo:
+    properties:
+      sapInstanceId:
+        type: "string"
+      sapName:
+        type: "string"
+      description:
+        type: "string"
+      address:
+        type: "string"
+    example:
+      sapInstanceId: "sapInstanceId"
+      sapName: "sapName"
+      description: "description"
+      address: "10.10.10.10"
+externalDocs:
+  description: "Find out more about 5G-Transformer"
+  url: "http://5g-transformer.eu/"

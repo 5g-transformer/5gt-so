@@ -1,0 +1,141 @@
+{
+	"vnfdId": "spr21",
+	"vnfProvider": "ATOS",
+	"vnfProductName": "CDN cache",
+	"vnfSoftwareVersion": "0.1",
+	"vnfdVersion": "0.2",
+	"vnfProductInfoName": "vCDN cache",
+	"vnfProductInfoDescription": "vCDN Cache",
+	"vnfmInfo": ["vEPC_VNFM"],
+	"vdu": [{
+		"vduId": "spr21_vdu",
+		"name": "spr21",
+		"description": "VDU of the first cache",
+		"intCpd": [{
+			"cpdId": "spr21DistInt",
+			"layerProtocol": "IPV4",
+			"description": "CP for the cache media content to be distributed",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": true,
+				"management": true,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}, {
+			"cpdId": "spr21DataInt",
+			"layerProtocol": "IPV4",
+			"description": "CP for the cache media content to be retrieved",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": false,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}],
+		"virtualComputeDesc": "VCD_spr21",
+		"virtualStorageDesc": ["VSD_spr21"],
+		"swImageDesc": {
+			"id": "CDN_spr21_SWID",
+			"name": "SPR2_ATOS",
+			"version": "0.1",
+			"checksum": "TBD",
+			"containerFormat": "QCOW",
+			"diskFormat": "QCOW",
+			"minDisk": 1,
+			"minRam": 1,
+			"size": 10,
+			"swImage": "SPR2_ATOS",
+			"operatingSystem": "Ubuntu-10.04"
+		},
+		"configurableProperties": {}
+	}],
+	"virtualComputeDesc": [{
+		"virtualComputeDescId": "VCD_spr21",
+		"virtualMemory": {
+			"virtualMemSize": 1,
+			"virtualMemOversubscriptionPolicy": "asdasd",
+			"numaEnabled": false
+		},
+		"virtualCpu": {
+			"numVirtualCpu": 1,
+			"cpuArchitecture": "x86_64",
+			"virtualCpuClock": 0,
+			"virtualCpuOversubscriptionPolicy": "asdasd"
+		}
+		
+	}],
+	"virtualStorageDesc": [{
+		"id": "VSD_spr21",
+		"typeOfStorage": "VOLUME",
+		"sizeOfStorage": 10,
+		"swImageDesc": "CDN_spr21_SWID"
+	}],
+	"vnfExtCpd": [{
+		"cpdId": "spr21DistExt",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the 1st cache media content to be distributed",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": true,
+			"management": true,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "spr21DistInt"
+	}, {
+		"cpdId": "spr21DataExt",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the 1st cache media content to be retrieved",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": false,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "spr21DataInt"
+	}],
+	"deploymentFlavour": [{
+		"flavourId": "df_spr21",
+		"description": "Standard deployment flavour of the 1st CDN cache",
+		"vduProfile": [{
+			"vduId": "spr21_vdu",
+			"minNumberOfInstances": 1,
+			"maxNumberOfInstances": 1
+		}],
+		"instantiationLevel": [{
+			"levelId": "il_spr21",
+			"description": "Standard instantiation level of the 1st CDN cache",
+			"vduLevel": [{
+				"vduId": "spr21_vdu",
+				"numberOfInstances": 1
+			}]
+		}],
+		"vnfLcmOperationsConfiguration": {}
+	}],
+	"configurableProperties": {
+			"autoScalable": false,
+			"autoHealable": false,
+			"additionalConfigurableProperty": [
+				"vnf.spr1.vdu.spr1_vdu.intcp.spr1DataInt.address"
+			]
+	},
+	"modifiableAttributes": {},
+	"lifeCycleManagementScript": [{
+		"event": ["START_VNF_INSTANTIATION"],
+		"script": "#!/bin/bash \nip route del default \nip route add default via $$config$$managementGw \n"
+	}, {
+		"event": ["END_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["START_VNF_TERMINATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_TERMINATION"],
+		"script": ""
+	}]
+}

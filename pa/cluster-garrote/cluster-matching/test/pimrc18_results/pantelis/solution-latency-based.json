@@ -1,0 +1,2517 @@
+{
+  "resource_types": [
+    "cpu", 
+    "memory", 
+    "storage"
+  ], 
+  "vnfs": [
+    {
+      "processing_time": 10, 
+      "vnf_name": "v_gen_1_16_1526486303.68", 
+      "place_at": [
+        "server_0_switch_0_pod_2"
+      ], 
+      "requirements": {
+        "storage": 90, 
+        "cpu": 3, 
+        "memory": 11
+      }
+    }, 
+    {
+      "processing_time": 6, 
+      "vnf_name": "v_gen_2_16_1526486303.68", 
+      "place_at": [
+        "server_0_switch_0_pod_0"
+      ], 
+      "requirements": {
+        "storage": 67, 
+        "cpu": 1, 
+        "memory": 19
+      }
+    }, 
+    {
+      "processing_time": 8, 
+      "vnf_name": "v_gen_3_4_1526486303.68", 
+      "place_at": [
+        "server_0_switch_0_pod_1"
+      ], 
+      "requirements": {
+        "storage": 77, 
+        "cpu": 2, 
+        "memory": 19
+      }
+    }, 
+    {
+      "processing_time": 9, 
+      "vnf_name": "v_gen_4_3_1526486303.68", 
+      "place_at": [
+        "server_0_switch_0_pod_2"
+      ], 
+      "requirements": {
+        "storage": 75, 
+        "cpu": 3, 
+        "memory": 11
+      }
+    }, 
+    {
+      "processing_time": 6, 
+      "vnf_name": "v_gen_5_5_1526486303.68", 
+      "place_at": [
+        "server_0_switch_0_pod_2"
+      ], 
+      "requirements": {
+        "storage": 90, 
+        "cpu": 1, 
+        "memory": 17
+      }
+    }, 
+    {
+      "processing_time": 8, 
+      "vnf_name": "v_gen_6_8_1526486303.68", 
+      "place_at": [
+        "server_0_switch_0_pod_0"
+      ], 
+      "requirements": {
+        "storage": 38, 
+        "cpu": 3, 
+        "memory": 17
+      }
+    }, 
+    {
+      "processing_time": 6, 
+      "vnf_name": "v_gen_7_16_1526486303.68", 
+      "place_at": [
+        "server_0_switch_0_pod_0"
+      ], 
+      "requirements": {
+        "storage": 43, 
+        "cpu": 3, 
+        "memory": 6
+      }
+    }, 
+    {
+      "processing_time": 4, 
+      "vnf_name": "v_gen_8_11_1526486303.68", 
+      "place_at": [
+        "server_0_switch_0_pod_0"
+      ], 
+      "requirements": {
+        "storage": 6, 
+        "cpu": 3, 
+        "memory": 20
+      }
+    }, 
+    {
+      "processing_time": 7, 
+      "vnf_name": "v_gen_1_5_1526486303.69", 
+      "place_at": [
+        "server_0_switch_1_pod_1"
+      ], 
+      "requirements": {
+        "storage": 77, 
+        "cpu": 1, 
+        "memory": 19
+      }
+    }, 
+    {
+      "processing_time": 4, 
+      "vnf_name": "v_gen_2_10_1526486303.69", 
+      "place_at": [
+        "server_0_switch_0_pod_1"
+      ], 
+      "requirements": {
+        "storage": 91, 
+        "cpu": 3, 
+        "memory": 5
+      }
+    }, 
+    {
+      "processing_time": 10, 
+      "vnf_name": "v_gen_3_15_1526486303.69", 
+      "place_at": [
+        "server_0_switch_0_pod_3"
+      ], 
+      "requirements": {
+        "storage": 45, 
+        "cpu": 3, 
+        "memory": 12
+      }
+    }, 
+    {
+      "processing_time": 8, 
+      "vnf_name": "v_gen_4_3_1526486303.69", 
+      "place_at": [
+        "server_0_switch_1_pod_0"
+      ], 
+      "requirements": {
+        "storage": 19, 
+        "cpu": 1, 
+        "memory": 20
+      }
+    }, 
+    {
+      "processing_time": 8, 
+      "vnf_name": "v_gen_5_12_1526486303.69", 
+      "place_at": [
+        "server_0_switch_1_pod_1"
+      ], 
+      "requirements": {
+        "storage": 8, 
+        "cpu": 2, 
+        "memory": 15
+      }
+    }, 
+    {
+      "processing_time": 3, 
+      "vnf_name": "v_gen_6_20_1526486303.69", 
+      "place_at": [
+        "server_0_switch_0_pod_1"
+      ], 
+      "requirements": {
+        "storage": 30, 
+        "cpu": 3, 
+        "memory": 8
+      }
+    }, 
+    {
+      "processing_time": 10, 
+      "vnf_name": "v_gen_7_15_1526486303.69", 
+      "place_at": [
+        "server_0_switch_0_pod_1"
+      ], 
+      "requirements": {
+        "storage": 89, 
+        "cpu": 1, 
+        "memory": 13
+      }
+    }, 
+    {
+      "processing_time": 9, 
+      "vnf_name": "v_gen_8_18_1526486303.69", 
+      "place_at": [
+        "server_0_switch_0_pod_3"
+      ], 
+      "requirements": {
+        "storage": 100, 
+        "cpu": 3, 
+        "memory": 2
+      }
+    }, 
+    {
+      "processing_time": 4, 
+      "vnf_name": "v_gen_1_9_1526486303.7", 
+      "place_at": [
+        "server_1_switch_0_pod_3"
+      ], 
+      "requirements": {
+        "storage": 12, 
+        "cpu": 3, 
+        "memory": 20
+      }
+    }, 
+    {
+      "processing_time": 4, 
+      "vnf_name": "v_gen_2_1_1526486303.7", 
+      "place_at": [
+        "server_1_switch_0_pod_3"
+      ], 
+      "requirements": {
+        "storage": 93, 
+        "cpu": 2, 
+        "memory": 4
+      }
+    }, 
+    {
+      "processing_time": 10, 
+      "vnf_name": "v_gen_3_13_1526486303.7", 
+      "place_at": [
+        "server_0_switch_0_pod_0"
+      ], 
+      "requirements": {
+        "storage": 34, 
+        "cpu": 1, 
+        "memory": 15
+      }
+    }, 
+    {
+      "processing_time": 6, 
+      "vnf_name": "v_gen_4_15_1526486303.7", 
+      "place_at": [
+        "server_1_switch_1_pod_3"
+      ], 
+      "requirements": {
+        "storage": 64, 
+        "cpu": 2, 
+        "memory": 11
+      }
+    }, 
+    {
+      "processing_time": 10, 
+      "vnf_name": "v_gen_5_4_1526486303.7", 
+      "place_at": [
+        "server_0_switch_0_pod_0"
+      ], 
+      "requirements": {
+        "storage": 18, 
+        "cpu": 2, 
+        "memory": 14
+      }
+    }, 
+    {
+      "processing_time": 6, 
+      "vnf_name": "v_gen_6_19_1526486303.7", 
+      "place_at": [
+        "server_0_switch_0_pod_0"
+      ], 
+      "requirements": {
+        "storage": 3, 
+        "cpu": 3, 
+        "memory": 15
+      }
+    }, 
+    {
+      "processing_time": 10, 
+      "vnf_name": "v_gen_7_18_1526486303.7", 
+      "place_at": [
+        "server_0_switch_0_pod_1"
+      ], 
+      "requirements": {
+        "storage": 19, 
+        "cpu": 2, 
+        "memory": 19
+      }
+    }, 
+    {
+      "processing_time": 6, 
+      "vnf_name": "v_gen_8_1_1526486303.71", 
+      "place_at": [
+        "server_0_switch_0_pod_1"
+      ], 
+      "requirements": {
+        "storage": 80, 
+        "cpu": 3, 
+        "memory": 6
+      }
+    }
+  ], 
+  "costs": [
+    {
+      "vnf": "v_gen_1_5_1526486303.69", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 17.66325467807859
+    }, 
+    {
+      "vnf": "v_gen_8_11_1526486303.68", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 12.965123217634174
+    }, 
+    {
+      "vnf": "v_gen_3_13_1526486303.7", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 7.050325705230354
+    }, 
+    {
+      "vnf": "v_gen_4_15_1526486303.7", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 7.67720237663149
+    }, 
+    {
+      "vnf": "v_gen_2_10_1526486303.69", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 8.031170200159732
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.69", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 3.43741571492027
+    }, 
+    {
+      "vnf": "v_gen_7_16_1526486303.68", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 2.049882271805295
+    }, 
+    {
+      "vnf": "v_gen_2_16_1526486303.68", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 4.397601292670608
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526486303.7", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 12.572435771682036
+    }, 
+    {
+      "vnf": "v_gen_6_8_1526486303.68", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 3.176845058953682
+    }, 
+    {
+      "vnf": "v_gen_3_15_1526486303.69", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 12.589048152188496
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 4.634196781700397
+    }, 
+    {
+      "vnf": "v_gen_1_9_1526486303.7", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 12.537318842515383
+    }, 
+    {
+      "vnf": "v_gen_5_12_1526486303.69", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 6.881708686795224
+    }, 
+    {
+      "vnf": "v_gen_3_4_1526486303.68", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 10.206380014878452
+    }, 
+    {
+      "vnf": "v_gen_5_4_1526486303.7", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 17.832146755498997
+    }, 
+    {
+      "vnf": "v_gen_4_15_1526486303.7", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 3.4851369861330523
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.68", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 1.202254154710031
+    }, 
+    {
+      "vnf": "v_gen_3_13_1526486303.7", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 2.2360168161211282
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 3.51629039043403
+    }, 
+    {
+      "vnf": "v_gen_1_9_1526486303.7", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 2.498554593192452
+    }, 
+    {
+      "vnf": "v_gen_7_16_1526486303.68", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 13.396904959663944
+    }, 
+    {
+      "vnf": "v_gen_6_20_1526486303.69", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 13.79091949422652
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526486303.7", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 12.785165552025438
+    }, 
+    {
+      "vnf": "v_gen_2_10_1526486303.69", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 10.738240340330364
+    }, 
+    {
+      "vnf": "v_gen_2_16_1526486303.68", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 6.480745337296241
+    }, 
+    {
+      "vnf": "v_gen_3_4_1526486303.68", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 18.918588511908503
+    }, 
+    {
+      "vnf": "v_gen_7_18_1526486303.7", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 10.199117339426824
+    }, 
+    {
+      "vnf": "v_gen_7_15_1526486303.69", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 11.763905371579035
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 8.781738682617366
+    }, 
+    {
+      "vnf": "v_gen_3_4_1526486303.68", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 4.876127472787422
+    }, 
+    {
+      "vnf": "v_gen_2_16_1526486303.68", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 14.59596873452493
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.68", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 3.71194737344106
+    }, 
+    {
+      "vnf": "v_gen_5_5_1526486303.68", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 8.25320251890215
+    }, 
+    {
+      "vnf": "v_gen_6_20_1526486303.69", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 6.436122409357315
+    }, 
+    {
+      "vnf": "v_gen_8_11_1526486303.68", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 6.212043891921384
+    }, 
+    {
+      "vnf": "v_gen_3_13_1526486303.7", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 4.79052642708737
+    }, 
+    {
+      "vnf": "v_gen_2_1_1526486303.7", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 8.934754178100903
+    }, 
+    {
+      "vnf": "v_gen_7_18_1526486303.7", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 9.355614356412044
+    }, 
+    {
+      "vnf": "v_gen_1_16_1526486303.68", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 7.751966416862046
+    }, 
+    {
+      "vnf": "v_gen_6_8_1526486303.68", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 2.3077463560355085
+    }, 
+    {
+      "vnf": "v_gen_2_10_1526486303.69", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 3.6886087856816374
+    }, 
+    {
+      "vnf": "v_gen_8_11_1526486303.68", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 2.0004905511610263
+    }, 
+    {
+      "vnf": "v_gen_5_5_1526486303.68", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 9.582828870835229
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526486303.69", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 2.9795869312161436
+    }, 
+    {
+      "vnf": "v_gen_7_18_1526486303.7", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 9.65495324948511
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 8.037018251161504
+    }, 
+    {
+      "vnf": "v_gen_1_16_1526486303.68", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 11.8659856128924
+    }, 
+    {
+      "vnf": "v_gen_3_4_1526486303.68", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 15.480637413488491
+    }, 
+    {
+      "vnf": "v_gen_6_8_1526486303.68", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 19.72359823365075
+    }, 
+    {
+      "vnf": "v_gen_5_4_1526486303.7", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 4.104034277209463
+    }, 
+    {
+      "vnf": "v_gen_7_15_1526486303.69", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 14.962541152798815
+    }, 
+    {
+      "vnf": "v_gen_6_20_1526486303.69", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 4.451560591876018
+    }, 
+    {
+      "vnf": "v_gen_3_15_1526486303.69", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 10.379389943826235
+    }, 
+    {
+      "vnf": "v_gen_7_16_1526486303.68", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 7.942311358079383
+    }, 
+    {
+      "vnf": "v_gen_2_16_1526486303.68", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 17.836589937679452
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526486303.7", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 3.1082984926488995
+    }, 
+    {
+      "vnf": "v_gen_6_20_1526486303.69", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 7.962309285832514
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 18.67552288618558
+    }, 
+    {
+      "vnf": "v_gen_3_13_1526486303.7", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 5.450294059510078
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526486303.69", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 8.675836307900346
+    }, 
+    {
+      "vnf": "v_gen_6_8_1526486303.68", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 18.036068708128898
+    }, 
+    {
+      "vnf": "v_gen_1_16_1526486303.68", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 11.12528829608533
+    }, 
+    {
+      "vnf": "v_gen_1_9_1526486303.7", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 4.88943057029805
+    }, 
+    {
+      "vnf": "v_gen_7_16_1526486303.68", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 10.61483693675754
+    }, 
+    {
+      "vnf": "v_gen_3_15_1526486303.69", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 1.0229429708452809
+    }, 
+    {
+      "vnf": "v_gen_8_11_1526486303.68", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 2.161414682649799
+    }, 
+    {
+      "vnf": "v_gen_3_4_1526486303.68", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 5.555425638541496
+    }, 
+    {
+      "vnf": "v_gen_7_18_1526486303.7", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 15.702610654390101
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.68", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 5.243234434224031
+    }, 
+    {
+      "vnf": "v_gen_7_15_1526486303.69", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 12.992471357928835
+    }, 
+    {
+      "vnf": "v_gen_5_12_1526486303.69", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 11.53573306975009
+    }, 
+    {
+      "vnf": "v_gen_1_5_1526486303.69", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 19.331837757902587
+    }, 
+    {
+      "vnf": "v_gen_2_1_1526486303.7", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 12.501443734811629
+    }, 
+    {
+      "vnf": "v_gen_5_5_1526486303.68", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 8.574941472831402
+    }, 
+    {
+      "vnf": "v_gen_5_4_1526486303.7", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 6.731052340359223
+    }, 
+    {
+      "vnf": "v_gen_4_15_1526486303.7", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 8.149695104808401
+    }, 
+    {
+      "vnf": "v_gen_6_8_1526486303.68", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 18.790349407779892
+    }, 
+    {
+      "vnf": "v_gen_3_15_1526486303.69", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 18.106639615788232
+    }, 
+    {
+      "vnf": "v_gen_1_9_1526486303.7", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 17.570884268582383
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 9.913526021982488
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526486303.7", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 11.287764822943524
+    }, 
+    {
+      "vnf": "v_gen_2_10_1526486303.69", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 3.7196630652111144
+    }, 
+    {
+      "vnf": "v_gen_5_4_1526486303.7", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 4.620927231866833
+    }, 
+    {
+      "vnf": "v_gen_1_5_1526486303.69", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 16.836757277565134
+    }, 
+    {
+      "vnf": "v_gen_4_15_1526486303.7", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 5.134430872476136
+    }, 
+    {
+      "vnf": "v_gen_5_12_1526486303.69", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 3.7911052818443065
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526486303.69", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 4.397504931839488
+    }, 
+    {
+      "vnf": "v_gen_7_16_1526486303.68", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 7.341262046260055
+    }, 
+    {
+      "vnf": "v_gen_3_13_1526486303.7", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 12.465412338351822
+    }, 
+    {
+      "vnf": "v_gen_2_16_1526486303.68", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 6.649550514258995
+    }, 
+    {
+      "vnf": "v_gen_8_11_1526486303.68", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 5.303787076505236
+    }, 
+    {
+      "vnf": "v_gen_3_4_1526486303.68", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 7.121549853730612
+    }, 
+    {
+      "vnf": "v_gen_6_20_1526486303.69", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 14.38173436344478
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.69", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 11.103252399754941
+    }, 
+    {
+      "vnf": "v_gen_2_1_1526486303.7", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 11.12232521189287
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526486303.69", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 18.857633138646147
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.68", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 19.48875529462505
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 15.802036735550164
+    }, 
+    {
+      "vnf": "v_gen_4_15_1526486303.7", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 3.84807191052702
+    }, 
+    {
+      "vnf": "v_gen_1_5_1526486303.69", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 6.2728104738203125
+    }, 
+    {
+      "vnf": "v_gen_7_18_1526486303.7", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 17.48577064414546
+    }, 
+    {
+      "vnf": "v_gen_7_15_1526486303.69", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 4.020688803730312
+    }, 
+    {
+      "vnf": "v_gen_5_12_1526486303.69", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 14.871956050745467
+    }, 
+    {
+      "vnf": "v_gen_1_16_1526486303.68", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 14.91017874929941
+    }, 
+    {
+      "vnf": "v_gen_6_20_1526486303.69", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 18.931011183904424
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526486303.7", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 6.936478486278629
+    }, 
+    {
+      "vnf": "v_gen_2_1_1526486303.7", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 1.3590097328611457
+    }, 
+    {
+      "vnf": "v_gen_5_5_1526486303.68", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 7.3517078718417785
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526486303.69", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 17.461114532241318
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 9.33128232714932
+    }, 
+    {
+      "vnf": "v_gen_6_8_1526486303.68", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 16.988307146247372
+    }, 
+    {
+      "vnf": "v_gen_3_13_1526486303.7", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 12.357015280940429
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.69", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 7.155778352889874
+    }, 
+    {
+      "vnf": "v_gen_8_11_1526486303.68", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 11.21104374080269
+    }, 
+    {
+      "vnf": "v_gen_1_5_1526486303.69", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 3.0343908972707094
+    }, 
+    {
+      "vnf": "v_gen_3_15_1526486303.69", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 15.408381082267494
+    }, 
+    {
+      "vnf": "v_gen_3_4_1526486303.68", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 6.631185798307722
+    }, 
+    {
+      "vnf": "v_gen_5_12_1526486303.69", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 5.255064437414777
+    }, 
+    {
+      "vnf": "v_gen_2_10_1526486303.69", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 15.138757014462527
+    }, 
+    {
+      "vnf": "v_gen_7_16_1526486303.68", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 10.608684275055255
+    }, 
+    {
+      "vnf": "v_gen_4_15_1526486303.7", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 5.367592281388379
+    }, 
+    {
+      "vnf": "v_gen_2_1_1526486303.7", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 3.6744312964271515
+    }, 
+    {
+      "vnf": "v_gen_6_8_1526486303.68", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 19.21273349211473
+    }, 
+    {
+      "vnf": "v_gen_3_15_1526486303.69", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 2.0621172549521707
+    }, 
+    {
+      "vnf": "v_gen_4_15_1526486303.7", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 1.7769589292105339
+    }, 
+    {
+      "vnf": "v_gen_1_9_1526486303.7", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 5.52660003095483
+    }, 
+    {
+      "vnf": "v_gen_6_20_1526486303.69", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 4.802833367414365
+    }, 
+    {
+      "vnf": "v_gen_7_16_1526486303.68", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 19.619582683163284
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526486303.69", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 5.000642558539304
+    }, 
+    {
+      "vnf": "v_gen_7_15_1526486303.69", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 11.328743627821295
+    }, 
+    {
+      "vnf": "v_gen_6_8_1526486303.68", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 2.4887100798273805
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.69", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 2.8175784738598857
+    }, 
+    {
+      "vnf": "v_gen_5_12_1526486303.69", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 7.4609770985490655
+    }, 
+    {
+      "vnf": "v_gen_7_18_1526486303.7", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 17.073547418669598
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 18.070350013910396
+    }, 
+    {
+      "vnf": "v_gen_1_5_1526486303.69", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 11.736478393510204
+    }, 
+    {
+      "vnf": "v_gen_2_16_1526486303.68", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 3.0954983253683315
+    }, 
+    {
+      "vnf": "v_gen_1_5_1526486303.69", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 15.856285928360334
+    }, 
+    {
+      "vnf": "v_gen_3_4_1526486303.68", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 7.547429123160785
+    }, 
+    {
+      "vnf": "v_gen_1_16_1526486303.68", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 12.84355163556428
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.69", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 18.92142878824531
+    }, 
+    {
+      "vnf": "v_gen_7_18_1526486303.7", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 12.605766928525036
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.68", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 4.7065882061289495
+    }, 
+    {
+      "vnf": "v_gen_7_16_1526486303.68", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 17.52448251076981
+    }, 
+    {
+      "vnf": "v_gen_2_10_1526486303.69", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 16.978238945554946
+    }, 
+    {
+      "vnf": "v_gen_4_15_1526486303.7", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 17.717883586934782
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526486303.7", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 4.977390884044443
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526486303.69", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 5.932988389862974
+    }, 
+    {
+      "vnf": "v_gen_3_13_1526486303.7", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 1.591490416849695
+    }, 
+    {
+      "vnf": "v_gen_3_15_1526486303.69", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 12.148616667450504
+    }, 
+    {
+      "vnf": "v_gen_5_4_1526486303.7", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 12.734022249706022
+    }, 
+    {
+      "vnf": "v_gen_7_18_1526486303.7", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 10.225425940216628
+    }, 
+    {
+      "vnf": "v_gen_1_5_1526486303.69", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 13.709672010232357
+    }, 
+    {
+      "vnf": "v_gen_5_5_1526486303.68", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 10.457278525141351
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526486303.7", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 18.559894863698254
+    }, 
+    {
+      "vnf": "v_gen_6_8_1526486303.68", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 8.357857408946249
+    }, 
+    {
+      "vnf": "v_gen_6_20_1526486303.69", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 15.804591679101517
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526486303.69", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 8.586641627508804
+    }, 
+    {
+      "vnf": "v_gen_5_12_1526486303.69", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 15.427398453277908
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.69", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 4.047636402880537
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 6.077880292235983
+    }, 
+    {
+      "vnf": "v_gen_1_5_1526486303.69", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 15.993948837603408
+    }, 
+    {
+      "vnf": "v_gen_6_8_1526486303.68", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 10.06445377699427
+    }, 
+    {
+      "vnf": "v_gen_8_11_1526486303.68", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 11.942524431758518
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.68", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 13.504068531239579
+    }, 
+    {
+      "vnf": "v_gen_1_16_1526486303.68", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 19.706831722581285
+    }, 
+    {
+      "vnf": "v_gen_5_5_1526486303.68", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 2.867582987217453
+    }, 
+    {
+      "vnf": "v_gen_2_1_1526486303.7", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 15.20518963819509
+    }, 
+    {
+      "vnf": "v_gen_3_15_1526486303.69", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 7.245568563235977
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.69", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 1.4390154092277028
+    }, 
+    {
+      "vnf": "v_gen_3_13_1526486303.7", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 3.8909365450906623
+    }, 
+    {
+      "vnf": "v_gen_1_9_1526486303.7", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 5.344332865129465
+    }, 
+    {
+      "vnf": "v_gen_7_18_1526486303.7", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 7.224274609999848
+    }, 
+    {
+      "vnf": "v_gen_5_12_1526486303.69", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 11.109904869388863
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526486303.69", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 12.386426638953766
+    }, 
+    {
+      "vnf": "v_gen_7_16_1526486303.68", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 19.346039294979377
+    }, 
+    {
+      "vnf": "v_gen_4_15_1526486303.7", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 11.853392622995715
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 4.626760337721542
+    }, 
+    {
+      "vnf": "v_gen_7_15_1526486303.69", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 18.005338700713086
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526486303.7", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 6.117305533609281
+    }, 
+    {
+      "vnf": "v_gen_2_16_1526486303.68", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 19.587738223188882
+    }, 
+    {
+      "vnf": "v_gen_2_10_1526486303.69", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 9.993723191976587
+    }, 
+    {
+      "vnf": "v_gen_3_4_1526486303.68", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 18.901440811507257
+    }, 
+    {
+      "vnf": "v_gen_6_20_1526486303.69", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 12.366328759755767
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.68", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 7.077224262233967
+    }, 
+    {
+      "vnf": "v_gen_1_16_1526486303.68", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 14.824040006248287
+    }, 
+    {
+      "vnf": "v_gen_8_11_1526486303.68", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 5.520722580984171
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526486303.7", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 18.984576307445835
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 15.313414499058192
+    }, 
+    {
+      "vnf": "v_gen_5_4_1526486303.7", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 9.59693759891933
+    }, 
+    {
+      "vnf": "v_gen_3_15_1526486303.69", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 16.502176606791565
+    }, 
+    {
+      "vnf": "v_gen_5_5_1526486303.68", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 19.350876004783945
+    }, 
+    {
+      "vnf": "v_gen_1_5_1526486303.69", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 15.279858193066255
+    }, 
+    {
+      "vnf": "v_gen_3_4_1526486303.68", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 12.828129831542407
+    }, 
+    {
+      "vnf": "v_gen_3_13_1526486303.7", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 2.3318030211431475
+    }, 
+    {
+      "vnf": "v_gen_7_15_1526486303.69", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 9.722677390853557
+    }, 
+    {
+      "vnf": "v_gen_2_16_1526486303.68", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 6.67122762951678
+    }, 
+    {
+      "vnf": "v_gen_5_12_1526486303.69", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 13.062242842928843
+    }, 
+    {
+      "vnf": "v_gen_8_11_1526486303.68", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 17.14616478553484
+    }, 
+    {
+      "vnf": "v_gen_1_5_1526486303.69", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 6.2168445549504
+    }, 
+    {
+      "vnf": "v_gen_1_16_1526486303.68", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 14.498529100336057
+    }, 
+    {
+      "vnf": "v_gen_7_18_1526486303.7", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 11.471775051850155
+    }, 
+    {
+      "vnf": "v_gen_2_10_1526486303.69", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 8.343250178168802
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526486303.7", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 11.392358897187771
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 2.4889122551999887
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.69", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 5.882688925934431
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526486303.7", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 12.890396933359558
+    }, 
+    {
+      "vnf": "v_gen_7_16_1526486303.68", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 6.165967480468308
+    }, 
+    {
+      "vnf": "v_gen_4_15_1526486303.7", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 8.903045222075914
+    }, 
+    {
+      "vnf": "v_gen_6_8_1526486303.68", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 8.313961414149766
+    }, 
+    {
+      "vnf": "v_gen_5_5_1526486303.68", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 15.664893782464874
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.69", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 11.572380057419894
+    }, 
+    {
+      "vnf": "v_gen_6_20_1526486303.69", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 17.739383837420714
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526486303.69", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 1.9135253715664007
+    }, 
+    {
+      "vnf": "v_gen_5_12_1526486303.69", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 5.2264413506549845
+    }, 
+    {
+      "vnf": "v_gen_3_13_1526486303.7", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 13.604913421640102
+    }, 
+    {
+      "vnf": "v_gen_5_4_1526486303.7", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 15.55856530102126
+    }, 
+    {
+      "vnf": "v_gen_2_10_1526486303.69", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 18.658001551960147
+    }, 
+    {
+      "vnf": "v_gen_7_18_1526486303.7", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 17.68820787277214
+    }, 
+    {
+      "vnf": "v_gen_7_15_1526486303.69", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 2.560697264295513
+    }, 
+    {
+      "vnf": "v_gen_8_11_1526486303.68", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 19.61615544646335
+    }, 
+    {
+      "vnf": "v_gen_4_3_1526486303.68", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 9.725572973963436
+    }, 
+    {
+      "vnf": "v_gen_2_1_1526486303.7", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 7.120030488772531
+    }, 
+    {
+      "vnf": "v_gen_3_15_1526486303.69", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 1.4270238558886539
+    }, 
+    {
+      "vnf": "v_gen_2_16_1526486303.68", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 8.842165288495611
+    }, 
+    {
+      "vnf": "v_gen_3_4_1526486303.68", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 7.9979360136223345
+    }, 
+    {
+      "vnf": "v_gen_1_16_1526486303.68", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 9.192777264298362
+    }, 
+    {
+      "vnf": "v_gen_8_1_1526486303.71", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 1.1484425569192975
+    }
+  ], 
+  "hosts": [
+    {
+      "host_name": "server_0_switch_0_pod_0", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_0_pod_1", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_0_pod_2", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_0_pod_3", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_1_pod_1", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_1_pod_0", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_1_pod_3", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_1_pod_2", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_1_pod_2", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_1_pod_3", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_1_pod_0", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_1_pod_1", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_0_pod_3", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_0_pod_2", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_0_pod_1", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_0_pod_0", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }
+  ], 
+  "solution_performance": {
+    "execution_time": 93.061333, 
+    "latency": 0.0042673858207338666, 
+    "cost": 226.34481936557077, 
+    "availability": 1.0, 
+    "generations": 100
+  }, 
+  "services": [
+    {
+      "service_name": "s_gen_0", 
+      "max_latency": 70, 
+      "traversed_vnfs": {
+        "v_gen_8_11_1526486303.68": 1, 
+        "v_gen_6_8_1526486303.68": 0.2559589044257683, 
+        "v_gen_3_4_1526486303.68": 0.022797823927894586, 
+        "v_gen_2_16_1526486303.68": 0.8789416171910907, 
+        "v_gen_1_16_1526486303.68": 1, 
+        "v_gen_7_16_1526486303.68": 1, 
+        "v_gen_5_5_1526486303.68": 0.7440410955742317, 
+        "v_gen_4_3_1526486303.68": 0.09826055888101481
+      }
+    }, 
+    {
+      "service_name": "s_gen_1", 
+      "max_latency": 101, 
+      "traversed_vnfs": {
+        "v_gen_8_18_1526486303.69": 1, 
+        "v_gen_1_5_1526486303.69": 1, 
+        "v_gen_3_15_1526486303.69": 0.06548968475594963, 
+        "v_gen_5_12_1526486303.69": 1, 
+        "v_gen_4_3_1526486303.69": 0.13369291036693332, 
+        "v_gen_2_10_1526486303.69": 0.8008174048771171, 
+        "v_gen_7_15_1526486303.69": 1, 
+        "v_gen_6_20_1526486303.69": 1
+      }
+    }, 
+    {
+      "service_name": "s_gen_2", 
+      "max_latency": 104, 
+      "traversed_vnfs": {
+        "v_gen_5_4_1526486303.7": 0.048145420213135504, 
+        "v_gen_8_1_1526486303.71": 1, 
+        "v_gen_2_1_1526486303.7": 1, 
+        "v_gen_1_9_1526486303.7": 1, 
+        "v_gen_6_19_1526486303.7": 1, 
+        "v_gen_4_15_1526486303.7": 0.42107546064591755, 
+        "v_gen_3_13_1526486303.7": 0.5307791191409469, 
+        "v_gen_7_18_1526486303.7": 1
+      }
+    }
+  ], 
+  "host_edges": [
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0"
+    }
+  ], 
+  "vnf_edges": [
+    {
+      "delay": 4, 
+      "source": "v_gen_1_16_1526486303.68", 
+      "traffic": 16, 
+      "target": "v_gen_2_16_1526486303.68"
+    }, 
+    {
+      "delay": 3, 
+      "source": "v_gen_1_16_1526486303.68", 
+      "traffic": 15, 
+      "target": "v_gen_3_4_1526486303.68"
+    }, 
+    {
+      "delay": 2, 
+      "source": "v_gen_1_16_1526486303.68", 
+      "traffic": 16, 
+      "target": "v_gen_4_3_1526486303.68"
+    }, 
+    {
+      "delay": 9, 
+      "source": "v_gen_2_16_1526486303.68", 
+      "traffic": 29, 
+      "target": "v_gen_8_11_1526486303.68"
+    }, 
+    {
+      "delay": 9, 
+      "source": "v_gen_3_4_1526486303.68", 
+      "traffic": 19, 
+      "target": "v_gen_8_11_1526486303.68"
+    }, 
+    {
+      "delay": 5, 
+      "source": "v_gen_4_3_1526486303.68", 
+      "traffic": 17, 
+      "target": "v_gen_5_5_1526486303.68"
+    }, 
+    {
+      "delay": 14, 
+      "source": "v_gen_4_3_1526486303.68", 
+      "traffic": 20, 
+      "target": "v_gen_6_8_1526486303.68"
+    }, 
+    {
+      "delay": 3, 
+      "source": "v_gen_5_5_1526486303.68", 
+      "traffic": 13, 
+      "target": "v_gen_8_11_1526486303.68"
+    }, 
+    {
+      "delay": 3, 
+      "source": "v_gen_6_8_1526486303.68", 
+      "traffic": 20, 
+      "target": "v_gen_7_16_1526486303.68"
+    }, 
+    {
+      "delay": 13, 
+      "source": "v_gen_7_16_1526486303.68", 
+      "traffic": 17, 
+      "target": "v_gen_8_11_1526486303.68"
+    }, 
+    {
+      "delay": 5, 
+      "source": "v_gen_1_5_1526486303.69", 
+      "traffic": 30, 
+      "target": "v_gen_2_10_1526486303.69"
+    }, 
+    {
+      "delay": 2, 
+      "source": "v_gen_1_5_1526486303.69", 
+      "traffic": 28, 
+      "target": "v_gen_3_15_1526486303.69"
+    }, 
+    {
+      "delay": 11, 
+      "source": "v_gen_1_5_1526486303.69", 
+      "traffic": 29, 
+      "target": "v_gen_4_3_1526486303.69"
+    }, 
+    {
+      "delay": 4, 
+      "source": "v_gen_2_10_1526486303.69", 
+      "traffic": 22, 
+      "target": "v_gen_6_20_1526486303.69"
+    }, 
+    {
+      "delay": 10, 
+      "source": "v_gen_3_15_1526486303.69", 
+      "traffic": 27, 
+      "target": "v_gen_7_15_1526486303.69"
+    }, 
+    {
+      "delay": 11, 
+      "source": "v_gen_4_3_1526486303.69", 
+      "traffic": 14, 
+      "target": "v_gen_5_12_1526486303.69"
+    }, 
+    {
+      "delay": 3, 
+      "source": "v_gen_5_12_1526486303.69", 
+      "traffic": 24, 
+      "target": "v_gen_6_20_1526486303.69"
+    }, 
+    {
+      "delay": 12, 
+      "source": "v_gen_6_20_1526486303.69", 
+      "traffic": 28, 
+      "target": "v_gen_7_15_1526486303.69"
+    }, 
+    {
+      "delay": 14, 
+      "source": "v_gen_7_15_1526486303.69", 
+      "traffic": 14, 
+      "target": "v_gen_8_18_1526486303.69"
+    }, 
+    {
+      "delay": 14, 
+      "source": "v_gen_1_9_1526486303.7", 
+      "traffic": 19, 
+      "target": "v_gen_2_1_1526486303.7"
+    }, 
+    {
+      "delay": 13, 
+      "source": "v_gen_2_1_1526486303.7", 
+      "traffic": 13, 
+      "target": "v_gen_3_13_1526486303.7"
+    }, 
+    {
+      "delay": 5, 
+      "source": "v_gen_2_1_1526486303.7", 
+      "traffic": 17, 
+      "target": "v_gen_4_15_1526486303.7"
+    }, 
+    {
+      "delay": 2, 
+      "source": "v_gen_2_1_1526486303.7", 
+      "traffic": 17, 
+      "target": "v_gen_5_4_1526486303.7"
+    }, 
+    {
+      "delay": 13, 
+      "source": "v_gen_3_13_1526486303.7", 
+      "traffic": 22, 
+      "target": "v_gen_6_19_1526486303.7"
+    }, 
+    {
+      "delay": 6, 
+      "source": "v_gen_4_15_1526486303.7", 
+      "traffic": 14, 
+      "target": "v_gen_7_18_1526486303.7"
+    }, 
+    {
+      "delay": 7, 
+      "source": "v_gen_5_4_1526486303.7", 
+      "traffic": 16, 
+      "target": "v_gen_6_19_1526486303.7"
+    }, 
+    {
+      "delay": 9, 
+      "source": "v_gen_6_19_1526486303.7", 
+      "traffic": 12, 
+      "target": "v_gen_7_18_1526486303.7"
+    }, 
+    {
+      "delay": 10, 
+      "source": "v_gen_7_18_1526486303.7", 
+      "traffic": 26, 
+      "target": "v_gen_8_1_1526486303.71"
+    }
+  ]
+}

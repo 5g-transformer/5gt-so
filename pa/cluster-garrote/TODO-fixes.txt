@@ -1,0 +1,8 @@
+* multiple VNFs with same ID
+  - this can happen an currently is not supported because we index VNFs with
+    its name, i.e. 'vnf_1'
+  + affects:
+     cluster_match_cost: multiply per number of 'vnf_1' instances in ns cluster
+
+* vnf placed in multiple hosts:
+  + garrote_map_edge() should find paths from the different servers where a VNF is located, to the single or multiple target locations

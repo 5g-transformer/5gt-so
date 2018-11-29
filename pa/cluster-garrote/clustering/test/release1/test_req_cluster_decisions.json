@@ -1,0 +1,574 @@
+{
+  "callback": "string", 
+  "ReqId": "string", 
+  "nfvi": {
+    "NFVIPoPs": [
+      {
+        "availableCapabilities": {
+          "bandwidth": 100, 
+          "ram": 100, 
+          "storage": 100, 
+          "cpu": 100
+        }, 
+        "capabilities": {
+          "bandwidth": 100, 
+          "ram": 100, 
+          "storage": 100, 
+          "cpu": 100
+        }, 
+        "cluster": "cl1", 
+        "failure_rate": 0, 
+        "location": {
+          "radius": 0, 
+          "center": {
+            "latitude": 0, 
+            "longitude": 0
+          }
+        }, 
+        "internal_latency": 0, 
+        "gw_ip_address": "string", 
+        "id": "A"
+      }, 
+      {
+        "availableCapabilities": {
+          "bandwidth": 100, 
+          "ram": 100, 
+          "storage": 100, 
+          "cpu": 100
+        }, 
+        "capabilities": {
+          "bandwidth": 100, 
+          "ram": 100, 
+          "storage": 100, 
+          "cpu": 100
+        }, 
+        "cluster": "cl1", 
+        "failure_rate": 0, 
+        "location": {
+          "radius": 0, 
+          "center": {
+            "latitude": 0, 
+            "longitude": 0
+          }
+        }, 
+        "internal_latency": 0, 
+        "gw_ip_address": "string", 
+        "id": "B"
+      }, 
+      {
+        "availableCapabilities": {
+          "bandwidth": 100, 
+          "ram": 100, 
+          "storage": 100, 
+          "cpu": 100
+        }, 
+        "capabilities": {
+          "bandwidth": 100, 
+          "ram": 100, 
+          "storage": 100, 
+          "cpu": 100
+        }, 
+        "cluster": "cl2", 
+        "failure_rate": 0, 
+        "location": {
+          "radius": 0, 
+          "center": {
+            "latitude": 0, 
+            "longitude": 0
+          }
+        }, 
+        "internal_latency": 0, 
+        "gw_ip_address": "string", 
+        "id": "C"
+      }, 
+      {
+        "availableCapabilities": {
+          "bandwidth": 100, 
+          "ram": 100, 
+          "storage": 100, 
+          "cpu": 100
+        }, 
+        "capabilities": {
+          "bandwidth": 100, 
+          "ram": 100, 
+          "storage": 100, 
+          "cpu": 100
+        }, 
+        "cluster": "cl2", 
+        "failure_rate": 0, 
+        "location": {
+          "radius": 0, 
+          "center": {
+            "latitude": 0, 
+            "longitude": 0
+          }
+        }, 
+        "internal_latency": 0, 
+        "gw_ip_address": "string", 
+        "id": "D"
+      }, 
+      {
+        "availableCapabilities": {
+          "bandwidth": 100, 
+          "ram": 100, 
+          "storage": 100, 
+          "cpu": 100
+        }, 
+        "capabilities": {
+          "bandwidth": 100, 
+          "ram": 100, 
+          "storage": 100, 
+          "cpu": 100
+        }, 
+        "cluster": "cl2", 
+        "failure_rate": 0, 
+        "location": {
+          "radius": 0, 
+          "center": {
+            "latitude": 0, 
+            "longitude": 0
+          }
+        }, 
+        "internal_latency": 0, 
+        "gw_ip_address": "string", 
+        "id": "E"
+      }, 
+      {
+        "availableCapabilities": {
+          "bandwidth": 100, 
+          "ram": 100, 
+          "storage": 100, 
+          "cpu": 100
+        }, 
+        "capabilities": {
+          "bandwidth": 100, 
+          "ram": 100, 
+          "storage": 100, 
+          "cpu": 100
+        }, 
+        "cluster": "cl2", 
+        "failure_rate": 0, 
+        "location": {
+          "radius": 0, 
+          "center": {
+            "latitude": 0, 
+            "longitude": 0
+          }
+        }, 
+        "internal_latency": 0, 
+        "gw_ip_address": "string", 
+        "id": "F"
+      }
+    ], 
+    "resource_types": [
+      "cpu", 
+      "ram", 
+      "storage", 
+      "bandwidth"
+    ], 
+    "LLs": [
+      {
+        "delay": 10, 
+        "source": {
+          "GwIpAddress": "string", 
+          "id": "A"
+        }, 
+        "destination": {
+          "GwIpAddress": "string", 
+          "id": "C"
+        }, 
+        "LLid": "A-C", 
+        "capacity": {
+          "available": 40, 
+          "total": 40
+        }
+      }, 
+      {
+        "delay": 10, 
+        "source": {
+          "GwIpAddress": "string", 
+          "id": "A"
+        }, 
+        "destination": {
+          "GwIpAddress": "string", 
+          "id": "B"
+        }, 
+        "LLid": "A-B", 
+        "capacity": {
+          "available": 80, 
+          "total": 80
+        }
+      }, 
+      {
+        "delay": 10, 
+        "source": {
+          "GwIpAddress": "string", 
+          "id": "A"
+        }, 
+        "destination": {
+          "GwIpAddress": "string", 
+          "id": "F"
+        }, 
+        "LLid": "A-F", 
+        "capacity": {
+          "available": 50, 
+          "total": 50
+        }
+      }, 
+      {
+        "delay": 10, 
+        "source": {
+          "GwIpAddress": "string", 
+          "id": "C"
+        }, 
+        "destination": {
+          "GwIpAddress": "string", 
+          "id": "D"
+        }, 
+        "LLid": "C-D", 
+        "capacity": {
+          "available": 16, 
+          "total": 16
+        }
+      }, 
+      {
+        "delay": 10, 
+        "source": {
+          "GwIpAddress": "string", 
+          "id": "C"
+        }, 
+        "destination": {
+          "GwIpAddress": "string", 
+          "id": "F"
+        }, 
+        "LLid": "C-F", 
+        "capacity": {
+          "available": 35, 
+          "total": 35
+        }
+      }, 
+      {
+        "delay": 10, 
+        "source": {
+          "GwIpAddress": "string", 
+          "id": "B"
+        }, 
+        "destination": {
+          "GwIpAddress": "string", 
+          "id": "F"
+        }, 
+        "LLid": "B-F", 
+        "capacity": {
+          "available": 15, 
+          "total": 15
+        }
+      }, 
+      {
+        "delay": 10, 
+        "source": {
+          "GwIpAddress": "string", 
+          "id": "F"
+        }, 
+        "destination": {
+          "GwIpAddress": "string", 
+          "id": "E"
+        }, 
+        "LLid": "F-E-1", 
+        "capacity": {
+          "available": 20, 
+          "total": 20
+        }
+      }, 
+      {
+        "delay": 10, 
+        "source": {
+          "GwIpAddress": "string", 
+          "id": "F"
+        }, 
+        "destination": {
+          "GwIpAddress": "string", 
+          "id": "E"
+        }, 
+        "LLid": "F-E-2", 
+        "capacity": {
+          "available": 10, 
+          "total": 10
+        }
+      }
+    ], 
+    "LLCosts": [
+      {
+        "LL": "A-B", 
+        "cost": 10
+      }, 
+      {
+        "LL": "A-C", 
+        "cost": 10
+      }, 
+      {
+        "LL": "A-F", 
+        "cost": 10
+      }, 
+      {
+        "LL": "C-D", 
+        "cost": 10
+      }, 
+      {
+        "LL": "C-F", 
+        "cost": 10
+      }, 
+      {
+        "LL": "B-F", 
+        "cost": 10
+      }, 
+      {
+        "LL": "F-E-1", 
+        "cost": 10
+      }, 
+      {
+        "LL": "F-E-2", 
+        "cost": 10
+      }
+    ], 
+    "VNFCosts": [
+      {
+        "cost": 10, 
+        "vnfid": "v1", 
+        "NFVIPoPid": "A"
+      }, 
+      {
+        "cost": 10, 
+        "vnfid": "v2", 
+        "NFVIPoPid": "B"
+      }, 
+      {
+        "cost": 10, 
+        "vnfid": "v3", 
+        "NFVIPoPid": "E"
+      }, 
+      {
+        "cost": 10, 
+        "vnfid": "v4", 
+        "NFVIPoPid": "D"
+      }
+    ], 
+    "VLCosts": [
+      {
+        "cost": 10, 
+        "NFVIPoP": "A"
+      }, 
+      {
+        "cost": 10, 
+        "NFVIPoP": "B"
+      }, 
+      {
+        "cost": 10, 
+        "NFVIPoP": "C"
+      }, 
+      {
+        "cost": 10, 
+        "NFVIPoP": "D"
+      }, 
+      {
+        "cost": 10, 
+        "NFVIPoP": "E"
+      }, 
+      {
+        "cost": 10, 
+        "NFVIPoP": "F"
+      }
+    ]
+  }, 
+  "nsd": {
+    "max_latency": 0, 
+    "target_availability": 0, 
+    "VNFLinks": [
+      {
+        "source": "v1", 
+        "required_capacity": 10, 
+        "destination": "v2", 
+        "id": "v1-v2-0", 
+        "traversal_probability": 0
+      }, 
+      {
+        "source": "v1", 
+        "required_capacity": 30, 
+        "destination": "v2", 
+        "id": "v1-v2-1", 
+        "traversal_probability": 0
+      }, 
+      {
+        "source": "v2", 
+        "required_capacity": 20, 
+        "destination": "v3", 
+        "id": "v2-v3-0", 
+        "traversal_probability": 0
+      }, 
+      {
+        "source": "v3", 
+        "required_capacity": 10, 
+        "destination": "v4", 
+        "id": "v3-v4-0", 
+        "traversal_probability": 0
+      }, 
+      {
+        "source": "v1", 
+        "required_capacity": 5, 
+        "destination": "v4", 
+        "id": "v1-v4-0", 
+        "traversal_probability": 0
+      }
+    ], 
+    "max_cost": 0, 
+    "VNFs": [
+      {
+        "requirements": {
+          "ram": 1, 
+          "storage": 1, 
+          "cpu": 1
+        }, 
+        "cluster": "cl1", 
+        "processing_latency": 0, 
+        "VNFid": "v1", 
+        "instances": 1, 
+        "failure_rate": 0, 
+        "location": {
+          "radius": 0, 
+          "center": {
+            "latitude": 0, 
+            "longitude": 0
+          }
+        }
+      }, 
+      {
+        "requirements": {
+          "ram": 1, 
+          "storage": 1, 
+          "cpu": 1
+        }, 
+        "cluster": "cl1", 
+        "processing_latency": 0, 
+        "VNFid": "v2", 
+        "instances": 1, 
+        "failure_rate": 0, 
+        "location": {
+          "radius": 0, 
+          "center": {
+            "latitude": 0, 
+            "longitude": 0
+          }
+        }
+      }, 
+      {
+        "requirements": {
+          "ram": 1, 
+          "storage": 1, 
+          "cpu": 1
+        }, 
+        "cluster": "cl2", 
+        "processing_latency": 0, 
+        "VNFid": "v3", 
+        "instances": 1, 
+        "failure_rate": 0, 
+        "location": {
+          "radius": 0, 
+          "center": {
+            "latitude": 0, 
+            "longitude": 0
+          }
+        }
+      }, 
+      {
+        "requirements": {
+          "ram": 1, 
+          "storage": 1, 
+          "cpu": 1
+        }, 
+        "cluster": "cl2", 
+        "processing_latency": 0, 
+        "VNFid": "v4", 
+        "instances": 1, 
+        "failure_rate": 0, 
+        "location": {
+          "radius": 0, 
+          "center": {
+            "latitude": 0, 
+            "longitude": 0
+          }
+        }
+      }
+    ], 
+    "id": "rel1-nsd-test", 
+    "name": "multi-graph-ns"
+  }, 
+  "clustering_decisions": [
+    {
+      "no_clusters": 1, 
+      "assignment_vnfs": {
+        "v1": "vnf_cluster_1", 
+        "v2": "vnf_cluster_1", 
+        "v3": "vnf_cluster_1", 
+        "v4": "vnf_cluster_1"
+      }, 
+      "assignment_hosts": {
+        "A": "host_cluster_1", 
+        "C": "host_cluster_1", 
+        "B": "host_cluster_1", 
+        "E": "host_cluster_1", 
+        "D": "host_cluster_1", 
+        "F": "host_cluster_1"
+      }
+    }, 
+    {
+      "no_clusters": 2, 
+      "assignment_vnfs": {
+        "v1": "vnf_cluster_2", 
+        "v2": "vnf_cluster_2", 
+        "v3": "vnf_cluster_1", 
+        "v4": "vnf_cluster_1"
+      }, 
+      "assignment_hosts": {
+        "A": "host_cluster_2", 
+        "C": "host_cluster_1", 
+        "B": "host_cluster_2", 
+        "E": "host_cluster_1", 
+        "D": "host_cluster_1", 
+        "F": "host_cluster_1"
+      }
+    }, 
+    {
+      "no_clusters": 3, 
+      "assignment_vnfs": {
+        "v1": "vnf_cluster_1", 
+        "v2": "vnf_cluster_1", 
+        "v3": "vnf_cluster_2", 
+        "v4": "vnf_cluster_3"
+      }, 
+      "assignment_hosts": {
+        "A": "host_cluster_2", 
+        "C": "host_cluster_1", 
+        "B": "host_cluster_2", 
+        "E": "host_cluster_3", 
+        "D": "host_cluster_1", 
+        "F": "host_cluster_1"
+      }
+    }, 
+    {
+      "no_clusters": 4, 
+      "assignment_vnfs": {
+        "v1": "vnf_cluster_3", 
+        "v2": "vnf_cluster_4", 
+        "v3": "vnf_cluster_2", 
+        "v4": "vnf_cluster_1"
+      }, 
+      "assignment_hosts": {
+        "A": "host_cluster_2", 
+        "C": "host_cluster_1", 
+        "B": "host_cluster_2", 
+        "E": "host_cluster_4", 
+        "D": "host_cluster_3", 
+        "F": "host_cluster_1"
+      }
+    }
+  ]
+}

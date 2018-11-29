@@ -1,0 +1,10 @@
+cluster-matching/src/graph_interactions.py::create_hosts_graph()
+ - host['free_capabilities'] does not exist anymore, the API object has 'available_capabilities'
+ - host_edge['free_capacity'] does not exist anymore, the API considers ['capacity']['total']
+   and ['capacity']['available']
+
+
+Expected things from FRANCESCO clustering:
+ + inside PARequest['nfvi']['NFVIPoPs'][1]['cluster']
+   to indicate to which cluster the NFVI PoP is associated
+

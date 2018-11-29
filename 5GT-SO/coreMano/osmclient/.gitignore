@@ -1,0 +1,15 @@
+*.pyc
+.cache
+deb_dist/
+dist/
+*.gz
+*egg-info/
+.eggs
+parts/
+prime/
+stage/
+*.snap
+*venv/
+*venv3/
+.tox/
+snap/.snapcraft/

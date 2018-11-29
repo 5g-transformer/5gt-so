@@ -1,0 +1,119 @@
+{
+	"vnfdId": "webserver",
+	"vnfProvider": "ATOS",
+	"vnfProductName": "webserver",
+	"vnfSoftwareVersion": "0.1",
+	"vnfdVersion": "0.2",
+	"vnfProductInfoName": "vCDN webserver",
+	"vnfProductInfoDescription": "vCDN Web Server and Load Balancer",
+	"vnfmInfo": ["vEPC_VNFM"],
+	"vdu": [{
+		"vduId": "webserver_vdu",
+		"name": "webserver",
+		"description": "VDU of the webserver",
+		"intCpd": [{
+			"cpdId": "webDistInt",
+			"layerProtocol": "IPV4",
+			"description": "CP for the media content distribution",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": true,
+				"management": true,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}],
+		"virtualComputeDesc": "VCD_webserver",
+		"virtualStorageDesc": ["VSD_webserver"],
+		"swImageDesc": {
+			"id": "CDN_WebServer_SWID",
+			"name": "WEBSERVER_ATOS",
+			"version": "0.1",
+			"checksum": "TBD",
+			"containerFormat": "QCOW",
+			"diskFormat": "QCOW",
+			"minDisk": 1,
+			"minRam": 1,
+			"size": 10,
+			"swImage": "WEBSERVER_ATOS",
+			"operatingSystem": "Ubuntu-10.04"
+		},
+		"configurableProperties": {}
+	}],
+	"virtualComputeDesc": [{
+		"virtualComputeDescId": "VCD_webserver",
+		"virtualMemory": {
+			"virtualMemSize": 1,
+			"virtualMemOversubscriptionPolicy": "asdasd",
+			"numaEnabled": false
+		},
+		"virtualCpu": {
+			"numVirtualCpu": 1,
+			"cpuArchitecture": "x86_64",
+			"virtualCpuClock": 0,
+			"virtualCpuOversubscriptionPolicy": "asdasd"
+		}
+
+	}],
+	"virtualStorageDesc": [{
+		"id": "VSD_webserver",
+		"typeOfStorage": "VOLUME",
+		"sizeOfStorage": 10,
+		"swImageDesc": "CDN_WebServer_SWID"
+	}],
+	"vnfExtCpd": [{
+		"cpdId": "webDistExt",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the media content distribution",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": true,
+			"management": true,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "webDistInt"
+	}],
+	"deploymentFlavour": [{
+		"flavourId": "df_webserver",
+		"description": "Standard deployment flavour of the CDN webserver",
+		"vduProfile": [{
+			"vduId": "webserver_vdu",
+			"minNumberOfInstances": 1,
+			"maxNumberOfInstances": 1
+		}],
+		"instantiationLevel": [{
+			"levelId": "il_webserver",
+			"description": "Standard instantiation level of the CDN webserver",
+			"vduLevel": [{
+				"vduId": "webserver_vdu",
+				"numberOfInstances": 1
+			}]
+		}],
+		"vnfLcmOperationsConfiguration": {}
+	}],
+	"configurableProperties": {
+			"autoScalable": false,
+			"autoHealable": false,
+			"additionalConfigurableProperty": [
+				"vnf.spr21.vdu.spr21_vdu.extcp.spr21DistExt.floating",
+				"vnf.spr22.vdu.spr22_vdu.extcp.spr22DistExt.floating"
+			]
+	},
+	"modifiableAttributes": {},
+	"lifeCycleManagementScript": [{
+		"event": ["START_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["START_VNF_TERMINATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_TERMINATION"],
+		"script": ""
+	}]
+}

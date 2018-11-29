@@ -1,0 +1,870 @@
+---
+swagger: "2.0"
+info:
+  description: "REST API for executing/integrating 5GT placement algorithms"
+  version: "1"
+  title: "Placement algorithm API"
+host: "127.0.0.1:8080"
+basePath: "/5gt/so/v1"
+schemes:
+- "http"
+paths:
+  /PAComp:
+    get:
+      summary: "Retrieve a list of PA execution requests"
+      description: "Retrieve the list of pending and completed PA requests."
+      operationId: "p_a_comp_get"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "List of PA requests"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/PAResponse"
+      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+    post:
+      summary: "Request the execution of a placement algorithm."
+      description: "Request the execution of a placement algorithm. The caller needs\
+        \ to implement a callback function and supply the relevant URI so that the\
+        \ PA can post there the result of its execution.-"
+      operationId: "p_a_comp_post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "PARequest"
+        description: "Placement algorithm request information."
+        required: true
+        schema:
+          $ref: "#/definitions/PARequest"
+      responses:
+        200:
+          description: "PA request successfuly executed"
+          schema:
+            $ref: "#/definitions/PAResponse"
+        201:
+          description: "PA request created"
+      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+  /PAComp/{ReqId}:
+    get:
+      summary: "Retrieve a specific PA request"
+      description: "Retrieve status information about a specific PA request."
+      operationId: "p_a_comp_req_id_get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "ReqId"
+        in: "path"
+        description: "Unique request identifier."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "PA request information"
+          schema:
+            $ref: "#/definitions/PARequest"
+        404:
+          description: "PA request not found"
+      x-swagger-router-controller: "swagger_server.controllers.default_controller"
+definitions:
+  coordinate:
+    type: "object"
+    required:
+    - "latitude"
+    - "longitude"
+    properties:
+      longitude:
+        type: "number"
+        description: "coordinate longitude"
+      latitude:
+        type: "number"
+        description: "coordinate latitude"
+    description: "Coordinate expressed in longitude and latitude"
+    example:
+      longitude: 0.80082819046101150206595775671303272247314453125
+      latitude: 6.02745618307040320615897144307382404804229736328125
+  location:
+    type: "object"
+    required:
+    - "radius"
+    properties:
+      center:
+        $ref: "#/definitions/coordinate"
+      radius:
+        type: "number"
+        description: "Location ball radius"
+    description: "Location expressed as a ball with a center coordinate and some radius"
+    example:
+      center:
+        longitude: 0.80082819046101150206595775671303272247314453125
+        latitude: 6.02745618307040320615897144307382404804229736328125
+      radius: 1.46581298050294517310021547018550336360931396484375
+  NFVIPoP:
+    required:
+    - "capabilities"
+    - "id"
+    properties:
+      id:
+        type: "string"
+        description: "NFVIPoP id"
+      location:
+        $ref: "#/definitions/location"
+      gw_ip_address:
+        type: "string"
+        format: "ipv4"
+        description: "Gateway IP address"
+      capabilities:
+        $ref: "#/definitions/NFVIPoP_capabilities"
+      availableCapabilities:
+        $ref: "#/definitions/NFVIPoP_availableCapabilities"
+      failure_rate:
+        type: "number"
+        description: "Probability the NFVIPoP fails"
+      internal_latency:
+        type: "number"
+        description: "Latency between two VNFs launched inside the NFVIPoP"
+    example:
+      id: "id"
+      internal_latency: 1.231513536777255612975068288506008684635162353515625
+      availableCapabilities:
+        ram: 3.61607674925191080461672754609026014804840087890625
+        cpu: 9.301444243932575517419536481611430644989013671875
+        bandwidth: 4.1456080298839363962315474054776132106781005859375
+        storage: 2.027123023002321833274663731572218239307403564453125
+      location:
+        center:
+          longitude: 0.80082819046101150206595775671303272247314453125
+          latitude: 6.02745618307040320615897144307382404804229736328125
+        radius: 1.46581298050294517310021547018550336360931396484375
+      failure_rate: 7.3862819483858839220147274318151175975799560546875
+      gw_ip_address: "gw_ip_address"
+      capabilities:
+        ram: 5.63737665663332876420099637471139430999755859375
+        cpu: 5.962133916683182377482808078639209270477294921875
+        bandwidth: 7.061401241503109105224211816675961017608642578125
+        storage: 2.3021358869347654518833223846741020679473876953125
+  LL:
+    required:
+    - "LLid"
+    - "capacity"
+    - "delay"
+    - "destination"
+    - "source"
+    properties:
+      LLid:
+        type: "string"
+        description: "Logical Link identifier"
+      capacity:
+        $ref: "#/definitions/LL_capacity"
+      delay:
+        type: "number"
+        description: "Logical Link delay"
+      source:
+        $ref: "#/definitions/LL_source"
+      destination:
+        $ref: "#/definitions/LL_destination"
+    example:
+      LLid: "LLid"
+      source:
+        id: "id"
+        GwIpAddress: "GwIpAddress"
+      capacity:
+        total: 1.024645700144157789424070870154537260532379150390625
+        available: 1.489415909854170383397331534069962799549102783203125
+      delay: 6.8468526983526398765889098285697400569915771484375
+      destination:
+        id: "id"
+        GwIpAddress: "GwIpAddress"
+  VNFCost:
+    required:
+    - "NFVIPoPid"
+    - "cost"
+    - "vnfid"
+    properties:
+      cost:
+        type: "number"
+        description: "Cost of placing the given VNF at the given NFVIPoP"
+      vnfid:
+        type: "string"
+        description: "VNF identifier"
+      NFVIPoPid:
+        type: "string"
+        description: "NFVIPoP identifier"
+    example:
+      vnfid: "vnfid"
+      NFVIPoPid: "NFVIPoPid"
+      cost: 7.4577447736837658709418974467553198337554931640625
+  LLCost:
+    required:
+    - "LL"
+    - "cost"
+    properties:
+      cost:
+        type: "number"
+        description: "Cost of Mbps in the referenced LL"
+      LL:
+        type: "string"
+        description: "NFVIPoPs LL identifier"
+    example:
+      LL: "LL"
+      cost: 1.173074250955943309548956676735542714595794677734375
+  VLCost:
+    required:
+    - "NFVIPoP"
+    - "cost"
+    properties:
+      cost:
+        type: "number"
+        description: "Cost of Mbps to use a VL inside the specified NFVIPoP"
+      NFVIPoP:
+        type: "string"
+        description: "NFVIPoPs identifier"
+    example:
+      NFVIPoP: "NFVIPoP"
+      cost: 4.9652184929849543237878606305457651615142822265625
+  NFVIInfo:
+    required:
+    - "LLs"
+    - "NFVIPoPs"
+    properties:
+      resource_types:
+        type: "array"
+        description: "Allowed NFVI resource types"
+        items:
+          type: "string"
+      NFVIPoPs:
+        type: "array"
+        description: "List of NFVIPoPs"
+        items:
+          $ref: "#/definitions/NFVIPoP"
+      LLs:
+        type: "array"
+        description: "Logical links between NFVIPoPs"
+        items:
+          $ref: "#/definitions/LL"
+      VNFCosts:
+        type: "array"
+        description: "Costs to place specific VNFs to specific NFVIPoPs"
+        items:
+          $ref: "#/definitions/VNFCost"
+      LLCosts:
+        type: "array"
+        description: "Cost of using a LL between NFVIPoPs"
+        items:
+          $ref: "#/definitions/LLCost"
+      VLCosts:
+        type: "array"
+        description: "Cost of using a VL inside a NFVIPoP"
+        items:
+          $ref: "#/definitions/VLCost"
+    example:
+      LLs:
+      - LLid: "LLid"
+        source:
+          id: "id"
+          GwIpAddress: "GwIpAddress"
+        capacity:
+          total: 1.024645700144157789424070870154537260532379150390625
+          available: 1.489415909854170383397331534069962799549102783203125
+        delay: 6.8468526983526398765889098285697400569915771484375
+        destination:
+          id: "id"
+          GwIpAddress: "GwIpAddress"
+      - LLid: "LLid"
+        source:
+          id: "id"
+          GwIpAddress: "GwIpAddress"
+        capacity:
+          total: 1.024645700144157789424070870154537260532379150390625
+          available: 1.489415909854170383397331534069962799549102783203125
+        delay: 6.8468526983526398765889098285697400569915771484375
+        destination:
+          id: "id"
+          GwIpAddress: "GwIpAddress"
+      VLCosts:
+      - NFVIPoP: "NFVIPoP"
+        cost: 4.9652184929849543237878606305457651615142822265625
+      - NFVIPoP: "NFVIPoP"
+        cost: 4.9652184929849543237878606305457651615142822265625
+      LLCosts:
+      - LL: "LL"
+        cost: 1.173074250955943309548956676735542714595794677734375
+      - LL: "LL"
+        cost: 1.173074250955943309548956676735542714595794677734375
+      resource_types:
+      - "resource_types"
+      - "resource_types"
+      VNFCosts:
+      - vnfid: "vnfid"
+        NFVIPoPid: "NFVIPoPid"
+        cost: 7.4577447736837658709418974467553198337554931640625
+      - vnfid: "vnfid"
+        NFVIPoPid: "NFVIPoPid"
+        cost: 7.4577447736837658709418974467553198337554931640625
+      NFVIPoPs:
+      - id: "id"
+        internal_latency: 1.231513536777255612975068288506008684635162353515625
+        availableCapabilities:
+          ram: 3.61607674925191080461672754609026014804840087890625
+          cpu: 9.301444243932575517419536481611430644989013671875
+          bandwidth: 4.1456080298839363962315474054776132106781005859375
+          storage: 2.027123023002321833274663731572218239307403564453125
+        location:
+          center:
+            longitude: 0.80082819046101150206595775671303272247314453125
+            latitude: 6.02745618307040320615897144307382404804229736328125
+          radius: 1.46581298050294517310021547018550336360931396484375
+        failure_rate: 7.3862819483858839220147274318151175975799560546875
+        gw_ip_address: "gw_ip_address"
+        capabilities:
+          ram: 5.63737665663332876420099637471139430999755859375
+          cpu: 5.962133916683182377482808078639209270477294921875
+          bandwidth: 7.061401241503109105224211816675961017608642578125
+          storage: 2.3021358869347654518833223846741020679473876953125
+      - id: "id"
+        internal_latency: 1.231513536777255612975068288506008684635162353515625
+        availableCapabilities:
+          ram: 3.61607674925191080461672754609026014804840087890625
+          cpu: 9.301444243932575517419536481611430644989013671875
+          bandwidth: 4.1456080298839363962315474054776132106781005859375
+          storage: 2.027123023002321833274663731572218239307403564453125
+        location:
+          center:
+            longitude: 0.80082819046101150206595775671303272247314453125
+            latitude: 6.02745618307040320615897144307382404804229736328125
+          radius: 1.46581298050294517310021547018550336360931396484375
+        failure_rate: 7.3862819483858839220147274318151175975799560546875
+        gw_ip_address: "gw_ip_address"
+        capabilities:
+          ram: 5.63737665663332876420099637471139430999755859375
+          cpu: 5.962133916683182377482808078639209270477294921875
+          bandwidth: 7.061401241503109105224211816675961017608642578125
+          storage: 2.3021358869347654518833223846741020679473876953125
+  VNF:
+    required:
+    - "VNFid"
+    - "requirements"
+    properties:
+      VNFid:
+        type: "string"
+        description: "VNF identifier"
+      instances:
+        type: "number"
+        description: "Number of instances of this VNF to deploy"
+      location:
+        $ref: "#/definitions/location"
+      requirements:
+        $ref: "#/definitions/VNF_requirements"
+      failure_rate:
+        type: "number"
+        description: "Probability that a VNF instance of this type fails."
+      processing_latency:
+        type: "number"
+        description: "Latency for a VNF instance with the specific characteristics\
+          \ to process a service request."
+    description: "Information about a specific VNF."
+    example:
+      processing_latency: 9.0183481860707832566959041287191212177276611328125
+      location:
+        center:
+          longitude: 0.80082819046101150206595775671303272247314453125
+          latitude: 6.02745618307040320615897144307382404804229736328125
+        radius: 1.46581298050294517310021547018550336360931396484375
+      failure_rate: 8.7620420127490010742121739895083010196685791015625
+      VNFid: "VNFid"
+      instances: 5.02500479152029466689555192715488374233245849609375
+      requirements:
+        ram: 9.3693102714106686335071572102606296539306640625
+        cpu: 9.965781217890562260208753286860883235931396484375
+        storage: 6.683562403749608193948006373830139636993408203125
+  VNFLink:
+    required:
+    - "destination"
+    - "id"
+    - "source"
+    properties:
+      id:
+        type: "string"
+        description: "Unique Virtual Link identifier"
+      source:
+        type: "string"
+        description: "Source VNF id"
+      destination:
+        type: "string"
+        description: "Destination VNF id"
+      required_capacity:
+        type: "number"
+        description: "Maximum volume of traffic/s expected between these two VNFs\
+          \ and along this direction, and thus required capacity for the underlying\
+          \ VL between the NFVIPoPs that the two VNFs will be placed."
+      traversal_probability:
+        type: "number"
+        description: "Probability that a request traverses this link. This allows\
+          \ for branchesin the VNFFG (e.g., for load  balancing, etc.). If this parameter\
+          \ is omitted, it is assumed equal to 1."
+    description: "An edge between two VNFs in the VNFFG."
+    example:
+      id: "id"
+      source: "source"
+      traversal_probability: 3.557195227068097320710649000830017030239105224609375
+      required_capacity: 6.438423552598546706349225132726132869720458984375
+      destination: "destination"
+  NetworkService:
+    required:
+    - "VNFLinks"
+    - "VNFs"
+    - "id"
+    - "name"
+    properties:
+      id:
+        type: "string"
+        description: "Network service identifier"
+      name:
+        type: "string"
+        description: "Name of the network service"
+      VNFs:
+        type: "array"
+        description: "VNFs composing the service"
+        items:
+          $ref: "#/definitions/VNF"
+      VNFLinks:
+        type: "array"
+        description: "Edges of the VNFFG"
+        items:
+          $ref: "#/definitions/VNFLink"
+      max_latency:
+        type: "number"
+        description: "End-to-end latency constraint."
+      target_availability:
+        type: "number"
+        description: "Target service availability."
+      max_cost:
+        type: "number"
+        description: "Cost/budget constraint"
+    description: "Description of a network service."
+    example:
+      id: "id"
+      max_cost: 2.884162126668780246063761296682059764862060546875
+      max_latency: 6.96511769763884558415156789124011993408203125
+      name: "name"
+      target_availability: 1.2846590061165319429647979632136411964893341064453125
+      VNFLinks:
+      - id: "id"
+        source: "source"
+        traversal_probability: 3.557195227068097320710649000830017030239105224609375
+        required_capacity: 6.438423552598546706349225132726132869720458984375
+        destination: "destination"
+      - id: "id"
+        source: "source"
+        traversal_probability: 3.557195227068097320710649000830017030239105224609375
+        required_capacity: 6.438423552598546706349225132726132869720458984375
+        destination: "destination"
+      VNFs:
+      - processing_latency: 9.0183481860707832566959041287191212177276611328125
+        location:
+          center:
+            longitude: 0.80082819046101150206595775671303272247314453125
+            latitude: 6.02745618307040320615897144307382404804229736328125
+          radius: 1.46581298050294517310021547018550336360931396484375
+        failure_rate: 8.7620420127490010742121739895083010196685791015625
+        VNFid: "VNFid"
+        instances: 5.02500479152029466689555192715488374233245849609375
+        requirements:
+          ram: 9.3693102714106686335071572102606296539306640625
+          cpu: 9.965781217890562260208753286860883235931396484375
+          storage: 6.683562403749608193948006373830139636993408203125
+      - processing_latency: 9.0183481860707832566959041287191212177276611328125
+        location:
+          center:
+            longitude: 0.80082819046101150206595775671303272247314453125
+            latitude: 6.02745618307040320615897144307382404804229736328125
+          radius: 1.46581298050294517310021547018550336360931396484375
+        failure_rate: 8.7620420127490010742121739895083010196685791015625
+        VNFid: "VNFid"
+        instances: 5.02500479152029466689555192715488374233245849609375
+        requirements:
+          ram: 9.3693102714106686335071572102606296539306640625
+          cpu: 9.965781217890562260208753286860883235931396484375
+          storage: 6.683562403749608193948006373830139636993408203125
+  PARequest:
+    type: "object"
+    required:
+    - "ReqId"
+    - "callback"
+    properties:
+      ReqId:
+        type: "string"
+        description: "Unique request identifier"
+      nfvi:
+        $ref: "#/definitions/NFVIInfo"
+      nsd:
+        $ref: "#/definitions/NetworkService"
+      callback:
+        type: "string"
+        format: "URL"
+        description: "Callback URL"
+    example:
+      nsd:
+        id: "id"
+        max_cost: 2.884162126668780246063761296682059764862060546875
+        max_latency: 6.96511769763884558415156789124011993408203125
+        name: "name"
+        target_availability: 1.2846590061165319429647979632136411964893341064453125
+        VNFLinks:
+        - id: "id"
+          source: "source"
+          traversal_probability: 3.557195227068097320710649000830017030239105224609375
+          required_capacity: 6.438423552598546706349225132726132869720458984375
+          destination: "destination"
+        - id: "id"
+          source: "source"
+          traversal_probability: 3.557195227068097320710649000830017030239105224609375
+          required_capacity: 6.438423552598546706349225132726132869720458984375
+          destination: "destination"
+        VNFs:
+        - processing_latency: 9.0183481860707832566959041287191212177276611328125
+          location:
+            center:
+              longitude: 0.80082819046101150206595775671303272247314453125
+              latitude: 6.02745618307040320615897144307382404804229736328125
+            radius: 1.46581298050294517310021547018550336360931396484375
+          failure_rate: 8.7620420127490010742121739895083010196685791015625
+          VNFid: "VNFid"
+          instances: 5.02500479152029466689555192715488374233245849609375
+          requirements:
+            ram: 9.3693102714106686335071572102606296539306640625
+            cpu: 9.965781217890562260208753286860883235931396484375
+            storage: 6.683562403749608193948006373830139636993408203125
+        - processing_latency: 9.0183481860707832566959041287191212177276611328125
+          location:
+            center:
+              longitude: 0.80082819046101150206595775671303272247314453125
+              latitude: 6.02745618307040320615897144307382404804229736328125
+            radius: 1.46581298050294517310021547018550336360931396484375
+          failure_rate: 8.7620420127490010742121739895083010196685791015625
+          VNFid: "VNFid"
+          instances: 5.02500479152029466689555192715488374233245849609375
+          requirements:
+            ram: 9.3693102714106686335071572102606296539306640625
+            cpu: 9.965781217890562260208753286860883235931396484375
+            storage: 6.683562403749608193948006373830139636993408203125
+      ReqId: "ReqId"
+      callback: "callback"
+      nfvi:
+        LLs:
+        - LLid: "LLid"
+          source:
+            id: "id"
+            GwIpAddress: "GwIpAddress"
+          capacity:
+            total: 1.024645700144157789424070870154537260532379150390625
+            available: 1.489415909854170383397331534069962799549102783203125
+          delay: 6.8468526983526398765889098285697400569915771484375
+          destination:
+            id: "id"
+            GwIpAddress: "GwIpAddress"
+        - LLid: "LLid"
+          source:
+            id: "id"
+            GwIpAddress: "GwIpAddress"
+          capacity:
+            total: 1.024645700144157789424070870154537260532379150390625
+            available: 1.489415909854170383397331534069962799549102783203125
+          delay: 6.8468526983526398765889098285697400569915771484375
+          destination:
+            id: "id"
+            GwIpAddress: "GwIpAddress"
+        VLCosts:
+        - NFVIPoP: "NFVIPoP"
+          cost: 4.9652184929849543237878606305457651615142822265625
+        - NFVIPoP: "NFVIPoP"
+          cost: 4.9652184929849543237878606305457651615142822265625
+        LLCosts:
+        - LL: "LL"
+          cost: 1.173074250955943309548956676735542714595794677734375
+        - LL: "LL"
+          cost: 1.173074250955943309548956676735542714595794677734375
+        resource_types:
+        - "resource_types"
+        - "resource_types"
+        VNFCosts:
+        - vnfid: "vnfid"
+          NFVIPoPid: "NFVIPoPid"
+          cost: 7.4577447736837658709418974467553198337554931640625
+        - vnfid: "vnfid"
+          NFVIPoPid: "NFVIPoPid"
+          cost: 7.4577447736837658709418974467553198337554931640625
+        NFVIPoPs:
+        - id: "id"
+          internal_latency: 1.231513536777255612975068288506008684635162353515625
+          availableCapabilities:
+            ram: 3.61607674925191080461672754609026014804840087890625
+            cpu: 9.301444243932575517419536481611430644989013671875
+            bandwidth: 4.1456080298839363962315474054776132106781005859375
+            storage: 2.027123023002321833274663731572218239307403564453125
+          location:
+            center:
+              longitude: 0.80082819046101150206595775671303272247314453125
+              latitude: 6.02745618307040320615897144307382404804229736328125
+            radius: 1.46581298050294517310021547018550336360931396484375
+          failure_rate: 7.3862819483858839220147274318151175975799560546875
+          gw_ip_address: "gw_ip_address"
+          capabilities:
+            ram: 5.63737665663332876420099637471139430999755859375
+            cpu: 5.962133916683182377482808078639209270477294921875
+            bandwidth: 7.061401241503109105224211816675961017608642578125
+            storage: 2.3021358869347654518833223846741020679473876953125
+        - id: "id"
+          internal_latency: 1.231513536777255612975068288506008684635162353515625
+          availableCapabilities:
+            ram: 3.61607674925191080461672754609026014804840087890625
+            cpu: 9.301444243932575517419536481611430644989013671875
+            bandwidth: 4.1456080298839363962315474054776132106781005859375
+            storage: 2.027123023002321833274663731572218239307403564453125
+          location:
+            center:
+              longitude: 0.80082819046101150206595775671303272247314453125
+              latitude: 6.02745618307040320615897144307382404804229736328125
+            radius: 1.46581298050294517310021547018550336360931396484375
+          failure_rate: 7.3862819483858839220147274318151175975799560546875
+          gw_ip_address: "gw_ip_address"
+          capabilities:
+            ram: 5.63737665663332876420099637471139430999755859375
+            cpu: 5.962133916683182377482808078639209270477294921875
+            bandwidth: 7.061401241503109105224211816675961017608642578125
+            storage: 2.3021358869347654518833223846741020679473876953125
+  PAResponse:
+    type: "object"
+    required:
+    - "worked"
+    properties:
+      worked:
+        type: "boolean"
+        description: "Specifies if the PA worked and found a solution"
+      result:
+        type: "string"
+        description: "Description of the PA result"
+      usedNFVIPops:
+        type: "array"
+        description: "Array of all used NFVI PoPs with mapped VNFs"
+        items:
+          $ref: "#/definitions/PAResponse_usedNFVIPops"
+      usedLLs:
+        type: "array"
+        description: "Array of all used LL between NFVIPoPs by the mapped Network\
+          \ Service VLs"
+        items:
+          $ref: "#/definitions/PAResponse_usedLLs"
+      usedVLs:
+        type: "array"
+        description: "Array of all used VL inside NFVIPoPs by the mapped Network Service\
+          \ VLs"
+        items:
+          $ref: "#/definitions/PAResponse_usedVLs"
+      totalLatency:
+        type: "number"
+        description: "Network Sewrvice latency after placement"
+      totalCost:
+        type: "number"
+        description: "cost of mapping the Network Service expressed in euros"
+    description: "Response to a PA request"
+    example:
+      result: "result"
+      usedNFVIPops:
+      - NFVIPoPID: "NFVIPoPID"
+        mappedVNFs:
+        - "mappedVNFs"
+        - "mappedVNFs"
+      - NFVIPoPID: "NFVIPoPID"
+        mappedVNFs:
+        - "mappedVNFs"
+        - "mappedVNFs"
+      totalCost: 6.02745618307040320615897144307382404804229736328125
+      usedVLs:
+      - mappedVLs:
+        - "mappedVLs"
+        - "mappedVLs"
+        NFVIPoP: "NFVIPoP"
+      - mappedVLs:
+        - "mappedVLs"
+        - "mappedVLs"
+        NFVIPoP: "NFVIPoP"
+      totalLatency: 0.80082819046101150206595775671303272247314453125
+      usedLLs:
+      - mappedVLs:
+        - "mappedVLs"
+        - "mappedVLs"
+        LLID: "LLID"
+      - mappedVLs:
+        - "mappedVLs"
+        - "mappedVLs"
+        LLID: "LLID"
+      worked: true
+  NFVIPoP_capabilities:
+    required:
+    - "cpu"
+    - "ram"
+    - "storage"
+    properties:
+      cpu:
+        type: "number"
+        description: "NFVIPoP CPU capacity"
+      ram:
+        type: "number"
+        description: "RAM capacity (in MB)"
+      storage:
+        type: "number"
+        description: "storage capacity (in MB)"
+      bandwidth:
+        type: "number"
+        description: "link capacity (in Mbps)"
+    description: "Capacity for different resources of the NFVIPoP"
+    example:
+      ram: 5.63737665663332876420099637471139430999755859375
+      cpu: 5.962133916683182377482808078639209270477294921875
+      bandwidth: 7.061401241503109105224211816675961017608642578125
+      storage: 2.3021358869347654518833223846741020679473876953125
+  NFVIPoP_availableCapabilities:
+    required:
+    - "cpu"
+    - "ram"
+    - "storage"
+    properties:
+      cpu:
+        type: "number"
+        description: "NFVIPoP CPU capacity"
+      ram:
+        type: "number"
+        description: "RAM capacity (in MB)"
+      storage:
+        type: "number"
+        description: "storage capacity (in MB)"
+      bandwidth:
+        type: "number"
+        description: "link capacity (in Mbps)"
+    description: "Available capacity for different resources of the NFVIPoP"
+    example:
+      ram: 3.61607674925191080461672754609026014804840087890625
+      cpu: 9.301444243932575517419536481611430644989013671875
+      bandwidth: 4.1456080298839363962315474054776132106781005859375
+      storage: 2.027123023002321833274663731572218239307403564453125
+  LL_capacity:
+    properties:
+      total:
+        type: "number"
+        description: "Total link capacity (Mbps)"
+      available:
+        type: "number"
+        description: "Available link capacity (Mbps)"
+    description: "Logical Link capacity"
+    example:
+      total: 1.024645700144157789424070870154537260532379150390625
+      available: 1.489415909854170383397331534069962799549102783203125
+  LL_source:
+    required:
+    - "GwIpAddress"
+    - "id"
+    properties:
+      id:
+        type: "string"
+        description: "Source NFVIPoP id"
+      GwIpAddress:
+        type: "string"
+        format: "ipv4"
+        description: "Endpoint IP address"
+    description: "Source NFVIPoP"
+    example:
+      id: "id"
+      GwIpAddress: "GwIpAddress"
+  LL_destination:
+    required:
+    - "GwIpAddress"
+    - "id"
+    properties:
+      id:
+        type: "string"
+        description: "Destination NFVIPoP id"
+      GwIpAddress:
+        type: "string"
+        format: "ipv4"
+        description: "Endpoint IP address"
+    description: "Destination NFVIPoP"
+    example:
+      id: "id"
+      GwIpAddress: "GwIpAddress"
+  VNF_requirements:
+    required:
+    - "cpu"
+    - "ram"
+    - "storage"
+    properties:
+      cpu:
+        type: "number"
+        description: "CPU requirements"
+      ram:
+        type: "number"
+        description: "Memory requirements (in MB)"
+      storage:
+        type: "number"
+        description: "Storage requirements (in MB)"
+    description: "VNF processing and other requirements"
+    example:
+      ram: 9.3693102714106686335071572102606296539306640625
+      cpu: 9.965781217890562260208753286860883235931396484375
+      storage: 6.683562403749608193948006373830139636993408203125
+  PAResponse_usedNFVIPops:
+    properties:
+      NFVIPoPID:
+        type: "string"
+        description: "NFVI PoP ID"
+      mappedVNFs:
+        type: "array"
+        description: "all VNFs mapped in this NFVI PoP"
+        items:
+          type: "string"
+          description: "VNF ID"
+    description: "NFVIPoP with mapped VNFs"
+    example:
+      NFVIPoPID: "NFVIPoPID"
+      mappedVNFs:
+      - "mappedVNFs"
+      - "mappedVNFs"
+  PAResponse_usedLLs:
+    properties:
+      LLID:
+        type: "string"
+        description: "LL ID"
+      mappedVLs:
+        type: "array"
+        description: "all VLs mapped in this LL between NFVI PoP"
+        items:
+          type: "string"
+          description: "VL ID"
+    description: "LLs with mapped VLs"
+    example:
+      mappedVLs:
+      - "mappedVLs"
+      - "mappedVLs"
+      LLID: "LLID"
+  PAResponse_usedVLs:
+    properties:
+      NFVIPoP:
+        type: "string"
+        description: "NFVIPoP ID"
+      mappedVLs:
+        type: "array"
+        description: "all VLs mapped in this LL between NFVI PoP"
+        items:
+          type: "string"
+          description: "VL ID"
+    description: "Intra NFVIPoP VLs with mapped VLs on top of them"
+    example:
+      mappedVLs:
+      - "mappedVLs"
+      - "mappedVLs"
+      NFVIPoP: "NFVIPoP"

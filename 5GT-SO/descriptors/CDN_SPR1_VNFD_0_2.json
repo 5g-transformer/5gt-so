@@ -1,0 +1,141 @@
+{
+	"vnfdId": "spr1",
+	"vnfProvider": "ATOS",
+	"vnfProductName": "CDN origin server",
+	"vnfSoftwareVersion": "0.1",
+	"vnfdVersion": "0.2",
+	"vnfProductInfoName": "vCDN origin server",
+	"vnfProductInfoDescription": "vCDN Origin Server",
+	"vnfmInfo": ["vEPC_VNFM"],
+	"vdu": [{
+		"vduId": "spr1_vdu",
+		"name": "spr1",
+		"description": "VDU of the origing server",
+		"intCpd": [{
+			"cpdId": "spr1MgtInt",
+			"layerProtocol": "IPV4",
+			"description": "Management CP of the origin server",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": true,
+				"management": true,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		},
+		{
+			"cpdId": "spr1DataInt",
+			"layerProtocol": "IPV4",
+			"description": "CP for the origin server media content",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": false,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}],
+		"virtualComputeDesc": "VCD_spr1",
+		"virtualStorageDesc": ["VSD_spr1"],
+		"swImageDesc": {
+			"id": "CDN_spr1_SWID",
+			"name": "SPR1_ATOS",
+			"version": "0.1",
+			"checksum": "TBD",
+			"containerFormat": "QCOW",
+			"diskFormat": "QCOW",
+			"minDisk": 1,
+			"minRam": 1,
+			"size": 50,
+			"swImage": "SPR1_ATOS",
+			"operatingSystem": "Ubuntu-10.04"
+		},
+		"configurableProperties": {}
+	}],
+	"virtualComputeDesc": [{
+		"virtualComputeDescId": "VCD_spr1",
+		"virtualMemory": {
+			"virtualMemSize": 4,
+			"virtualMemOversubscriptionPolicy": "asdasd",
+			"numaEnabled": false
+		},
+		"virtualCpu": {
+			"numVirtualCpu": 1,
+			"cpuArchitecture": "x86_64",
+			"virtualCpuClock": 0,
+			"virtualCpuOversubscriptionPolicy": "asdasd"
+		}
+		
+	}],
+	"virtualStorageDesc": [{
+		"id": "VSD_spr1",
+		"typeOfStorage": "VOLUME",
+		"sizeOfStorage": 50,
+		"swImageDesc": "CDN_spr1_SWID"
+	}],
+	"vnfExtCpd": [{
+		"cpdId": "spr1MgtExt",
+		"layerProtocol": "IPV4",
+		"description": "Management external CP of the Origin Server",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": true,
+			"management": true,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "spr1MgtInt"
+	},
+	{
+		"cpdId": "spr1DataExt",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the origin server media content",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": false,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "spr1DataInt"
+	}],
+	"deploymentFlavour": [{
+		"flavourId": "df_spr1",
+		"description": "Standard deployment flavour of the CDN origin server",
+		"vduProfile": [{
+			"vduId": "spr1_vdu",
+			"minNumberOfInstances": 1,
+			"maxNumberOfInstances": 1
+		}],
+		"instantiationLevel": [{
+			"levelId": "il_spr1",
+			"description": "Standard instantiation level of the CDN origin server",
+			"vduLevel": [{
+				"vduId": "spr1_vdu",
+				"numberOfInstances": 1
+			}]
+		}],
+		"vnfLcmOperationsConfiguration": {}
+	}],
+	"configurableProperties": {
+			"autoScalable": false,
+			"autoHealable": false,
+			"additionalConfigurableProperty": []
+	},
+	"modifiableAttributes": {},
+	"lifeCycleManagementScript": [{
+		"event": ["START_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["START_VNF_TERMINATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_TERMINATION"],
+		"script": ""
+	}]
+}

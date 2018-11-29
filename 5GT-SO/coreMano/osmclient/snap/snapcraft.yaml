@@ -1,0 +1,20 @@
+name: osmclient # you probably want to 'snapcraft register <name>'
+version: '0.1' # just for humans, typically '1.2+git' or '1.3.2'
+summary: A python client for osm orchestration
+description: |
+    A python client for osm orchestration
+
+grade: stable # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
+
+apps:
+  osmclient:
+    command: bin/osm
+
+parts:
+  osmclient:
+    source: .
+    plugin: python
+    python-version: python2
+    stage:
+      - -README.md
