@@ -1,0 +1,8 @@
+tenant_id:tenant1
+service_name: tenant1_embb_streaming_1
+network_type: lte
+sst: embb
+slice_id: tenant1_embb_1
+service: streaming
+required_latency: 10
+connections: 100
