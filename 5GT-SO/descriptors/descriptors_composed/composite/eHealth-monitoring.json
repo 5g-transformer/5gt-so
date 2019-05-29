@@ -1,0 +1,237 @@
+{
+  "nsd": {
+  "nsdIdentifier" : "eHealth-Mon-NS",
+  "designer" : "UC3M-Nextworks",
+  "version" : "0.1",
+  "nsdName" : "eHealth Monitoring service",
+  "nsdInvariantId" : "eHealth-Mon-NS_0.1",
+  "nestedNsdId" : [ "eHealth-BE", "eHealth-vEPC" ],
+  "sapd" : [ {
+    "cpdId" : "sgi_ehealth_mon_sap",
+    "layerProtocol" : "IPV4",
+    "description" : "Data SAP",
+    "addressData" : [ {
+      "addressType" : "IP_ADDRESS",
+      "iPAddressAssignment" : false,
+      "floatingIpActivated" : false,
+      "management" : false,
+      "iPAddressType" : "IPv4",
+      "numberOfIpAddress" : 1
+    } ],
+    "sapAddressAssignment" : false,
+    "nsVirtualLinkDescId" : "data_ehealth_mon_vl"
+  }, {
+    "cpdId" : "s5_ehealth_mon_sap",
+    "layerProtocol" : "IPV4",
+    "description" : "Data SAP",
+    "addressData" : [ {
+      "addressType" : "IP_ADDRESS",
+      "iPAddressAssignment" : false,
+      "floatingIpActivated" : false,
+      "management" : false,
+      "iPAddressType" : "IPv4",
+      "numberOfIpAddress" : 1
+    } ],
+    "sapAddressAssignment" : false,
+    "associatedCpdId" : "s5_vepc_sap"
+  }, {
+    "cpdId" : "s1c_s1u_ehealth_mon_sap",
+    "layerProtocol" : "IPV4",
+    "description" : "Data SAP",
+    "addressData" : [ {
+      "addressType" : "IP_ADDRESS",
+      "iPAddressAssignment" : false,
+      "floatingIpActivated" : false,
+      "management" : false,
+      "iPAddressType" : "IPv4",
+      "numberOfIpAddress" : 1
+    } ],
+    "sapAddressAssignment" : false,
+    "associatedCpdId" : "s1c_s1u_vepc_sap"
+  }, {
+    "cpdId" : "mgt_ehealth_mon_sap",
+    "layerProtocol" : "IPV4",
+    "description" : "Mgt SAP",
+    "addressData" : [ {
+      "addressType" : "IP_ADDRESS",
+      "iPAddressAssignment" : false,
+      "floatingIpActivated" : true,
+      "management" : true,
+      "iPAddressType" : "IPv4",
+      "numberOfIpAddress" : 1
+    } ],
+    "sapAddressAssignment" : false,
+    "nsVirtualLinkDescId" : "mgt_ehealth_mon_vl"
+  } ],
+  "virtualLinkDesc" : [ {
+    "virtualLinkDescId" : "mgt_ehealth_mon_vl",
+    "virtualLinkDescProvider" : "Nextworks",
+    "virtuaLinkDescVersion" : "0.1",
+    "connectivityType" : {
+      "layerProtocol" : "IPV4",
+      "flowPattern" : null
+    },
+    "virtualLinkDf" : [ {
+      "flavourId" : "mgt_ehealth_mon_vl_vldf",
+      "qos" : {
+        "latency" : 0,
+        "packetDelayVariation" : 0,
+        "packetLossRatio" : 0,
+        "priority" : 0
+      },
+      "serviceAvaibilityLevel" : "LEVEL_1",
+      "bitrateRequirements" : {
+        "root": 2,
+	"leaf": 1
+      }
+    } ],
+    "description" : "mgt vLink"
+  }, {
+    "virtualLinkDescId" : "data_ehealth_mon_vl",
+    "virtualLinkDescProvider" : "Nextworks",
+    "virtuaLinkDescVersion" : "0.1",
+    "connectivityType" : {
+      "layerProtocol" : "IPV4",
+      "flowPattern" : null
+    },
+    "virtualLinkDf" : [ {
+      "flavourId" : "data_ehealth_mon_vl_vldf",
+      "qos" : {
+        "latency" : 0,
+        "packetDelayVariation" : 0,
+        "packetLossRatio" : 0,
+        "priority" : 0
+      },
+      "serviceAvaibilityLevel" : "LEVEL_1",
+      "bitrateRequirements" : {
+        "root": 2,
+	"leaf": 1
+      }
+    } ],
+    "description" : "data vLink"
+  } ],
+  "nsDf" : [ {
+    "nsDfId" : "eHealth-Mon-NS_df",
+    "flavourKey" : "eHealth-Mon-NS_df",
+    "virtualLinkProfile" : [ {
+      "virtualLinkProfileId" : "mgt_eHealth_mon_vl_profile",
+      "virtualLinkDescId" : "mgt_ehealth_mon_vl",
+      "flavourId" : "mgt_ehealth_mon_vl_vldf",
+      "maxBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      },
+      "minBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      }
+    }, {
+      "virtualLinkProfileId" : "data_eHealth_mon_vl_profile",
+      "virtualLinkDescId" : "data_ehealth_mon_vl",
+      "flavourId" : "data_ehealth_mon_vl_vldf",
+      "maxBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      },
+      "minBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      }
+    } ],
+    "nsInstantiationLevel" : [ {
+      "nsLevelId" : "eHealth-Mon-NS_il_small",
+      "description" : "eHealth-Mon-NS small instantiation level",
+      "nsToLevelMapping" : [ {
+        "nsProfileId" : "eHealth-vEPC_profile_default",
+        "numberOfInstances" : 1
+      }, {
+        "nsProfileId" : "eHealth-BE_profile_small",
+        "numberOfInstances" : 1
+      } ]
+    }, {
+      "nsLevelId" : "eHealth-Mon-NS_il_medium",
+      "description" : "eHealth-Mon-NS medium instantiation level",
+      "nsToLevelMapping" : [ {
+        "nsProfileId" : "eHealth-vEPC_profile_default",
+        "numberOfInstances" : 1
+      }, {
+        "nsProfileId" : "eHealth-BE_profile_medium",
+        "numberOfInstances" : 1
+      } ]
+    }, {
+      "nsLevelId" : "eHealth-Mon-NS_il_big",
+      "description" : "eHealth-Mon-NS big instantiation level",
+      "nsToLevelMapping" : [ {
+        "nsProfileId" : "eHealth-vEPC_profile_default",
+        "numberOfInstances" : 1
+      }, {
+        "nsProfileId" : "eHealth-BE_profile_big",
+        "numberOfInstances" : 1
+      } ]
+    } ],
+    "defaultNsInstantiationLevelId" : "eHealth-Mon-NS_il_small",
+    "nsProfile" : [ {
+      "nsProfileId" : "eHealth-BE_profile_small",
+      "nsdId" : "eHealth-BE",
+      "nsDfId" : "eHealth-BE_df",
+      "nsInstantiationLevelId" : "eHealth-BE_il_small",
+      "minNumberOfInstances" : 1,
+      "maxNumberOfInstances" : 1,
+      "nsVirtualLinkConnectivity" : [ {
+        "virtualLinkProfileId" : "data_eHealth_mon_vl_profile",
+        "cpdId" : [ "data_ehealth_mon_be_sap" ]
+      }, {
+        "virtualLinkProfileId" : "mgt_eHealth_mon_vl_profile",
+        "cpdId" : [ "mgt_ehealth_mon_be_sap" ]
+      } ]
+    }, {
+      "nsProfileId" : "eHealth-BE_profile_medium",
+      "nsdId" : "eHealth-BE",
+      "nsDfId" : "eHealth-BE_df",
+      "nsInstantiationLevelId" : "eHealth-BE_il_medium",
+      "minNumberOfInstances" : 1,
+      "maxNumberOfInstances" : 1,
+      "nsVirtualLinkConnectivity" : [ {
+        "virtualLinkProfileId" : "data_eHealth_mon_vl_profile",
+        "cpdId" : [ "data_ehealth_mon_be_sap" ]
+      }, {
+        "virtualLinkProfileId" : "mgt_eHealth_mon_vl_profile",
+        "cpdId" : [ "mgt_ehealth_mon_be_sap" ]
+      } ]
+    }, {
+      "nsProfileId" : "eHealth-BE_profile_big",
+      "nsdId" : "eHealth-BE",
+      "nsDfId" : "eHealth-BE_df",
+      "nsInstantiationLevelId" : "eHealth-BE_il_big",
+      "minNumberOfInstances" : 1,
+      "maxNumberOfInstances" : 1,
+      "nsVirtualLinkConnectivity" : [ {
+        "virtualLinkProfileId" : "data_eHealth_mon_vl_profile",
+        "cpdId" : [ "data_ehealth_mon_be_sap" ]
+      }, {
+        "virtualLinkProfileId" : "mgt_eHealth_mon_vl_profile",
+        "cpdId" : [ "mgt_ehealth_mon_be_sap" ]
+      } ]
+    }, {
+      "nsProfileId" : "eHealth-vEPC_profile_default",
+      "nsdId" : "eHealth-vEPC",
+      "nsDfId" : "eHealth-vEPC_df",
+      "nsInstantiationLevelId" : "eHealth-vEPC_il_default",
+      "minNumberOfInstances" : 1,
+      "maxNumberOfInstances" : 1,
+      "nsVirtualLinkConnectivity" : [ {
+        "virtualLinkProfileId" : "data_eHealth_mon_vl_profile",
+        "cpdId" : [ "sgi_vepc_sap" ]
+      }, {
+        "virtualLinkProfileId" : "mgt_eHealth_mon_vl_profile",
+        "cpdId" : [ "mgt_vepc_sap" ]
+      } ]
+    } ]
+  } ],
+  "security" : {
+    "signature" : "SIGNATURE",
+    "algorithm" : "ALGORITHM",
+    "certificate" : "CERTIFICATE"
+  }
+}
+}

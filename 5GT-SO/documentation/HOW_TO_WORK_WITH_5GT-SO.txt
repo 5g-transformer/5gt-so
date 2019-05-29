@@ -1,0 +1,96 @@
+HOW TO WORK WITH 5GT-SO
+------------------------------
+
+Requirements
+============
+* Python 3.5.2+
+* pip3
+* osm python lib
+
+* MongoDB, just running, no configuration needed.
+* A MANO platform running at your computer. Current supported MANO platforms are: OSM and Cloudify 
+  * OSM R3, R4 or R5. Full support for OSM R3. 
+      OSM R3 installation guide: https://osm.etsi.org/wikipub/index.php/OSM_Release_THREE
+      OSM R4 installation guide: https://osm.etsi.org/wikipub/index.php/OSM_Release_FOUR
+      OSM R5 installation guide: https://osm.etsi.org/wikipub/index.php/OSM_Release_FIVE
+  * Cloudify. Version 4.5 or above.
+      Cloudify installation guide: https://docs.cloudify.co/4.5.0/install_maintain/installation/manager-image/
+      After Cloudify installation open Cloudify Dashboard and choose Cloudify Catalog-> Plugins Catalog 
+      press download OpenStack plugin
+
+    Cloudify plugin for MTP it is still in testing phase and it will be provided when ready. 
+
+* If you are running the 5GT-SO with OSM you need an available OpenStack instance.
+* Currently, if you are running the 5GT-SO with Cloudify you need an available OpenStack instance.
+
+Install
+=======
+
+git clone https://5g-transformer.eu/git/5g-transformer.5gt-so
+
+* In folder /5GT-SO execute pip3 install -r requirements.txt  # only the first time, to install required libraries
+
+* To install osm python lib:
+  from folder 5GT-SO/coreMano/osmclient/
+  run:
+	sudo python3 setup.py install
+  NOTE: 1) this library was downloaded from https://osm.etsi.org/gerrit/osm/osmclient.git on date 09/28/2018
+        and the following files were modified:
+        scripts/osm.py
+        sol005/ns.py
+        v1/ns.py
+        2) If you use OSM, you need to register your Openstack instance. This can be done easily with the client and it is explained in the OSM Rx installation guide previously
+           referred
+
+
+Configuration files
+===================
+Check values in the following configuration files:
+
+5GT-SO/mtp.properties
+    -> to configure the mtp properties
+5GT-SO/db/db.properties
+    -> to configure the mongo db properties
+5GT-SO/coreMano/coreMano.properties
+    -> to configure the required parameters for the MANO platform (either OSM or Cloudify)
+5GT-SO/sm/rooe/rooe.properties
+    -> to configure the parameters of the running PA. PA runs as a separate server from the 5GT-SO, thus, it has to be previously launched
+5GT-SO/monitoring/monitoring.properties
+    -> to configure the required parameters for the monitoring and the sla-manager modules of the 5GT-SO
+5GT-SO/sm/soe/vs.properties 
+    -> to configure the 5GT-VS instances considered as possible requesters within the local domain
+5GT-SO/sm/soe/federation.properties
+    -> to configure the IP address of the possible federated domains
+
+
+Prerequisites (before running)
+====================
+* 5GT-SO runs with IFA 014 descriptors and MANO platform dependant descriptors. The Network Service Descriptors (NSDs) and its constituent VNF descriptors 
+   need to be available to be instantiated. 
+   IFA descriptors are needed both for VNFs and the NSD. The IFA descriptors can be onboarded at the SM with the NBI following the IFA013 procedure.
+   MANO platform dependant descriptors are generated automatically (translation from IFA descriptors) and onboarded at the corresponding MANO platform 
+   to be able to instantiate the different available Network Services.
+
+Usage
+=====
+To run the server, execute the following from the "5GT-so/nbi/python-flask-server" directory:
+
+pip3 install -r requirements.txt  # only the first time
+python3 -m swagger_server
+
+by open your browser to here:
+
+http://localhost:8080/5gt/so/v1/ui/
+
+you can check all NBI operations definitions and test them.
+
+At http://localhost:8080, the user can find the GUI, which supports the defined workflows of the 5GT-SO. The 5GT-SO_User_Guide.docx file in this folder
+explain all the details of the GUI and all the features supported by the 5GT-SO.
+
+
+
+
+
+
+
+

@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+{% block content %}
+<link type="text/css" rel="stylesheet" href="/static/css/force2.css"/>
+<div class="container-fluid">
+    {% if descriptor_type == 'vnfd' or descriptor_type == 'nsd' or descriptor_type == 'nsd-composite' %}
+    {% if descriptor_type == 'vnfd' %}
+    {% set catalog = 'vnfd:vnfd-catalog'%}
+    {% set name_descriptor = ifa_json['vnfdId'] %}
+    {% else %}
+    {% set catalog = 'nsd:nsd-catalog' %}
+    {% set name_descriptor = ifa_json['nsd']['nsdIdentifier'] %}
+    {% endif %}
+    {% if yaml_network|length > 0 %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Representation of {{ descriptor_type.capitalize() }}:  <i>{{ name_descriptor }}</i></h3>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            Instantiation Levels:
+            <select id="json_sources" name="json_sources">
+                {% for osm_json in list_osm_json %}
+                <!--<option value ="net_to_d3_{{loop.index - 1}}">Source {{loop.index}} </option>-->
+                <option value ="net_to_d3_{{loop.index - 1}}"{% if loop.index == 1 %} selected="selected" {% endif %}>{{ osm_json[catalog][descriptor_type][0]['name'] }} </option>
+                {% endfor %}
+            <!--     <option value ="source3.json">Source 3</option> -->
+            </select>​
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="chartd3" id="chartd3"></div>
+            <script type="text/javascript" src="/static/js/osm_descriptor_d3.js"></script>
+            <script type="text/javascript">
+                {% for net in yaml_network %}
+                var net_to_d3_{{loop.index -1}} = {{net | tojson}};
+                {% endfor %}
+                //var firstData = d3.select('#json_sources').property('value');
+                var firstData = net_to_d3_0
+                var descr_type = '{{ descriptor_type }}'
+                $('#osm_modal').attr('data-target','#'+firstData);
+                representation(eval(firstData), descr_type);
+                d3.select('#json_sources')
+                  .on('change', function() {
+                      var newData = d3.select(this).property('value');
+                      $('#osm_modal').attr('data-target','#'+newData);
+                      remove_graph();
+                      representation(eval(newData), descr_type);
+                });
+            </script>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <div>
+                <button id="osm_modal" class="btn btn-primary" data-toggle="modal" data-target="#net_to_d3_0" {% if descriptor_type == 'nsd-composite' %}  {% endif %}>OSM YAML descriptor</button>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#yaml_ifa_Modal">IFA YAML descriptor</button>
+                {% if not already_onboarded_in_so %}
+                <hr>
+                <form role="form" action="{{ url_for('descriptor_viewer') }}" method="post">
+                    <button type="submit" class="btn btn-success" title="Onboard on SO">Onboard on SO!</button>
+                    <input type="hidden" name="onboard_json" value="{{ ifa_json }}">
+                </form>
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+    <br>
+    {% endif %}
+    {%else %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">YAML not valid for OSM</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    {% endif %}
+
+</div>
+<!-- /.container-fluid -->
+{% for osm_json in list_osm_json %}
+<!-- Modal OSM Descriptors-->
+<div class="modal fade" id="net_to_d3_{{loop.index-1}}" tabindex="-1" role="dialog" aria-labelledby="yaml_osm_ModalLabel_{{loop.index-1}}"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="yaml_osm_ModalLabel_{{loop.index-1}}">OSM YAML Descriptor</h4>
+            </div>
+            <div class="modal-body">
+                <textarea id="to_clip" class="form-control" rows="20" style="resize:none">{{ yaml_osm_descriptor[loop.index-1] }}</textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="clipboard">Copy to clipboard</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+{% endfor %}
+<!-- Modal IFA Descriptor-->
+<div class="modal fade" id="yaml_ifa_Modal" tabindex="-1" role="dialog" aria-labelledby="yaml_ifa_ModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="yaml_ifa_ModalLabel">IFA YAML Descriptor</h4>
+            </div>
+            <div class="modal-body">
+                <textarea id="to_clip_ifa" class="form-control" rows="20" style="resize:none">{{ yaml_ifa_descriptor }}</textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="ifa_clipboard">Copy to clipboard</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<script type="text/javascript">
+window.currentChild = false;
+var input  = document.getElementById("to_clip");
+var button = document.getElementById("clipboard");
+
+button.addEventListener("click", function (event) {
+    event.preventDefault();
+    input.select();
+    document.execCommand("copy");
+});
+</script>
+{% endblock %}

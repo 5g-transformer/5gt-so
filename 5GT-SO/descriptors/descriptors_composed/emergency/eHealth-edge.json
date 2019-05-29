@@ -1,0 +1,199 @@
+{
+  "nsdIdentifier" : "eHealth-EDGE",
+  "designer" : "UC3M-Nextworks",
+  "version" : "0.1",
+  "nsdName" : "Edge components for emergency eHealth monitoring",
+  "nsdInvariantId" : "eHealth-EDGE_0.1",
+  "vnfdId" : [ "E-SERVER_VNF", "E-PGW_VNF" ],
+  "sapd" : [ {
+    "cpdId" : "sgi_ehealth_emergency_edge_sap",
+    "layerProtocol" : "IPV4",
+    "description" : "SGI SAP",
+    "addressData" : [ {
+      "addressType" : "IP_ADDRESS",
+      "iPAddressAssignment" : false,
+      "floatingIpActivated" : false,
+      "management" : false,
+      "iPAddressType" : "IPv4",
+      "numberOfIpAddress" : 1
+    } ],
+    "sapAddressAssignment" : false,
+    "nsVirtualLinkDescId" : "sgi_ehealth_emergency_edge_vl"
+  }, {
+    "cpdId" : "s5_ehealth_emergency_edge_sap",
+    "layerProtocol" : "IPV4",
+    "description" : "S5 SAP",
+    "addressData" : [ {
+      "addressType" : "IP_ADDRESS",
+      "iPAddressAssignment" : false,
+      "floatingIpActivated" : false,
+      "management" : false,
+      "iPAddressType" : "IPv4",
+      "numberOfIpAddress" : 1
+    } ],
+    "sapAddressAssignment" : false,
+    "nsVirtualLinkDescId" : "s5_ehealth_emergency_edge_vl"
+  }, {
+    "cpdId" : "mgt_ehealth_emergency_edge_sap",
+    "layerProtocol" : "IPV4",
+    "description" : "Mgt SAP",
+    "addressData" : [ {
+      "addressType" : "IP_ADDRESS",
+      "iPAddressAssignment" : false,
+      "floatingIpActivated" : true,
+      "management" : true,
+      "iPAddressType" : "IPv4",
+      "numberOfIpAddress" : 1
+    } ],
+    "sapAddressAssignment" : false,
+    "nsVirtualLinkDescId" : "mgt_ehealth_emergency_edge_vl"
+  } ],
+  "virtualLinkDesc" : [ {
+    "virtualLinkDescId" : "sgi_ehealth_emergency_edge_vl",
+    "virtualLinkDescProvider" : "Nextworks",
+    "virtuaLinkDescVersion" : "0.1",
+    "connectivityType" : {
+      "layerProtocol" : "IPV4",
+      "flowPattern" : null
+    },
+    "virtualLinkDf" : [ {
+      "flavourId" : "sgi_ehealth_emergency_edge_vl_vldf",
+      "qos" : {
+        "latency" : 0,
+        "packetDelayVariation" : 0,
+        "packetLossRatio" : 0,
+        "priority" : 0
+      },
+      "serviceAvaibilityLevel" : "LEVEL_1"
+    } ],
+    "description" : "sgi vLink"
+  }, {
+    "virtualLinkDescId" : "mgt_ehealth_emergency_edge_vl",
+    "virtualLinkDescProvider" : "Nextworks",
+    "virtuaLinkDescVersion" : "0.1",
+    "connectivityType" : {
+      "layerProtocol" : "IPV4",
+      "flowPattern" : null
+    },
+    "virtualLinkDf" : [ {
+      "flavourId" : "mgt_ehealth_emergency_edge_vl_vldf",
+      "qos" : {
+        "latency" : 0,
+        "packetDelayVariation" : 0,
+        "packetLossRatio" : 0,
+        "priority" : 0
+      },
+      "serviceAvaibilityLevel" : "LEVEL_1"
+    } ],
+    "description" : "mgt vLink"
+  }, {
+    "virtualLinkDescId" : "s5_ehealth_emergency_edge_vl",
+    "virtualLinkDescProvider" : "Nextworks",
+    "virtuaLinkDescVersion" : "0.1",
+    "connectivityType" : {
+      "layerProtocol" : "IPV4",
+      "flowPattern" : null
+    },
+    "virtualLinkDf" : [ {
+      "flavourId" : "s5_ehealth_emergency_edge_vl_vldf",
+      "qos" : {
+        "latency" : 0,
+        "packetDelayVariation" : 0,
+        "packetLossRatio" : 0,
+        "priority" : 0
+      },
+      "serviceAvaibilityLevel" : "LEVEL_1"
+    } ],
+    "description" : "s5 vLink"
+  } ],
+  "nsDf" : [ {
+    "nsDfId" : "eHealth-EDGE_df",
+    "flavourKey" : "eHealth-EDGE_df",
+    "vnfProfile" : [ {
+      "vnfProfileId" : "E-PGW_VNF_profile",
+      "vnfdId" : "E-PGW_VNF",
+      "flavourId" : "E-PGW_VNF_df",
+      "instantiationLevel" : "E-PGW_VNF_il",
+      "minNumberOfInstances" : 1,
+      "maxNumberOfInstances" : 1,
+      "nsVirtualLinkConnectivity" : [ {
+        "virtualLinkProfileId" : "sgi_ehealth_emergency_edge_vl_profile",
+        "cpdId" : [ "e_pgw_sgi_extcp" ]
+      }, {
+        "virtualLinkProfileId" : "mgt_ehealth_emergency_edge_vl_profile",
+        "cpdId" : [ "e_pgw_mgt_extcp" ]
+      }, {
+        "virtualLinkProfileId" : "s5_ehealth_emergency_edge_vl_profile",
+        "cpdId" : [ "e_pgw_s5_extcp" ]
+      } ]
+    }, {
+      "vnfProfileId" : "E-SERVER_VNF_profile",
+      "vnfdId" : "E-SERVER_VNF",
+      "flavourId" : "E-SERVER_VNF_df",
+      "instantiationLevel" : "E-SERVER_VNF_il",
+      "minNumberOfInstances" : 1,
+      "maxNumberOfInstances" : 1,
+      "nsVirtualLinkConnectivity" : [ {
+        "virtualLinkProfileId" : "sgi_ehealth_emergency_edge_vl_profile",
+        "cpdId" : [ "e_server_sgi_extcp" ]
+      }, {
+        "virtualLinkProfileId" : "mgt_ehealth_emergency_edge_vl_profile",
+        "cpdId" : [ "e_server_mgt_extcp" ]
+      } ]
+    } ],
+    "virtualLinkProfile" : [ {
+      "virtualLinkProfileId" : "sgi_ehealth_emergency_edge_vl_profile",
+      "virtualLinkDescId" : "sgi_ehealth_emergency_edge_vl",
+      "flavourId" : "sgi_ehealth_emergency_edge_vl_vldf",
+      "maxBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      },
+      "minBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      }
+    }, {
+      "virtualLinkProfileId" : "mgt_ehealth_emergency_edge_vl_profile",
+      "virtualLinkDescId" : "mgt_ehealth_emergency_edge_vl",
+      "flavourId" : "mgt_ehealth_emergency_edge_vl_vldf",
+      "maxBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      },
+      "minBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      }
+    }, {
+      "virtualLinkProfileId" : "s5_ehealth_emergency_edge_vl_profile",
+      "virtualLinkDescId" : "s5_ehealth_emergency_edge_vl",
+      "flavourId" : "s5_ehealth_emergency_edge_vl_vldf",
+      "maxBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      },
+      "minBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      }
+    } ],
+    "nsInstantiationLevel" : [ {
+      "nsLevelId" : "eHealth-EDGE_il_default",
+      "description" : "eHealth-EDGE default instantiation level",
+      "vnfToLevelMapping" : [ {
+        "vnfProfileId" : "E-PGW_VNF_profile",
+        "numberOfInstances" : 1
+      }, {
+        "vnfProfileId" : "E-SERVER_VNF_profile",
+        "numberOfInstances" : 1
+      } ]
+    } ],
+    "defaultNsInstantiationLevelId" : "eHealth-EDGE_il_default"
+  } ],
+  "security" : {
+    "signature" : "SIGNATURE",
+    "algorithm" : "ALGORITHM",
+    "certificate" : "CERTIFICATE"
+  }
+}

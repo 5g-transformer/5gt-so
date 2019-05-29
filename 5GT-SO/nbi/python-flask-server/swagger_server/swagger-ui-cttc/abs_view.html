@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<link type="text/css" rel="stylesheet" href="/static/css/force2.css"/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Abstracted view</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            {% if d3_network|length > 0 %}
+            <div class="chartd3" id="chartd3"></div>
+            <script type="text/javascript" src="/static/js/abs_view_d3.js"></script>
+            <script type="text/javascript">
+                representation({{ d3_network | tojson }});
+            </script>
+            {% endif %}
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <br>
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

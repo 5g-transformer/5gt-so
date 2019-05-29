@@ -1,0 +1,9 @@
+
+div.chartd3 {
+    align: center;
+    width: 100%;
+    height: 470px;
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 0;
+}

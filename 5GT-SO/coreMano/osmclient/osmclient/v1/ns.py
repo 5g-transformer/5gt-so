@@ -23,6 +23,7 @@ from osmclient.common.exceptions import ClientException
 from osmclient.common.exceptions import NotFound
 import uuid
 import yaml
+import sys
 
 
 class Ns(object):
@@ -237,13 +238,19 @@ class Ns(object):
             for key in config['name'].keys(): 
                 # now find this network
                 vim_vld_name = key
-
                 for index, vld in enumerate(nsr['nsd']['vld']):
                     if (vim_vld_name.find(vld['vim-network-name']) != -1):
                         #this is the network I was looking for
                         nsr['nsd']['vld'][index]['vim-network-name'] = vim_vld_name
-                    #print "in osm, the used networks are: ", vim_vld_name 
+                    #print "in osm, the used networks are: ", vim_vld_name
 
+            for key in config['mapping'].keys():
+                vim_vld_name = config['mapping'][key]
+                for index, vld in enumerate(nsr['nsd']['vld']):
+                    if (key.find(vld['vim-network-name']) != -1):
+                        nsr['nsd']['vld'][index]['vim-network-name'] = vim_vld_name
+
+        # print ("en osm-create ns nsr is: ", nsr)
 
         postdata['nsr'].append(nsr)
         # print "in osm-create2 postdata is: ", postdata

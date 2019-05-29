@@ -1,0 +1,1031 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">SO Databases</h1>
+    </div>
+</div>
+
+{% if table_name == 'user'%}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                Users
+                <h4 class="pull-right panel-title">
+                    <a data-toggle="collapse" href="#collapseUserList"><i class="fa fa-toggle-down"></i></a>
+                </h4>
+            </div>
+            <!-- /.panel-heading -->
+            <div id="collapseUserList" class="panel-collapse collapse in">
+                <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        {% if list_users %}
+                        <tr>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Role</th>
+                            <th></th>
+                            <!--<th></th>-->
+                        </tr>
+                        {% endif %}
+                        </thead>
+                        <tbody>
+                        {% for dict_item in list_users %}
+                        <tr>
+                            <td>{{ dict_item.username }}</td>
+                            <td> ************</td>
+                            <td>{{ dict_item.role }}</td>
+                            <td>
+                                <button class="btn btn-default" data-toggle="modal"
+                                        data-target="#userModal{{ dict_item._id }}" title="Modify User"><span
+                                        class="fa fa-edit"></span></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-6 -->
+    <div class="col-lg-6">
+    </div>
+</div>
+{% endif %}
+
+{% if table_name == 'vnfd'%}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                VNFD List
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table width="100%" class="table table-striped table-bordered table-hover">
+                        <thead>
+                        {% if list_vnfds %}
+                        <tr>
+                            <th>Vnfd Id</th>
+                            <th>Vnfd Version</th>
+                            <th>Vnfd Name</th>
+                            <th>Vnfd Json</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        {% endif %}
+                        </thead>
+                        <tbody>
+                        {% for dict_item in list_vnfds %}
+                        <tr>
+                            <td>{{ dict_item.vnfdId }}</td>
+                            <td>{{ dict_item.vnfdVersion }}</td>
+                            <td>{{ dict_item.vnfdName }}</td>
+                            <td>{{ dict_item.vnfdJson }}</td>
+                            <td>
+                                <button class="btn btn-default" data-toggle="modal"
+                                        data-target="#vnfdModal_{{ dict_item._id }}" title="Modify Vnfd Entry"><span
+                                        class="fa fa-edit"></span></button>
+                            </td>
+                            <td>
+                                <form role="form" action="{{ url_for('descriptor_viewer') }}" method="post">
+                                        <button type="submit" class="btn btn-primary" title="Show details"><span class="fa fa-eye"></span></button>
+                                                <input type="hidden" name="show_json" value="{{ dict_item.vnfdJson }}">
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+{% endif %}
+
+{% if table_name == 'nsd'%}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                NSD List
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table width="100%" class="table table-responsive table-hover">
+                        <thead>
+                        {% if list_nsds %}
+                        <tr>
+                            <th>Nsd Id</th>
+                            <th>Nsd Name</th>
+                            <th>Version</th>
+                            <th>Shareable</th>
+                            <th>Domain</th>
+                            <!--<th>Nsd Json</th>-->
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        {% endif %}
+                        </thead>
+                        <tbody>
+                        {% for dict_item in list_nsds %}
+                        <tr>
+                            <td>{{ dict_item.nsdId }}</td>
+                            <td>{{ dict_item.nsdName }}</td>
+                            <td>{{ dict_item.version }}</td>
+                            <td>{{ dict_item.shareable }}</td>
+                            <td>{{ dict_item.domain }}</td>
+                            <!--<td>{{ dict_item.nsdJson }}</td>-->
+                            <td>
+                                <button class="btn btn-default" data-toggle="modal"
+                                        data-target="#nsdModal_{{ dict_item._id }}" title="Modify Nsd Entry"><span
+                                        class="fa fa-edit"></span></button>
+                            </td>
+                            <td>
+                                <button class="btn btn-success" data-toggle="modal"
+                                        data-target="#instantiateNsdModal_{{ dict_item._id }}" title="Instantiate Nsd"><span
+                                        class="fa fa-play"></span></button>
+                            </td>
+                            <td>
+                                <form role="form" action="{{ url_for('descriptor_viewer') }}" method="post">
+                                        <button type="submit" class="btn btn-primary" title="Show details"><span class="fa fa-eye"></span></button>
+                                                <input type="hidden" name="show_json" value="{{ dict_item.nsdJson }}">
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+{% endif %}
+
+{% if table_name == 'ns'%}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                NS List
+                <h4 class="pull-right panel-title">
+                    <a data-toggle="collapse" href="#collapseNsList"><i class="fa fa-toggle-down"></i></a>
+                </h4>
+            </div>
+            <!-- /.panel-heading -->
+            <div id="collapseNsList" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table width="100%" class="table table-bordered table-hover">
+                            <thead>
+                            {% if list_nss %}
+                            <tr>
+                                <th>NS Name</th>
+                                <!--<th>NS Description</th>-->
+                                <th>NS Id</th>
+                                <th>Status</th>
+                                <th>NSD Id</th>
+                                <th>Sap Info</th>
+                                <th>NS Instantiation Level Id</th>
+                                <th>Flavour Id</th>
+                                <th>Used by</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            {% endif %}
+                            </thead>
+                            <tbody>
+                            {% for dict_item in list_nss %}
+                            {% if 'nestedNsId' not in dict_item and 'nested_service_info' not in dict_item %}
+                            <tr>
+                                <td>{{ dict_item.ns_name }}</td>
+                                <!--<td>{{ dict_item.ns_description }}</td>-->
+                                <td>{{ dict_item.nsId }}</td>
+                                <td>{{ dict_item.status }}</td>
+                                <td>{{ dict_item.nsd_id }}</td>
+                                <td>{{ dict_item.sapInfo }}</td>
+                                <td>{{ dict_item.nsInstantiationLevelId }}</td>
+                                <td>{{ dict_item.flavourId }}</td>
+                                <td>{{ dict_item.used_by }}</td>
+                                <td>
+                                    <button class="btn btn-default" data-toggle="modal"
+                                            data-target="#nsModal_{{ dict_item._id }}" title="Modify NS Entry"><span
+                                            class="fa fa-edit"></span></button>
+                                </td>
+                                <td>
+                                    {% if dict_item.status == "INSTANTIATED" %}
+                                    <a href="/ns_view/{{ dict_item.nsId }}" onclick="
+                                        window.open(this.href, 'Test', 'left=200,top=200,width=1024,height=800,toolbar=0,resizable=0');
+                                        return false;" class="btn btn-primary" role="button" title="Show details">
+                                            <span class="fa fa-eye"></span>
+                                    </a>
+                                    {% else %}
+                                    <button class="btn btn-primary" title="Show details" disabled>
+                                        <span class="fa fa-eye"></span>
+                                    </button>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <form role="form" action="{{ url_for('terminate_ns') }}" method="post">
+                                        <input type="hidden" name="nsId" value="{{ dict_item.nsId }}">
+                                        <button type="submit" class="btn btn-danger" title="Terminate NS">
+                                            <span class="fa fa-power-off"></span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                NS Composite List
+                <h4 class="pull-right panel-title">
+                    <a data-toggle="collapse" href="#collapseNsCompositeList"><i class="fa fa-toggle-down"></i></a>
+                </h4>
+            </div>
+            <!-- /.panel-heading -->
+            <div id="collapseNsCompositeList" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table width="100%" class="table table-bordered table-hover">
+                            <thead>
+                            {% if list_nss %}
+                            <tr>
+                                <th>NS Name</th>
+                                <!--<th>NS Description</th>-->
+                                <th>NS Id</th>
+                                <th>Status</th>
+                                <th>NSD Id</th>
+                                <th>Sap Info</th>
+                                <th>NS Instantiation Level Id</th>
+                                <th>Flavour Id</th>
+                                <th>Nested Ns Id</th>
+                                <th>Nested Service Info</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            {% endif %}
+                            </thead>
+                            <tbody>
+                            {% for dict_item in list_nss %}
+                            {% if 'nestedNsId' in dict_item or 'nested_service_info' in dict_item %}
+                            <tr>
+                                <td>{{ dict_item.ns_name }}</td>
+                                <!--<td>{{ dict_item.ns_description }}</td>-->
+                                <td>{{ dict_item.nsId }}</td>
+                                <td>{{ dict_item.status }}</td>
+                                <td>{{ dict_item.nsd_id }}</td>
+                                <td>{{ dict_item.sapInfo }}</td>
+                                <td>{{ dict_item.nsInstantiationLevelId }}</td>
+                                <td>{{ dict_item.flavourId }}</td>
+                                <td>{{ dict_item.nestedNsId }}</td>
+                                <td>{{ dict_item.nested_service_info }}</td>
+                                <td>
+                                    <button class="btn btn-default" data-toggle="modal"
+                                            data-target="#nsModal_{{ dict_item._id }}" title="Modify NS Entry"><span
+                                            class="fa fa-edit"></span></button>
+                                </td>
+                                <td>
+                                    {% if dict_item.status == "INSTANTIATED" %}
+                                    <a href="/ns_view/{{ dict_item.nsId }}" onclick="
+                                        window.open(this.href, 'Test', 'left=200,top=200,width=1024,height=800,toolbar=0,resizable=0');
+                                        return false;" class="btn btn-primary" role="button" title="Show details">
+                                            <span class="fa fa-eye"></span>
+                                    </a>
+                                    {% else %}
+                                    <button class="btn btn-primary" title="Show details" disabled>
+                                        <span class="fa fa-eye"></span>
+                                    </button>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <form role="form" action="{{ url_for('terminate_ns') }}" method="post">
+                                        <input type="hidden" name="nsId" value="{{ dict_item.nsId }}">
+                                        <button type="submit" class="btn btn-danger" title="Terminate NS">
+                                            <span class="fa fa-power-off"></span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+{% endif %}
+
+{% if table_name == 'nsir'%}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                NSIR List
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table width="100%" class="table table-striped table-bordered table-hover">
+                        <thead>
+                        {% if list_nsirs %}
+                        <tr>
+                            <th>NS Id</th>
+                            <th>Placement Info</th>
+                            <th>Network Mapping</th>
+                            <th>Renaming Mapping</th>
+                            <th>VL List</th>
+                            <th></th>
+                        </tr>
+                        {% endif %}
+                        </thead>
+                        <tbody>
+                        {% for dict_item in list_nsirs %}
+                        <tr>
+                            <td>{{ dict_item.nsId }}</td>
+                            <td>{{ dict_item.placement_info }}</td>
+                            <td>{{ dict_item.network_mapping }}</td>
+                            <td>{{ dict_item.renaming_mapping }}</td>
+                            <td>{{ dict_item.vl_list }}</td>
+                            <td>
+                                <button class="btn btn-default" data-toggle="modal"
+                                        data-target="#nsirModal_{{ dict_item._id }}" title="Modify NSIR Entry"><span
+                                        class="fa fa-edit"></span></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+{% endif %}
+
+{% if table_name == 'operation'%}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Operation List
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                    </div>
+                    <label for="operation_filter" class="col-sm-2 col-form-label" style="text-align: right;">Filter by status: </label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="operation_filter" name="operation_filter">
+                            <option selected></option>
+                            <option>PROCESSING</option>
+                            <option>SUCCESSFULLY_DONE</option>
+                            <option>CANCELLED</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table width="100%" class="table table-striped table-bordered table-hover">
+                        <thead>
+                        {% if list_operations %}
+                        <tr>
+                            <th>Operation Id</th>
+                            <th>Status</th>
+                            <th>NS Id</th>
+                            <th>Operation Type</th>
+                        </tr>
+                        {% endif %}
+                        </thead>
+                        <tbody id="test">
+                        {% for dict_item in list_operations %}
+                        <tr {% if dict_item.status == "SUCCESSFULLY_DONE" %} class="success" {% elif dict_item.status == "CANCELLED" %} class="danger" {% endif %}>
+                            <td>{{ dict_item.operationId }}</td>
+                            <td>{{ dict_item.status }} </td>
+                            <td>{{ dict_item.nsId }}</td>
+                            <td>{{ dict_item.operation_type }}</td>
+                            <td>
+                                <button class="btn btn-default" data-toggle="modal"
+                                        data-target="#operationModal_{{ dict_item._id }}" title="Modify Operation Entry"><span
+                                        class="fa fa-edit"></span></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+{% endif %}
+
+<!--Modals for Modify/Delete Entry-->
+
+{% if table_name == 'user'%}
+<!-- Modals for user list-->
+{% for dict_item in list_users %}
+<div class="modal fade" id="userModal{{ dict_item._id }}" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="userlModalLabel">Modify User Fields</h4>
+            </div>
+            <form role="form" action="{{ url_for('modify_element') }}" method="post">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input class="form-control" name="username" value="{{ dict_item.username }}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input class="form-control" name="password" type="password" value="******" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select class="form-control" name="role">
+                                    <option{% if dict_item.role==
+                                    'Admin' %} selected {% endif %}>Admin</option>
+                                    <option{% if dict_item.role==
+                                    'Member' %} selected {% endif %}>Member</option>
+                                </select>
+                            </div>
+                            <input type="hidden" name="id" value="{{ dict_item._id }}">
+                            <input type="hidden" name="table_to_choose" value="user">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-danger" formaction="{{ url_for('delete_element') }}">Delete
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+{% endfor %}
+{% endif %}
+
+{% if table_name == 'vnfd'%}
+<!-- Modals for VNFD list -->
+{% for dict_item in list_vnfds %}
+<div class="modal fade" id="vnfdModal_{{ dict_item._id }}" tabindex="-1" role="dialog"
+     aria-labelledby="vnfdModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="vnfdModalLabel">Modify Vnfd List Fields</h4>
+            </div>
+            <form role="form" action="{{ url_for('modify_element') }}" method="post">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Vnfd Id</label>
+                                <input class="form-control" name="vnfdId" value="{{ dict_item.vnfdId }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Vnfd Version</label>
+                                <input class="form-control" name="vnfdVersion" value="{{ dict_item.vnfdVersion }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Vnfd Name</label>
+                                <input class="form-control" name="vnfdName" value="{{ dict_item.vnfdName }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Vnfd Json</label>
+                                <input class="form-control" name="vnfdJson" value="{{ dict_item.vnfdJson }}" disabled>
+                            </div>
+                            <input type="hidden" name="id" value="{{ dict_item._id }}">
+                            <input type="hidden" name="table_to_choose" value="vnfd">
+                            <!--<div class="form-group">
+                                <label>Role</label>
+                                <input class="form-control" value="{{ dict_item.role }}">
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-danger" formaction="{{ url_for('delete_element') }}">
+                        Delete
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+{% endfor %}
+{% endif %}
+
+{% if table_name == 'nsd'%}
+<!-- Modals for NSD list -->
+{% for dict_item in list_nsds %}
+<div class="modal fade" id="nsdModal_{{ dict_item._id }}" tabindex="-1" role="dialog"
+     aria-labelledby="nsdModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="nsdModalLabel">Modify Nsd List Fields</h4>
+            </div>
+            <form role="form" action="{{ url_for('modify_element') }}" method="post">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>NSD Id</label>
+                                <input class="form-control" name="nsdId" value="{{ dict_item.nsdId }}">
+                            </div>
+                            <div class="form-group">
+                                <label>NSD Version</label>
+                                <input class="form-control" name="version" value="{{ dict_item.version }}">
+                            </div>
+                            <div class="form-group">
+                                <label>NSD Name</label>
+                                <input class="form-control" name="nsdName" value="{{ dict_item.nsdName }}">
+                            </div>
+                            <div class="form-group">
+                                <label>NSD Json</label>
+                                <input class="form-control" name="nsdJson" value="{{ dict_item.nsdJson }}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Shareable</label>
+                                <select class="form-control" name="shareable">
+                                    <option {% if dict_item.shareable == True %} selected {% endif %} value="True">True</option>
+                                    <option {% if dict_item.shareable == False %} selected {% endif %} value="False">False</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Domain</label>
+                                <input class="form-control" name="domain" value="{{ dict_item.domain }}">
+                            </div>
+                            <input type="hidden" name="id" value="{{ dict_item._id }}">
+                            <input type="hidden" name="table_to_choose" value="nsd">
+                            <!--<div class="form-group">
+                                <label>Role</label>
+                                <input class="form-control" value="{{ dict_item.role }}">
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-danger" formaction="{{ url_for('delete_element') }}">
+                        Delete
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="instantiateNsdModal_{{ dict_item._id }}" tabindex="-1" role="dialog"
+     aria-labelledby="instantiateNsdModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="instantiateNsdModalLabel">Instantiate NSD: <i>{{ dict_item.nsdId }}</i></h4>
+            </div>
+            <form role="form" action="{{ url_for('instantiate_nsd') }}" method="post">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>NSD Id</label>
+                                <input class="form-control" name="nsdId" value="{{ dict_item.nsdId }}">
+                            </div>
+                            <div class="form-group">
+                                <label>NS Name</label>
+                                <input class="form-control" name="nsName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>NS Description</label>
+                                <input class="form-control" name="nsDescription" required>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label>Flavour Id</label>
+                                <select class="form-control" name="flavourId">
+                                    <option>{{ dict_item.nsdJson['nsd']['nsDf'][0]['flavourKey'] }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>NS Instantiation Level Id</label>
+                                <select class="form-control" name="nsInstantiationLevelId">
+                                    {% for instantiationLevel in dict_item.nsdJson['nsd']['nsDf'][0]['nsInstantiationLevel'] %}
+                                    <option>{{ instantiationLevel['nsLevelId'] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {% if dict_item.domain == 'Composite' %}
+                            <div class="form-group">
+                                <label>Nested Ns Instance Id
+                                {{ 'eHealth-BE' in dict_item.nsdJson['nsd']['nestedNsdId'] }}</label>
+                                <select class="form-control" name="nestedNsInstanceId">
+                                    <option value=""></option>
+                                    {% for ns in list_nss %}
+                                        {% if ns.nsd_id in dict_item.nsdJson['nsd']['nestedNsdId']%}
+                                        <option value="{{ ns.nsId }}"> {{ ns.ns_name }} - {{ ns.nsd_id }} - {{ ns.nsId }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <!--<input class="form-control" name="nestedNsInstanceId" required>-->
+                            </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <label>Other parameters</label>
+                                <textarea class="form-control" rows="3" name="others" disabled></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success"><span class="fa fa-play"></span> Instantiate</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+{% endfor %}
+{% endif %}
+
+{% if table_name == 'ns'%}
+<!-- Modals for NS list -->
+{% for dict_item in list_nss %}
+<div class="modal fade" id="nsModal_{{ dict_item._id }}" tabindex="-1" role="dialog"
+     aria-labelledby="nsModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="nsModalLabel">Modify Ns List Fields</h4>
+            </div>
+            <form role="form" action="{{ url_for('modify_element') }}" method="post">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>NS Name</label>
+                                <input class="form-control" name="ns_name" value="{{ dict_item.ns_name }}">
+                            </div>
+                            <div class="form-group">
+                                <label>NS Description</label>
+                                <input class="form-control" name="ns_description" value="{{ dict_item.ns_description }}">
+                            </div>
+                            <div class="form-group">
+                                <label>NS Id</label>
+                                <input class="form-control" name="nsId" value="{{ dict_item.nsId }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <input class="form-control" name="status" value="{{ dict_item.status }}">
+                            </div>
+                            <div class="form-group">
+                                <label>NSD Id</label>
+                                <input class="form-control" name="nsd_id" value="{{ dict_item.nsd_id }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Sap Info</label>
+                                <input class="form-control" name="sapInfo" value="{{ dict_item.sapInfo }}">
+                            </div>
+                            <div class="form-group">
+                                <label>NS Instantiation Level Id</label>
+                                <input class="form-control" name="nsInstantiationLevelId" value="{{ dict_item.nsInstantiationLevelId }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Flavour Id</label>
+                                <input class="form-control" name="flavourId" value="{{ dict_item.flavourId }}">
+                            </div>
+                            {% if 'nestedNsId' in dict_item %}
+                            <div class="form-group">
+                                <label>Nested Ns Id</label>
+                                <input class="form-control" name="used_by" value="{{ dict_item.nestedNsId }}">
+                            </div>
+                            {% else %}
+                            <div class="form-group">
+                                <label>Used by</label>
+                                <input class="form-control" name="used_by" value="{{ dict_item.used_by }}">
+                            </div>
+                            {% endif %}
+                            <input type="hidden" name="id" value="{{ dict_item._id }}">
+                            <input type="hidden" name="table_to_choose" value="ns">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-danger" formaction="{{ url_for('delete_element') }}">
+                        Delete
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+{% endfor %}
+{% endif %}
+
+{% if table_name == 'nsir'%}
+<!-- Modals for NSIR list -->
+{% for dict_item in list_nsirs %}
+<div class="modal fade" id="nsirModal_{{ dict_item._id }}" tabindex="-1" role="dialog"
+     aria-labelledby="nsirModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="nsirModalLabel">Modify NSIR List Fields</h4>
+            </div>
+            <form role="form" action="{{ url_for('modify_element') }}" method="post">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>NS Id</label>
+                                <input class="form-control" name="nsId" value="{{ dict_item.nsId }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Placement Info</label>
+                                <input class="form-control" name="placement_info" value="{{ dict_item.placement_info }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Network Mapping</label>
+                                <input class="form-control" name="placement_info" value="{{ dict_item.network_mapping }}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Renaming Mapping</label>
+                                <input class="form-control" name="placement_info" value="{{ dict_item.renaming_mapping }}" disabled>
+                            </div>
+                            renaming_mapping
+                            <div class="form-group">
+                                <label>VL List</label>
+                                <input class="form-control" name="vl_list" value="{{ dict_item.vl_list }}" disabled>
+                            </div>
+                            <input type="hidden" name="id" value="{{ dict_item._id }}">
+                            <input type="hidden" name="table_to_choose" value="nsir">
+                            <!--<div class="form-group">
+                                <label>Role</label>
+                                <input class="form-control" value="{{ dict_item.role }}">
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-danger" formaction="{{ url_for('delete_element') }}">
+                        Delete
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+{% endfor %}
+{% endif %}
+
+{% if table_name == 'operation'%}
+<!-- Modals for operation list -->
+{% for dict_item in list_operations %}
+<div class="modal fade" id="operationModal_{{ dict_item._id }}" tabindex="-1" role="dialog"
+     aria-labelledby="operationModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="operationModalLabel">Modify Operation List Fields</h4>
+            </div>
+            <form role="form" action="{{ url_for('modify_element') }}" method="post">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Operation Id</label>
+                                <input class="form-control" name="operationId" value="{{ dict_item.operationId }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <input class="form-control" name="status" value="{{ dict_item.status }}">
+                            </div>
+                            <div class="form-group">
+                                <label>NS Id</label>
+                                <input class="form-control" name="nsId" value="{{ dict_item.nsId }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Operation Type</label>
+                                <input class="form-control" name="operation_type" value="{{ dict_item.operation_type }}">
+                            </div>
+                            <input type="hidden" name="id" value="{{ dict_item._id }}">
+                            <input type="hidden" name="table_to_choose" value="operation">
+                            <!--<div class="form-group">
+                                <label>Role</label>
+                                <input class="form-control" value="{{ dict_item.role }}">
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-danger" formaction="{{ url_for('delete_element') }}">
+                        Delete
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+{% endfor %}
+<script>
+ $(document).ready(function(){
+    $("#operation_filter").on("change", function() {
+       var value = $(this).val().toLowerCase();
+       $("#test tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+       });
+    });
+ });
+</script>
+{% endif %}
+
+<!--Modals for New Entry-->
+
+{% if table_name == 'domain'%}
+<!-- Modal for new domain list -->
+<div class="modal fade" id="newDomainModal" tabindex="-1" role="dialog" aria-labelledby="newDomainModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="newDomainModalLabel">Modify Domain List Fields</h4>
+            </div>
+            <form role="form" action="{{ url_for('create_element') }}" method="post">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input class="form-control" name="name">
+                            </div>
+                            <!--<div class="form-group">
+                                <label>Type</label>
+                                <input class="form-control" name="type">
+                            </div>-->
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select class="form-control" name="type">
+                                    <option>VIM</option>
+                                    <option>WIM</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>IP Address</label>
+                                <input class="form-control" name="ip">
+                            </div>
+                            <div class="form-group">
+                                <label>Port</label>
+                                <input class="form-control" name="port">
+                            </div>
+                            <div class="form-group">
+                                <label>Url</label>
+                                <input class="form-control" name="url">
+                            </div>
+                            <div class="form-group">
+                                <label>User Name</label>
+                                <input class="form-control" name="username">
+                            </div>
+                            <div class="form-group">
+                                <label>User Password</label>
+                                <input class="form-control" name="userpassword">
+                            </div>
+                            <div class="form-group">
+                                <label>Tenant Name</label>
+                                <input class="form-control" name="tenantName">
+                            </div>
+                            <input type="hidden" name="table_to_choose" value="domainlist">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+{% endif %}
+
+
+{% endblock %}

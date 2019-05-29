@@ -29,6 +29,7 @@ from db.ns_db.ns_db import empty_ns_collection
 from db.operation_db.operation_db import empty_operation_collection
 from db.resources_db.resources_db import empty_resources_collection
 from db.nsir_db.nsir_db import empty_nsir_collection
+from coreMano.osm_db.osm_db import empty_osm_collection
 
 
 def main():
@@ -40,12 +41,13 @@ def main():
     empty_operation_collection()
     empty_resources_collection()
     empty_nsir_collection()
+    empty_osm_collection()
 
     # path to descriptors folders
     path = "../../descriptors/"
 
     # list of file names that contain ns and vnf descriptors
-    ns_descriptors = ["CDN_all_NSD_0_2.json"]
+    ns_descriptors = ["CDN_all_NSD_0_4.json"]
     vnf_descriptors = ["CDN_SPR1_VNFD_0_2.json", "CDN_SPR21_VNFD_0_2.json", "CDN_SPR22_VNFD_0_2.json",
                        "CDN_WEBSERVER_VNFD_0_2.json"]
 

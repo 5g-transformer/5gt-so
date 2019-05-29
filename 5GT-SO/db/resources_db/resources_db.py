@@ -31,32 +31,7 @@ fgtso_db = resources_client.fgtso
 resources_coll = fgtso_db.resources
 
 
-def lock_resources_db():
-    """
-    Get read/write lock on the DB.
-    Parameters
-    ----------
-    None
-    Returns
-    -------
-    None
-    """
-    pass
-
-
-def unlock_resources_db():
-    """
-    Release read/write lock on the DB.
-    Parameters
-    ----------
-    None
-    Returns
-    -------
-    None
-    """
-    pass
-
-
+####### SO methods
 def get_mtp_resources():
     """
     Function to get the available virtual resources of the MTP.
@@ -108,3 +83,15 @@ def empty_resources_collection():
     None
     """
     resources_coll.delete_many({})
+
+####### GUI methods
+def get_all_resources():
+    """
+    Returns all the resources in che collection
+    Parameters
+    ----------
+    Returns
+    -------
+    list of dict
+    """
+    return list(resources_coll.find())

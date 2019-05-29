@@ -23,6 +23,7 @@ vnfdJson: IFA014 json descriptor
 
 
 # mongodb imports
+from bson import ObjectId
 from pymongo import MongoClient
 
 # project imports
@@ -35,6 +36,29 @@ fgtso_db = vnfd_client.fgtso
 
 # create vnfd catalogue
 vnfd_coll = fgtso_db.vnfd
+
+
+####### SO methods
+def exists_vnfd(vnfdId, version=None):
+    """
+    Function to check if an VNFD with identifier "vnfdId" exists.
+    Parameters
+    ----------
+    vnfdId: string
+        Identifier of the Virtual Network Function Descriptor
+    Returns
+    -------
+    boolean
+        returns True if a VNFD with Id "vnfdId" exists in "vnfd_coll". Returns False otherwise.
+    """
+    vnfd_json = None
+    if version is None:
+        vnfd_json = vnfd_coll.find_one({"vnfdId": vnfdId})
+    else:
+        vnfd_json = vnfd_coll.find_one({"vnfdId": vnfdId, "vnfdVersion": version})
+    if vnfd_json is None:
+        return False
+    return True
 
 
 def insert_vnfd(vnfd_record):
@@ -56,7 +80,7 @@ def insert_vnfd(vnfd_record):
     vnfd_coll.insert_one(vnfd_record)
 
 
-def get_vnfd_json(vnfdId, version):
+def get_vnfd_json(vnfdId, version=None):
     """
     Returns the json descriptor of the VNFD referenced by vnfdId.
     Parameters
@@ -69,7 +93,7 @@ def get_vnfd_json(vnfdId, version):
     -------
     dictionary with the VNFD json saved in the catalogue that correspond to the vnfdId/version
     """
-    if version is not None:
+    if (version is not None and version !="NONE"):
         vnfd_json = vnfd_coll.find_one({"vnfdId": vnfdId, "vnfdVersion": version})
         if vnfd_json is None:
             return None
@@ -79,6 +103,30 @@ def get_vnfd_json(vnfdId, version):
         if vnfd_json is None:
             return None
         return vnfd_json["vnfdJson"]
+
+def delete_vnfd_json(vnfdId, version=None):
+    """
+    Returns True if the referenced descriptor has been deleted from the catalog.
+    Parameters
+    ----------
+    vnfdId: string
+        Identifier of the Network Service Descriptor
+    version: string
+        Version of the NSD
+    Returns
+    -------
+    boolean
+    """
+    vnfd_query = None
+    if (version is not None and version != "NONE"):
+        vnfd_query = {"vnfdId": vnfdId, "version": version}
+    else:
+        vnfd_query= {"vnfdId": vnfdId}        
+    if vnfd_query is None:
+        return False
+    else:
+        vnfd_coll.delete_one(vnfd_query)
+        return True
 
 
 def empty_vnfd_collection():
@@ -92,3 +140,46 @@ def empty_vnfd_collection():
     None
     """
     vnfd_coll.delete_many({})
+
+
+####### GUI methods
+def get_all_vnfd():
+    """
+    Returns all the vnfds in che collection
+    Parameters
+    ----------
+    Returns
+    -------
+    list of dict
+    """
+    return list(vnfd_coll.find())
+
+
+def update_vnfd(id, body):
+    """
+    Update a vnfd from the collection filtered by the id parameter
+    Parameters
+    ----------
+    id: _id of vnfd
+    body: body to update
+    Returns
+    -------
+    ???
+    """
+    output = vnfd_coll.update({"_id": ObjectId(id)}, {"$set": body})
+    # print(output)
+    return output
+
+
+def remove_vnfd_by_id(id):
+    """
+    Remove a Vnfd from the collection filtered by the id parameter
+    Parameters
+    ----------
+    id: _id of vnfd
+    Returns
+    -------
+    dict
+    """
+    output = vnfd_coll.remove({"_id": ObjectId(id)})
+    # print(output)

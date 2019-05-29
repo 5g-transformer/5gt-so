@@ -17,92 +17,12 @@ File description
 """
 
 # python imports
-from http.client import HTTPConnection
-from six.moves.configparser import RawConfigParser
 from json import dumps, loads
+
 # project imports
 from db.nsir_db import nsir_db
 from nbi import log_queue
-
-
-########################################################################################################################
-# PRIVATE METHODS                                                                                                      #
-########################################################################################################################
-
-
-def deploy_vl(vl):
-    """
-    Function description
-    Parameters
-    ----------
-    param1: type
-        param1 description
-    Returns
-    -------
-    name: type
-        return description
-    """
-    # read mtp properties
-    config = RawConfigParser()
-    config.read("../../mtp.properties")
-    mtp_ip = config.get("MTP", "mtp.ip")
-    mtp_port = config.get("MTP", "mtp.port")
-    mtp_path = config.get("MTP", "mtp.path")
-    mtp_uri = "http://" + mtp_ip + ":" + mtp_port + mtp_path + "/resources"
-    # connect to MTP aznd make the request
-    header = {'Content-Type': 'application/json',
-              'Accept': 'application/json'}
-    deployed_vl_info = {}
-    try:
-        conn = HTTPConnection(mtp_ip, mtp_port)
-        conn.request("POST", mtp_uri, dumps(vl), header)
-        rsp = conn.getresponse()
-        deployed_vl_info = rsp.read()
-        deployed_vl_info = deployed_vl_info.decode("utf-8")
-        deployed_vl_info = loads(deployed_vl_info)
-        log_queue.put(["DEBUG", "deployed vls info from MTP are:"])
-        log_queue.put(["DEBUG", dumps(deployed_vl_info, indent=4)])
-        conn.close()
-    except ConnectionRefusedError:
-        # the MTP server is not running or the connection configuration is wrong
-        log_queue.put(["ERROR", "the MTP server is not running or the connection configuration is wrong"])
-    return deployed_vl_info["interNfviPopConnnectivityId"]
-
-
-def uninstall_vl(vl):
-    """
-    Function description
-    Parameters
-    ----------
-    param1: type
-        param1 description
-    Returns
-    -------
-    name: type
-        return description
-    """
-    # ask mtp to deploy vl
-    # read mtp properties
-    config = RawConfigParser()
-    config.read("../../mtp.properties")
-    mtp_ip = config.get("MTP", "mtp.ip")
-    mtp_port = config.get("MTP", "mtp.port")
-    mtp_path = config.get("MTP", "mtp.path")
-    mtp_uri = "http://" + mtp_ip + ":" + mtp_port + mtp_path + "/resources"
-    # connect to MTP aznd make the request
-    header = {'Content-Type': 'application/json',
-              'Accept': 'application/json'}
-    body = {"interNfviPopConnnectivityId": vl,
-            "metaData": []}
-    try:
-        conn = HTTPConnection(mtp_ip, mtp_port)
-        conn.request("DELETE", mtp_uri, dumps(body), header)
-        rsp = conn.getresponse()
-        deployed_vl_info = rsp.read()
-        conn.close()
-    except ConnectionRefusedError:
-        # the MTP server is not running or the connection configuration is wrong
-        log_queue.put(["ERROR", "the MTP server is not running or the connection configuration is wrong"])
+from sbi import sbi
 
 
 ########################################################################################################################
@@ -115,22 +35,52 @@ def deploy_vls(vl_list, nsId):
     Function description
     Parameters
     ----------
-    param1: type
-        param1 description
+    vl_list: list of dicts
+        list of vls to deploy where each element of the list is a dict with the following format:
+    nsId: string
+        Identifier of the logical link to perform the update operation
     Returns
     -------
-    name: type
-        return description
+    None
     """
-    # save virtual links info related to nsId so it can be freed at terminate
-    nsir_db.save_vls(vl_list, nsId)
-    # deploy
+    # deploy: you make only a single call with all the logical links for the network service
     mtp_vl_ids = []
-    for vl in vl_list:
-        vlid = deploy_vl(vl)
-        mtp_vl_ids.append(vlid)
-    nsir_db.save_vls(mtp_vl_ids, nsId)
+    if (len (vl_list["logicalLinkPathList"]) > 0):
+        mtp_vl_ids = sbi.deploy_vl(vl_list, nsId)
+    vl_info = []
+    for i in range(0, len(mtp_vl_ids)):
+        vl_info.append({mtp_vl_ids[i]: vl_list["logicalLinkPathList"][i]})
+    nsir_db.save_vls(vl_info, nsId)
 
+def update_vls(nsId, vl_list, vls_ids_to_remove):
+    """
+    Method to update logical links on a network service when required, such as a scaling procedure
+    Parameters
+    ----------
+    nsId: string
+        Identifier of the logical link to perform the update operation
+    vl_list: list of dicts
+        list of vls to deploy by the mtp
+    vl_ids_to_remove:
+        list of vls_ids to remove
+    Returns
+    -------
+    None
+    """
+    #links to add
+    mtp_vl_ids = []
+    vl_info = []
+    mtp_vl_ids = sbi.deploy_vl(vl_list, nsId)
+    for i in range(0, len(mtp_vl_ids)):
+        vl_info.append({mtp_vl_ids[i]: vl_list["logicalLinkAttributes"][i]})
+    vl_list_prev = nsir_db.get_vls(nsId)
+    vl_total = vl_list_prev + vl_info
+    nsir_db.save_vls(vl_total, nsId)
+    #ids to remove
+    for ids in vls_ids_to_remove:
+        vl_info.append({"interNfviPopConnnectivityId":ids})
+    sbi.uninstall_vl(vl_info, nsId)
+    nsir_db.delete_vls(nsId,vls_ids_to_remove)
 
 def uninstall_vls(nsId):
     """
@@ -145,7 +95,13 @@ def uninstall_vls(nsId):
         return description
     """
     # get virtual links of the nsID
-    vl_list = nsir_db.get_vls(nsId)
-    # uninstall
-    for vl in vl_list:
-        uninstall_vl(vl)
+    vl = nsir_db.get_vls(nsId)
+    # with one request we remove all the established logical links
+    vl_list = []
+    for index in range(0,len(vl)):
+        key = next(iter(vl[index]))
+        log_queue.put(["DEBUG", "remove ll: %s"%key])
+        vl_list.append({"interNfviPopConnnectivityId":key})
+    if (len(vl_list) > 0):
+        sbi.uninstall_vl(vl_list, nsId)
+

@@ -34,45 +34,29 @@ def createWrapper():
     """
 
     # read properties file and get MANO name and IP
+    log_queue.put(["INFO", "In create Wrapper"])
     config = RawConfigParser()
     config.read("../../coreMano/coreMano.properties")
-    name = config.get("CoreMano", "coreMano.name")
-    host_ip = config.get("CoreMano", "coreMano.ip")
-
+    config.optionxform = str  # case sensitive
+    name = config.get("CoreMano", "name")
+    host_ip = config.get("CoreMano", "ip")
+    log_queue.put(["INFO", "In create Wrapper name %s, host_ip %s" % (name, host_ip)])
     # instanciate and return the MANO
+    mano = None
     if name == "osm":
-        mano = OsmWrapper(name, host_ip)
+        log_queue.put(["INFO", "In create Wrapper, if osm"])
+        release = config.get("OSM", "release")
+        if release == "3":
+            ro_ip = config.get("OSM", "ro_host")
+        else:
+            ro_ip = None
+        # print "MANO: ", name, "release:", release
+        log_queue.put(["INFO", "In create Wrapper name %s, host_ip %s, ro_ip %s, release %s" %
+                       (name, host_ip, ro_ip, release)])
+        mano = OsmWrapper(name, host_ip, ro_ip, release)
+        log_queue.put(["INFO", "In create Wrapper, created osmWrapper"])
     if name == "cloudify":
         mano = CloudifyWrapper(name, host_ip)
+    # log_queue.put(["INFO", "In create Wrapper, before return"])
+    # log_queue.put(["INFO", "In create Wrapper, mano is %s" % mano])
     return mano
-
-#     def instantiate_ns(self, nsi_id, ns_descriptor, body, placement_info):
-#         """
-#         Instanciates the network service identified by nsi_id, according to the infomation contained in the body and
-#         placement info.
-#         Parameters
-#         ----------
-#         nsi_id: string
-#             identifier of the network service instance
-#         ns_descriptor: dict
-#             json containing the nsd and vnfd's of the network service retrieved from catalogue
-#         body: http request body
-#             contains the flavourId nsInstantiationLevelId parameters
-#         placement_info: dict
-#             result of the placement algorithm
-#         Returns
-#         -------
-#         To be defined
-#         """
-#
-#     def terminate_ns(self, nsi_id):
-#         """
-#         Terminates the network service identified by nsi_id.
-#         Parameters
-#         ----------
-#         nsi_id: string
-#             identifier of the network service instance
-#         Returns
-#         -------
-#         To be defined
-#         """

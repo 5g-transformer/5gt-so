@@ -1,0 +1,242 @@
+{
+  "nsdIdentifier" : "eHealth-emergency-NS",
+  "designer" : "UC3M-Nextworks",
+  "version" : "0.1",
+  "nsdName" : "eHealth emergency monitoring service",
+  "nsdInvariantId" : "eHealth-emergency-NS_0.1",
+  "nestedNsdId" : [ "eHealth-Mon-NS", "eHealth-EDGE" ],
+  "sapd" : [ {
+    "cpdId" : "s1c_s1u_ehealth_emergency_sap",
+    "layerProtocol" : "IPV4",
+    "description" : "Radio SAP",
+    "addressData" : [ {
+      "addressType" : "IP_ADDRESS",
+      "iPAddressAssignment" : false,
+      "floatingIpActivated" : false,
+      "management" : false,
+      "iPAddressType" : "IPv4",
+      "numberOfIpAddress" : 1
+    } ],
+    "sapAddressAssignment" : false,
+    "associatedCpdId" : "s1c_s1u_ehealth_mon_sap"
+  }, {
+    "cpdId" : "mgt_ehealth_emergency_sap",
+    "layerProtocol" : "IPV4",
+    "description" : "Mgt SAP",
+    "addressData" : [ {
+      "addressType" : "IP_ADDRESS",
+      "iPAddressAssignment" : false,
+      "floatingIpActivated" : true,
+      "management" : true,
+      "iPAddressType" : "IPv4",
+      "numberOfIpAddress" : 1
+    } ],
+    "sapAddressAssignment" : false,
+    "nsVirtualLinkDescId" : "mgt_ehealth_mon_vl"
+  } ],
+  "virtualLinkDesc" : [ {
+    "virtualLinkDescId" : "s5_ehealth_emergency_vl",
+    "virtualLinkDescProvider" : "Nextworks",
+    "virtuaLinkDescVersion" : "0.1",
+    "connectivityType" : {
+      "layerProtocol" : "IPV4",
+      "flowPattern" : null
+    },
+    "virtualLinkDf" : [ {
+      "flavourId" : "s5_ehealth_emergency_vl_vldf",
+      "qos" : {
+        "latency" : 0,
+        "packetDelayVariation" : 0,
+        "packetLossRatio" : 0,
+        "priority" : 0
+      },
+      "serviceAvaibilityLevel" : "LEVEL_1"
+    } ],
+    "description" : "s5 vLink"
+  }, {
+    "virtualLinkDescId" : "sgi_ehealth_emergency_vl",
+    "virtualLinkDescProvider" : "Nextworks",
+    "virtuaLinkDescVersion" : "0.1",
+    "connectivityType" : {
+      "layerProtocol" : "IPV4",
+      "flowPattern" : null
+    },
+    "virtualLinkDf" : [ {
+      "flavourId" : "sgi_ehealth_emergency_vl_vldf",
+      "qos" : {
+        "latency" : 0,
+        "packetDelayVariation" : 0,
+        "packetLossRatio" : 0,
+        "priority" : 0
+      },
+      "serviceAvaibilityLevel" : "LEVEL_1"
+    } ],
+    "description" : "sgi vLink"
+  }, {
+    "virtualLinkDescId" : "mgt_ehealth_emergency_vl",
+    "virtualLinkDescProvider" : "Nextworks",
+    "virtuaLinkDescVersion" : "0.1",
+    "connectivityType" : {
+      "layerProtocol" : "IPV4",
+      "flowPattern" : null
+    },
+    "virtualLinkDf" : [ {
+      "flavourId" : "mgt_ehealth_emergency_vl_vldf",
+      "qos" : {
+        "latency" : 0,
+        "packetDelayVariation" : 0,
+        "packetLossRatio" : 0,
+        "priority" : 0
+      },
+      "serviceAvaibilityLevel" : "LEVEL_1"
+    } ],
+    "description" : "mgt vLink"
+  } ],
+  "nsDf" : [ {
+    "nsDfId" : "eHealth-emergency-NS_df",
+    "flavourKey" : "eHealth-emergency-NS_df",
+    "virtualLinkProfile" : [ {
+      "virtualLinkProfileId" : "s5_ehealth_emergency_vl_profile",
+      "virtualLinkDescId" : "s5_ehealth_emergency_vl",
+      "flavourId" : "s5_ehealth_emergency_vl_vldf",
+      "maxBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      },
+      "minBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      }
+    }, {
+      "virtualLinkProfileId" : "sgi_ehealth_emergency_vl_profile",
+      "virtualLinkDescId" : "sgi_ehealth_emergency_vl",
+      "flavourId" : "sgi_ehealth_emergency_vl_vldf",
+      "maxBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      },
+      "minBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      }
+    }, {
+      "virtualLinkProfileId" : "mgt_ehealth_emergency_vl_profile",
+      "virtualLinkDescId" : "mgt_ehealth_emergency_vl",
+      "flavourId" : "mgt_ehealth_emergency_vl_vldf",
+      "maxBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      },
+      "minBitrateRequirements" : {
+        "root" : "1",
+        "leaf" : "1"
+      }
+    } ],
+    "nsInstantiationLevel" : [ {
+      "nsLevelId" : "eHealth-emergency-NS_il_small",
+      "description" : "eHealth-emergency-NS small instantiation level",
+      "nsToLevelMapping" : [ {
+        "nsProfileId" : "eHealth-EDGE_profile_default",
+        "numberOfInstances" : 1
+      }, {
+        "nsProfileId" : "eHealth-Mon-NS_profile_small",
+        "numberOfInstances" : 1
+      } ]
+    }, {
+      "nsLevelId" : "eHealth-emergency-NS_il_medium",
+      "description" : "eHealth-emergency-NS medium instantiation level",
+      "nsToLevelMapping" : [ {
+        "nsProfileId" : "eHealth-EDGE_profile_default",
+        "numberOfInstances" : 1
+      }, {
+        "nsProfileId" : "eHealth-Mon-NS_profile_medium",
+        "numberOfInstances" : 1
+      } ]
+    }, {
+      "nsLevelId" : "eHealth-emergency-NS_il_big",
+      "description" : "eHealth-emergency-NS big instantiation level",
+      "nsToLevelMapping" : [ {
+        "nsProfileId" : "eHealth-EDGE_profile_default",
+        "numberOfInstances" : 1
+      }, {
+        "nsProfileId" : "eHealth-Mon-NS_profile_big",
+        "numberOfInstances" : 1
+      } ]
+    } ],
+    "defaultNsInstantiationLevelId" : "eHealth-emergency-NS_il_small",
+    "nsProfile" : [ {
+      "nsProfileId" : "eHealth-Mon-NS_profile_small",
+      "nsdId" : "eHealth-Mon-NS",
+      "nsDfId" : "eHealth-Mon-NS_df",
+      "nsInstantiationLevelId" : "eHealth-Mon-NS_il_small",
+      "minNumberOfInstances" : 1,
+      "maxNumberOfInstances" : 1,
+      "nsVirtualLinkConnectivity" : [ {
+        "virtualLinkProfileId" : "s5_ehealth_emergency_vl_profile",
+        "cpdId" : [ "s5_ehealth_mon_sap" ]
+      }, {
+        "virtualLinkProfileId" : "sgi_ehealth_emergency_vl_profile",
+        "cpdId" : [ "sgi_ehealth_mon_sap" ]
+      }, {
+        "virtualLinkProfileId" : "mgt_ehealth_emergency_vl_profile",
+        "cpdId" : [ "mgt_ehealth_mon_sap" ]
+      } ]
+    }, {
+      "nsProfileId" : "eHealth-Mon-NS_profile_medium",
+      "nsdId" : "eHealth-Mon-NS",
+      "nsDfId" : "eHealth-Mon-NS_df",
+      "nsInstantiationLevelId" : "eHealth-Mon-NS_il_medium",
+      "minNumberOfInstances" : 1,
+      "maxNumberOfInstances" : 1,
+      "nsVirtualLinkConnectivity" : [ {
+        "virtualLinkProfileId" : "s5_ehealth_emergency_vl_profile",
+        "cpdId" : [ "s5_ehealth_mon_sap" ]
+      }, {
+        "virtualLinkProfileId" : "sgi_ehealth_emergency_vl_profile",
+        "cpdId" : [ "sgi_ehealth_mon_sap" ]
+      }, {
+        "virtualLinkProfileId" : "mgt_ehealth_emergency_vl_profile",
+        "cpdId" : [ "mgt_ehealth_mon_sap" ]
+      } ]
+    }, {
+      "nsProfileId" : "eHealth-Mon-NS_profile_big",
+      "nsdId" : "eHealth-Mon-NS",
+      "nsDfId" : "eHealth-Mon-NS_df",
+      "nsInstantiationLevelId" : "eHealth-Mon-NS_il_big",
+      "minNumberOfInstances" : 1,
+      "maxNumberOfInstances" : 1,
+      "nsVirtualLinkConnectivity" : [ {
+        "virtualLinkProfileId" : "s5_ehealth_emergency_vl_profile",
+        "cpdId" : [ "s5_ehealth_mon_sap" ]
+      }, {
+        "virtualLinkProfileId" : "sgi_ehealth_emergency_vl_profile",
+        "cpdId" : [ "sgi_ehealth_mon_sap" ]
+      }, {
+        "virtualLinkProfileId" : "mgt_ehealth_emergency_vl_profile",
+        "cpdId" : [ "mgt_ehealth_mon_sap" ]
+      } ]
+    }, {
+      "nsProfileId" : "eHealth-EDGE_profile_default",
+      "nsdId" : "eHealth-EDGE",
+      "nsDfId" : "eHealth-EDGE_df",
+      "nsInstantiationLevelId" : "eHealth-EDGE_il_default",
+      "minNumberOfInstances" : 1,
+      "maxNumberOfInstances" : 1,
+      "nsVirtualLinkConnectivity" : [ {
+        "virtualLinkProfileId" : "s5_ehealth_emergency_vl_profile",
+        "cpdId" : [ "s5_ehealth_emergency_edge_sap" ]
+      }, {
+        "virtualLinkProfileId" : "sgi_ehealth_emergency_vl_profile",
+        "cpdId" : [ "sgi_ehealth_emergency_edge_sap" ]
+      }, {
+        "virtualLinkProfileId" : "mgt_ehealth_emergency_vl_profile",
+        "cpdId" : [ "mgt_ehealth_emergency_edge_sap" ]
+      } ]
+    } ]
+  } ],
+  "security" : {
+    "signature" : "SIGNATURE",
+    "algorithm" : "ALGORITHM",
+    "certificate" : "CERTIFICATE"
+  }
+}

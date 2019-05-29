@@ -1,4 +1,4 @@
-# Author: Inaki Pascual
+# Author: Inaki Pascual, Jordi Baranda
 # Copyright (C) 2018 CTTC/CERCA
 # License: To be defined. Currently use is restricted to partners of the 5G-Transformer project,
 #          http://5g-transformer.eu/, no use or redistribution of any kind outside the 5G-Transformer project is
@@ -14,6 +14,12 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
+from swagger_server.models.affinity_or_anti_affinity_rule_im import AffinityOrAntiAffinityRuleIm  # noqa: F401,E501
+from swagger_server.models.params_for_vnf_im import ParamsForVnfIm  # noqa: F401,E501
+from swagger_server.models.pnf_info_im import PnfInfoIm  # noqa: F401,E501
+from swagger_server.models.sap_data_im import SapDataIm  # noqa: F401,E501
+from swagger_server.models.vnf_instance_data_im import VnfInstanceDataIm  # noqa: F401,E501
+from swagger_server.models.vnf_location_constraint_im import VnfLocationConstraintIm  # noqa: F401,E501
 from swagger_server import util
 
 
@@ -23,26 +29,71 @@ class NsInstantiationRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, flavour_id: str=None, ns_instantiation_level_id: str=None):  # noqa: E501
+    def __init__(self, flavour_id: str=None, ns_instantiation_level_id: str=None, sap_data: List[SapDataIm]=None, pnf_info: List[PnfInfoIm]=None, vnf_instance_data: List[VnfInstanceDataIm]=None, nested_ns_instance_id: List[str]=None, location_constraints: List[VnfLocationConstraintIm]=None, additional_param_for_ns: Dict[str, str]=None, additional_param_for_vnf: List[ParamsForVnfIm]=None, start_time: str=None, additional_affinity_or_anti_affinity_rule: List[AffinityOrAntiAffinityRuleIm]=None):  # noqa: E501
         """NsInstantiationRequest - a model defined in Swagger
 
         :param flavour_id: The flavour_id of this NsInstantiationRequest.  # noqa: E501
         :type flavour_id: str
         :param ns_instantiation_level_id: The ns_instantiation_level_id of this NsInstantiationRequest.  # noqa: E501
         :type ns_instantiation_level_id: str
+        :param sap_data: The sap_data of this NsInstantiationRequest.  # noqa: E501
+        :type sap_data: List[SapDataIm]
+        :param pnf_info: The pnf_info of this NsInstantiationRequest.  # noqa: E501
+        :type pnf_info: List[PnfInfoIm]
+        :param vnf_instance_data: The vnf_instance_data of this NsInstantiationRequest.  # noqa: E501
+        :type vnf_instance_data: List[VnfInstanceDataIm]
+        :param nested_ns_instance_id: The nested_ns_instance_id of this NsInstantiationRequest.  # noqa: E501
+        :type nested_ns_instance_id: List[str]
+        :param location_constraints: The location_constraints of this NsInstantiationRequest.  # noqa: E501
+        :type location_constraints: List[VnfLocationConstraintIm]
+        :param additional_param_for_ns: The additional_param_for_ns of this NsInstantiationRequest.  # noqa: E501
+        :type additional_param_for_ns: Dict[str, str]
+        :param additional_param_for_vnf: The additional_param_for_vnf of this NsInstantiationRequest.  # noqa: E501
+        :type additional_param_for_vnf: List[ParamsForVnfIm]
+        :param start_time: The start_time of this NsInstantiationRequest.  # noqa: E501
+        :type start_time: str
+        :param additional_affinity_or_anti_affinity_rule: The additional_affinity_or_anti_affinity_rule of this NsInstantiationRequest.  # noqa: E501
+        :type additional_affinity_or_anti_affinity_rule: List[AffinityOrAntiAffinityRuleIm]
         """
         self.swagger_types = {
             "flavour_id": str,
-            "ns_instantiation_level_id": str
+            "ns_instantiation_level_id": str,
+            "sap_data": List[SapDataIm],
+            "pnf_info": List[PnfInfoIm],
+            "vnf_instance_data": List[VnfInstanceDataIm],
+            "nested_ns_instance_id": List[str],
+            "location_constraints": List[VnfLocationConstraintIm],
+            "additional_param_for_ns": Dict[str, str],
+            "additional_param_for_vnf": List[ParamsForVnfIm],
+            "start_time": str,
+            "additional_affinity_or_anti_affinity_rule": List[AffinityOrAntiAffinityRuleIm]
         }
 
         self.attribute_map = {
             "flavour_id": "flavourId",
-            "ns_instantiation_level_id": "nsInstantiationLevelId"
+            "ns_instantiation_level_id": "nsInstantiationLevelId",
+            "sap_data": "sapData",
+            "pnf_info": "pnfInfo",
+            "vnf_instance_data": "vnfInstanceData",
+            "nested_ns_instance_id": "nestedNsInstanceId",
+            "location_constraints": "locationConstraints",
+            "additional_param_for_ns": "additionalParamForNs",
+            "additional_param_for_vnf": "additionalParamForVnf",
+            "start_time": "startTime",
+            "additional_affinity_or_anti_affinity_rule": "additionalAffinityOrAntiAffinityRule"
         }
 
         self._flavour_id = flavour_id
         self._ns_instantiation_level_id = ns_instantiation_level_id
+        self._sap_data = sap_data
+        self._pnf_info = pnf_info
+        self._vnf_instance_data = vnf_instance_data
+        self._nested_ns_instance_id = nested_ns_instance_id
+        self._location_constraints = location_constraints
+        self._additional_param_for_ns = additional_param_for_ns
+        self._additional_param_for_vnf = additional_param_for_vnf
+        self._start_time = start_time
+        self._additional_affinity_or_anti_affinity_rule = additional_affinity_or_anti_affinity_rule
 
     @classmethod
     def from_dict(cls, dikt) -> "NsInstantiationRequest":
@@ -100,3 +151,192 @@ class NsInstantiationRequest(Model):
             raise ValueError("Invalid value for `ns_instantiation_level_id`, must not be `None`")  # noqa: E501
 
         self._ns_instantiation_level_id = ns_instantiation_level_id
+
+    @property
+    def sap_data(self) -> List[SapDataIm]:
+        """Gets the sap_data of this NsInstantiationRequest.
+
+
+        :return: The sap_data of this NsInstantiationRequest.
+        :rtype: List[SapDataIm]
+        """
+        return self._sap_data
+
+    @sap_data.setter
+    def sap_data(self, sap_data: List[SapDataIm]):
+        """Sets the sap_data of this NsInstantiationRequest.
+
+
+        :param sap_data: The sap_data of this NsInstantiationRequest.
+        :type sap_data: List[SapDataIm]
+        """
+
+        self._sap_data = sap_data
+
+    @property
+    def pnf_info(self) -> List[PnfInfoIm]:
+        """Gets the pnf_info of this NsInstantiationRequest.
+
+
+        :return: The pnf_info of this NsInstantiationRequest.
+        :rtype: List[PnfInfoIm]
+        """
+        return self._pnf_info
+
+    @pnf_info.setter
+    def pnf_info(self, pnf_info: List[PnfInfoIm]):
+        """Sets the pnf_info of this NsInstantiationRequest.
+
+
+        :param pnf_info: The pnf_info of this NsInstantiationRequest.
+        :type pnf_info: List[PnfInfoIm]
+        """
+
+        self._pnf_info = pnf_info
+
+    @property
+    def vnf_instance_data(self) -> List[VnfInstanceDataIm]:
+        """Gets the vnf_instance_data of this NsInstantiationRequest.
+
+
+        :return: The vnf_instance_data of this NsInstantiationRequest.
+        :rtype: List[VnfInstanceDataIm]
+        """
+        return self._vnf_instance_data
+
+    @vnf_instance_data.setter
+    def vnf_instance_data(self, vnf_instance_data: List[VnfInstanceDataIm]):
+        """Sets the vnf_instance_data of this NsInstantiationRequest.
+
+
+        :param vnf_instance_data: The vnf_instance_data of this NsInstantiationRequest.
+        :type vnf_instance_data: List[VnfInstanceDataIm]
+        """
+
+        self._vnf_instance_data = vnf_instance_data
+
+    @property
+    def nested_ns_instance_id(self) -> List[str]:
+        """Gets the nested_ns_instance_id of this NsInstantiationRequest.
+
+
+        :return: The nested_ns_instance_id of this NsInstantiationRequest.
+        :rtype: List[str]
+        """
+        return self._nested_ns_instance_id
+
+    @nested_ns_instance_id.setter
+    def nested_ns_instance_id(self, nested_ns_instance_id: List[str]):
+        """Sets the nested_ns_instance_id of this NsInstantiationRequest.
+
+
+        :param nested_ns_instance_id: The nested_ns_instance_id of this NsInstantiationRequest.
+        :type nested_ns_instance_id: List[str]
+        """
+
+        self._nested_ns_instance_id = nested_ns_instance_id
+
+    @property
+    def location_constraints(self) -> List[VnfLocationConstraintIm]:
+        """Gets the location_constraints of this NsInstantiationRequest.
+
+
+        :return: The location_constraints of this NsInstantiationRequest.
+        :rtype: List[VnfLocationConstraintIm]
+        """
+        return self._location_constraints
+
+    @location_constraints.setter
+    def location_constraints(self, location_constraints: List[VnfLocationConstraintIm]):
+        """Sets the location_constraints of this NsInstantiationRequest.
+
+
+        :param location_constraints: The location_constraints of this NsInstantiationRequest.
+        :type location_constraints: List[VnfLocationConstraintIm]
+        """
+
+        self._location_constraints = location_constraints
+
+    @property
+    def additional_param_for_ns(self) -> Dict[str, str]:
+        """Gets the additional_param_for_ns of this NsInstantiationRequest.
+
+
+        :return: The additional_param_for_ns of this NsInstantiationRequest.
+        :rtype: Dict[str, str]
+        """
+        return self._additional_param_for_ns
+
+    @additional_param_for_ns.setter
+    def additional_param_for_ns(self, additional_param_for_ns: Dict[str, str]):
+        """Sets the additional_param_for_ns of this NsInstantiationRequest.
+
+
+        :param additional_param_for_ns: The additional_param_for_ns of this NsInstantiationRequest.
+        :type additional_param_for_ns: Dict[str, str]
+        """
+
+        self._additional_param_for_ns = additional_param_for_ns
+
+    @property
+    def additional_param_for_vnf(self) -> List[ParamsForVnfIm]:
+        """Gets the additional_param_for_vnf of this NsInstantiationRequest.
+
+
+        :return: The additional_param_for_vnf of this NsInstantiationRequest.
+        :rtype: List[ParamsForVnfIm]
+        """
+        return self._additional_param_for_vnf
+
+    @additional_param_for_vnf.setter
+    def additional_param_for_vnf(self, additional_param_for_vnf: List[ParamsForVnfIm]):
+        """Sets the additional_param_for_vnf of this NsInstantiationRequest.
+
+
+        :param additional_param_for_vnf: The additional_param_for_vnf of this NsInstantiationRequest.
+        :type additional_param_for_vnf: List[ParamsForVnfIm]
+        """
+
+        self._additional_param_for_vnf = additional_param_for_vnf
+
+    @property
+    def start_time(self) -> str:
+        """Gets the start_time of this NsInstantiationRequest.
+
+
+        :return: The start_time of this NsInstantiationRequest.
+        :rtype: str
+        """
+        return self._start_time
+
+    @start_time.setter
+    def start_time(self, start_time: str):
+        """Sets the start_time of this NsInstantiationRequest.
+
+
+        :param start_time: The start_time of this NsInstantiationRequest.
+        :type start_time: str
+        """
+
+        self._start_time = start_time
+
+    @property
+    def additional_affinity_or_anti_affinity_rule(self) -> List[AffinityOrAntiAffinityRuleIm]:
+        """Gets the additional_affinity_or_anti_affinity_rule of this NsInstantiationRequest.
+
+
+        :return: The additional_affinity_or_anti_affinity_rule of this NsInstantiationRequest.
+        :rtype: List[AffinityOrAntiAffinityRuleIm]
+        """
+        return self._additional_affinity_or_anti_affinity_rule
+
+    @additional_affinity_or_anti_affinity_rule.setter
+    def additional_affinity_or_anti_affinity_rule(self, additional_affinity_or_anti_affinity_rule: List[AffinityOrAntiAffinityRuleIm]):
+        """Sets the additional_affinity_or_anti_affinity_rule of this NsInstantiationRequest.
+
+
+        :param additional_affinity_or_anti_affinity_rule: The additional_affinity_or_anti_affinity_rule of this NsInstantiationRequest.
+        :type additional_affinity_or_anti_affinity_rule: List[AffinityOrAntiAffinityRuleIm]
+        """
+
+        self._additional_affinity_or_anti_affinity_rule = additional_affinity_or_anti_affinity_rule

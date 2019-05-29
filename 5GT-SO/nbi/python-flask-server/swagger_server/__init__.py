@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # python imports
-from logging import getLogger
+
 # path fix
 import sys
 sys.path.append("../../../5GT-SO")

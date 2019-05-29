@@ -1,0 +1,7 @@
+{
+	"name": "LB_VNF",
+	"version": "0.1",
+	"provider": "UC3M-CTTC",
+	"checksum": "VNFD_TEST_001_checksum",
+	"vnfPackagePath": "http://10.0.200.227/LB_VNFD.tar"
+}

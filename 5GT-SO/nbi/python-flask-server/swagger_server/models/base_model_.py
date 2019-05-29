@@ -1,4 +1,4 @@
-# Copyright (C) 2018 CTTC/CERCA
+# Copyright (C) 2019 CTTC/CERCA
 # License: To be defined. Currently use is restricted to partners of the 5G-Transformer project,
 #          http://5g-transformer.eu/, no use or redistribution of any kind outside the 5G-Transformer project is
 #          allowed.

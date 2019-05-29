@@ -1,5 +1,13 @@
 connexion == 1.1.15
 python_dateutil == 2.6.0
 setuptools >= 21.0.0
+netaddr == 0.7.19
+python3-wget == 0.0.2b1
 pymongo
+iso8601
+pytz
+requests_toolbelt
 # pycurl # Required by OSMclient
+# required by GUI
+python-magic==0.4.15
+networkx==2.2

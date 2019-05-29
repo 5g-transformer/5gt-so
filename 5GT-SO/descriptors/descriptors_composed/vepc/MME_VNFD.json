@@ -1,0 +1,224 @@
+{
+	"vnfdId": "MME_VNF",
+	"vnfProvider": "UC3M-CTTC",
+	"vnfProductName": "MME_VNF",
+	"vnfSoftwareVersion": "0.1",
+	"vnfdVersion": "0.1",
+	"vnfProductInfoName": "MME_VNF",
+	"vnfProductInfoDescription": "MME_VNF",
+	"vnfmInfo": ["MME_VNFM"],
+	"localizationLanguage": [],
+	"defaultLocalizationLanguage": "",
+	"vdu": [{
+		"vduId": "MME_vdu",
+		"name": "MME",
+		"description": "VDU of the MME_VNF",
+		"intCpd": [{
+			"cpdId": "mme_mgt_intcp",
+			"layerProtocol": "IPV4",
+			"description": "Management CP of the MME",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": true,
+				"management": true,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}, {
+			"cpdId": "mme_s1c_intcp",
+			"layerProtocol": "IPV4",
+			"description": "CP for the MME to connect to the Radio",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": false,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}, {
+			"cpdId": "mme_s11_intcp",
+			"layerProtocol": "IPV4",
+			"description": "CP for the MME to connect to the S-GW",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": false,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}, {
+			"cpdId": "mme_s6a_intcp",
+			"layerProtocol": "IPV4",
+			"description": "CP for the MME to connect to the HSS",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": false,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+
+		}],
+		"virtualComputeDesc": "VCD_MME",
+		"virtualStorageDesc": ["VSD_MME"],
+		"bootOrder": {},
+		"swImageDesc": {
+			"id": "MME_SWID",
+			"name": "MME_VNF_eHealth",
+			"version": "0.1",
+			"checksum": "TBD",
+			"containerFormat": "QCOW2",
+			"diskFormat": "QCOW2",
+			"minDisk": 1,
+			"minRam": 1,
+			"size": 15,
+			"swImage": "MME_VNF_eHealth",
+			"operatingSystem": "Ubuntu-14.04",
+			"supportedVirtualisationEnvironment": ""
+		},
+		"nfviConstraint": [],
+		"monitoringParameter": [],
+		"configurableProperties": {}
+	}],
+	"swImageDesc": [{
+		"id": "MME_SWID",
+		"name": "MME_VNF_eHealth",
+		"version": "0.1",
+		"checksum": "TBD",
+		"containerFormat": "QCOW2",
+		"diskFormat": "QCOW2",
+		"minDisk": 1,
+		"minRam": 1,
+		"size": 15,
+		"swImage": "MME_VNF_eHealth",
+		"operatingSystem": "Ubuntu-14.04",
+		"supportedVirtualisationEnvironment": ""
+	}],
+	"virtualComputeDesc": [{
+		"virtualComputeDescId": "VCD_MME",
+		"logicalNode": {},
+		"requestedAdditionalCapabilities": "",
+		"computeRequirements": "",
+		"virtualMemory": {
+			"virtualMemSize": 1,
+			"virtualMemOversubscriptionPolicy": "asdasd",
+			"vduMemRequirements": "",
+			"numaEnabled": false
+		},
+		"virtualCpu": {
+			"numVirtualCpu": 1,
+			"cpuArchitecture": "x86_64",
+			"virtualCpuClock": 0,
+			"virtualCpuOversubscriptionPolicy": "asdasd",
+			"vduCpuRequirements": "",
+			"virtualCpuPinning": ""
+		}	
+	}],
+	"virtualStorageDesc": [{
+		"id": "VSD_MME",
+		"typeOfStorage": "VOLUME",
+		"sizeOfStorage": 15,
+		"vduStorageRequirements": "",
+		"rdmaEnabled": false,
+		"swImageDesc": "MME_SWID"
+	}],
+	"intVirtualLinkDesc": [],
+	"vnfExtCpd": [{
+		"cpdId": "mme_mgt_extcp",
+		"layerProtocol": "IPV4",
+		"description": "Management external CP of the MME",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": true,
+			"management": true,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "mme_mgt_intcp"
+	}, {
+		"cpdId": "mme_s1c_extcp",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the MME to connect to the Radio",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": false,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "mme_s1c_intcp"
+	}, {
+		"cpdId": "mme_s11_extcp",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the MME to connect to the S-GW",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": false,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "mme_s11_intcp"
+	}, {
+		"cpdId": "mme_s6a_extcp",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the MME to connect to the HSS",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": false,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "mme_s6a_intcp"
+	}],
+	"deploymentFlavour": [{
+		"flavourId": "MME_VNF_df",
+		"description": "Standard deployment flavour of the MME",
+		"vduProfile": [{
+			"vduId": "MME_vdu",
+			"minNumberOfInstances": 1,
+			"maxNumberOfInstances": 1
+		}],
+		"instantiationLevel": [{
+			"levelId": "il_MME",
+			"description": "Standard instantiation level of the MME",
+			"vduLevel": [{
+				"vduId": "MME_vdu",
+				"numberOfInstances": 1
+			}]
+		}],
+		"vnfLcmOperationsConfiguration": {},
+		"defaultInstantiationLevelId": "",
+		"supportedOperation": [],
+		"affinityOrAntiAffinityGroup": [],
+		"vnfIndicator": "",
+		"monitoringParameter": [],
+		"scalingAspect": [],
+		"initialDelta": ""
+	}],
+	"configurableProperties": {
+			"autoScalable": false,
+			"autoHealable": false,
+			"additionalConfigurableProperty": [ ]
+	},
+	"modifiableAttributes": {},
+	"lifeCycleManagementScript": [{
+		"event": ["START_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["START_VNF_TERMINATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_TERMINATION"],
+		"script": ""
+	}],
+	"elementGroup": [],
+	"vnfIndicator": [],
+	"autoScale": ""
+}

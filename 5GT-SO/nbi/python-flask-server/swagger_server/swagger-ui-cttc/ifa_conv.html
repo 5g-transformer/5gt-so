@@ -1,0 +1,398 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">IFA/OSM Converter</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="well">
+            <form action="{{ url_for('descriptor_viewer') }}" method="post">
+                <label> Write a IFA Descriptor json</label>
+                <div class="form-group">
+                    <textarea class="form-control" id="convert_elem1" rows="12" name="convert_text"
+                              style="resize:none">
+{
+	"nsd": {
+		"nsdIdentifier": "vCDN_v02",
+		"designer": "Nextworks",
+		"version": "0.2",
+		"nsdName": "vCDN_ATOS_TIMEO",
+		"nsdInvariantId": "vCDN_ATOS_TIMEO_v02",
+		"vnfdId": ["webserver", "spr21", "spr22", "spr1"],
+		"sapd": [{
+				"cpdId": "mgtSap",
+				"description": "Management SAP for all the vCDN VNFs",
+				"layerProtocol": "IPV4",
+				"cpRole": "ROOT",
+				"addressData": [{
+					"addressType": "IP_ADDRESS",
+					"iPAddressAssignment": false,
+					"floatingIpActivated": true,
+					"iPAddressType": "IPv4",
+					"numberOfIpAddress": 1
+				}],
+				"sapAddressAssignment": false,
+				"nsVirtualLinkDescId": "mgt"
+			},
+			{
+				"cpdId": "videoSap",
+				"description": "SAP interconnecting to the CDN clients",
+				"layerProtocol": "IPV4",
+				"cpRole": "ROOT",
+				"addressData": [{
+					"addressType": "IP_ADDRESS",
+					"iPAddressAssignment": false,
+					"floatingIpActivated": true,
+					"iPAddressType": "IPv4",
+					"numberOfIpAddress": 1
+				}],
+				"sapAddressAssignment": false,
+				"nsVirtualLinkDescId": "VideoDistribution"
+			}
+		],
+		"virtualLinkDesc": [{
+			"virtualLinkDescId": "VideoDistribution",
+			"virtualLinkDescProvider": "NXW",
+			"virtuaLinkDescVersion": "0.1",
+			"connectivityType": {
+				"layerProtocol": "IPV4"
+			},
+			"virtualLinkDf": [{
+				"flavourId": "df_VideoDistribution",
+				"qos": {
+					"latency": 0,
+					"packetDelayVariation": 0,
+					"packetLossRatio": 0,
+					"priority": 0
+				},
+				"serviceAvaibilityLevel": "LEVEL_1",
+				"bitrateRequirements": {
+					"root": 2,
+					"leaf": 2
+				}
+			}],
+			"description": "Network for video distribution"
+		},
+		{
+			"virtualLinkDescId": "mgt",
+			"virtualLinkDescProvider": "NXW",
+			"virtuaLinkDescVersion": "0.1",
+			"connectivityType": {
+				"layerProtocol": "IPV4"
+			},
+			"virtualLinkDf": [{
+				"flavourId": "df_mgt",
+				"qos": {
+					"latency": 0,
+					"packetDelayVariation": 0,
+					"packetLossRatio": 0,
+					"priority": 0
+				},
+				"serviceAvaibilityLevel": "LEVEL_1",
+				"bitrateRequirements": {
+					"root": 4,
+					"leaf": 1
+				}
+			}],
+			"description": "Management network"
+		},
+		{
+			"virtualLinkDescId": "VideoData",
+			"virtualLinkDescProvider": "NXW",
+			"virtuaLinkDescVersion": "0.1",
+			"connectivityType": {
+				"layerProtocol": "IPV4"
+			},
+			"virtualLinkDf": [{
+				"flavourId": "df_VideoData",
+				"qos": {
+					"latency": 0,
+					"packetDelayVariation": 0,
+					"packetLossRatio": 0,
+					"priority": 0
+				},
+				"serviceAvaibilityLevel": "LEVEL_1",
+				"bitrateRequirements": {
+					"root": 8,
+					"leaf": 8
+				}
+			}],
+			"description": "Network for retrieving videos from origin server"
+		}],
+		"nsDf": [{
+			"nsDfId": "df_vCDN",
+			"flavourKey": "df_vCDN",
+			"vnfProfile": [{
+					"vnfProfileId": "webserver_profile",
+					"vnfdId": "webserver",
+					"flavourId": "df_webserver",
+					"instantiationLevel": "il_webserver",
+					"minNumberOfInstances": 1,
+					"maxNumberOfInstances": 1,
+					"nsVirtualLinkConnectivity": [{
+							"virtualLinkProfileId": "vl_profile_VideoDistribution",
+							"cpdId": [
+								"webDistExt"
+							]
+						}
+					]
+				},
+				{
+					"vnfProfileId": "spr1_profile",
+					"vnfdId": "spr1",
+					"flavourId": "df_spr1",
+					"instantiationLevel": "il_spr1",
+					"minNumberOfInstances": 1,
+					"maxNumberOfInstances": 1,
+					"nsVirtualLinkConnectivity": [{
+						"virtualLinkProfileId": "vl_profile_mgt",
+						"cpdId": [
+							"spr1MgtExt"
+						]
+					},
+					{
+						"virtualLinkProfileId": "vl_profile_VideoData",
+						"cpdId": [
+							"spr1DataExt"
+						]
+					}]
+				},
+				{
+					"vnfProfileId": "spr21_profile",
+					"vnfdId": "spr21",
+					"flavourId": "df_spr21",
+					"instantiationLevel": "il_spr21",
+					"minNumberOfInstances": 1,
+					"maxNumberOfInstances": 1,
+					"nsVirtualLinkConnectivity": [{
+							"virtualLinkProfileId": "vl_profile_VideoDistribution",
+							"cpdId": [
+								"spr21DistExt"
+							]
+						},
+						{
+							"virtualLinkProfileId": "vl_profile_VideoData",
+							"cpdId": [
+								"spr21DataExt"
+							]
+						}
+					]
+				},
+				{
+					"vnfProfileId": "spr22_profile",
+					"vnfdId": "spr22",
+					"flavourId": "df_spr22",
+					"instantiationLevel": "il_spr22",
+					"minNumberOfInstances": 1,
+					"maxNumberOfInstances": 1,
+					"nsVirtualLinkConnectivity": [{
+							"virtualLinkProfileId": "vl_profile_VideoDistribution",
+							"cpdId": [
+								"spr22DistExt"
+							]
+						},
+						{
+							"virtualLinkProfileId": "vl_profile_VideoData",
+							"cpdId": [
+								"spr22DataExt"
+							]
+						}
+					]
+				}],
+			"virtualLinkProfile": [{
+				"virtualLinkProfileId": "vl_profile_mgt",
+				"virtualLinkDescId": "mgt",
+				"flavourId": "df_mgt",
+				"maxBitrateRequirements": {
+					"root": "1",
+					"leaf": "1"
+				},
+				"minBitrateRequirements": {
+					"root": "1",
+					"leaf": "1"
+				}
+			},
+			{
+				"virtualLinkProfileId": "vl_profile_VideoData",
+				"virtualLinkDescId": "VideoData",
+				"flavourId": "df_VideoData",
+				"maxBitrateRequirements": {
+					"root": "1",
+					"leaf": "1"
+				},
+				"minBitrateRequirements": {
+					"root": "1",
+					"leaf": "1"
+				}
+			},
+			{
+				"virtualLinkProfileId": "vl_profile_VideoDistribution",
+				"virtualLinkDescId": "VideoDistribution",
+				"flavourId": "df_VideoDistribution",
+				"maxBitrateRequirements": {
+					"root": "1",
+					"leaf": "1"
+				},
+				"minBitrateRequirements": {
+					"root": "1",
+					"leaf": "1"
+				}
+			}],
+			"nsInstantiationLevel": [{
+				"nsLevelId": "il_vCDN_big",
+				"description": "Big instantiation level for the vCDN",
+				"vnfToLevelMapping": [{
+						"vnfProfileId": "webserver_profile",
+						"numberOfInstances": 1
+					},
+					{
+						"vnfProfileId": "spr1_profile",
+						"numberOfInstances": 1
+					},
+					{
+						"vnfProfileId": "spr21_profile",
+						"numberOfInstances": 1
+					},
+					{
+						"vnfProfileId": "spr22_profile",
+						"numberOfInstances": 1
+					}
+				],
+				"virtualLinkToLevelMapping": [{
+						"virtualLinkProfileId": "vl_profile_mgt",
+						"bitRateRequirements": {
+							"root": "1",
+							"leaf": "1"
+						}
+					},
+					{
+						"virtualLinkProfileId": "vl_profile_VideoData",
+						"bitRateRequirements": {
+							"root": "1",
+							"leaf": "1"
+						}
+					},
+					{
+						"virtualLinkProfileId": "vl_profile_VideoDistribution",
+						"bitRateRequirements": {
+							"root": "1",
+							"leaf": "1"
+						}
+					}
+				]
+			},
+			{
+				"nsLevelId": "il_vCDN_small",
+				"description": "Small instantiation level for the vCDN",
+				"vnfToLevelMapping": [{
+						"vnfProfileId": "webserver_profile",
+						"numberOfInstances": 1
+					},
+					{
+						"vnfProfileId": "spr1_profile",
+						"numberOfInstances": 1
+					},
+					{
+						"vnfProfileId": "spr21_profile",
+						"numberOfInstances": 1
+					}
+				],
+				"virtualLinkToLevelMapping": [{
+						"virtualLinkProfileId": "vl_profile_mgt",
+						"bitRateRequirements": {
+							"root": "1",
+							"leaf": "1"
+						}
+					},
+					{
+						"virtualLinkProfileId": "vl_profile_VideoData",
+						"bitRateRequirements": {
+							"root": "1",
+							"leaf": "1"
+						}
+					},
+					{
+						"virtualLinkProfileId": "vl_profile_VideoDistribution",
+						"bitRateRequirements": {
+							"root": "1",
+							"leaf": "1"
+						}
+					}
+				]
+			}],
+			"defaultNsInstantiationLevelId": "il_vCDN_small",
+			"nsProfile": [{
+				"nsProfileId": "ns_profile_vCdn_big",
+				"nsdId": "vCDN_v01",
+				"nsDfId": "df_vCDN",
+				"nsInstantiationLevelId": "il_vCDN_big",
+				"minNumberOfInstances": 1,
+				"maxNumberOfInstances": 1
+			},
+			{
+				"nsProfileId": "ns_profile_vCdn_small",
+				"nsdId": "vCDN_v01",
+				"nsDfId": "df_vCDN",
+				"nsInstantiationLevelId": "il_vCDN_small",
+				"minNumberOfInstances": 1,
+				"maxNumberOfInstances": 1
+			}],
+			"dependencies": [{
+					"primaryId": ["spr1_profile"],
+					"secondaryId": [
+						"spr21_profile",
+						"spr22_profile",
+						"webserver_profile"
+					]
+				},
+				{
+					"primaryId": ["spr22_profile"],
+					"secondaryId": ["webserver_profile",
+						"spr21_profile"]
+				},
+				{
+					"primaryId": ["spr21_profile"],
+					"secondaryId": ["webserver_profile"]
+				}
+			]
+		}],
+		"security": {
+			"signature": "vCDN_NSD_SIGNATURE",
+			"algorithm": "vCDN_NSD_ALGORITHM",
+			"certificate": "vCDN_NSD_CERTIFICATE"
+		}
+	}
+}
+
+                    </textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Convert and View</button>
+            </form>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="well">
+            <div class="form-group">
+                <label> Upload a IFA Descriptor File</label>
+                <form action="{{ url_for('descriptor_viewer') }}" method="POST" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <input type="file" class="form-control-file" name="file_to_convert" required>
+                        <button type="submit" class="btn btn-primary">Convert and View</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+{% endblock %}

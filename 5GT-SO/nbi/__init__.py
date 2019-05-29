@@ -15,9 +15,12 @@
 # python imports
 from multiprocessing import Queue, Process
 from logging import getLogger
+from os import path
 
 # project imports
 from log import log
+
+upload_folder = path.realpath(path.join(path.dirname(path.realpath(__file__)), '../upload_packages'))
 
 
 # process to receive log messages from all processes and send them to the log
@@ -37,7 +40,7 @@ def logger_process(log_queue):
         elif msg[0] == "INFO":
             logger.info(msg[1])
         elif msg[0] == "WARNING":
-            logger.warn(msgv)
+            logger.warn(msg[1])
         elif msg[0] == "ERROR":
             logger.error(msg[1])
         elif msg[0] == "CRITICAL":

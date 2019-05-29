@@ -1,0 +1,177 @@
+{
+	"vnfdId": "HSS_VNF",
+	"vnfProvider": "UC3M-CTTC",
+	"vnfProductName": "HSS_VNF",
+	"vnfSoftwareVersion": "0.1",
+	"vnfdVersion": "0.1",
+	"vnfProductInfoName": "HSS_VNF",
+	"vnfProductInfoDescription": "HSS_VNF",
+	"vnfmInfo": ["HSS_VNFM"],
+	"localizationLanguage": [],
+	"defaultLocalizationLanguage": "",
+	"vdu": [{
+		"vduId": "HSS_vdu",
+		"name": "HSS",
+		"description": "VDU of the HSS_VNF",
+		"intCpd": [{
+			"cpdId": "hss_mgt_intcp",
+			"layerProtocol": "IPV4",
+			"description": "Management CP of the HSS",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": true,
+				"management": true,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}, {
+			"cpdId": "hss_s6a_intcp",
+			"layerProtocol": "IPV4",
+			"description": "CP for the HSS to connect to the MME",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": false,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}],
+		"virtualComputeDesc": "VCD_HSS",
+		"virtualStorageDesc": ["VSD_HSS"],
+		"bootOrder": {},
+		"swImageDesc": {
+			"id": "HSS_SWID",
+			"name": "HSS_VNF_eHealth",
+			"version": "0.1",
+			"checksum": "TBD",
+			"containerFormat": "QCOW2",
+			"diskFormat": "QCOW2",
+			"minDisk": 1,
+			"minRam": 1,
+			"size": 15,
+			"swImage": "HSS_VNF_eHealth",
+			"operatingSystem": "Ubuntu-14.04",
+			"supportedVirtualisationEnvironment": ""
+		},
+		"nfviConstraint": [],
+		"monitoringParameter": [],
+		"configurableProperties": {}
+	}],
+	"swImageDesc": [{
+		"id": "HSS_SWID",
+		"name": "HSS_VNF_eHealth",
+		"version": "0.1",
+		"checksum": "TBD",
+		"containerFormat": "QCOW2",
+		"diskFormat": "QCOW2",
+		"minDisk": 1,
+		"minRam": 1,
+		"size": 15,
+		"swImage": "HSS_VNF_eHealth",
+		"operatingSystem": "Ubuntu-14.04",
+		"supportedVirtualisationEnvironment": ""
+	}],
+	"virtualComputeDesc": [{
+		"virtualComputeDescId": "VCD_HSS",
+		"logicalNode": {},
+		"requestedAdditionalCapabilities": "",
+		"computeRequirements": "",
+		"virtualMemory": {
+			"virtualMemSize": 1,
+			"virtualMemOversubscriptionPolicy": "asdasd",
+			"vduMemRequirements": "",
+			"numaEnabled": false
+		},
+		"virtualCpu": {
+			"numVirtualCpu": 1,
+			"cpuArchitecture": "x86_64",
+			"virtualCpuClock": 0,
+			"virtualCpuOversubscriptionPolicy": "asdasd",
+			"vduCpuRequirements": "",
+			"virtualCpuPinning": ""
+		}
+	}],
+	"virtualStorageDesc": [{
+		"id": "VSD_HSS",
+		"typeOfStorage": "VOLUME",
+		"sizeOfStorage": 15,
+		"vduStorageRequirements": "",
+		"rdmaEnabled": false,
+		"swImageDesc": "HSS_SWID"
+	}],
+	"intVirtualLinkDesc": [],
+	"vnfExtCpd": [{
+		"cpdId": "hss_mgt_extcp",
+		"layerProtocol": "IPV4",
+		"description": "Management external CP of the HSS",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": true,
+			"management": true,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "hss_mgt_intcp"
+	}, {
+		"cpdId": "hss_s6a_extcp",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the HSS to connecto the MME",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": false,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "hss_s6a_intcp"
+	}],
+	"deploymentFlavour": [{
+		"flavourId": "HSS_VNF_df",
+		"description": "Standard deployment flavour of the HSS",
+		"vduProfile": [{
+			"vduId": "HSS_vdu",
+			"minNumberOfInstances": 1,
+			"maxNumberOfInstances": 1
+		}],
+		"instantiationLevel": [{
+			"levelId": "il_HSS",
+			"description": "Standard instantiation level of the HSS",
+			"vduLevel": [{
+				"vduId": "HSS_vdu",
+				"numberOfInstances": 1
+			}]
+		}],
+		"vnfLcmOperationsConfiguration": {},
+		"defaultInstantiationLevelId": "",
+		"supportedOperation": [],
+		"affinityOrAntiAffinityGroup": [],
+		"vnfIndicator": "",
+		"monitoringParameter": [],
+		"scalingAspect": [],
+		"initialDelta": ""
+	}],
+	"configurableProperties": {
+			"autoScalable": false,
+			"autoHealable": false,
+			"additionalConfigurableProperty": [ ]
+	},
+	"modifiableAttributes": {},
+	"lifeCycleManagementScript": [{
+		"event": ["START_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["START_VNF_TERMINATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_TERMINATION"],
+		"script": ""
+	}],
+	"elementGroup": [],
+	"vnfIndicator": [],
+	"autoScale": ""
+}

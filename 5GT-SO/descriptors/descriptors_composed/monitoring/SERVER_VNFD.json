@@ -1,0 +1,163 @@
+{
+	"vnfdId": "SERVER_VNF",
+	"vnfProvider": "UC3M-CTTC",
+	"vnfProductName": "SERVER_VNF",
+	"vnfSoftwareVersion": "0.1",
+	"vnfdVersion": "0.1",
+	"vnfProductInfoName": "SERVER_VNF",
+	"vnfProductInfoDescription": "SERVER_VNF",
+	"vnfmInfo": ["SERVER_VNFM"],
+	"localizationLanguage": [],
+	"defaultLocalizationLanguage": "",
+	"vdu": [{
+		"vduId": "SERVER_vdu",
+		"name": "SERVER",
+		"description": "VDU of the SERVER_VNF",
+		"intCpd": [{
+			"cpdId": "central_mgt_intcp",
+			"layerProtocol": "IPV4",
+			"description": "Management CP of the central server",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": true,
+				"management": true,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}, {
+			"cpdId": "central_data_intcp",
+			"layerProtocol": "IPV4",
+			"description": "CP for the exchange of data from/to the server",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": false,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}],
+		"virtualComputeDesc": "VCD_SERVER",
+		"virtualStorageDesc": ["VSD_SERVER"],
+		"bootOrder": {},
+		"swImageDesc": {
+			"id": "SERVER_SWID",
+			"name": "SERVER_VNF_eHealth",
+			"version": "0.1",
+			"checksum": "TBD",
+			"containerFormat": "QCOW2",
+			"diskFormat": "QCOW2",
+			"minDisk": 1,
+			"minRam": 1,
+			"size": 15,
+			"swImage": "SERVER_VNF_eHealth",
+			"operatingSystem": "Ubuntu-14.04",
+			"supportedVirtualisationEnvironment": ""
+		},
+		"nfviConstraint": [],
+		"monitoringParameter": [],
+		"configurableProperties": {}
+	}],
+	"virtualComputeDesc": [{
+		"virtualComputeDescId": "VCD_SERVER",
+		"logicalNode": {},
+		"requestedAdditionalCapabilities": "",
+		"computeRequirements": "",
+		"virtualMemory": {
+			"virtualMemSize": 1,
+			"virtualMemOversubscriptionPolicy": "asdasd",
+			"vduMemRequirements": "",
+			"numaEnabled": false
+		},
+		"virtualCpu": {
+			"numVirtualCpu": 1,
+			"cpuArchitecture": "x86_64",
+			"virtualCpuClock": 0,
+			"virtualCpuOversubscriptionPolicy": "asdasd",
+			"vduCpuRequirements": "",
+			"virtualCpuPinning": ""
+		}	
+	}],
+	"virtualStorageDesc": [{
+		"id": "VSD_SERVER",
+		"typeOfStorage": "VOLUME",
+		"sizeOfStorage": 15,
+		"vduStorageRequirements": "",
+		"rdmaEnabled": false,
+		"swImageDesc": "SERVER_SWID"
+	}],
+	"intVirtualLinkDesc": [],
+	"vnfExtCpd": [{
+		"cpdId": "central_mgt_extcp",
+		"layerProtocol": "IPV4",
+		"description": "Management external CP of the SERVER",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": true,
+			"management": true,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "central_mgt_intcp"
+	}, {
+		"cpdId": "central_data_extcp",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the 1st cache media content to be retrieved",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": false,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "central_data_intcp"
+	}],
+	"deploymentFlavour": [{
+		"flavourId": "SERVER_VNF_df",
+		"description": "Standard deployment flavour of the SERVER",
+		"vduProfile": [{
+			"vduId": "SERVER_vdu",
+			"minNumberOfInstances": 1,
+			"maxNumberOfInstances": 1
+		}],
+		"instantiationLevel": [{
+			"levelId": "il_SERVER",
+			"description": "Standard instantiation level of the SERVER",
+			"vduLevel": [{
+				"vduId": "SERVER_vdu",
+				"numberOfInstances": 1
+			}]
+		}],
+		"vnfLcmOperationsConfiguration": {},
+		"defaultInstantiationLevelId": "",
+		"supportedOperation": [],
+		"affinityOrAntiAffinityGroup": [],
+		"vnfIndicator": "",
+		"monitoringParameter": [],
+		"scalingAspect": [],
+		"initialDelta": ""
+	}],
+	"configurableProperties": {
+			"autoScalable": false,
+			"autoHealable": false,
+			"additionalConfigurableProperty": [ ]
+	},
+	"modifiableAttributes": {},
+	"lifeCycleManagementScript": [{
+		"event": ["START_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["START_VNF_TERMINATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_TERMINATION"],
+		"script": ""
+	}],
+	"elementGroup": [],
+	"vnfIndicator": [],
+	"autoScale": ""
+}

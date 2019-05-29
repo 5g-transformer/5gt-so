@@ -1,0 +1,224 @@
+{
+	"vnfdId": "SGW_VNF",
+	"vnfProvider": "UC3M-CTTC",
+	"vnfProductName": "SGW_VNF",
+	"vnfSoftwareVersion": "0.1",
+	"vnfdVersion": "0.1",
+	"vnfProductInfoName": "SGW_VNF",
+	"vnfProductInfoDescription": "SGW_VNF",
+	"vnfmInfo": ["SGW_VNFM"],
+	"localizationLanguage": [],
+	"defaultLocalizationLanguage": "",
+	"vdu": [{
+		"vduId": "SGW_vdu",
+		"name": "SGW",
+		"description": "VDU of the SGW_VNF",
+		"intCpd": [{
+			"cpdId": "sgw_mgt_intcp",
+			"layerProtocol": "IPV4",
+			"description": "Management CP of the SGW",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": true,
+				"management": true,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}, {
+			"cpdId": "sgw_s1u_intcp",
+			"layerProtocol": "IPV4",
+			"description": "CP for the SGW to connect to the Radio",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": false,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}, {
+			"cpdId": "sgw_s11_intcp",
+			"layerProtocol": "IPV4",
+			"description": "CP for the SGW to connect to the MME",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": false,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}, {
+			"cpdId": "sgw_s5_intcp",
+			"layerProtocol": "IPV4",
+			"description": "CP for the SGW to connect to the P-GW",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": false,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+
+		}],
+		"virtualComputeDesc": "VCD_SGW",
+		"virtualStorageDesc": ["VSD_SGW"],
+		"bootOrder": {},
+		"swImageDesc": {
+			"id": "SGW_SWID",
+			"name": "SGW_VNF_eHealth",
+			"version": "0.1",
+			"checksum": "TBD",
+			"containerFormat": "QCOW2",
+			"diskFormat": "QCOW2",
+			"minDisk": 1,
+			"minRam": 1,
+			"size": 15,
+			"swImage": "SGW_VNF_eHealth",
+			"operatingSystem": "Ubuntu-14.04",
+			"supportedVirtualisationEnvironment": ""
+		},
+		"nfviConstraint": [],
+		"monitoringParameter": [],
+		"configurableProperties": {}
+	}],
+	"swImageDesc": [{
+		"id": "SGW_SWID",
+		"name": "SGW_VNF_eHealth",
+		"version": "0.1",
+		"checksum": "TBD",
+		"containerFormat": "QCOW2",
+		"diskFormat": "QCOW2",
+		"minDisk": 1,
+		"minRam": 1,
+		"size": 15,
+		"swImage": "SGW_VNF_eHealth",
+		"operatingSystem": "Ubuntu-14.04",
+		"supportedVirtualisationEnvironment": ""
+	}],
+	"virtualComputeDesc": [{
+		"virtualComputeDescId": "VCD_SGW",
+		"logicalNode": {},
+		"requestedAdditionalCapabilities": "",
+		"computeRequirements": "",
+		"virtualMemory": {
+			"virtualMemSize": 1,
+			"virtualMemOversubscriptionPolicy": "asdasd",
+			"vduMemRequirements": "",
+			"numaEnabled": false
+		},
+		"virtualCpu": {
+			"numVirtualCpu": 1,
+			"cpuArchitecture": "x86_64",
+			"virtualCpuClock": 0,
+			"virtualCpuOversubscriptionPolicy": "asdasd",
+			"vduCpuRequirements": "",
+			"virtualCpuPinning": ""
+		}	
+	}],
+	"virtualStorageDesc": [{
+		"id": "VSD_SGW",
+		"typeOfStorage": "VOLUME",
+		"sizeOfStorage": 15,
+		"vduStorageRequirements": "",
+		"rdmaEnabled": false,
+		"swImageDesc": "SGW_SWID"
+	}],
+	"intVirtualLinkDesc": [],
+	"vnfExtCpd": [{
+		"cpdId": "sgw_mgt_extcp",
+		"layerProtocol": "IPV4",
+		"description": "Management external CP of the SGW",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": true,
+			"management": true,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "sgw_mgt_intcp"
+	}, {
+		"cpdId": "sgw_s1u_extcp",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the SGW to connect to the Radio",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": false,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "sgw_s1u_intcp"
+	}, {
+		"cpdId": "sgw_s11_extcp",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the SGW to connect to the MME",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": false,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "sgw_s11_intcp"
+	}, {
+		"cpdId": "sgw_s5_extcp",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the SGW to connect to the P-GW",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": false,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "sgw_s5_intcp"
+	}],
+	"deploymentFlavour": [{
+		"flavourId": "SGW_VNF_df",
+		"description": "Standard deployment flavour of the SGW",
+		"vduProfile": [{
+			"vduId": "SGW_vdu",
+			"minNumberOfInstances": 1,
+			"maxNumberOfInstances": 1
+		}],
+		"instantiationLevel": [{
+			"levelId": "il_SGW",
+			"description": "Standard instantiation level of the SGW",
+			"vduLevel": [{
+				"vduId": "SGW_vdu",
+				"numberOfInstances": 1
+			}]
+		}],
+		"vnfLcmOperationsConfiguration": {},
+		"defaultInstantiationLevelId": "",
+		"supportedOperation": [],
+		"affinityOrAntiAffinityGroup": [],
+		"vnfIndicator": "",
+		"monitoringParameter": [],
+		"scalingAspect": [],
+		"initialDelta": ""
+	}],
+	"configurableProperties": {
+			"autoScalable": false,
+			"autoHealable": false,
+			"additionalConfigurableProperty": [ ]
+	},
+	"modifiableAttributes": {},
+	"lifeCycleManagementScript": [{
+		"event": ["START_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["START_VNF_TERMINATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_TERMINATION"],
+		"script": ""
+	}],
+	"elementGroup": [],
+	"vnfIndicator": [],
+	"autoScale": ""
+}

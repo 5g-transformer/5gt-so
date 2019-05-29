@@ -24,6 +24,7 @@ DB structure:
 """
 
 # mongodb imports
+from bson import ObjectId
 from pymongo import MongoClient
 
 # project imports
@@ -43,8 +44,10 @@ nsd_coll = fgtso_db.nsd
 #     version: string
 #     nsdName: string
 #     nsdJson: dict (IFA014 json descriptor)
+#     domain: local / providerX  #for federation purposes
 
 
+####### SO methods
 def exists_nsd(nsdId, version=None):
     """
     Function to check if an NSD with identifier "nsdId" exists.
@@ -110,6 +113,75 @@ def get_nsd_json(nsdId, version=None):
         return None
     return nsd_json["nsdJson"]
 
+def delete_nsd_json(nsdId, version=None):
+    """
+    Returns True if the referenced descriptor has been deleted from the catalog.
+    Parameters
+    ----------
+    nsdId: string
+        Identifier of the Network Service Descriptor
+    version: string
+        Version of the NSD
+    Returns
+    -------
+    boolean
+    """
+    nsd_query = None
+    if (version is not None and version != "NONE"):
+        nsd_query = {"nsdId": nsdId, "version": version}
+    else:
+        nsd_query= {"nsdId": nsdId}
+    if nsd_query is None:
+        return False
+    else:
+        nsd_coll.delete_one(nsd_query)
+        return True
+
+
+def get_nsd_domain(nsdId, version = None):
+    """
+    Returns the domain, where this NSD can be instantiated, referenced by nsdId and version.
+    Parameters
+    ----------
+    nsdId: string
+        Identifier of the Network Service Descriptor
+    version: string
+        Version of the NSD
+    Returns
+    -------
+    string
+        the domain where this service can be instantiated
+    """
+    if version is None:
+        nsd_json = nsd_coll.find_one({"nsdId": nsdId})
+    else:
+        nsd_json = nsd_coll.find_one({"nsdId": nsdId, "version": version})
+    if nsd_json is None:
+        return None
+    return nsd_json["domain"]
+
+def get_nsd_shareability(nsdId, version = None):
+    """
+    Returns the shareable flag, whether this NSD can be shared with other instantances, referenced by nsdId and version.
+    Parameters
+    ----------
+    nsdId: string
+        Identifier of the Network Service Descriptor
+    version: string
+        Version of the NSD
+    Returns
+    -------
+    string
+        the domain where this service can be instantiated
+    """
+    if version is None:
+        nsd_json = nsd_coll.find_one({"nsdId": nsdId})
+    else:
+        nsd_json = nsd_coll.find_one({"nsdId": nsdId, "version": version})
+    if nsd_json is None:
+        return None
+    return nsd_json["shareable"]
+
 
 def insert_nsd(nsd_record):
     """
@@ -123,6 +195,7 @@ def insert_nsd(nsd_record):
             version: string
             nsdName: string
             nsdJson: dict (IFA014 json descriptor)
+            domain: string #for federation purposes
     Returns
     -------
     None
@@ -130,6 +203,30 @@ def insert_nsd(nsd_record):
 
     nsd_coll.insert_one(nsd_record)
 
+
+def delete_nsd_json(nsdId, version=None):
+    """
+    Returns True if the referenced descriptor has been deleted from the catalog.
+    Parameters
+    ----------
+    nsdId: string
+        Identifier of the Network Service Descriptor
+    version: string
+        Version of the NSD
+    Returns
+    -------
+    boolean
+    """
+    nsd_query = None
+    if (version is not None and version != "NONE"):
+        nsd_query = {"nsdId": nsdId, "version": version}
+    else:
+        nsd_query= {"nsdId": nsdId}
+    if nsd_query is None:
+        return False
+    else:
+        nsd_coll.delete_one(nsd_query)
+        return True
 
 def empty_nsd_collection():
     """
@@ -142,3 +239,46 @@ def empty_nsd_collection():
     None
     """
     nsd_coll.delete_many({})
+
+
+####### GUI methods
+def get_all_nsd():
+    """
+    Returns all the nsd in che collection
+    Parameters
+    ----------
+    Returns
+    -------
+    list of dict
+    """
+    return list(nsd_coll.find())
+
+
+def update_nsd(id, body):
+    """
+    Update a Nsd from the collection filtered by the id parameter
+    Parameters
+    ----------
+    id: _id of nsd
+    body: body to update
+    Returns
+    -------
+    ???
+    """
+    output = nsd_coll.update({"_id": ObjectId(id)}, {"$set": body})
+    return output
+
+
+def remove_nsd_by_id(id):
+    """
+    Remove a nsd from the collection filtered by the id parameter
+    Parameters
+    ----------
+    id: _id of nsd
+    Returns
+    -------
+    dict
+    """
+    output = nsd_coll.remove({"_id": ObjectId(id)})
+    # print(output)
+

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="LV">
+    <title>5GT/SO Login Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="/static/css/style2.css" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col-sm-2">
+        </div>
+
+        <div class="col-sm-8">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message|safe }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <a href="http://5g-transformer.eu/" target="_blank">
+                <img src="/static/images/Transformer_full.png" class="mx-auto d-block" alt="5G-Transformer"
+                     style="width:50%"/>
+            </a>
+            <br>
+            <a href="http://www.cttc.es/" target="_blank">
+                <img src="/static/images/Logo_cttc.jpg" class="mx-auto d-block" alt="cttc" style="width:18%"/>
+            </a>
+
+
+            <form action="/login" method="POST">
+                <div class="login">
+                    <div class="login-screen">
+                        <div class="app-title">
+                            <h2>Login</h2>
+                        </div>
+
+                        {% if session['logged_in'] %}
+                        <h3 align="center">You're logged in already!</h3>
+                        <br>
+                        <div class="app-title">
+                            <h6><a href="/ui"> Click here</a> to Enter</h6>
+                        </div>
+                        {% else %}
+                        <br>
+                        <div class="login-form">
+                            <div class="control-group">
+                                <input type="text" class="login-field" value="" placeholder="Username" name="username">
+                                <label class="login-field-icon fui-user"></label>
+                            </div>
+
+                            <div class="control-group">
+                                <input type="password" class="login-field" value="" placeholder="Password"
+                                       name="password">
+                                <label class="login-field-icon fui-lock"></label>
+                            </div>
+
+                            <input type="submit" value="Log in" class="btn btn-primary btn-large btn-block">
+                            <br>
+                        </div>
+
+                        <div class="app-title">
+                            <h6> Not registered yet? <a href="/register"> Click here</a></h6>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </form>
+
+
+            <hr>
+        </div>
+        <div class="col-sm-2">
+        </div>
+    </div>
+</div>
+<p class="text-center"> Copyright <a href="http://www.cttc.es" target="_blank">CTTC</a>/<a href="http://cerca.cat/"
+                                                                                           target="_blank">CERCA</a>
+    2019. All rights reserved. </p>
+</body>
+</html>

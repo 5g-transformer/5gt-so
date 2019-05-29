@@ -1,27 +1,19 @@
-
 """
 File description
 """
 
 # python imports
-from logging import getLogger
+import datetime
+
+from coreMano.cloudify_wrapper_lib.cloudify_rest_client.client import CloudifyClient
+from coreMano.cloudify_wrapper_lib.cloudify_rest_client.exceptions import CloudifyClientError
 from nbi import log_queue
 import time
 import requests
-import json
-from db.nsd_db.nsd_db import get_nsd_cloudify_id
-from db.ns_db.ns_db import get_nsdId
+from coreMano.cloudify_wrapper_lib.converter_nsd_openstack_yaml import *
+import os
 
 from requests.auth import HTTPBasicAuth
-
-from six.moves.configparser import RawConfigParser
-
-
-# cloudify imports
-
-# project imports
-
-# get the logger
 
 
 class CloudifyWrapper(object):
@@ -51,12 +43,20 @@ class CloudifyWrapper(object):
         # read properties file and get MANO name and IP
         config = RawConfigParser()
         config.read("../../coreMano/coreMano.properties")
-        self.user = config.get("Cloudify", "user")
-        self.password = config.get("Cloudify", "password")
-        self.tenant = config.get("Cloudify", "tenant")
-        self.nfvo_ip = host_ip
+        self.__user = config.get("Cloudify", "user")
+        self.__password = config.get("Cloudify", "password")
+        self.__tenant = config.get("Cloudify", "tenant")
+        self.__blueprints_path = "/tmp/CloudifyWrapper"
+        self.__nfvo_ip = host_ip
+        self.__cloudify_client = CloudifyClient(
+            host=self.__nfvo_ip,
+            username=self.__user,
+            password=self.__password,
+            tenant=self.__tenant)
 
-    def instantiate_ns(self, nsi_id, ns_descriptor, body, placement_info):
+
+    def instantiate_ns(self, nsi_id, ns_descriptor, vnfds_descriptor, body, placement_info, resources):
+    # def instantiate_ns(self, nsi_id, ns_descriptor, body, placement_info):
         """
         Instanciates the network service identified by nsi_id, according to the infomation contained in the body and
         placement info.
@@ -74,18 +74,176 @@ class CloudifyWrapper(object):
         -------
         To be defined
         """
-        blueprint_id = self.get_blueprint_id(nsi_id, body)
-        if self.create_deployment(nsi_id, blueprint_id):
-            instantiation_output = self.create_install_workflow(nsi_id)
-            if instantiation_output is not None:
-                nsi_sap = self.get_deployment_sap(nsi_id)
-                instantiation_output["sapInfo"] = nsi_sap
-                return instantiation_output
 
-            return instantiation_output
+        # creates tmp folder for blueprint
+        if not os.path.exists(self.__blueprints_path):
+            os.makedirs(self.__blueprints_path)
+        os.makedirs(self.__blueprints_path + "/" + nsi_id)
+        currentDT = datetime.datetime.now()
+        string_date = currentDT.strftime("%Y_%m_%d_%H_%M_%S")
+        path_to_blueprint = self.__blueprints_path + "/" + nsi_id + "/" + string_date
+        blueprint_name = ns_descriptor['nsd']['nsdIdentifier'] + "_" +body.ns_instantiation_level_id
+        #full path and name for blueprint
 
-        else:
+        blueprint_yaml_name_with_path = path_to_blueprint + "/" + blueprint_name + ".yaml"
+        os.makedirs(path_to_blueprint)
+
+        # set parameters for blueprint
+        converter_to_yaml = ConverterNSDOpenstackYAML()
+        converter_to_yaml.set_placement_info(placement_info)
+        converter_to_yaml.set_nfvis_pop_info(self.get_nfvi_pop_info())
+        converter_to_yaml.set_ns_instantiation_level_id(body.ns_instantiation_level_id)
+        converter_to_yaml.set_ns_descriptor(ns_descriptor)
+        converter_to_yaml.set_vnfds_descriptor(vnfds_descriptor)
+        converter_to_yaml.parse()
+        converter_to_yaml.sort_networks()
+        converter_to_yaml.sort_servers()
+        converter_to_yaml.generate_yaml(blueprint_yaml_name_with_path)
+        # bluprint upload
+        try:
+            self.__cloudify_client.blueprints.upload(blueprint_yaml_name_with_path, blueprint_name)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Blueprint %s.yaml upload completed" % (nsi_id)])
+        #Check if exists blueprint in cloudify
+        except CloudifyClientError as e:
+            if e.error_code == 'conflict_error':
+                log_queue.put(["INFO", "CLOUDIFY_WRAPPER: Blueprint %s %s" % (blueprint_name, e)])
+            else:
+                log_queue.put(["INFO", "CLOUDIFY_WRAPPER: Blueprint %s %s" % (blueprint_name, e)])
+        except Exception as e:
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Blueprint %s.yaml upload error %s " % (blueprint_name, e)])
             return None
+
+        # deployment creation
+
+        try:
+            self.__cloudify_client.deployments.create(blueprint_name, nsi_id)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deployment %s creation started" % (nsi_id)])
+        except Exception as e:
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deployment creation error %s " % (e)])
+            return None
+
+        try:
+            self.wait_for_deployment_execution(nsi_id)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deployment %s creation completed" % (nsi_id)])
+        except Exception as e:
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deployment creation error %s " % (e)])
+            return None
+
+        # deploying
+        try:
+            self.__cloudify_client.executions.start(nsi_id, "install")
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deploying %s started" % (nsi_id)])
+        except Exception as e:
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deploying %s error %s " % (nsi_id, e)])
+            return None
+
+        try:
+            self.wait_for_deployment_execution(nsi_id)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deploying %s completed" % (nsi_id)])
+        except Exception as e:
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deploying %s error %s " % (nsi_id, e)])
+            return None
+
+        nsi_sap = self.__cloudify_client.deployments.outputs.get(deployment_id=nsi_id)
+
+
+        #
+        # instances = self.__cloudify_client.node_instances.list(deployment_id=nsi_id)
+        #
+        instantiation_output = {}
+        instantiation_output["sapInfo"] = nsi_sap["outputs"]
+        converted_output = self.convert_output(instantiation_output)
+        return converted_output
+
+
+    def scale_ns(self, nsi_id, ns_descriptor, vnfds_descriptor, body, current_df, current_il, placement_info):
+        """
+        Scales the network service identified by nsi_id, according to the infomation contained in the body and current instantiation level.
+        Parameters
+        ----------
+        nsi_id: string
+            identifier of the network service instance
+        ns_descriptor: dict
+            json containing the nsd
+        vnfds_descriptor: array
+            jsons of the vnfds
+        body: dict
+            scaling information
+        current il: string
+            identifier of the current instantiation level
+        Returns
+        -------
+        To be defined
+        """
+
+        # creates tmp folder for blueprint
+
+        scale_ns_instantiation_level_id = self.extract_target_il(body)
+        scale_ops = self.extract_scaling_info(ns_descriptor, current_df, current_il, scale_ns_instantiation_level_id)
+        log_queue.put(["DEBUG", "scaling target il: %s" % (scale_ns_instantiation_level_id)])
+        # placement_info = nsir_db.get_placement_info(nsi_id)
+        if not os.path.exists(self.__blueprints_path):
+            os.makedirs(self.__blueprints_path)
+        os.makedirs(self.__blueprints_path + "/" + nsi_id, exist_ok=True)
+        currentDT = datetime.datetime.now()
+        string_date = currentDT.strftime("%Y_%m_%d_%H_%M_%S")
+        path_to_blueprint = self.__blueprints_path + "/" + nsi_id + "/" + string_date
+        blueprint_name = ns_descriptor['nsd']['nsdIdentifier'] + "_" + scale_ns_instantiation_level_id
+        #full path and name for blueprint
+        blueprint_yaml_name_with_path = path_to_blueprint + "/" + blueprint_name + ".yaml"
+        os.makedirs(path_to_blueprint)
+
+
+        # set parameters for blueprint
+        converter_to_yaml = ConverterNSDOpenstackYAML()
+        converter_to_yaml.set_placement_info(placement_info)
+        converter_to_yaml.set_nfvis_pop_info(self.get_nfvi_pop_info())
+        converter_to_yaml.set_ns_instantiation_level_id(scale_ns_instantiation_level_id)
+        converter_to_yaml.set_ns_descriptor(ns_descriptor)
+        converter_to_yaml.set_vnfds_descriptor(vnfds_descriptor)
+        converter_to_yaml.parse()
+        converter_to_yaml.sort_networks()
+        converter_to_yaml.sort_servers()
+        converter_to_yaml.generate_yaml(blueprint_yaml_name_with_path)
+        # bluprint upload
+        try:
+            self.__cloudify_client.blueprints.upload(blueprint_yaml_name_with_path, blueprint_name)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Blueprint %s.yaml upload completed" % (nsi_id)])
+        #Check if exists blueprint in cloudify
+        except CloudifyClientError as e:
+            if e.error_code == 'conflict_error':
+                log_queue.put(["INFO", "CLOUDIFY_WRAPPER: Blueprint %s %s" % (blueprint_name, e)])
+        except Exception as e:
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Blueprint %s.yaml upload error %s " % (blueprint_name, e)])
+            return None
+
+
+        # deployment update
+        try:
+            self.__cloudify_client.deployment_updates.update_with_existing_blueprint(nsi_id, blueprint_name)
+            # self.__cloudify_client.deployment_updates.update(nsi_id, blueprint_yaml_name_with_path)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deployment %s update by %s started" % (nsi_id, blueprint_name)])
+        except Exception as e:
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deployment %s update by %s error %s " % (nsi_id, blueprint_name, e)])
+            return None
+
+        try:
+            self.wait_for_deployment_execution(nsi_id)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Scale Deployment %s update by %s completed" % (nsi_id, blueprint_name)])
+        except Exception as e:
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Scale Deployment %s update by %s error %s " % (nsi_id, blueprint_name, e)])
+            return None
+
+        nsi_sap = self.__cloudify_client.deployments.outputs.get(deployment_id=nsi_id)
+        instantiation_output = {}
+        instantiation_output["sapInfo"] = nsi_sap["outputs"]
+        converted_output = self.convert_output(instantiation_output)
+        return [converted_output, scale_ops]
+
+    def extract_target_il(self, body):
+        if (body.scale_type == "SCALE_NS"):
+            return body.scale_ns_data.scale_ns_to_level_data.ns_instantiation_level
+
 
     def terminate_ns(self, nsi_id):
         """
@@ -98,33 +256,127 @@ class CloudifyWrapper(object):
         -------
         To be defined
         """
-        operation_id = self.create_uninstall_workflow(nsi_id)
-        if operation_id is not None:
-            self.delete_deployment(nsi_id)
+
+        # undeploying
+        try:
+            self.__cloudify_client.executions.start(nsi_id, "uninstall")
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deployment  %s uninstalling started" % (nsi_id)])
+        except Exception as e:
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deploying %s uninstalling error %s " % (nsi_id, e)])
+            return None
+
+        try:
+            self.wait_for_deployment_execution(nsi_id)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deployment %s uninstalling completed" % (nsi_id)])
+        except Exception as e:
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deployment %s  uninstalling error %s " % (nsi_id, e)])
+            return None
+
+        # deployment deleting
+        try:
+            self.__cloudify_client.deployments.delete(nsi_id)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deployment %s deleting started" % (nsi_id)])
+        except Exception as e:
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deployment deleting error %s " % (e)])
+            return None
+        log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deployment %s deleting completed" % (nsi_id)])
 
     ##########################################################################
     # PRIVATE METHODS                                                                                                      #
     ##########################################################################
-    def wait_execution(self, execution):
-        """
-        Holds the execution until a task finishes in cloudify.
-        Parameters
-        ----------
-        execution: string
-            identifier of the execution
-        Returns
-        -------
-        To be defined
-        """
-        log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: wait_execution:%s" % execution])
-        execution_data = self.get_execution(execution)
-        while execution_data["status"] not in ["terminated"]:
-            time.sleep(5)
-            execution_data = self.get_execution(execution)
-            if execution_data["status"] == "failed":
-                log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: wait_execution:%s" % execution])
-                return False
-        return True
+
+    def extract_scaling_info(self, ns_descriptor, current_df, current_il, target_il):
+        # we extract the required scaling operations comparing target_il with current_il
+        # assumption 1: we assume that there will not be new VNFs, so all the keys of target and current are the same
+        # scale_info: list of dicts {'vnfName': 'spr21', 'scaleVnfType': 'SCALE_OUT', 'vnfIndex': "3"}
+        nsd_name = ns_descriptor["nsd"]["nsdIdentifier"] + "_" + current_df + "_" + current_il
+        target_il_info = {}
+        current_il_info = {}
+        for df in ns_descriptor["nsd"]["nsDf"]:
+            if (df["nsDfId"] == current_df):
+                for il in df["nsInstantiationLevel"]:
+                    if (il["nsLevelId"] == target_il):
+                        for vnf in il["vnfToLevelMapping"]:
+                            for profile in df["vnfProfile"]:
+                                if (vnf["vnfProfileId"] == profile["vnfProfileId"]):
+                                    target_il_info[profile["vnfdId"]] = int(vnf["numberOfInstances"])
+                    if (il["nsLevelId"] == current_il):
+                        for vnf in il["vnfToLevelMapping"]:
+                             for profile in df["vnfProfile"]:
+                                 if (vnf["vnfProfileId"] == profile["vnfProfileId"]):
+                                     current_il_info[profile["vnfdId"]] = int(vnf["numberOfInstances"])
+        log_queue.put(["DEBUG", "Target il %s info: %s"% (target_il, target_il_info)])
+        log_queue.put(["DEBUG", "Current il %s info: %s"% (current_il, current_il_info)])
+        scaling_il_info = []
+        for key in target_il_info.keys():
+            scaling_sign = target_il_info[key] - current_il_info[key]
+            if (scaling_sign !=0):
+                scale_info ={}
+                scale_info["vnfName"] = key
+                if (scaling_sign > 0): #SCALE_OUT
+                    scale_info["scaleVnfType"] = "SCALE_OUT"
+                elif (scaling_sign < 0): #SCALE_IN
+                    scale_info["scaleVnfType"] = "SCALE_IN"
+                for ops in range (0, abs(scaling_sign)):
+                    # scale_info["instanceNumber"] = str(current_il_info[key] + ops + 1) -> not needed instance number
+                    # scaling operation are done one by one
+                    # protection for scale_in operation: the final number of VNFs cannot reach 0
+                    if not (scale_info["scaleVnfType"] == "SCALE_IN" and (current_il_info[key] - ops > 0) ):
+                        scaling_il_info.append(scale_info)
+        log_queue.put(["DEBUG", "Scale_il_info is: %s"%(scaling_il_info)])
+        return scaling_il_info
+
+
+
+    def get_nfvi_pop_info(self):
+        # self.vim_info
+        vim_info = {}
+        config = RawConfigParser()
+        config.optionxform = str
+        config.read("../../coreMano/vim.properties")
+        config.keys()
+        nfvipops = {}
+        vims = {}
+        for key in config.keys():
+            if str(key).startswith("NFVIPOP"):
+                nfvipop_parametes = dict(config.items(key))
+                nfvipops.update({nfvipop_parametes['nfviPopId']: nfvipop_parametes})
+
+        number_of_vims = config.getint("VIM", "number")
+        for i in range(1, number_of_vims + 1):
+            vim = dict(config.items("VIM" + str(i)))
+            vims.update({vim['vimId']:vim})
+
+        for key, nfvipop in nfvipops.items():
+            vim_id =  nfvipop['vimId']
+            nfvipops[key]['vim'] = vims[vim_id]
+        return nfvipops
+
+
+    def convert_output(self, param):
+        ret_obj = {}
+        ret_obj['sapInfo'] = {}
+        for level1_key, level2_value in param['sapInfo'].items():
+            ret_obj['sapInfo'][level1_key] = []
+            for level3_key, level3_value in level2_value.items():
+                ret_obj['sapInfo'][level1_key].append({level3_key: level3_value})
+        return ret_obj
+
+
+    def wait_for_deployment_execution(self, deployment_id):
+        while True:
+            time.sleep(2)
+            executions = self.__cloudify_client.executions.list(_include=['status'], deployment_id=deployment_id)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Checking status of deployment %s" % (deployment_id)])
+            pending = False
+            for execution in executions:
+                if execution['status'] in ["failed"]:
+                    log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deployment %s status failed"% (deployment_id)])
+                    raise Exception("CLOUDIFY_WRAPPER: Deployment %s status failed"% (deployment_id))
+                if execution['status'] in ["pending", "started"]:
+                    pending = True
+            if pending == False:
+                break
 
     def get_execution(self, execution):
         """
@@ -137,277 +389,13 @@ class CloudifyWrapper(object):
         Dictionary with the execution status
         """
 
-        url = 'http://%s/api/v3.1/executions/%s' % (self.nfvo_ip, execution)
+        url = 'http://%s/api/v3.1/executions/%s' % (self.__nfvo_ip, execution)
         log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: get_execution:%s" % url])
-        headers = {'Tenant': self.tenant}
+        headers = {'Tenant': self.__tenant}
         response = requests.get(
             url,
-            auth=HTTPBasicAuth(self.user, self.password),
+            auth=HTTPBasicAuth(self.__user, self.__password),
             headers=headers,
         )
         return response.json()
 
-    def get_nsd_parameters(self, nsd_id):
-        # TODO
-        return {}
-
-    def create_deployment(self, nsi_id, blueprint_id):
-        """
-        Creates a deployment within cloudify
-        Parameters
-        ----------
-        nsi_id: string
-            identifier of the network service instance used as deployment id
-        blueprint_id: string
-            identifier of the cloudify bluprint matching the network service descriptor desired
-        Returns
-        -------
-        boolean representing the successful operation
-        """
-        url = 'http://%s/api/v3.1/deployments/%s' % (self.nfvo_ip, nsi_id)
-        headers = {
-            'Content-Type': 'application/json',
-            'Tenant': self.tenant,
-        }
-        querystring = {'_include': 'id'}
-        # skip_plugin=json.dumps({'skip-plugins-validation':True})
-        inputs = self.get_nsd_parameters(nsi_id)
-
-        payload = {
-            'blueprint_id': blueprint_id,
-            'inputs': inputs,
-            'visibility': 'tenant',
-            'skip-plugins-validation': True
-        }
-        log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: create_deployment url:%s payload:%s" % (url, json.dumps(payload))])
-
-        try:
-            response = requests.put(
-                url, auth=HTTPBasicAuth(self.user, self.password),
-                headers=headers,
-                params=querystring,
-                json=payload,
-            )
-            if response.status_code != requests.codes.created:
-                log_queue.put(
-                    ["ERROR", "CLOUDIFY_WRAPPER: create_deploymen %s %s" % (response.status_code, response.reason)])
-                return False
-            else:
-                log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: create_deployment completed"])
-                return True
-        except requests.exceptions.RequestException as e:
-            log_queue.put(["ERROR", "CANNOT  connect to cloudify"])
-            return False
-
-    def create_install_workflow(self, nsi_id):
-        """
-        Triggers the install workflow within cloudify
-        Parameters
-        ----------
-        nsi_id: string
-            identifier of the network service instance used as deployment id
-
-        Returns
-        -------
-        Dictionary with the operation_id or None if the operation fails
-        """
-
-        while self.pending_workflow(nsi_id):
-            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: waiting workflow:%s" % nsi_id])
-            time.sleep(5)
-        url_exec = 'http://%s/api/v3.1/executions' % (self.nfvo_ip)
-        headers = {
-            'Content-Type': 'application/json',
-            'Tenant': self.tenant,
-        }
-        payload_exec = {
-            'deployment_id': nsi_id,
-            'workflow_id': 'install',
-        }
-        querystring = {'_include': 'id'}
-        while self.pending_workflow(nsi_id):
-            time.sleep(5)
-            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Waiting for deployment creation:%s" % nsi_id])
-        log_queue.put(
-            ["DEBUG", "CLOUDIFY_WRAPPER: create_install_workflow url:%s payload:%s" % (url_exec, payload_exec)])
-        response_exec = requests.post(
-            url_exec,
-            auth=HTTPBasicAuth(self.user, self.password),
-            headers=headers,
-            params=querystring,
-            json=payload_exec,
-        )
-        if response_exec.status_code == requests.codes.created:
-            operation_id = response_exec.json()["id"]
-            self.__executions[nsi_id] = operation_id
-            return {"operation_id": operation_id}
-        else:
-            log_queue.put(
-                ["ERROR",
-                 "CLOUDIFY_WRAPPER: create_install_workflow %s %s" % (response_exec.status_code, response_exec.reason)])
-            return None
-
-    def create_uninstall_workflow(self, nsi_id):
-        """
-        Triggers the uninstall workflow within cloudify
-        Parameters
-        ----------
-        nsi_id: string
-            identifier of the network service instance used as deployment id
-
-        Returns
-        -------
-        TBD
-        """
-        wait_exec = True
-        if nsi_id in self.__executions:
-            wait_exec = self.wait_execution(self.__executions[nsi_id])
-
-        if wait_exec:
-            url_exec = 'http://%s/api/v3.1/executions' % (self.nfvo_ip)
-            headers = {
-                'Content-Type': 'application/json',
-                'Tenant': self.tenant,
-            }
-            payload_exec = {
-                'deployment_id': nsi_id,
-                'workflow_id': 'uninstall',
-            }
-            querystring = {'_include': 'id'}
-            response_exec = requests.post(
-                url_exec,
-                auth=HTTPBasicAuth(self.user, self.password),
-                headers=headers,
-                params=querystring,
-                json=payload_exec,
-            )
-            if response_exec.status_code == requests.codes.created:
-                operation_id = response_exec.json()["id"]
-                self.__executions[nsi_id] = operation_id
-                return operation_id
-            else:
-                log_queue.put(
-                    ["ERROR", "CLOUDIFY_WRAPPER: create_uninstall_workflow %s %s" % (
-                        response_exec.status_code, response_exec.reason)])
-                return None
-        else:
-            return None
-
-    def delete_deployment(self, deployment):
-        """
-        Deletes a cloudify deployment
-        Parameters
-        ----------
-        deployment: string
-           identifier of the network service instance used as deployment id
-
-        Returns
-        -------
-        True or false depending if the operation was succesfull or not
-        """
-
-        url = 'http://%s/api/v3.1/deployments/%s' % (self.nfvo_ip, deployment)
-        headers = {'content-type': 'application/json',
-                   'Tenant': self.tenant}
-        querystring = {'_include': 'id', 'ignore_live_nodes': True}
-        wait_exec = True
-        if deployment in self.__executions:
-            wait_exec = self.wait_execution(self.__executions[deployment])
-
-        if wait_exec:
-            response = requests.delete(
-                url,
-                auth=HTTPBasicAuth(self.user, self.password),
-                headers=headers,
-                params=querystring,
-            )
-            if response.status_code != requests.codes.ok:
-                log_queue.put(
-                    ["ERROR", "CLOUDIFY_WRAPPER: create_uninstall_workflow %s %s" % (
-                        response.status_code, response.reason)])
-                return False
-            else:
-                return True
-        else:
-            return False
-
-    def pending_workflow(self, deployment):
-        """
-       Checks if a deployment has pending workflows
-       Parameters
-       ----------
-       deployment: string
-           identifier of the network service instance used as deployment id
-
-       Returns
-       -------
-       Boolean
-       """
-        url = 'http://%s/api/v3.1/executions' % self.nfvo_ip
-        headers = {'Tenant': self.tenant}
-        querystring = {'_include': 'id'}
-        response = requests.get(
-            url,
-            auth=HTTPBasicAuth(self.user, self.password),
-            headers=headers,
-        )
-
-        if response.status_code == requests.codes.ok:
-            for current_workflow in response.json()["items"]:
-                if current_workflow["deployment_id"] == deployment and current_workflow["status"] != "terminated":
-                    return True
-            return False
-        else:
-            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: pending_workflow %s" % deployment])
-            return True
-
-    def get_blueprint_id(self, nsi_id, body):
-        """
-        Checks if a deployment has pending workflows
-        Parameters
-        ----------
-        deployment: string
-            identifier of the network service instance used as deployment id
-
-        Returns
-        -------
-        Boolean
-        """
-        nsd_id = get_nsdId(nsi_id)
-        bp_id = get_nsd_cloudify_id(nsd_id)
-        log_queue.put(
-            ["DEBUG", "CLOUDIFY_WRAPPER: get_blueprint_id nsi_id:%s nsd_id:%s bp_id:%s" % (nsi_id, nsd_id, bp_id)])
-        return bp_id
-
-    def get_deployment_output(self, deployment):
-
-        url = 'http://%s/api/v3.1/deployments/%s/outputs' % (self.nfvo_ip, deployment)
-        headers = {'Tenant': self.tenant}
-        querystring = {'_include': 'id,runtime_properties,state',
-                       'deployment_id': deployment}
-        log_queue.put(["DEBUG", "get_deployment_outputs url:%s headers:%s" % (url, headers)])
-        try:
-            response = requests.get(
-                url,
-                auth=HTTPBasicAuth(self.user, self.password),
-                headers=headers
-            )
-            output = response.json()
-            log_queue.put(["DEBUG", "get_deployment_outputs output:%s output:%s" % (url, output)])
-            return output
-        except requests.exceptions.RequestException as e:
-            log_queue.put(["ERROR", "Error retrieving cloudify deployment outputs"])
-            return None
-
-    def get_deployment_sap(self, deployment):
-        log_queue.put(["DEBUG", "get_deployment_sap deployment:%s" % deployment])
-        deployment_output = self.get_deployment_output(deployment)
-        if deployment_output is not None:
-            if "outputs" in deployment_output and "sapInfo" in deployment_output["outputs"]:
-                return deployment_output["outputs"]["sapInfo"]
-            else:
-                log_queue.put(["ERROR", "Error retrieving SAP info from cloudify deployment outputs"])
-                return None
-
-        else:
-            return None

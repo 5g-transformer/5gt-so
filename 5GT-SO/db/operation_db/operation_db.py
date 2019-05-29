@@ -17,6 +17,7 @@ File description
 """
 
 # mongodb imports
+from bson import ObjectId
 from pymongo import MongoClient
 
 # project imports
@@ -36,6 +37,7 @@ fgtso_db = operation_client.fgtso
 operation_coll = fgtso_db.operation
 
 
+####### SO methods
 # operations collection functions
 def create_operation_record(operationId, nsId, operation_type):
     """
@@ -151,3 +153,43 @@ def empty_operation_collection():
     None
     """
     operation_coll.delete_many({})
+
+
+####### GUI methods
+def get_all_operation():
+    """
+    Returns all the operations in che collection
+    Parameters
+    ----------
+    Returns
+    -------
+    list of dict
+    """
+    return list(operation_coll.find())
+
+def remove_operation_by_id(id):
+    """
+    Remove a operation from the collection filtered by the id parameter
+    Parameters
+    ----------
+    id: _id of operation
+    Returns
+    -------
+    dict
+    """
+    output = operation_coll.remove({"_id": ObjectId(id)})
+
+
+def update_operation(id, body):
+    """
+    Update an operation from the collection filtered by the id parameter
+    Parameters
+    ----------
+    id: _id of operation
+    body: body to update
+    Returns
+    -------
+    ???
+    """
+    output = operation_coll.update({"_id": ObjectId(id)}, {"$set": body})
+    return output

@@ -3,20 +3,28 @@ SO
 
 Requirements
 ============
-Python 3.5.2+
-pip3
-
-install osm python lib:
-$ git clone https://osm.etsi.org/gerrit/osm/osmclient.git
-from the new created folder "osmclient" run:
-$ sudo python3 setup.py install
-
-MongoDB, just running, no configuration needed.
+* Python 3.5.2+
+* pip3
+* osm python lib
+to install osm python lib:
+from folder 5GT-SO/coreMano/osmclient/
+run:
+	sudo python3 setup.py install
+note: this library was downloaded from
+https://osm.etsi.org/gerrit/osm/osmclient.git on date 09/28/2018
+and the following files were modified:
+scripts/osm.py
+sol005/ns.py
+v1/ns.py
+* MongoDB, just running, no configuration needed.
 
 Install
 =======
 
 git clone https://5g-transformer.eu/git/5g-transformer.5gt-so
+
+in folder: /5GT-SO --> pip3 install -r requirements.txt #only the first time
+in folder: /5GT-SO/coreMano/osmclient/ --> python3 setup.py install
 
 Configuration files
 ===================
@@ -40,8 +48,8 @@ http://localhost:8080/5gt/so/v1/ui/
 
 you can check all operations definitions and test them.
 
-Test
-====
+Tests
+=====
 
 from the "5GT-SO/test" folder run:
 python regression_test.py

@@ -1,0 +1,184 @@
+---
+swagger: "2.0"
+info:
+  description: "REST-API server for the East/West Bound Interface of the 5GT-SO. Find\
+    \ more at http://5g-transformer.eu"
+  version: "1.0"
+  title: "5GT-SO E/WBI"
+host: "localhost:8085"
+basePath: "/5gt/so-ewbi/v1"
+tags:
+- name: "5GT-SO E/WBI"
+  description: "communication between CROOE for federation purposes"
+schemes:
+- "http"
+paths:
+  /ns/{nsId}/federated-network-info:
+    put:
+      tags:
+      - "federated network service"
+      summary: "Query towards the consumer/local domain about the information: CIDR/pools\
+        \ that have to be used/not used in the federated domain"
+      description: ""
+      operationId: "federated_network_info"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nsId"
+        in: "path"
+        description: "nsId of the composite in consumer domain"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Identifier of the descriptor in the federated domain"
+        required: true
+        schema:
+          $ref: "#/definitions/FederatedInfo"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/inline_response_200_1"
+        400:
+          description: "Bad Request"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.federated_service_controller"
+  /ns/{nsId}/federated-instance-info:
+    put:
+      tags:
+      - "federated network service"
+      summary: "Query towards the federated/provider domain to know info about: CIDR/pools\
+        \ that have to be used/not used in the federated domain"
+      description: ""
+      operationId: "federated_instance_info"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nsId"
+        in: "path"
+        description: "nsId of the nested federated network service in federated domain"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Identifier of the descriptor in the federated domain"
+        required: true
+        schema:
+          $ref: "#/definitions/FederatedInfo"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/inline_response_200_2"
+        400:
+          description: "Bad Request"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.federated_service_controller"
+  /ns/{nsId}/federated-internested-connections:
+    post:
+      tags:
+      - "federated network service"
+      summary: "Query towards the federated/provider domain to perform connections\
+        \ towards the local and other federate domains"
+      description: ""
+      operationId: "federated_connection_paths"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nsId"
+        in: "path"
+        description: "nsId of the nested federated network service in federated domain"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Identifier of the descriptor in the federated domain"
+        required: true
+        schema:
+          $ref: "#/definitions/InterconnectionPaths"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Bad Request"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.federated_service_controller"
+definitions:
+  FederatedInfo:
+    type: "object"
+    required:
+    - "nsdId"
+    properties:
+      nsdId:
+        type: "string"
+    example:
+      nsdId: "nsdId"
+  InterconnectionPaths:
+    type: "object"
+    required:
+    - "connectedVNFs"
+    - "nsdId"
+    - "linkChar"
+    properties:
+      nsdId:
+        type: "string"
+      connectedVNFs:
+        $ref: "#/definitions/KeyValuePair"
+      linkChar:
+        $ref: "#/definitions/KeyValuePair"
+    example:
+      nsdId: "eHealth_vEPC"
+      connectedVNFs:
+        IPs:
+        - - "192.168.20.1"
+          - "192.168.20.78"
+        - - "IP2l"
+          - "IP2f"
+  inline_response_200_1:
+    type: "object"
+    required:
+    - "networkInfo"
+    properties:
+      networkInfo:
+        $ref: "#/definitions/KeyValuePair"
+    example:
+      networkInfo:
+        cidr:
+          network_name1: "192.168.24.0/24"
+        addressPool:
+          network_name1:
+          - 0
+          - 5
+  inline_response_200_2:
+    type: "object"
+    required:
+    - "instanceInfo"
+    properties:
+      instanceInfo:
+        $ref: "#/definitions/KeyValuePair"
+    example:
+      instanceInfo:
+        IPs:
+          n_name1:
+          - "192.168.24.1"
+          - "192.168.24.34"
+          n_name2:
+          - 1
+          - 2
+        vlans:
+          n_name1: "vlanid1"
+          n_name2: "vlanid2"
+  KeyValuePair:
+    type: "object"
+    additionalProperties:
+      type: "string"

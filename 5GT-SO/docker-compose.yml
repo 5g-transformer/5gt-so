@@ -1,0 +1,12 @@
+version: '3'
+services:
+  so_app:
+    build: .
+    container_name: so_app
+    ports:
+      - "8080:8080"
+  so_mongo:
+    image: "mongo:3.2"
+    container_name: so_mongo
+    ports:
+      - "27017:27017"

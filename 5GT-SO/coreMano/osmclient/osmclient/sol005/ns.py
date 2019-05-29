@@ -23,6 +23,7 @@ from osmclient.common.exceptions import ClientException
 from osmclient.common.exceptions import NotFound
 import yaml
 import json
+import sys
 
 
 class Ns(object):
@@ -311,10 +312,23 @@ class Ns(object):
                         #this is the network I was looking for
                         net = { 'name': vld['name'],
                                 'vim-network-name': vim_vld_name}
+                        if 'release' in config:
+                            if config['release'] == "5":
+                                net['wimAccountId'] = False
                         net_config.append(net)
                     #print "in osm, the used networks are: ", vim_vld_name 
+            # the networks in config['mapping'] will always be needed
+            for key in config['mapping'].keys():
+                net = {'name': key,
+                       'vim-network-name': config['mapping'][key]}
+                net_config.append(net)
+            print ("en osm-create ns net_config es: ", ns)
             ns["vld"] = net_config
-        #print "en osm-create ns: ", ns
+
+            if 'release' in config:
+                if config['release'] == "5":
+                    ns['wimAccountId'] = False
+        print ("en osm-create ns: ", ns)
 
 ##        resp = self._http.post_cmd(
 #            'api/config/{}ns-instance-config/nsr'

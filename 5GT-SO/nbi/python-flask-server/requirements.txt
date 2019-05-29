@@ -1,3 +1,8 @@
 connexion == 1.1.15
 python_dateutil == 2.6.0
 setuptools >= 21.0.0
+netaddr == 0.7.19
+python3-wget == 0.0.2b1
+iso8601
+pytz
+requests-toolbelt

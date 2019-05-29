@@ -1,0 +1,163 @@
+{
+	"vnfdId": "LB_VNF",
+	"vnfProvider": "UC3M-CTTC",
+	"vnfProductName": "LB_VNF",
+	"vnfSoftwareVersion": "0.1",
+	"vnfdVersion": "0.1",
+	"vnfProductInfoName": "LB_VNF",
+	"vnfProductInfoDescription": "LB_VNF",
+	"vnfmInfo": ["LB_VNFM"],
+	"localizationLanguage": [],
+	"defaultLocalizationLanguage": "",
+	"vdu": [{
+		"vduId": "LB_vdu",
+		"name": "LB",
+		"description": "VDU of the LB_VNF",
+		"intCpd": [{
+			"cpdId": "lb_mgt_intcp",
+			"layerProtocol": "IPV4",
+			"description": "Management CP of the LB",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": true,
+				"management": true,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}, {
+			"cpdId": "lb_data_intcp",
+			"layerProtocol": "IPV4",
+			"description": "CP for the LB to connect to the Internet",
+			"addressData": [{
+				"addressType": "IP_ADDRESS",
+				"iPAddressAssignment": false,
+				"floatingIpActivated": false,
+				"iPAddressType": "IPv4",
+				"numberOfIpAddress": 1
+			}]
+		}],
+		"virtualComputeDesc": "VCD_LB",
+		"virtualStorageDesc": ["VSD_LB"],
+        "boot_order": {},
+		"monitoringParameter": [],
+		"nfviConstraint": [],
+		"swImageDesc": {
+			"id": "LB_SWID",
+			"name": "LB_VNF_eHealth",
+			"version": "0.1",
+			"checksum": "TBD",
+			"containerFormat": "QCOW2",
+			"diskFormat": "QCOW2",
+			"minDisk": 1,
+			"minRam": 1,
+			"size": 15,
+			"swImage": "LB_VNF_eHealth",
+			"operatingSystem": "Ubuntu-14.04",
+			"supportedVirtualisationEnvironment": ""
+		},
+		"configurableProperties": {}
+	}],
+	"virtualComputeDesc": [{
+		"virtualComputeDescId": "VCD_LB",
+		"logicalNode": {},
+		"requestedAdditionalCapabilities": "",
+		"computeRequirements": "",
+		"virtualMemory": {
+			"virtualMemSize": 1,
+			"virtualMemOversubscriptionPolicy": "asdasd",
+			"vduMemRequirements": "",
+			"numaEnabled": false
+		},
+		"virtualCpu": {
+			"numVirtualCpu": 1,
+			"cpuArchitecture": "x86_64",
+			"virtualCpuClock": 0,
+			"virtualCpuOversubscriptionPolicy": "asdasd",
+			"vduCpuRequirements": "",
+			"virtualCpuPinning": ""
+		}	
+	}],
+	"virtualStorageDesc": [{
+		"id": "VSD_LB",
+		"typeOfStorage": "VOLUME",
+		"sizeOfStorage": 15,
+		"vduStorageRequirements": "",
+		"rdmaEnabled": false,
+		"swImageDesc": "LB_SWID"
+	}],
+	"intVirtualLinkDesc": [],	
+	"vnfExtCpd": [{
+		"cpdId": "lb_mgt_extcp",
+		"layerProtocol": "IPV4",
+		"description": "Management external CP of the LB",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": true,
+			"management": true,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "lb_mgt_intcp"
+	}, {
+		"cpdId": "lb_data_extcp",
+		"layerProtocol": "IPV4",
+		"description": "External CP for the 1st cache media content to be retrieved",
+		"addressData": [{
+			"addressType": "IP_ADDRESS",
+			"iPAddressAssignment": false,
+			"floatingIpActivated": false,
+			"iPAddressType": "IPv4",
+			"numberOfIpAddress": 1
+		}],
+		"intCpd": "lb_data_intcp"
+	}],
+	"deploymentFlavour": [{
+		"flavourId": "LB_VNF_df",
+		"description": "Standard deployment flavour of the LB",
+		"vduProfile": [{
+			"vduId": "LB_vdu",
+			"minNumberOfInstances": 1,
+			"maxNumberOfInstances": 1
+		}],
+		"instantiationLevel": [{
+			"levelId": "il_LB",
+			"description": "Standard instantiation level of the LB",
+			"vduLevel": [{
+				"vduId": "LB_vdu",
+				"numberOfInstances": 1
+			}]
+		}],
+		"vnfLcmOperationsConfiguration": {},
+		"defaultInstantiationLevelId": "",
+		"supportedOperation": [],
+		"affinityOrAntiAffinityGroup": [],
+		"vnfIndicator": "",
+		"monitoringParameter": [],
+		"scalingAspect": [],
+		"initialDelta": ""
+	}],
+	"configurableProperties": {
+			"autoScalable": false,
+			"autoHealable": false,
+			"additionalConfigurableProperty": [ ]
+	},
+	"modifiableAttributes": {},
+	"lifeCycleManagementScript": [{
+		"event": ["START_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_INSTANTIATION"],
+		"script": ""
+	}, {
+		"event": ["START_VNF_TERMINATION"],
+		"script": ""
+	}, {
+		"event": ["END_VNF_TERMINATION"],
+		"script": ""
+	}],
+	"elementGroup": [],
+	"vnfIndicator": [],
+	"autoScale": ""
+}
