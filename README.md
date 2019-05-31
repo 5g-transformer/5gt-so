@@ -13,7 +13,7 @@
 - NFV-NS scaling and extended NFV-NS lifecycle management
 - NFV-NS composition and federation
 - service assurance through NFV-NS auto-scaling leveraging SLA manager
-- automatic translation of NSDs, VNFDs to MANO formato
+- automatic translation of NSDs, VNFDs to MANO format
 
 ### Extended Resource Orchestration functions:
 - placement decisions based on vertical service requirements and abstracted infrastructure information provided by 5GT-MTP, including single Point of Presence (PoP) deployments and multi-PoP deployments through Wide Area Network (WAN)
