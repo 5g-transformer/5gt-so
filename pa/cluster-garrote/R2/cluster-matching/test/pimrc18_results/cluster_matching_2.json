@@ -1,0 +1,4192 @@
+{
+    "mapping_cost": 205.9103916186604, 
+    "resource_types": [
+        "cpu", 
+        "memory", 
+        "storage"
+    ], 
+    "execution_time": "0.0370781421661", 
+    "avg_services_delay": 0.020967071650994668, 
+    "clustering_decisions": [
+        {
+            "prima_facie_feasible": 1, 
+            "no_clusters": 1, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_1", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_1", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_1", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_1", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_1", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_1", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_1", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_1", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_1", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_1", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_1", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_1", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_1", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_1", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_1", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_1", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_1", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_1", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_1", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_1", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_1", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_1", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_1", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_1"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_1", 
+                "server_0_switch_1_pod_0": "host_cluster_1", 
+                "server_0_switch_1_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_3": "host_cluster_1", 
+                "server_1_switch_1_pod_0": "host_cluster_1", 
+                "server_1_switch_1_pod_1": "host_cluster_1", 
+                "server_1_switch_0_pod_3": "host_cluster_1", 
+                "server_1_switch_0_pod_2": "host_cluster_1", 
+                "server_1_switch_0_pod_1": "host_cluster_1", 
+                "server_1_switch_0_pod_0": "host_cluster_1"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 2, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_2", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_1", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_1", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_1", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_2", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_1", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_2", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_1", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_1", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_1", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_1", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_2", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_2", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_1", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_1", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_1", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_2", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_2", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_2", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_1", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_1", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_1", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_1", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_1"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_1", 
+                "server_0_switch_1_pod_0": "host_cluster_1", 
+                "server_0_switch_1_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_3": "host_cluster_1", 
+                "server_1_switch_1_pod_0": "host_cluster_1", 
+                "server_1_switch_1_pod_1": "host_cluster_1", 
+                "server_1_switch_0_pod_3": "host_cluster_1", 
+                "server_1_switch_0_pod_2": "host_cluster_1", 
+                "server_1_switch_0_pod_1": "host_cluster_1", 
+                "server_1_switch_0_pod_0": "host_cluster_2"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 3, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_3", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_2", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_1", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_1", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_3", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_1", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_3", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_2", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_2", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_2", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_2", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_3", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_3", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_2", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_1", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_2", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_3", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_3", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_3", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_2", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_1", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_1", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_1", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_1"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_1", 
+                "server_0_switch_1_pod_0": "host_cluster_1", 
+                "server_0_switch_1_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_3": "host_cluster_1", 
+                "server_1_switch_1_pod_0": "host_cluster_1", 
+                "server_1_switch_1_pod_1": "host_cluster_1", 
+                "server_1_switch_0_pod_3": "host_cluster_1", 
+                "server_1_switch_0_pod_2": "host_cluster_1", 
+                "server_1_switch_0_pod_1": "host_cluster_3", 
+                "server_1_switch_0_pod_0": "host_cluster_2"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 4, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_1", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_2", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_3", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_4", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_1", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_3", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_1", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_2", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_2", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_2", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_2", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_1", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_1", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_2", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_4", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_2", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_1", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_1", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_1", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_2", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_3", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_4", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_4", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_3"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_1", 
+                "server_0_switch_1_pod_0": "host_cluster_1", 
+                "server_0_switch_1_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_3": "host_cluster_1", 
+                "server_1_switch_1_pod_0": "host_cluster_1", 
+                "server_1_switch_1_pod_1": "host_cluster_1", 
+                "server_1_switch_0_pod_3": "host_cluster_1", 
+                "server_1_switch_0_pod_2": "host_cluster_4", 
+                "server_1_switch_0_pod_1": "host_cluster_2", 
+                "server_1_switch_0_pod_0": "host_cluster_3"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 5, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_5", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_1", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_3", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_4", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_2", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_3", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_2", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_1", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_1", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_1", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_1", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_5", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_2", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_1", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_4", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_1", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_2", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_2", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_2", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_1", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_3", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_4", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_4", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_3"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_1", 
+                "server_0_switch_1_pod_0": "host_cluster_1", 
+                "server_0_switch_1_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_3": "host_cluster_1", 
+                "server_1_switch_1_pod_0": "host_cluster_1", 
+                "server_1_switch_1_pod_1": "host_cluster_1", 
+                "server_1_switch_0_pod_3": "host_cluster_5", 
+                "server_1_switch_0_pod_2": "host_cluster_3", 
+                "server_1_switch_0_pod_1": "host_cluster_4", 
+                "server_1_switch_0_pod_0": "host_cluster_2"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 6, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_6", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_2", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_4", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_3", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_1", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_4", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_1", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_5", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_2", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_2", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_2", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_6", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_1", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_5", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_3", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_5", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_1", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_1", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_1", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_2", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_4", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_3", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_3", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_4"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_1", 
+                "server_0_switch_1_pod_0": "host_cluster_1", 
+                "server_0_switch_1_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_3": "host_cluster_1", 
+                "server_1_switch_1_pod_0": "host_cluster_1", 
+                "server_1_switch_1_pod_1": "host_cluster_6", 
+                "server_1_switch_0_pod_3": "host_cluster_4", 
+                "server_1_switch_0_pod_2": "host_cluster_3", 
+                "server_1_switch_0_pod_1": "host_cluster_5", 
+                "server_1_switch_0_pod_0": "host_cluster_2"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 7, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_6", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_4", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_3", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_2", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_1", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_3", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_1", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_5", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_4", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_4", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_7", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_6", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_1", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_5", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_2", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_5", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_1", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_1", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_1", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_7", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_3", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_2", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_2", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_3"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_1", 
+                "server_0_switch_1_pod_0": "host_cluster_1", 
+                "server_0_switch_1_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_3": "host_cluster_1", 
+                "server_1_switch_1_pod_0": "host_cluster_7", 
+                "server_1_switch_1_pod_1": "host_cluster_5", 
+                "server_1_switch_0_pod_3": "host_cluster_4", 
+                "server_1_switch_0_pod_2": "host_cluster_6", 
+                "server_1_switch_0_pod_1": "host_cluster_2", 
+                "server_1_switch_0_pod_0": "host_cluster_3"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 8, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_8", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_6", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_2", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_1", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_4", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_2", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_3", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_5", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_6", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_6", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_7", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_8", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_3", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_5", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_1", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_5", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_3", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_4", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_4", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_7", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_2", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_1", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_1", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_2"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_1", 
+                "server_0_switch_1_pod_0": "host_cluster_1", 
+                "server_0_switch_1_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_3": "host_cluster_8", 
+                "server_1_switch_1_pod_0": "host_cluster_6", 
+                "server_1_switch_1_pod_1": "host_cluster_5", 
+                "server_1_switch_0_pod_3": "host_cluster_4", 
+                "server_1_switch_0_pod_2": "host_cluster_7", 
+                "server_1_switch_0_pod_1": "host_cluster_2", 
+                "server_1_switch_0_pod_0": "host_cluster_3"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 9, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_7", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_4", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_2", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_1", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_3", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_2", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_6", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_5", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_4", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_4", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_8", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_7", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_9", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_5", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_1", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_5", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_6", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_3", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_3", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_8", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_2", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_1", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_1", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_2"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_1", 
+                "server_0_switch_1_pod_0": "host_cluster_1", 
+                "server_0_switch_1_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_2": "host_cluster_1", 
+                "server_1_switch_1_pod_2": "host_cluster_8", 
+                "server_1_switch_1_pod_3": "host_cluster_7", 
+                "server_1_switch_1_pod_0": "host_cluster_6", 
+                "server_1_switch_1_pod_1": "host_cluster_5", 
+                "server_1_switch_0_pod_3": "host_cluster_9", 
+                "server_1_switch_0_pod_2": "host_cluster_3", 
+                "server_1_switch_0_pod_1": "host_cluster_4", 
+                "server_1_switch_0_pod_0": "host_cluster_2"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 10, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_7", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_2", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_1", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_5", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_3", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_1", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_6", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_4", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_2", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_2", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_8", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_7", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_9", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_4", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_5", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_4", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_6", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_3", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_3", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_8", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_1", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_10", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_5", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_1"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_1", 
+                "server_0_switch_1_pod_0": "host_cluster_1", 
+                "server_0_switch_1_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_2": "host_cluster_10", 
+                "server_1_switch_1_pod_2": "host_cluster_8", 
+                "server_1_switch_1_pod_3": "host_cluster_7", 
+                "server_1_switch_1_pod_0": "host_cluster_6", 
+                "server_1_switch_1_pod_1": "host_cluster_5", 
+                "server_1_switch_0_pod_3": "host_cluster_9", 
+                "server_1_switch_0_pod_2": "host_cluster_3", 
+                "server_1_switch_0_pod_1": "host_cluster_4", 
+                "server_1_switch_0_pod_0": "host_cluster_2"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 11, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_7", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_8", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_1", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_4", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_2", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_1", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_5", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_3", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_11", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_8", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_6", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_7", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_9", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_3", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_4", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_3", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_5", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_2", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_2", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_6", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_1", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_10", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_4", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_1"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_1", 
+                "server_0_switch_1_pod_0": "host_cluster_1", 
+                "server_0_switch_1_pod_3": "host_cluster_11", 
+                "server_0_switch_1_pod_2": "host_cluster_9", 
+                "server_1_switch_1_pod_2": "host_cluster_8", 
+                "server_1_switch_1_pod_3": "host_cluster_7", 
+                "server_1_switch_1_pod_0": "host_cluster_6", 
+                "server_1_switch_1_pod_1": "host_cluster_10", 
+                "server_1_switch_0_pod_3": "host_cluster_4", 
+                "server_1_switch_0_pod_2": "host_cluster_3", 
+                "server_1_switch_0_pod_1": "host_cluster_5", 
+                "server_1_switch_0_pod_0": "host_cluster_2"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 12, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_6", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_7", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_1", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_2", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_8", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_1", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_4", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_3", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_11", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_7", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_5", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_6", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_12", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_3", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_2", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_3", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_4", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_8", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_9", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_5", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_1", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_10", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_2", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_1"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_1", 
+                "server_0_switch_1_pod_0": "host_cluster_12", 
+                "server_0_switch_1_pod_3": "host_cluster_10", 
+                "server_0_switch_1_pod_2": "host_cluster_9", 
+                "server_1_switch_1_pod_2": "host_cluster_8", 
+                "server_1_switch_1_pod_3": "host_cluster_7", 
+                "server_1_switch_1_pod_0": "host_cluster_6", 
+                "server_1_switch_1_pod_1": "host_cluster_11", 
+                "server_1_switch_0_pod_3": "host_cluster_4", 
+                "server_1_switch_0_pod_2": "host_cluster_3", 
+                "server_1_switch_0_pod_1": "host_cluster_5", 
+                "server_1_switch_0_pod_0": "host_cluster_2"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 13, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_6", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_5", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_1", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_2", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_7", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_1", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_13", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_3", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_11", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_5", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_4", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_6", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_10", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_3", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_2", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_3", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_12", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_7", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_8", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_4", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_1", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_9", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_2", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_1"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_1", 
+                "server_0_switch_1_pod_1": "host_cluster_13", 
+                "server_0_switch_1_pod_0": "host_cluster_11", 
+                "server_0_switch_1_pod_3": "host_cluster_10", 
+                "server_0_switch_1_pod_2": "host_cluster_9", 
+                "server_1_switch_1_pod_2": "host_cluster_8", 
+                "server_1_switch_1_pod_3": "host_cluster_7", 
+                "server_1_switch_1_pod_0": "host_cluster_12", 
+                "server_1_switch_1_pod_1": "host_cluster_5", 
+                "server_1_switch_0_pod_3": "host_cluster_4", 
+                "server_1_switch_0_pod_2": "host_cluster_6", 
+                "server_1_switch_0_pod_1": "host_cluster_2", 
+                "server_1_switch_0_pod_0": "host_cluster_3"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 14, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_4", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_5", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_1", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_2", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_6", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_1", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_14", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_3", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_11", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_5", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_13", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_4", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_10", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_3", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_2", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_3", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_12", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_6", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_7", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_8", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_1", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_9", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_2", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_1"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_1", 
+                "server_0_switch_0_pod_3": "host_cluster_14", 
+                "server_0_switch_1_pod_1": "host_cluster_12", 
+                "server_0_switch_1_pod_0": "host_cluster_11", 
+                "server_0_switch_1_pod_3": "host_cluster_10", 
+                "server_0_switch_1_pod_2": "host_cluster_9", 
+                "server_1_switch_1_pod_2": "host_cluster_8", 
+                "server_1_switch_1_pod_3": "host_cluster_7", 
+                "server_1_switch_1_pod_0": "host_cluster_13", 
+                "server_1_switch_1_pod_1": "host_cluster_5", 
+                "server_1_switch_0_pod_3": "host_cluster_4", 
+                "server_1_switch_0_pod_2": "host_cluster_6", 
+                "server_1_switch_0_pod_1": "host_cluster_2", 
+                "server_1_switch_0_pod_0": "host_cluster_3"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 15, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_6", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_4", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_7", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_1", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_5", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_3", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_12", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_2", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_11", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_4", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_14", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_6", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_10", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_2", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_1", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_2", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_13", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_5", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_8", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_15", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_7", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_9", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_1", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_3"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_1", 
+                "server_0_switch_0_pod_1": "host_cluster_1", 
+                "server_0_switch_0_pod_2": "host_cluster_15", 
+                "server_0_switch_0_pod_3": "host_cluster_13", 
+                "server_0_switch_1_pod_1": "host_cluster_12", 
+                "server_0_switch_1_pod_0": "host_cluster_11", 
+                "server_0_switch_1_pod_3": "host_cluster_10", 
+                "server_0_switch_1_pod_2": "host_cluster_9", 
+                "server_1_switch_1_pod_2": "host_cluster_8", 
+                "server_1_switch_1_pod_3": "host_cluster_14", 
+                "server_1_switch_1_pod_0": "host_cluster_6", 
+                "server_1_switch_1_pod_1": "host_cluster_5", 
+                "server_1_switch_0_pod_3": "host_cluster_4", 
+                "server_1_switch_0_pod_2": "host_cluster_7", 
+                "server_1_switch_0_pod_1": "host_cluster_2", 
+                "server_1_switch_0_pod_0": "host_cluster_3"
+            }
+        }, 
+        {
+            "prima_facie_feasible": 0, 
+            "no_clusters": 16, 
+            "assignment_vnfs": {
+                "v_gen_1_10_1526292057.0": "vnf_cluster_6", 
+                "v_gen_5_15_1526292057.03": "vnf_cluster_4", 
+                "v_gen_1_4_1526292057.01": "vnf_cluster_7", 
+                "v_gen_2_12_1526292057.01": "vnf_cluster_15", 
+                "v_gen_5_14_1526292057.01": "vnf_cluster_5", 
+                "v_gen_7_2_1526292057.02": "vnf_cluster_3", 
+                "v_gen_6_7_1526292057.01": "vnf_cluster_11", 
+                "v_gen_2_3_1526292057.02": "vnf_cluster_1", 
+                "v_gen_8_15_1526292057.03": "vnf_cluster_10", 
+                "v_gen_7_9_1526292057.03": "vnf_cluster_4", 
+                "v_gen_4_9_1526292057.02": "vnf_cluster_13", 
+                "v_gen_2_18_1526292057.0": "vnf_cluster_6", 
+                "v_gen_4_14_1526292057.0": "vnf_cluster_9", 
+                "v_gen_1_6_1526292057.02": "vnf_cluster_1", 
+                "v_gen_4_10_1526292057.01": "vnf_cluster_2", 
+                "v_gen_3_2_1526292057.02": "vnf_cluster_1", 
+                "v_gen_3_8_1526292057.0": "vnf_cluster_12", 
+                "v_gen_8_20_1526292057.01": "vnf_cluster_5", 
+                "v_gen_7_14_1526292057.01": "vnf_cluster_8", 
+                "v_gen_6_19_1526292057.03": "vnf_cluster_14", 
+                "v_gen_3_5_1526292057.01": "vnf_cluster_7", 
+                "v_gen_6_9_1526292057.02": "vnf_cluster_16", 
+                "v_gen_5_18_1526292057.02": "vnf_cluster_2", 
+                "v_gen_8_18_1526292057.02": "vnf_cluster_3"
+            }, 
+            "assignment_hosts": {
+                "server_0_switch_0_pod_0": "host_cluster_15", 
+                "server_0_switch_0_pod_1": "host_cluster_16", 
+                "server_0_switch_0_pod_2": "host_cluster_14", 
+                "server_0_switch_0_pod_3": "host_cluster_13", 
+                "server_0_switch_1_pod_1": "host_cluster_12", 
+                "server_0_switch_1_pod_0": "host_cluster_11", 
+                "server_0_switch_1_pod_3": "host_cluster_10", 
+                "server_0_switch_1_pod_2": "host_cluster_9", 
+                "server_1_switch_1_pod_2": "host_cluster_8", 
+                "server_1_switch_1_pod_3": "host_cluster_7", 
+                "server_1_switch_1_pod_0": "host_cluster_6", 
+                "server_1_switch_1_pod_1": "host_cluster_5", 
+                "server_1_switch_0_pod_3": "host_cluster_4", 
+                "server_1_switch_0_pod_2": "host_cluster_3", 
+                "server_1_switch_0_pod_1": "host_cluster_2", 
+                "server_1_switch_0_pod_0": "host_cluster_1"
+            }
+        }
+    ], 
+    "vnfs": [
+        {
+            "requirements": {
+                "storage": 9, 
+                "cpu": 4, 
+                "memory": 3
+            }, 
+            "cluster": "vnf_cluster_2", 
+            "processing_time": 2, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_1_pod_2"
+            ], 
+            "vnf_name": "v_gen_1_10_1526292057.0"
+        }, 
+        {
+            "requirements": {
+                "storage": 8, 
+                "cpu": 5, 
+                "memory": 8
+            }, 
+            "cluster": "vnf_cluster_2", 
+            "processing_time": 10, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_1_switch_1_pod_3"
+            ], 
+            "vnf_name": "v_gen_2_18_1526292057.0"
+        }, 
+        {
+            "requirements": {
+                "storage": 7, 
+                "cpu": 7, 
+                "memory": 9
+            }, 
+            "cluster": "vnf_cluster_2", 
+            "processing_time": 4, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_1_pod_2"
+            ], 
+            "vnf_name": "v_gen_3_8_1526292057.0"
+        }, 
+        {
+            "requirements": {
+                "storage": 9, 
+                "cpu": 6, 
+                "memory": 6
+            }, 
+            "cluster": "vnf_cluster_2", 
+            "processing_time": 5, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_1_switch_1_pod_0"
+            ], 
+            "vnf_name": "v_gen_4_14_1526292057.0"
+        }, 
+        {
+            "requirements": {
+                "storage": 9, 
+                "cpu": 4, 
+                "memory": 8
+            }, 
+            "cluster": "vnf_cluster_2", 
+            "processing_time": 2, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_1_switch_1_pod_2"
+            ], 
+            "vnf_name": "v_gen_5_14_1526292057.01"
+        }, 
+        {
+            "requirements": {
+                "storage": 3, 
+                "cpu": 2, 
+                "memory": 3
+            }, 
+            "cluster": "vnf_cluster_2", 
+            "processing_time": 4, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_3"
+            ], 
+            "vnf_name": "v_gen_6_7_1526292057.01"
+        }, 
+        {
+            "requirements": {
+                "storage": 5, 
+                "cpu": 5, 
+                "memory": 9
+            }, 
+            "cluster": "vnf_cluster_2", 
+            "processing_time": 7, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_1_pod_3"
+            ], 
+            "vnf_name": "v_gen_7_14_1526292057.01"
+        }, 
+        {
+            "requirements": {
+                "storage": 7, 
+                "cpu": 10, 
+                "memory": 8
+            }, 
+            "cluster": "vnf_cluster_2", 
+            "processing_time": 4, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_1_pod_0"
+            ], 
+            "vnf_name": "v_gen_8_20_1526292057.01"
+        }, 
+        {
+            "requirements": {
+                "storage": 9, 
+                "cpu": 6, 
+                "memory": 2
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 8, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_1_pod_1"
+            ], 
+            "vnf_name": "v_gen_1_4_1526292057.01"
+        }, 
+        {
+            "requirements": {
+                "storage": 2, 
+                "cpu": 2, 
+                "memory": 4
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 8, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_0"
+            ], 
+            "vnf_name": "v_gen_2_12_1526292057.01"
+        }, 
+        {
+            "requirements": {
+                "storage": 5, 
+                "cpu": 2, 
+                "memory": 8
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 5, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_1"
+            ], 
+            "vnf_name": "v_gen_3_5_1526292057.01"
+        }, 
+        {
+            "requirements": {
+                "storage": 7, 
+                "cpu": 4, 
+                "memory": 8
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 9, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_0"
+            ], 
+            "vnf_name": "v_gen_4_10_1526292057.01"
+        }, 
+        {
+            "requirements": {
+                "storage": 3, 
+                "cpu": 7, 
+                "memory": 10
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 10, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_2"
+            ], 
+            "vnf_name": "v_gen_5_18_1526292057.02"
+        }, 
+        {
+            "requirements": {
+                "storage": 7, 
+                "cpu": 10, 
+                "memory": 10
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 10, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_0"
+            ], 
+            "vnf_name": "v_gen_6_9_1526292057.02"
+        }, 
+        {
+            "requirements": {
+                "storage": 3, 
+                "cpu": 7, 
+                "memory": 2
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 2, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_3"
+            ], 
+            "vnf_name": "v_gen_7_2_1526292057.02"
+        }, 
+        {
+            "requirements": {
+                "storage": 8, 
+                "cpu": 4, 
+                "memory": 3
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 8, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_1_pod_3"
+            ], 
+            "vnf_name": "v_gen_8_18_1526292057.02"
+        }, 
+        {
+            "requirements": {
+                "storage": 6, 
+                "cpu": 5, 
+                "memory": 8
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 9, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_1"
+            ], 
+            "vnf_name": "v_gen_1_6_1526292057.02"
+        }, 
+        {
+            "requirements": {
+                "storage": 4, 
+                "cpu": 7, 
+                "memory": 4
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 5, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_2"
+            ], 
+            "vnf_name": "v_gen_2_3_1526292057.02"
+        }, 
+        {
+            "requirements": {
+                "storage": 10, 
+                "cpu": 10, 
+                "memory": 3
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 2, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_3"
+            ], 
+            "vnf_name": "v_gen_3_2_1526292057.02"
+        }, 
+        {
+            "requirements": {
+                "storage": 3, 
+                "cpu": 10, 
+                "memory": 3
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 10, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_1"
+            ], 
+            "vnf_name": "v_gen_4_9_1526292057.02"
+        }, 
+        {
+            "requirements": {
+                "storage": 4, 
+                "cpu": 9, 
+                "memory": 9
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 10, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_1_pod_1"
+            ], 
+            "vnf_name": "v_gen_5_15_1526292057.03"
+        }, 
+        {
+            "requirements": {
+                "storage": 2, 
+                "cpu": 4, 
+                "memory": 8
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 3, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_1"
+            ], 
+            "vnf_name": "v_gen_6_19_1526292057.03"
+        }, 
+        {
+            "requirements": {
+                "storage": 5, 
+                "cpu": 2, 
+                "memory": 5
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 7, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_1_pod_0"
+            ], 
+            "vnf_name": "v_gen_7_9_1526292057.03"
+        }, 
+        {
+            "requirements": {
+                "storage": 8, 
+                "cpu": 3, 
+                "memory": 5
+            }, 
+            "cluster": "vnf_cluster_1", 
+            "processing_time": 3, 
+            "host_cluster": "host_cluster_1", 
+            "place_at": [
+                "server_0_switch_0_pod_2"
+            ], 
+            "vnf_name": "v_gen_8_15_1526292057.03"
+        }
+    ], 
+    "costs": [
+        {
+            "vnf": "v_gen_3_5_1526292057.01", 
+            "host": "server_0_switch_0_pod_0", 
+            "cost": 15.81189511138989
+        }, 
+        {
+            "vnf": "v_gen_4_9_1526292057.02", 
+            "host": "server_0_switch_0_pod_0", 
+            "cost": 2.302221132048194
+        }, 
+        {
+            "vnf": "v_gen_3_2_1526292057.02", 
+            "host": "server_0_switch_0_pod_0", 
+            "cost": 19.705063851745994
+        }, 
+        {
+            "vnf": "v_gen_4_10_1526292057.01", 
+            "host": "server_0_switch_0_pod_0", 
+            "cost": 4.583898131510663
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_0_switch_0_pod_0", 
+            "cost": 16.99967794265934
+        }, 
+        {
+            "vnf": "v_gen_2_18_1526292057.0", 
+            "host": "server_0_switch_0_pod_0", 
+            "cost": 9.978997571945772
+        }, 
+        {
+            "vnf": "v_gen_6_9_1526292057.02", 
+            "host": "server_0_switch_0_pod_0", 
+            "cost": 14.102120377838608
+        }, 
+        {
+            "vnf": "v_gen_2_12_1526292057.01", 
+            "host": "server_0_switch_0_pod_0", 
+            "cost": 4.421576439774719
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 16.56092791376166
+        }, 
+        {
+            "vnf": "v_gen_8_15_1526292057.03", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 4.6997699863168005
+        }, 
+        {
+            "vnf": "v_gen_1_10_1526292057.0", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 17.96342447794707
+        }, 
+        {
+            "vnf": "v_gen_6_19_1526292057.03", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 7.119966853433109
+        }, 
+        {
+            "vnf": "v_gen_5_14_1526292057.01", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 10.153809684670113
+        }, 
+        {
+            "vnf": "v_gen_3_5_1526292057.01", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 6.0908436736384255
+        }, 
+        {
+            "vnf": "v_gen_1_6_1526292057.02", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 5.107856811847138
+        }, 
+        {
+            "vnf": "v_gen_4_10_1526292057.01", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 13.404805891634853
+        }, 
+        {
+            "vnf": "v_gen_2_12_1526292057.01", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 5.0430346644659725
+        }, 
+        {
+            "vnf": "v_gen_7_14_1526292057.01", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 11.79557786204629
+        }, 
+        {
+            "vnf": "v_gen_4_9_1526292057.02", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 12.869947909383397
+        }, 
+        {
+            "vnf": "v_gen_3_2_1526292057.02", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 7.14546402539148
+        }, 
+        {
+            "vnf": "v_gen_4_14_1526292057.0", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 2.152544423727288
+        }, 
+        {
+            "vnf": "v_gen_7_9_1526292057.03", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 13.459430684701186
+        }, 
+        {
+            "vnf": "v_gen_6_7_1526292057.01", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 7.812134626792072
+        }, 
+        {
+            "vnf": "v_gen_7_2_1526292057.02", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 1.7194623714202293
+        }, 
+        {
+            "vnf": "v_gen_3_8_1526292057.0", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 3.2464192451197995
+        }, 
+        {
+            "vnf": "v_gen_5_15_1526292057.03", 
+            "host": "server_0_switch_0_pod_1", 
+            "cost": 9.961009271473001
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 13.519236074838874
+        }, 
+        {
+            "vnf": "v_gen_6_7_1526292057.01", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 2.213812295734796
+        }, 
+        {
+            "vnf": "v_gen_2_18_1526292057.0", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 10.221482039800287
+        }, 
+        {
+            "vnf": "v_gen_4_9_1526292057.02", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 13.621482065421374
+        }, 
+        {
+            "vnf": "v_gen_4_14_1526292057.0", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 13.331388444001687
+        }, 
+        {
+            "vnf": "v_gen_7_9_1526292057.03", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 13.374968304585911
+        }, 
+        {
+            "vnf": "v_gen_4_10_1526292057.01", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 8.762569864654116
+        }, 
+        {
+            "vnf": "v_gen_3_2_1526292057.02", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 9.924838554570469
+        }, 
+        {
+            "vnf": "v_gen_8_20_1526292057.01", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 14.691348968179925
+        }, 
+        {
+            "vnf": "v_gen_6_9_1526292057.02", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 9.250425588670108
+        }, 
+        {
+            "vnf": "v_gen_3_8_1526292057.0", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 14.811899274268946
+        }, 
+        {
+            "vnf": "v_gen_1_10_1526292057.0", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 13.306521518511047
+        }, 
+        {
+            "vnf": "v_gen_8_15_1526292057.03", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 1.610653479450196
+        }, 
+        {
+            "vnf": "v_gen_1_6_1526292057.02", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 10.751233311335625
+        }, 
+        {
+            "vnf": "v_gen_5_15_1526292057.03", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 16.372268426714264
+        }, 
+        {
+            "vnf": "v_gen_2_12_1526292057.01", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 19.000361078293697
+        }, 
+        {
+            "vnf": "v_gen_1_4_1526292057.01", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 8.84903171289497
+        }, 
+        {
+            "vnf": "v_gen_8_18_1526292057.02", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 16.671845365172338
+        }, 
+        {
+            "vnf": "v_gen_7_14_1526292057.01", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 15.399599752514032
+        }, 
+        {
+            "vnf": "v_gen_3_5_1526292057.01", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 4.59254706643084
+        }, 
+        {
+            "vnf": "v_gen_5_18_1526292057.02", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 14.350014726657777
+        }, 
+        {
+            "vnf": "v_gen_5_14_1526292057.01", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 2.3403628026919225
+        }, 
+        {
+            "vnf": "v_gen_7_2_1526292057.02", 
+            "host": "server_0_switch_0_pod_2", 
+            "cost": 13.690820015955214
+        }, 
+        {
+            "vnf": "v_gen_3_2_1526292057.02", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 7.226677027388861
+        }, 
+        {
+            "vnf": "v_gen_1_4_1526292057.01", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 11.530698285737257
+        }, 
+        {
+            "vnf": "v_gen_4_10_1526292057.01", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 8.47199110736734
+        }, 
+        {
+            "vnf": "v_gen_6_7_1526292057.01", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 12.66491447110328
+        }, 
+        {
+            "vnf": "v_gen_2_12_1526292057.01", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 18.613414359973184
+        }, 
+        {
+            "vnf": "v_gen_5_14_1526292057.01", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 18.566775532894084
+        }, 
+        {
+            "vnf": "v_gen_8_18_1526292057.02", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 11.949248635083542
+        }, 
+        {
+            "vnf": "v_gen_7_2_1526292057.02", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 13.971260867064116
+        }, 
+        {
+            "vnf": "v_gen_7_9_1526292057.03", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 7.532695053115777
+        }, 
+        {
+            "vnf": "v_gen_8_20_1526292057.01", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 5.398278183800852
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 6.229055937403608
+        }, 
+        {
+            "vnf": "v_gen_5_18_1526292057.02", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 19.732231738456242
+        }, 
+        {
+            "vnf": "v_gen_3_8_1526292057.0", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 12.026106564626735
+        }, 
+        {
+            "vnf": "v_gen_4_9_1526292057.02", 
+            "host": "server_0_switch_0_pod_3", 
+            "cost": 2.782260435913942
+        }, 
+        {
+            "vnf": "v_gen_7_9_1526292057.03", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 19.94015977490541
+        }, 
+        {
+            "vnf": "v_gen_2_18_1526292057.0", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 7.7603448859122715
+        }, 
+        {
+            "vnf": "v_gen_3_5_1526292057.01", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 6.9587107203523635
+        }, 
+        {
+            "vnf": "v_gen_8_15_1526292057.03", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 8.073733220977665
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 19.377033878527165
+        }, 
+        {
+            "vnf": "v_gen_7_14_1526292057.01", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 19.297609678237514
+        }, 
+        {
+            "vnf": "v_gen_3_8_1526292057.0", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 3.9395716446506084
+        }, 
+        {
+            "vnf": "v_gen_6_19_1526292057.03", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 1.5704962262847908
+        }, 
+        {
+            "vnf": "v_gen_6_9_1526292057.02", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 2.795440568543624
+        }, 
+        {
+            "vnf": "v_gen_8_20_1526292057.01", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 14.81608146355661
+        }, 
+        {
+            "vnf": "v_gen_8_18_1526292057.02", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 18.04517080897609
+        }, 
+        {
+            "vnf": "v_gen_1_10_1526292057.0", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 8.654647481388455
+        }, 
+        {
+            "vnf": "v_gen_6_7_1526292057.01", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 11.282188875925453
+        }, 
+        {
+            "vnf": "v_gen_4_14_1526292057.0", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 6.105765077553472
+        }, 
+        {
+            "vnf": "v_gen_1_6_1526292057.02", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 1.0708930889849622
+        }, 
+        {
+            "vnf": "v_gen_4_10_1526292057.01", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 5.3635669178355965
+        }, 
+        {
+            "vnf": "v_gen_5_18_1526292057.02", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 18.93543350767532
+        }, 
+        {
+            "vnf": "v_gen_1_4_1526292057.01", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 8.866762767620262
+        }, 
+        {
+            "vnf": "v_gen_2_12_1526292057.01", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 13.75216107021257
+        }, 
+        {
+            "vnf": "v_gen_5_14_1526292057.01", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 5.091818048538683
+        }, 
+        {
+            "vnf": "v_gen_4_9_1526292057.02", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 1.9135258412668041
+        }, 
+        {
+            "vnf": "v_gen_5_15_1526292057.03", 
+            "host": "server_0_switch_1_pod_1", 
+            "cost": 4.375525230457047
+        }, 
+        {
+            "vnf": "v_gen_3_2_1526292057.02", 
+            "host": "server_0_switch_1_pod_0", 
+            "cost": 13.677687046008575
+        }, 
+        {
+            "vnf": "v_gen_1_4_1526292057.01", 
+            "host": "server_0_switch_1_pod_0", 
+            "cost": 1.7281482749185424
+        }, 
+        {
+            "vnf": "v_gen_3_8_1526292057.0", 
+            "host": "server_0_switch_1_pod_0", 
+            "cost": 10.803641452537013
+        }, 
+        {
+            "vnf": "v_gen_8_20_1526292057.01", 
+            "host": "server_0_switch_1_pod_0", 
+            "cost": 3.4371193215196993
+        }, 
+        {
+            "vnf": "v_gen_6_19_1526292057.03", 
+            "host": "server_0_switch_1_pod_0", 
+            "cost": 1.3583020359626718
+        }, 
+        {
+            "vnf": "v_gen_7_9_1526292057.03", 
+            "host": "server_0_switch_1_pod_0", 
+            "cost": 12.837463589102173
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_0_switch_1_pod_0", 
+            "cost": 17.01984563587722
+        }, 
+        {
+            "vnf": "v_gen_8_15_1526292057.03", 
+            "host": "server_0_switch_1_pod_0", 
+            "cost": 8.05728367439653
+        }, 
+        {
+            "vnf": "v_gen_3_2_1526292057.02", 
+            "host": "server_0_switch_1_pod_3", 
+            "cost": 16.356989288144714
+        }, 
+        {
+            "vnf": "v_gen_4_14_1526292057.0", 
+            "host": "server_0_switch_1_pod_3", 
+            "cost": 2.577514887580207
+        }, 
+        {
+            "vnf": "v_gen_8_18_1526292057.02", 
+            "host": "server_0_switch_1_pod_3", 
+            "cost": 15.869899256324791
+        }, 
+        {
+            "vnf": "v_gen_4_10_1526292057.01", 
+            "host": "server_0_switch_1_pod_3", 
+            "cost": 18.563344619819027
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_0_switch_1_pod_3", 
+            "cost": 19.025858215013955
+        }, 
+        {
+            "vnf": "v_gen_1_4_1526292057.01", 
+            "host": "server_0_switch_1_pod_3", 
+            "cost": 2.43705192129174
+        }, 
+        {
+            "vnf": "v_gen_5_14_1526292057.01", 
+            "host": "server_0_switch_1_pod_3", 
+            "cost": 13.005039411559702
+        }, 
+        {
+            "vnf": "v_gen_2_18_1526292057.0", 
+            "host": "server_0_switch_1_pod_3", 
+            "cost": 2.936154597379407
+        }, 
+        {
+            "vnf": "v_gen_5_18_1526292057.02", 
+            "host": "server_0_switch_1_pod_3", 
+            "cost": 14.20432400915422
+        }, 
+        {
+            "vnf": "v_gen_8_15_1526292057.03", 
+            "host": "server_0_switch_1_pod_3", 
+            "cost": 8.066404508396863
+        }, 
+        {
+            "vnf": "v_gen_7_14_1526292057.01", 
+            "host": "server_0_switch_1_pod_3", 
+            "cost": 3.911218346061852
+        }, 
+        {
+            "vnf": "v_gen_3_8_1526292057.0", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 14.66971581032916
+        }, 
+        {
+            "vnf": "v_gen_3_5_1526292057.01", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 1.365366251400775
+        }, 
+        {
+            "vnf": "v_gen_7_2_1526292057.02", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 15.45530444805289
+        }, 
+        {
+            "vnf": "v_gen_1_6_1526292057.02", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 9.605118234997521
+        }, 
+        {
+            "vnf": "v_gen_4_14_1526292057.0", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 8.448418989732895
+        }, 
+        {
+            "vnf": "v_gen_8_20_1526292057.01", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 19.212843393397456
+        }, 
+        {
+            "vnf": "v_gen_8_18_1526292057.02", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 17.269139243403
+        }, 
+        {
+            "vnf": "v_gen_5_14_1526292057.01", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 18.8659359103113
+        }, 
+        {
+            "vnf": "v_gen_1_10_1526292057.0", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 7.670283891641771
+        }, 
+        {
+            "vnf": "v_gen_6_9_1526292057.02", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 9.192818325986982
+        }, 
+        {
+            "vnf": "v_gen_2_18_1526292057.0", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 13.523233645672901
+        }, 
+        {
+            "vnf": "v_gen_6_19_1526292057.03", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 15.452753335367996
+        }, 
+        {
+            "vnf": "v_gen_3_2_1526292057.02", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 11.105618001615703
+        }, 
+        {
+            "vnf": "v_gen_2_12_1526292057.01", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 19.750369983344186
+        }, 
+        {
+            "vnf": "v_gen_7_14_1526292057.01", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 11.020025153873119
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 8.342475579406068
+        }, 
+        {
+            "vnf": "v_gen_6_7_1526292057.01", 
+            "host": "server_0_switch_1_pod_2", 
+            "cost": 5.226576275617986
+        }, 
+        {
+            "vnf": "v_gen_1_6_1526292057.02", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 4.613574581530104
+        }, 
+        {
+            "vnf": "v_gen_7_14_1526292057.01", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 17.482934635113097
+        }, 
+        {
+            "vnf": "v_gen_4_14_1526292057.0", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 3.8725030193936902
+        }, 
+        {
+            "vnf": "v_gen_7_2_1526292057.02", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 19.95370426675698
+        }, 
+        {
+            "vnf": "v_gen_5_14_1526292057.01", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 11.529801233824635
+        }, 
+        {
+            "vnf": "v_gen_2_12_1526292057.01", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 18.548416860970857
+        }, 
+        {
+            "vnf": "v_gen_2_18_1526292057.0", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 13.569487375907737
+        }, 
+        {
+            "vnf": "v_gen_8_20_1526292057.01", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 8.576322181532504
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 13.417006559804745
+        }, 
+        {
+            "vnf": "v_gen_5_18_1526292057.02", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 2.892178262159658
+        }, 
+        {
+            "vnf": "v_gen_6_19_1526292057.03", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 5.1489846486151425
+        }, 
+        {
+            "vnf": "v_gen_4_10_1526292057.01", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 15.764135811951997
+        }, 
+        {
+            "vnf": "v_gen_1_10_1526292057.0", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 9.299216691787885
+        }, 
+        {
+            "vnf": "v_gen_3_5_1526292057.01", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 12.789330154442233
+        }, 
+        {
+            "vnf": "v_gen_5_15_1526292057.03", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 19.10003532850552
+        }, 
+        {
+            "vnf": "v_gen_8_18_1526292057.02", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 7.520841732380646
+        }, 
+        {
+            "vnf": "v_gen_6_7_1526292057.01", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 18.44615999655296
+        }, 
+        {
+            "vnf": "v_gen_1_4_1526292057.01", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 11.47643757386396
+        }, 
+        {
+            "vnf": "v_gen_7_9_1526292057.03", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 4.34957365940066
+        }, 
+        {
+            "vnf": "v_gen_8_15_1526292057.03", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 18.0018000943923
+        }, 
+        {
+            "vnf": "v_gen_3_2_1526292057.02", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 15.966321582801381
+        }, 
+        {
+            "vnf": "v_gen_4_9_1526292057.02", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 10.686516816511865
+        }, 
+        {
+            "vnf": "v_gen_6_9_1526292057.02", 
+            "host": "server_1_switch_1_pod_2", 
+            "cost": 11.470427273912744
+        }, 
+        {
+            "vnf": "v_gen_6_9_1526292057.02", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 18.95293266994527
+        }, 
+        {
+            "vnf": "v_gen_8_15_1526292057.03", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 1.4015314124701337
+        }, 
+        {
+            "vnf": "v_gen_3_5_1526292057.01", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 5.103681268465592
+        }, 
+        {
+            "vnf": "v_gen_1_10_1526292057.0", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 5.545944544778744
+        }, 
+        {
+            "vnf": "v_gen_5_18_1526292057.02", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 15.358810712203518
+        }, 
+        {
+            "vnf": "v_gen_5_15_1526292057.03", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 9.010622088996197
+        }, 
+        {
+            "vnf": "v_gen_2_18_1526292057.0", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 1.5704221713598825
+        }, 
+        {
+            "vnf": "v_gen_7_9_1526292057.03", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 11.42881972167089
+        }, 
+        {
+            "vnf": "v_gen_2_12_1526292057.01", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 6.904663391419681
+        }, 
+        {
+            "vnf": "v_gen_4_14_1526292057.0", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 15.698019930350688
+        }, 
+        {
+            "vnf": "v_gen_6_19_1526292057.03", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 8.642643592812057
+        }, 
+        {
+            "vnf": "v_gen_3_8_1526292057.0", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 5.619245050302398
+        }, 
+        {
+            "vnf": "v_gen_1_6_1526292057.02", 
+            "host": "server_1_switch_1_pod_3", 
+            "cost": 5.391511708678825
+        }, 
+        {
+            "vnf": "v_gen_5_18_1526292057.02", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 17.723135642789117
+        }, 
+        {
+            "vnf": "v_gen_8_18_1526292057.02", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 10.910329552328996
+        }, 
+        {
+            "vnf": "v_gen_8_20_1526292057.01", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 13.28113444950186
+        }, 
+        {
+            "vnf": "v_gen_3_5_1526292057.01", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 6.3009148281270475
+        }, 
+        {
+            "vnf": "v_gen_6_7_1526292057.01", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 5.249884370651477
+        }, 
+        {
+            "vnf": "v_gen_7_2_1526292057.02", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 10.080292506684765
+        }, 
+        {
+            "vnf": "v_gen_5_15_1526292057.03", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 6.402151157243525
+        }, 
+        {
+            "vnf": "v_gen_1_4_1526292057.01", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 15.97287189914677
+        }, 
+        {
+            "vnf": "v_gen_3_8_1526292057.0", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 3.033447044162451
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 15.920856307059012
+        }, 
+        {
+            "vnf": "v_gen_6_19_1526292057.03", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 13.82758354608063
+        }, 
+        {
+            "vnf": "v_gen_7_9_1526292057.03", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 13.320645783910752
+        }, 
+        {
+            "vnf": "v_gen_8_15_1526292057.03", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 18.2194281959355
+        }, 
+        {
+            "vnf": "v_gen_2_18_1526292057.0", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 16.652485130230865
+        }, 
+        {
+            "vnf": "v_gen_2_12_1526292057.01", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 6.862526239601891
+        }, 
+        {
+            "vnf": "v_gen_1_6_1526292057.02", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 18.407473992658016
+        }, 
+        {
+            "vnf": "v_gen_5_14_1526292057.01", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 7.79355552268767
+        }, 
+        {
+            "vnf": "v_gen_4_14_1526292057.0", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 3.533213156489942
+        }, 
+        {
+            "vnf": "v_gen_4_10_1526292057.01", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 17.837569183327354
+        }, 
+        {
+            "vnf": "v_gen_3_2_1526292057.02", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 4.983236444694613
+        }, 
+        {
+            "vnf": "v_gen_7_14_1526292057.01", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 5.777967822160791
+        }, 
+        {
+            "vnf": "v_gen_4_9_1526292057.02", 
+            "host": "server_1_switch_1_pod_0", 
+            "cost": 19.494425643655035
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 12.468367691023527
+        }, 
+        {
+            "vnf": "v_gen_5_18_1526292057.02", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 18.418170422351324
+        }, 
+        {
+            "vnf": "v_gen_4_9_1526292057.02", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 16.216505528218867
+        }, 
+        {
+            "vnf": "v_gen_8_15_1526292057.03", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 9.936037467496881
+        }, 
+        {
+            "vnf": "v_gen_6_7_1526292057.01", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 17.750653532126503
+        }, 
+        {
+            "vnf": "v_gen_2_18_1526292057.0", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 16.914191542090855
+        }, 
+        {
+            "vnf": "v_gen_1_4_1526292057.01", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 14.715544229774245
+        }, 
+        {
+            "vnf": "v_gen_6_19_1526292057.03", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 9.62208119433777
+        }, 
+        {
+            "vnf": "v_gen_8_18_1526292057.02", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 14.944233028375015
+        }, 
+        {
+            "vnf": "v_gen_3_8_1526292057.0", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 1.44929483158417
+        }, 
+        {
+            "vnf": "v_gen_7_14_1526292057.01", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 4.409520186059174
+        }, 
+        {
+            "vnf": "v_gen_3_5_1526292057.01", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 15.209681502676073
+        }, 
+        {
+            "vnf": "v_gen_6_9_1526292057.02", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 17.344133267688786
+        }, 
+        {
+            "vnf": "v_gen_5_14_1526292057.01", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 2.4041667207363746
+        }, 
+        {
+            "vnf": "v_gen_4_14_1526292057.0", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 10.670384091234235
+        }, 
+        {
+            "vnf": "v_gen_5_15_1526292057.03", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 15.608561082906158
+        }, 
+        {
+            "vnf": "v_gen_1_6_1526292057.02", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 10.882309439589202
+        }, 
+        {
+            "vnf": "v_gen_8_20_1526292057.01", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 3.124285979180218
+        }, 
+        {
+            "vnf": "v_gen_2_12_1526292057.01", 
+            "host": "server_1_switch_1_pod_1", 
+            "cost": 13.753439493381943
+        }, 
+        {
+            "vnf": "v_gen_1_10_1526292057.0", 
+            "host": "server_1_switch_0_pod_3", 
+            "cost": 4.783848569739158
+        }, 
+        {
+            "vnf": "v_gen_2_12_1526292057.01", 
+            "host": "server_1_switch_0_pod_3", 
+            "cost": 18.90936518446911
+        }, 
+        {
+            "vnf": "v_gen_4_10_1526292057.01", 
+            "host": "server_1_switch_0_pod_3", 
+            "cost": 4.35983839231533
+        }, 
+        {
+            "vnf": "v_gen_7_9_1526292057.03", 
+            "host": "server_1_switch_0_pod_3", 
+            "cost": 5.00867835776746
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_1_switch_0_pod_3", 
+            "cost": 12.113002852377141
+        }, 
+        {
+            "vnf": "v_gen_5_18_1526292057.02", 
+            "host": "server_1_switch_0_pod_3", 
+            "cost": 13.575251937422603
+        }, 
+        {
+            "vnf": "v_gen_3_8_1526292057.0", 
+            "host": "server_1_switch_0_pod_3", 
+            "cost": 16.57309856881517
+        }, 
+        {
+            "vnf": "v_gen_1_4_1526292057.01", 
+            "host": "server_1_switch_0_pod_3", 
+            "cost": 16.677247056701162
+        }, 
+        {
+            "vnf": "v_gen_5_15_1526292057.03", 
+            "host": "server_1_switch_0_pod_3", 
+            "cost": 4.842200641745576
+        }, 
+        {
+            "vnf": "v_gen_3_2_1526292057.02", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 12.70258399127416
+        }, 
+        {
+            "vnf": "v_gen_4_14_1526292057.0", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 14.079063189768629
+        }, 
+        {
+            "vnf": "v_gen_3_8_1526292057.0", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 9.969815409804879
+        }, 
+        {
+            "vnf": "v_gen_4_10_1526292057.01", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 9.408374072019894
+        }, 
+        {
+            "vnf": "v_gen_6_7_1526292057.01", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 18.055415192946707
+        }, 
+        {
+            "vnf": "v_gen_4_9_1526292057.02", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 16.43972945941064
+        }, 
+        {
+            "vnf": "v_gen_8_15_1526292057.03", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 7.547729307502267
+        }, 
+        {
+            "vnf": "v_gen_5_14_1526292057.01", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 4.455456816403184
+        }, 
+        {
+            "vnf": "v_gen_7_14_1526292057.01", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 2.249855582896828
+        }, 
+        {
+            "vnf": "v_gen_8_18_1526292057.02", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 9.00024075497036
+        }, 
+        {
+            "vnf": "v_gen_7_9_1526292057.03", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 17.560107919388354
+        }, 
+        {
+            "vnf": "v_gen_7_2_1526292057.02", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 6.983721471491342
+        }, 
+        {
+            "vnf": "v_gen_1_4_1526292057.01", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 3.4097259088002447
+        }, 
+        {
+            "vnf": "v_gen_1_6_1526292057.02", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 2.7491448305332393
+        }, 
+        {
+            "vnf": "v_gen_5_15_1526292057.03", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 19.951884475511754
+        }, 
+        {
+            "vnf": "v_gen_1_10_1526292057.0", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 7.271810483359308
+        }, 
+        {
+            "vnf": "v_gen_3_5_1526292057.01", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 14.88720873948469
+        }, 
+        {
+            "vnf": "v_gen_5_18_1526292057.02", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 11.041384773350215
+        }, 
+        {
+            "vnf": "v_gen_8_20_1526292057.01", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 18.275474620015856
+        }, 
+        {
+            "vnf": "v_gen_6_19_1526292057.03", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 5.680068945651044
+        }, 
+        {
+            "vnf": "v_gen_6_9_1526292057.02", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 8.859834215801587
+        }, 
+        {
+            "vnf": "v_gen_2_18_1526292057.0", 
+            "host": "server_1_switch_0_pod_2", 
+            "cost": 17.99114161525053
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 6.577247814181954
+        }, 
+        {
+            "vnf": "v_gen_1_4_1526292057.01", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 4.624492122639641
+        }, 
+        {
+            "vnf": "v_gen_1_10_1526292057.0", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 17.405638787604786
+        }, 
+        {
+            "vnf": "v_gen_3_5_1526292057.01", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 1.3806235037971821
+        }, 
+        {
+            "vnf": "v_gen_6_7_1526292057.01", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 9.587726796805839
+        }, 
+        {
+            "vnf": "v_gen_7_2_1526292057.02", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 9.184742970075492
+        }, 
+        {
+            "vnf": "v_gen_5_15_1526292057.03", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 14.658908316020396
+        }, 
+        {
+            "vnf": "v_gen_8_20_1526292057.01", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 2.564644353373449
+        }, 
+        {
+            "vnf": "v_gen_3_2_1526292057.02", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 6.6386705018784795
+        }, 
+        {
+            "vnf": "v_gen_7_14_1526292057.01", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 14.914672789452677
+        }, 
+        {
+            "vnf": "v_gen_3_8_1526292057.0", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 11.68671433192615
+        }, 
+        {
+            "vnf": "v_gen_7_9_1526292057.03", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 13.953287641613503
+        }, 
+        {
+            "vnf": "v_gen_2_18_1526292057.0", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 19.05473016272482
+        }, 
+        {
+            "vnf": "v_gen_6_19_1526292057.03", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 4.806048139055504
+        }, 
+        {
+            "vnf": "v_gen_5_18_1526292057.02", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 14.50421115003978
+        }, 
+        {
+            "vnf": "v_gen_1_6_1526292057.02", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 4.106559442618844
+        }, 
+        {
+            "vnf": "v_gen_4_10_1526292057.01", 
+            "host": "server_1_switch_0_pod_1", 
+            "cost": 3.8083073576129105
+        }, 
+        {
+            "vnf": "v_gen_8_20_1526292057.01", 
+            "host": "server_1_switch_0_pod_0", 
+            "cost": 14.20958773131018
+        }, 
+        {
+            "vnf": "v_gen_5_15_1526292057.03", 
+            "host": "server_1_switch_0_pod_0", 
+            "cost": 13.523277212726082
+        }, 
+        {
+            "vnf": "v_gen_6_9_1526292057.02", 
+            "host": "server_1_switch_0_pod_0", 
+            "cost": 17.226116734611278
+        }, 
+        {
+            "vnf": "v_gen_2_3_1526292057.02", 
+            "host": "server_1_switch_0_pod_0", 
+            "cost": 8.175589448172879
+        }, 
+        {
+            "vnf": "v_gen_3_2_1526292057.02", 
+            "host": "server_1_switch_0_pod_0", 
+            "cost": 3.885685892522008
+        }, 
+        {
+            "vnf": "v_gen_1_4_1526292057.01", 
+            "host": "server_1_switch_0_pod_0", 
+            "cost": 11.954655660355415
+        }, 
+        {
+            "vnf": "v_gen_6_19_1526292057.03", 
+            "host": "server_1_switch_0_pod_0", 
+            "cost": 3.0841570192729337
+        }, 
+        {
+            "vnf": "v_gen_5_18_1526292057.02", 
+            "host": "server_1_switch_0_pod_0", 
+            "cost": 2.1687482342776083
+        }
+    ], 
+    "hosts": [
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_2_3_1526292057.02": 16.99967794265934, 
+                "v_gen_6_9_1526292057.02": 14.102120377838608, 
+                "v_gen_4_10_1526292057.01": 4.583898131510663, 
+                "v_gen_3_2_1526292057.02": 19.705063851745994, 
+                "v_gen_2_12_1526292057.01": 4.421576439774719, 
+                "v_gen_3_5_1526292057.01": 15.81189511138989, 
+                "v_gen_4_9_1526292057.02": 2.302221132048194, 
+                "v_gen_2_18_1526292057.0": 9.978997571945772
+            }, 
+            "host_name": "server_0_switch_0_pod_0", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_4_10_1526292057.01": 13.404805891634853, 
+                "v_gen_1_10_1526292057.0": 17.96342447794707, 
+                "v_gen_1_6_1526292057.02": 5.107856811847138, 
+                "v_gen_6_19_1526292057.03": 7.119966853433109, 
+                "v_gen_3_5_1526292057.01": 6.0908436736384255, 
+                "v_gen_5_15_1526292057.03": 9.961009271473001, 
+                "v_gen_2_3_1526292057.02": 16.56092791376166, 
+                "v_gen_8_15_1526292057.03": 4.6997699863168005, 
+                "v_gen_3_2_1526292057.02": 7.14546402539148, 
+                "v_gen_7_14_1526292057.01": 11.79557786204629, 
+                "v_gen_4_9_1526292057.02": 12.869947909383397, 
+                "v_gen_3_8_1526292057.0": 3.2464192451197995, 
+                "v_gen_2_12_1526292057.01": 5.0430346644659725, 
+                "v_gen_5_14_1526292057.01": 10.153809684670113, 
+                "v_gen_7_2_1526292057.02": 1.7194623714202293, 
+                "v_gen_6_7_1526292057.01": 7.812134626792072, 
+                "v_gen_4_14_1526292057.0": 2.152544423727288, 
+                "v_gen_7_9_1526292057.03": 13.459430684701186
+            }, 
+            "host_name": "server_0_switch_0_pod_1", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_1_10_1526292057.0": 13.306521518511047, 
+                "v_gen_5_15_1526292057.03": 16.372268426714264, 
+                "v_gen_1_4_1526292057.01": 8.84903171289497, 
+                "v_gen_2_12_1526292057.01": 19.000361078293697, 
+                "v_gen_5_14_1526292057.01": 2.3403628026919225, 
+                "v_gen_7_2_1526292057.02": 13.690820015955214, 
+                "v_gen_6_7_1526292057.01": 2.213812295734796, 
+                "v_gen_2_3_1526292057.02": 13.519236074838874, 
+                "v_gen_8_15_1526292057.03": 1.610653479450196, 
+                "v_gen_7_9_1526292057.03": 13.374968304585911, 
+                "v_gen_4_9_1526292057.02": 13.621482065421374, 
+                "v_gen_2_18_1526292057.0": 10.221482039800287, 
+                "v_gen_4_14_1526292057.0": 13.331388444001687, 
+                "v_gen_1_6_1526292057.02": 10.751233311335625, 
+                "v_gen_4_10_1526292057.01": 8.762569864654116, 
+                "v_gen_3_2_1526292057.02": 9.924838554570469, 
+                "v_gen_3_8_1526292057.0": 14.811899274268946, 
+                "v_gen_8_20_1526292057.01": 14.691348968179925, 
+                "v_gen_7_14_1526292057.01": 15.399599752514032, 
+                "v_gen_5_18_1526292057.02": 14.350014726657777, 
+                "v_gen_6_9_1526292057.02": 9.250425588670108, 
+                "v_gen_3_5_1526292057.01": 4.59254706643084, 
+                "v_gen_8_18_1526292057.02": 16.671845365172338
+            }, 
+            "host_name": "server_0_switch_0_pod_2", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_8_20_1526292057.01": 5.398278183800852, 
+                "v_gen_2_3_1526292057.02": 6.229055937403608, 
+                "v_gen_5_18_1526292057.02": 19.732231738456242, 
+                "v_gen_8_18_1526292057.02": 11.949248635083542, 
+                "v_gen_4_10_1526292057.01": 8.47199110736734, 
+                "v_gen_3_2_1526292057.02": 7.226677027388861, 
+                "v_gen_4_9_1526292057.02": 2.782260435913942, 
+                "v_gen_1_4_1526292057.01": 11.530698285737257, 
+                "v_gen_7_9_1526292057.03": 7.532695053115777, 
+                "v_gen_3_8_1526292057.0": 12.026106564626735, 
+                "v_gen_2_12_1526292057.01": 18.613414359973184, 
+                "v_gen_5_14_1526292057.01": 18.566775532894084, 
+                "v_gen_7_2_1526292057.02": 13.971260867064116, 
+                "v_gen_6_7_1526292057.01": 12.66491447110328
+            }, 
+            "host_name": "server_0_switch_0_pod_3", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_1_10_1526292057.0": 8.654647481388455, 
+                "v_gen_5_15_1526292057.03": 4.375525230457047, 
+                "v_gen_1_4_1526292057.01": 8.866762767620262, 
+                "v_gen_2_12_1526292057.01": 13.75216107021257, 
+                "v_gen_5_14_1526292057.01": 5.091818048538683, 
+                "v_gen_6_7_1526292057.01": 11.282188875925453, 
+                "v_gen_2_3_1526292057.02": 19.377033878527165, 
+                "v_gen_8_15_1526292057.03": 8.073733220977665, 
+                "v_gen_7_9_1526292057.03": 19.94015977490541, 
+                "v_gen_4_9_1526292057.02": 1.9135258412668041, 
+                "v_gen_2_18_1526292057.0": 7.7603448859122715, 
+                "v_gen_4_14_1526292057.0": 6.105765077553472, 
+                "v_gen_1_6_1526292057.02": 1.0708930889849622, 
+                "v_gen_4_10_1526292057.01": 5.3635669178355965, 
+                "v_gen_3_8_1526292057.0": 3.9395716446506084, 
+                "v_gen_8_20_1526292057.01": 14.81608146355661, 
+                "v_gen_7_14_1526292057.01": 19.297609678237514, 
+                "v_gen_6_19_1526292057.03": 1.5704962262847908, 
+                "v_gen_3_5_1526292057.01": 6.9587107203523635, 
+                "v_gen_6_9_1526292057.02": 2.795440568543624, 
+                "v_gen_5_18_1526292057.02": 18.93543350767532, 
+                "v_gen_8_18_1526292057.02": 18.04517080897609
+            }, 
+            "host_name": "server_0_switch_1_pod_1", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_8_20_1526292057.01": 3.4371193215196993, 
+                "v_gen_6_19_1526292057.03": 1.3583020359626718, 
+                "v_gen_2_3_1526292057.02": 17.01984563587722, 
+                "v_gen_8_15_1526292057.03": 8.05728367439653, 
+                "v_gen_3_2_1526292057.02": 13.677687046008575, 
+                "v_gen_1_4_1526292057.01": 1.7281482749185424, 
+                "v_gen_7_9_1526292057.03": 12.837463589102173, 
+                "v_gen_3_8_1526292057.0": 10.803641452537013
+            }, 
+            "host_name": "server_0_switch_1_pod_0", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_7_14_1526292057.01": 3.911218346061852, 
+                "v_gen_2_3_1526292057.02": 19.025858215013955, 
+                "v_gen_5_18_1526292057.02": 14.20432400915422, 
+                "v_gen_4_10_1526292057.01": 18.563344619819027, 
+                "v_gen_8_15_1526292057.03": 8.066404508396863, 
+                "v_gen_3_2_1526292057.02": 16.356989288144714, 
+                "v_gen_1_4_1526292057.01": 2.43705192129174, 
+                "v_gen_5_14_1526292057.01": 13.005039411559702, 
+                "v_gen_2_18_1526292057.0": 2.936154597379407, 
+                "v_gen_8_18_1526292057.02": 15.869899256324791, 
+                "v_gen_4_14_1526292057.0": 2.577514887580207
+            }, 
+            "host_name": "server_0_switch_1_pod_3", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_8_20_1526292057.01": 19.212843393397456, 
+                "v_gen_2_18_1526292057.0": 13.523233645672901, 
+                "v_gen_1_10_1526292057.0": 7.670283891641771, 
+                "v_gen_1_6_1526292057.02": 9.605118234997521, 
+                "v_gen_6_19_1526292057.03": 15.452753335367996, 
+                "v_gen_3_5_1526292057.01": 1.365366251400775, 
+                "v_gen_6_9_1526292057.02": 9.192818325986982, 
+                "v_gen_2_3_1526292057.02": 8.342475579406068, 
+                "v_gen_3_2_1526292057.02": 11.105618001615703, 
+                "v_gen_7_14_1526292057.01": 11.020025153873119, 
+                "v_gen_6_7_1526292057.01": 5.226576275617986, 
+                "v_gen_3_8_1526292057.0": 14.66971581032916, 
+                "v_gen_2_12_1526292057.01": 19.750369983344186, 
+                "v_gen_5_14_1526292057.01": 18.8659359103113, 
+                "v_gen_7_2_1526292057.02": 15.45530444805289, 
+                "v_gen_8_18_1526292057.02": 17.269139243403, 
+                "v_gen_4_14_1526292057.0": 8.448418989732895
+            }, 
+            "host_name": "server_0_switch_1_pod_2", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_1_10_1526292057.0": 9.299216691787885, 
+                "v_gen_5_15_1526292057.03": 19.10003532850552, 
+                "v_gen_1_4_1526292057.01": 11.47643757386396, 
+                "v_gen_2_12_1526292057.01": 18.548416860970857, 
+                "v_gen_5_14_1526292057.01": 11.529801233824635, 
+                "v_gen_7_2_1526292057.02": 19.95370426675698, 
+                "v_gen_6_7_1526292057.01": 18.44615999655296, 
+                "v_gen_2_3_1526292057.02": 13.417006559804745, 
+                "v_gen_8_15_1526292057.03": 18.0018000943923, 
+                "v_gen_7_9_1526292057.03": 4.34957365940066, 
+                "v_gen_4_9_1526292057.02": 10.686516816511865, 
+                "v_gen_2_18_1526292057.0": 13.569487375907737, 
+                "v_gen_4_14_1526292057.0": 3.8725030193936902, 
+                "v_gen_1_6_1526292057.02": 4.613574581530104, 
+                "v_gen_4_10_1526292057.01": 15.764135811951997, 
+                "v_gen_3_2_1526292057.02": 15.966321582801381, 
+                "v_gen_8_20_1526292057.01": 8.576322181532504, 
+                "v_gen_6_19_1526292057.03": 5.1489846486151425, 
+                "v_gen_7_14_1526292057.01": 17.482934635113097, 
+                "v_gen_5_18_1526292057.02": 2.892178262159658, 
+                "v_gen_6_9_1526292057.02": 11.470427273912744, 
+                "v_gen_3_5_1526292057.01": 12.789330154442233, 
+                "v_gen_8_18_1526292057.02": 7.520841732380646
+            }, 
+            "host_name": "server_1_switch_1_pod_2", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_1_10_1526292057.0": 5.545944544778744, 
+                "v_gen_1_6_1526292057.02": 5.391511708678825, 
+                "v_gen_6_19_1526292057.03": 8.642643592812057, 
+                "v_gen_5_18_1526292057.02": 15.358810712203518, 
+                "v_gen_6_9_1526292057.02": 18.95293266994527, 
+                "v_gen_3_5_1526292057.01": 5.103681268465592, 
+                "v_gen_8_15_1526292057.03": 1.4015314124701337, 
+                "v_gen_5_15_1526292057.03": 9.010622088996197, 
+                "v_gen_7_9_1526292057.03": 11.42881972167089, 
+                "v_gen_3_8_1526292057.0": 5.619245050302398, 
+                "v_gen_2_12_1526292057.01": 6.904663391419681, 
+                "v_gen_2_18_1526292057.0": 1.5704221713598825, 
+                "v_gen_4_14_1526292057.0": 15.698019930350688
+            }, 
+            "host_name": "server_1_switch_1_pod_3", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_5_15_1526292057.03": 6.402151157243525, 
+                "v_gen_1_4_1526292057.01": 15.97287189914677, 
+                "v_gen_2_12_1526292057.01": 6.862526239601891, 
+                "v_gen_5_14_1526292057.01": 7.79355552268767, 
+                "v_gen_7_2_1526292057.02": 10.080292506684765, 
+                "v_gen_6_7_1526292057.01": 5.249884370651477, 
+                "v_gen_2_3_1526292057.02": 15.920856307059012, 
+                "v_gen_8_15_1526292057.03": 18.2194281959355, 
+                "v_gen_7_9_1526292057.03": 13.320645783910752, 
+                "v_gen_4_9_1526292057.02": 19.494425643655035, 
+                "v_gen_2_18_1526292057.0": 16.652485130230865, 
+                "v_gen_4_14_1526292057.0": 3.533213156489942, 
+                "v_gen_1_6_1526292057.02": 18.407473992658016, 
+                "v_gen_4_10_1526292057.01": 17.837569183327354, 
+                "v_gen_3_2_1526292057.02": 4.983236444694613, 
+                "v_gen_3_8_1526292057.0": 3.033447044162451, 
+                "v_gen_8_20_1526292057.01": 13.28113444950186, 
+                "v_gen_7_14_1526292057.01": 5.777967822160791, 
+                "v_gen_6_19_1526292057.03": 13.82758354608063, 
+                "v_gen_3_5_1526292057.01": 6.3009148281270475, 
+                "v_gen_5_18_1526292057.02": 17.723135642789117, 
+                "v_gen_8_18_1526292057.02": 10.910329552328996
+            }, 
+            "host_name": "server_1_switch_1_pod_0", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_8_20_1526292057.01": 3.124285979180218, 
+                "v_gen_6_9_1526292057.02": 17.344133267688786, 
+                "v_gen_7_14_1526292057.01": 4.409520186059174, 
+                "v_gen_6_19_1526292057.03": 9.62208119433777, 
+                "v_gen_5_18_1526292057.02": 18.418170422351324, 
+                "v_gen_8_18_1526292057.02": 14.944233028375015, 
+                "v_gen_2_3_1526292057.02": 12.468367691023527, 
+                "v_gen_8_15_1526292057.03": 9.936037467496881, 
+                "v_gen_5_15_1526292057.03": 15.608561082906158, 
+                "v_gen_2_12_1526292057.01": 13.753439493381943, 
+                "v_gen_3_5_1526292057.01": 15.209681502676073, 
+                "v_gen_1_4_1526292057.01": 14.715544229774245, 
+                "v_gen_3_8_1526292057.0": 1.44929483158417, 
+                "v_gen_4_9_1526292057.02": 16.216505528218867, 
+                "v_gen_5_14_1526292057.01": 2.4041667207363746, 
+                "v_gen_2_18_1526292057.0": 16.914191542090855, 
+                "v_gen_6_7_1526292057.01": 17.750653532126503, 
+                "v_gen_4_14_1526292057.0": 10.670384091234235, 
+                "v_gen_1_6_1526292057.02": 10.882309439589202
+            }, 
+            "host_name": "server_1_switch_1_pod_1", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_4_10_1526292057.01": 4.35983839231533, 
+                "v_gen_1_10_1526292057.0": 4.783848569739158, 
+                "v_gen_5_18_1526292057.02": 13.575251937422603, 
+                "v_gen_2_3_1526292057.02": 12.113002852377141, 
+                "v_gen_5_15_1526292057.03": 4.842200641745576, 
+                "v_gen_1_4_1526292057.01": 16.677247056701162, 
+                "v_gen_7_9_1526292057.03": 5.00867835776746, 
+                "v_gen_3_8_1526292057.0": 16.57309856881517, 
+                "v_gen_2_12_1526292057.01": 18.90936518446911
+            }, 
+            "host_name": "server_1_switch_0_pod_3", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_1_10_1526292057.0": 7.271810483359308, 
+                "v_gen_5_15_1526292057.03": 19.951884475511754, 
+                "v_gen_1_4_1526292057.01": 3.4097259088002447, 
+                "v_gen_5_14_1526292057.01": 4.455456816403184, 
+                "v_gen_7_2_1526292057.02": 6.983721471491342, 
+                "v_gen_6_7_1526292057.01": 18.055415192946707, 
+                "v_gen_8_15_1526292057.03": 7.547729307502267, 
+                "v_gen_7_9_1526292057.03": 17.560107919388354, 
+                "v_gen_4_9_1526292057.02": 16.43972945941064, 
+                "v_gen_2_18_1526292057.0": 17.99114161525053, 
+                "v_gen_4_14_1526292057.0": 14.079063189768629, 
+                "v_gen_1_6_1526292057.02": 2.7491448305332393, 
+                "v_gen_4_10_1526292057.01": 9.408374072019894, 
+                "v_gen_3_2_1526292057.02": 12.70258399127416, 
+                "v_gen_3_8_1526292057.0": 9.969815409804879, 
+                "v_gen_8_20_1526292057.01": 18.275474620015856, 
+                "v_gen_6_19_1526292057.03": 5.680068945651044, 
+                "v_gen_7_14_1526292057.01": 2.249855582896828, 
+                "v_gen_3_5_1526292057.01": 14.88720873948469, 
+                "v_gen_6_9_1526292057.02": 8.859834215801587, 
+                "v_gen_5_18_1526292057.02": 11.041384773350215, 
+                "v_gen_8_18_1526292057.02": 9.00024075497036
+            }, 
+            "host_name": "server_1_switch_0_pod_2", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_1", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_8_20_1526292057.01": 2.564644353373449, 
+                "v_gen_2_18_1526292057.0": 19.05473016272482, 
+                "v_gen_1_10_1526292057.0": 17.405638787604786, 
+                "v_gen_6_19_1526292057.03": 4.806048139055504, 
+                "v_gen_7_14_1526292057.01": 14.914672789452677, 
+                "v_gen_3_5_1526292057.01": 1.3806235037971821, 
+                "v_gen_5_18_1526292057.02": 14.50421115003978, 
+                "v_gen_2_3_1526292057.02": 6.577247814181954, 
+                "v_gen_5_15_1526292057.03": 14.658908316020396, 
+                "v_gen_1_4_1526292057.01": 4.624492122639641, 
+                "v_gen_7_9_1526292057.03": 13.953287641613503, 
+                "v_gen_3_8_1526292057.0": 11.68671433192615, 
+                "v_gen_4_10_1526292057.01": 3.8083073576129105, 
+                "v_gen_7_2_1526292057.02": 9.184742970075492, 
+                "v_gen_6_7_1526292057.01": 9.587726796805839, 
+                "v_gen_3_2_1526292057.02": 6.6386705018784795, 
+                "v_gen_1_6_1526292057.02": 4.106559442618844
+            }, 
+            "host_name": "server_1_switch_0_pod_1", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }, 
+        {
+            "capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }, 
+            "cluster": "host_cluster_2", 
+            "mapped_vnfs": [], 
+            "costs": {
+                "v_gen_8_20_1526292057.01": 14.20958773131018, 
+                "v_gen_6_19_1526292057.03": 3.0841570192729337, 
+                "v_gen_2_3_1526292057.02": 8.175589448172879, 
+                "v_gen_6_9_1526292057.02": 17.226116734611278, 
+                "v_gen_5_18_1526292057.02": 2.1687482342776083, 
+                "v_gen_3_2_1526292057.02": 3.885685892522008, 
+                "v_gen_1_4_1526292057.01": 11.954655660355415, 
+                "v_gen_5_15_1526292057.03": 13.523277212726082
+            }, 
+            "host_name": "server_1_switch_0_pod_0", 
+            "free_capabilities": {
+                "storage": 16, 
+                "cpu": 1000, 
+                "memory": 128
+            }
+        }
+    ], 
+    "services": [
+        {
+            "service_name": "s_gen_0", 
+            "max_latency": 73, 
+            "traversed_vnfs": {
+                "v_gen_8_20_1526292057.01": 0.7066400179915688, 
+                "v_gen_1_10_1526292057.0": 1, 
+                "v_gen_7_14_1526292057.01": 0.29335998200843116, 
+                "v_gen_3_8_1526292057.0": 1, 
+                "v_gen_5_14_1526292057.01": 0.1464247157660096, 
+                "v_gen_2_18_1526292057.0": 1, 
+                "v_gen_6_7_1526292057.01": 0.6357028636030229, 
+                "v_gen_4_14_1526292057.0": 0.21787242063096757
+            }, 
+            "mapped_delay": 0.018292849431526
+        }, 
+        {
+            "service_name": "s_gen_1", 
+            "max_latency": 103, 
+            "traversed_vnfs": {
+                "v_gen_3_5_1526292057.01": 0.7190823830041536, 
+                "v_gen_6_9_1526292057.02": 1, 
+                "v_gen_4_10_1526292057.01": 1, 
+                "v_gen_5_18_1526292057.02": 1, 
+                "v_gen_1_4_1526292057.01": 1, 
+                "v_gen_2_12_1526292057.01": 0.2809176169958464, 
+                "v_gen_7_2_1526292057.02": 1, 
+                "v_gen_8_18_1526292057.02": 1
+            }, 
+            "mapped_delay": 0.017932846637944
+        }, 
+        {
+            "service_name": "s_gen_2", 
+            "max_latency": 82, 
+            "traversed_vnfs": {
+                "v_gen_1_6_1526292057.02": 1, 
+                "v_gen_6_19_1526292057.03": 1, 
+                "v_gen_2_3_1526292057.02": 1, 
+                "v_gen_8_15_1526292057.03": 1, 
+                "v_gen_5_15_1526292057.03": 1, 
+                "v_gen_7_9_1526292057.03": 1, 
+                "v_gen_4_9_1526292057.02": 0.5540801860809644, 
+                "v_gen_3_2_1526292057.02": 0.44591981391903557
+            }, 
+            "mapped_delay": 0.026675518883514
+        }
+    ], 
+    "host_edges": [
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_0_pod_2", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_4_10_1526292057.01", 
+                    "target": "v_gen_5_18_1526292057.02"
+                }, 
+                {
+                    "src": "v_gen_5_18_1526292057.02", 
+                    "target": "v_gen_6_9_1526292057.02"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_0_pod_3", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_6_9_1526292057.02", 
+                    "target": "v_gen_7_2_1526292057.02"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_1", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_1_4_1526292057.01", 
+                    "target": "v_gen_2_12_1526292057.01"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.002, 
+            "source": "server_0_switch_0_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_0_pod_2", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_1_6_1526292057.02", 
+                    "target": "v_gen_2_3_1526292057.02"
+                }, 
+                {
+                    "src": "v_gen_2_3_1526292057.02", 
+                    "target": "v_gen_4_9_1526292057.02"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_0_pod_3", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_3_5_1526292057.01", 
+                    "target": "v_gen_7_2_1526292057.02"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_1", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_3_5_1526292057.01", 
+                    "target": "v_gen_1_4_1526292057.01"
+                }
+            ], 
+            "delay": 0.004, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_0", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_6_19_1526292057.03", 
+                    "target": "v_gen_7_9_1526292057.03"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.002, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_0_pod_3", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_3_2_1526292057.02", 
+                    "target": "v_gen_2_3_1526292057.02"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_0", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_8_15_1526292057.03", 
+                    "target": "v_gen_7_9_1526292057.03"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.002, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_1", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_3_2_1526292057.02", 
+                    "target": "v_gen_5_15_1526292057.03"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_3", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_7_2_1526292057.02", 
+                    "target": "v_gen_8_18_1526292057.02"
+                }
+            ], 
+            "delay": 0.004, 
+            "source": "server_0_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_2", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_3_8_1526292057.0", 
+                    "target": "v_gen_6_7_1526292057.01"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_0_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.002, 
+            "source": "server_0_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_0", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_5_15_1526292057.03", 
+                    "target": "v_gen_7_9_1526292057.03"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.002, 
+            "source": "server_0_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_0_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_2", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_8_20_1526292057.01", 
+                    "target": "v_gen_5_14_1526292057.01"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.002, 
+            "source": "server_0_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_0_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_0_switch_1_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_2", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_7_14_1526292057.01", 
+                    "target": "v_gen_5_14_1526292057.01"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.002, 
+            "source": "server_0_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_0_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_2", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_3_8_1526292057.0", 
+                    "target": "v_gen_5_14_1526292057.01"
+                }
+            ], 
+            "delay": 0.002, 
+            "source": "server_0_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_3", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_1_10_1526292057.0", 
+                    "target": "v_gen_2_18_1526292057.0"
+                }, 
+                {
+                    "src": "v_gen_3_8_1526292057.0", 
+                    "target": "v_gen_2_18_1526292057.0"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_0", 
+            "mapped_vnf_edges": [
+                {
+                    "src": "v_gen_3_8_1526292057.0", 
+                    "target": "v_gen_4_14_1526292057.0"
+                }
+            ], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_0_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_0_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_1_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_1_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_1_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_1_switch_1_pod_0"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_3", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.004, 
+            "source": "server_1_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_1_pod_1"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_2", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_0_pod_3"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_1", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_0_pod_2"
+        }, 
+        {
+            "free_capacity": 62.5, 
+            "capacity": 62.5, 
+            "target": "server_1_switch_0_pod_0", 
+            "mapped_vnf_edges": [], 
+            "delay": 0.006, 
+            "source": "server_1_switch_0_pod_1"
+        }
+    ], 
+    "vnf_edges": [
+        {
+            "delay": 13, 
+            "source": "v_gen_1_10_1526292057.0", 
+            "traffic": 25, 
+            "target": "v_gen_2_18_1526292057.0", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 12, 
+            "source": "v_gen_2_18_1526292057.0", 
+            "traffic": 15, 
+            "target": "v_gen_3_8_1526292057.0", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 5, 
+            "source": "v_gen_3_8_1526292057.0", 
+            "traffic": 12, 
+            "target": "v_gen_4_14_1526292057.0", 
+            "prob": 0.21787242063096757
+        }, 
+        {
+            "delay": 6, 
+            "source": "v_gen_3_8_1526292057.0", 
+            "traffic": 19, 
+            "target": "v_gen_5_14_1526292057.01", 
+            "prob": 0.1464247157660096
+        }, 
+        {
+            "delay": 12, 
+            "source": "v_gen_3_8_1526292057.0", 
+            "traffic": 16, 
+            "target": "v_gen_6_7_1526292057.01", 
+            "prob": 0.6357028636030229
+        }, 
+        {
+            "delay": 3, 
+            "source": "v_gen_5_14_1526292057.01", 
+            "traffic": 29, 
+            "target": "v_gen_8_20_1526292057.01", 
+            "prob": 0.7066400179915688
+        }, 
+        {
+            "delay": 11, 
+            "source": "v_gen_5_14_1526292057.01", 
+            "traffic": 14, 
+            "target": "v_gen_7_14_1526292057.01", 
+            "prob": 0.29335998200843116
+        }, 
+        {
+            "delay": 2, 
+            "source": "v_gen_1_4_1526292057.01", 
+            "traffic": 18, 
+            "target": "v_gen_2_12_1526292057.01", 
+            "prob": 0.2809176169958464
+        }, 
+        {
+            "delay": 8, 
+            "source": "v_gen_1_4_1526292057.01", 
+            "traffic": 30, 
+            "target": "v_gen_3_5_1526292057.01", 
+            "prob": 0.7190823830041536
+        }, 
+        {
+            "delay": 5, 
+            "source": "v_gen_2_12_1526292057.01", 
+            "traffic": 23, 
+            "target": "v_gen_4_10_1526292057.01", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 5, 
+            "source": "v_gen_3_5_1526292057.01", 
+            "traffic": 29, 
+            "target": "v_gen_7_2_1526292057.02", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 2, 
+            "source": "v_gen_4_10_1526292057.01", 
+            "traffic": 25, 
+            "target": "v_gen_5_18_1526292057.02", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 14, 
+            "source": "v_gen_5_18_1526292057.02", 
+            "traffic": 16, 
+            "target": "v_gen_6_9_1526292057.02", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 14, 
+            "source": "v_gen_6_9_1526292057.02", 
+            "traffic": 17, 
+            "target": "v_gen_7_2_1526292057.02", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 8, 
+            "source": "v_gen_7_2_1526292057.02", 
+            "traffic": 24, 
+            "target": "v_gen_8_18_1526292057.02", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 2, 
+            "source": "v_gen_1_6_1526292057.02", 
+            "traffic": 28, 
+            "target": "v_gen_2_3_1526292057.02", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 6, 
+            "source": "v_gen_2_3_1526292057.02", 
+            "traffic": 26, 
+            "target": "v_gen_3_2_1526292057.02", 
+            "prob": 0.44591981391903557
+        }, 
+        {
+            "delay": 7, 
+            "source": "v_gen_2_3_1526292057.02", 
+            "traffic": 13, 
+            "target": "v_gen_4_9_1526292057.02", 
+            "prob": 0.5540801860809644
+        }, 
+        {
+            "delay": 11, 
+            "source": "v_gen_3_2_1526292057.02", 
+            "traffic": 21, 
+            "target": "v_gen_5_15_1526292057.03", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 2, 
+            "source": "v_gen_4_9_1526292057.02", 
+            "traffic": 18, 
+            "target": "v_gen_6_19_1526292057.03", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 12, 
+            "source": "v_gen_5_15_1526292057.03", 
+            "traffic": 26, 
+            "target": "v_gen_7_9_1526292057.03", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 14, 
+            "source": "v_gen_6_19_1526292057.03", 
+            "traffic": 16, 
+            "target": "v_gen_7_9_1526292057.03", 
+            "prob": 1.0
+        }, 
+        {
+            "delay": 7, 
+            "source": "v_gen_7_9_1526292057.03", 
+            "traffic": 14, 
+            "target": "v_gen_8_15_1526292057.03", 
+            "prob": 1.0
+        }
+    ]
+}

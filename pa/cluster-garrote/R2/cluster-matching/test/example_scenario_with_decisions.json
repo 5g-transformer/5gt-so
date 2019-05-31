@@ -1,0 +1,199 @@
+{
+  "resource_types": [
+    "cpu", 
+    "memory", 
+    "storage"
+  ], 
+  "vnfs": [
+    {
+      "vnf_name": "vnf1", 
+      "processing_time": 4, 
+      "place_at": [
+        "h1"
+      ], 
+      "requirements": {
+        "storage": 10, 
+        "cpu": 1, 
+        "memory": 4
+      }, 
+      "cluster": 1
+    }, 
+    {
+      "vnf_name": "vnf2", 
+      "processing_time": 2, 
+      "place_at": [
+        "h1"
+      ], 
+      "requirements": {
+        "storage": 0.5, 
+        "cpu": 1, 
+        "memory": 2
+      }, 
+      "cluster": 1
+    }, 
+    {
+      "vnf_name": "vnf3", 
+      "processing_time": 0.5, 
+      "place_at": [
+        "h2"
+      ], 
+      "requirements": {
+        "storage": 1, 
+        "cpu": 1, 
+        "memory": 1
+      }, 
+      "cluster": 2
+    }, 
+    {
+      "vnf_name": "vnf4", 
+      "processing_time": 10, 
+      "place_at": [
+        "h2"
+      ], 
+      "requirements": {
+        "storage": 10, 
+        "cpu": 4, 
+        "memory": 8
+      }, 
+      "cluster": 2
+    }, 
+    {
+      "vnf_name": "vnf5", 
+      "processing_time": 0.1, 
+      "place_at": [
+        "h2"
+      ], 
+      "requirements": {
+        "storage": 0.1, 
+        "cpu": 1, 
+        "memory": 0.5
+      }, 
+      "cluster": 2
+    }
+  ], 
+  "costs": [
+    {
+      "vnf": "v1", 
+      "host": "h1", 
+      "cost": 1
+    }, 
+    {
+      "vnf": "v2", 
+      "host": "h1", 
+      "cost": 1
+    }, 
+    {
+      "vnf": "v3", 
+      "host": "h1", 
+      "cost": 1
+    }, 
+    {
+      "vnf": "v4", 
+      "host": "h1", 
+      "cost": 1
+    }, 
+    {
+      "vnf": "v5", 
+      "host": "h1", 
+      "cost": 1
+    }, 
+    {
+      "vnf": "v1", 
+      "host": "h2", 
+      "cost": 1
+    }, 
+    {
+      "vnf": "v2", 
+      "host": "h2", 
+      "cost": 1
+    }, 
+    {
+      "vnf": "v3", 
+      "host": "h2", 
+      "cost": 1
+    }, 
+    {
+      "vnf": "v4", 
+      "host": "h2", 
+      "cost": 1
+    }, 
+    {
+      "vnf": "v5", 
+      "host": "h2", 
+      "cost": 1
+    }
+  ], 
+  "hosts": [
+    {
+      "cluster": 1, 
+      "host_name": "h1", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }, 
+    {
+      "cluster": 2, 
+      "host_name": "h2", 
+      "capabilities": {
+        "storage": 1000, 
+        "cpu": 16, 
+        "memory": 128
+      }
+    }
+  ], 
+  "services": [
+    {
+      "service_name": "s", 
+      "traversed_vnfs": {
+        "vnf2": 1, 
+        "vnf3": 0.6, 
+        "vnf1": 1, 
+        "vnf4": 0.4, 
+        "vnf5": 1
+      }
+    }
+  ], 
+  "host_edges": [
+    {
+      "delay": 0.001, 
+      "source": "h1", 
+      "capacoty": 1000, 
+      "target": "h2"
+    }, 
+    {
+      "delay": 0.001, 
+      "source": "h2", 
+      "capacoty": 1000, 
+      "target": "h1"
+    }
+  ], 
+  "vnf_edges": [
+    {
+      "source": "vnf1", 
+      "traffic": 10, 
+      "target": "vnf2"
+    }, 
+    {
+      "source": "vnf2", 
+      "traffic": 6, 
+      "target": "vnf3"
+    }, 
+    {
+      "source": "vnf2", 
+      "traffic": 4, 
+      "target": "vnf4"
+    }, 
+    {
+      "source": "vnf3", 
+      "traffic": 6, 
+      "target": "vnf5"
+    }, 
+    {
+      "source": "vnf4", 
+      "traffic": 4, 
+      "target": "vnf5"
+    }
+  ]
+}

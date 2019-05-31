@@ -1,0 +1,3691 @@
+{
+  "resource_types": [
+    "cpu", 
+    "memory", 
+    "storage"
+  ], 
+  "vnfs": [
+    {
+      "processing_time": 2, 
+      "vnf_name": "v_gen_1_10_1526292057.0", 
+      "place_at": [
+        "server_0_switch_1_pod_2"
+      ], 
+      "requirements": {
+        "storage": 9, 
+        "cpu": 4, 
+        "memory": 3
+      }
+    }, 
+    {
+      "processing_time": 10, 
+      "vnf_name": "v_gen_2_18_1526292057.0", 
+      "place_at": [
+        "server_1_switch_1_pod_3"
+      ], 
+      "requirements": {
+        "storage": 8, 
+        "cpu": 5, 
+        "memory": 8
+      }
+    }, 
+    {
+      "processing_time": 4, 
+      "vnf_name": "v_gen_3_8_1526292057.0", 
+      "place_at": [
+        "server_0_switch_0_pod_1"
+      ], 
+      "requirements": {
+        "storage": 7, 
+        "cpu": 7, 
+        "memory": 9
+      }
+    }, 
+    {
+      "processing_time": 5, 
+      "vnf_name": "v_gen_4_14_1526292057.0", 
+      "place_at": [
+        "server_0_switch_1_pod_3"
+      ], 
+      "requirements": {
+        "storage": 9, 
+        "cpu": 6, 
+        "memory": 6
+      }
+    }, 
+    {
+      "processing_time": 2, 
+      "vnf_name": "v_gen_5_14_1526292057.01", 
+      "place_at": [
+        "server_0_switch_0_pod_2"
+      ], 
+      "requirements": {
+        "storage": 9, 
+        "cpu": 4, 
+        "memory": 8
+      }
+    }, 
+    {
+      "processing_time": 4, 
+      "vnf_name": "v_gen_6_7_1526292057.01", 
+      "place_at": [
+        "server_0_switch_0_pod_2"
+      ], 
+      "requirements": {
+        "storage": 3, 
+        "cpu": 2, 
+        "memory": 3
+      }
+    }, 
+    {
+      "processing_time": 7, 
+      "vnf_name": "v_gen_7_14_1526292057.01", 
+      "place_at": [
+        "server_0_switch_1_pod_3"
+      ], 
+      "requirements": {
+        "storage": 5, 
+        "cpu": 5, 
+        "memory": 9
+      }
+    }, 
+    {
+      "processing_time": 4, 
+      "vnf_name": "v_gen_8_20_1526292057.01", 
+      "place_at": [
+        "server_0_switch_0_pod_3"
+      ], 
+      "requirements": {
+        "storage": 7, 
+        "cpu": 10, 
+        "memory": 8
+      }
+    }, 
+    {
+      "processing_time": 8, 
+      "vnf_name": "v_gen_1_4_1526292057.01", 
+      "place_at": [
+        "server_0_switch_1_pod_0"
+      ], 
+      "requirements": {
+        "storage": 9, 
+        "cpu": 6, 
+        "memory": 2
+      }
+    }, 
+    {
+      "processing_time": 8, 
+      "vnf_name": "v_gen_2_12_1526292057.01", 
+      "place_at": [
+        "server_0_switch_0_pod_1"
+      ], 
+      "requirements": {
+        "storage": 2, 
+        "cpu": 2, 
+        "memory": 4
+      }
+    }, 
+    {
+      "processing_time": 5, 
+      "vnf_name": "v_gen_3_5_1526292057.01", 
+      "place_at": [
+        "server_0_switch_1_pod_2"
+      ], 
+      "requirements": {
+        "storage": 5, 
+        "cpu": 2, 
+        "memory": 8
+      }
+    }, 
+    {
+      "processing_time": 9, 
+      "vnf_name": "v_gen_4_10_1526292057.01", 
+      "place_at": [
+        "server_0_switch_0_pod_0"
+      ], 
+      "requirements": {
+        "storage": 7, 
+        "cpu": 4, 
+        "memory": 8
+      }
+    }, 
+    {
+      "processing_time": 10, 
+      "vnf_name": "v_gen_5_18_1526292057.02", 
+      "place_at": [
+        "server_1_switch_1_pod_2"
+      ], 
+      "requirements": {
+        "storage": 3, 
+        "cpu": 7, 
+        "memory": 10
+      }
+    }, 
+    {
+      "processing_time": 10, 
+      "vnf_name": "v_gen_6_9_1526292057.02", 
+      "place_at": [
+        "server_0_switch_1_pod_1"
+      ], 
+      "requirements": {
+        "storage": 7, 
+        "cpu": 10, 
+        "memory": 10
+      }
+    }, 
+    {
+      "processing_time": 2, 
+      "vnf_name": "v_gen_7_2_1526292057.02", 
+      "place_at": [
+        "server_0_switch_0_pod_1"
+      ], 
+      "requirements": {
+        "storage": 3, 
+        "cpu": 7, 
+        "memory": 2
+      }
+    }, 
+    {
+      "processing_time": 8, 
+      "vnf_name": "v_gen_8_18_1526292057.02", 
+      "place_at": [
+        "server_1_switch_1_pod_2"
+      ], 
+      "requirements": {
+        "storage": 8, 
+        "cpu": 4, 
+        "memory": 3
+      }
+    }, 
+    {
+      "processing_time": 9, 
+      "vnf_name": "v_gen_1_6_1526292057.02", 
+      "place_at": [
+        "server_0_switch_1_pod_1"
+      ], 
+      "requirements": {
+        "storage": 6, 
+        "cpu": 5, 
+        "memory": 8
+      }
+    }, 
+    {
+      "processing_time": 5, 
+      "vnf_name": "v_gen_2_3_1526292057.02", 
+      "place_at": [
+        "server_0_switch_0_pod_0"
+      ], 
+      "requirements": {
+        "storage": 4, 
+        "cpu": 7, 
+        "memory": 4
+      }
+    }, 
+    {
+      "processing_time": 2, 
+      "vnf_name": "v_gen_3_2_1526292057.02", 
+      "place_at": [
+        "server_1_switch_1_pod_0"
+      ], 
+      "requirements": {
+        "storage": 10, 
+        "cpu": 10, 
+        "memory": 3
+      }
+    }, 
+    {
+      "processing_time": 10, 
+      "vnf_name": "v_gen_4_9_1526292057.02", 
+      "place_at": [
+        "server_0_switch_0_pod_0"
+      ], 
+      "requirements": {
+        "storage": 3, 
+        "cpu": 10, 
+        "memory": 3
+      }
+    }, 
+    {
+      "processing_time": 10, 
+      "vnf_name": "v_gen_5_15_1526292057.03", 
+      "place_at": [
+        "server_0_switch_0_pod_1"
+      ], 
+      "requirements": {
+        "storage": 4, 
+        "cpu": 9, 
+        "memory": 9
+      }
+    }, 
+    {
+      "processing_time": 3, 
+      "vnf_name": "v_gen_6_19_1526292057.03", 
+      "place_at": [
+        "server_0_switch_1_pod_1"
+      ], 
+      "requirements": {
+        "storage": 2, 
+        "cpu": 4, 
+        "memory": 8
+      }
+    }, 
+    {
+      "processing_time": 7, 
+      "vnf_name": "v_gen_7_9_1526292057.03", 
+      "place_at": [
+        "server_0_switch_0_pod_3"
+      ], 
+      "requirements": {
+        "storage": 5, 
+        "cpu": 2, 
+        "memory": 5
+      }
+    }, 
+    {
+      "processing_time": 3, 
+      "vnf_name": "v_gen_8_15_1526292057.03", 
+      "place_at": [
+        "server_1_switch_1_pod_3"
+      ], 
+      "requirements": {
+        "storage": 8, 
+        "cpu": 3, 
+        "memory": 5
+      }
+    }
+  ], 
+  "costs": [
+    {
+      "vnf": "v_gen_3_5_1526292057.01", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 15.81189511138989
+    }, 
+    {
+      "vnf": "v_gen_4_9_1526292057.02", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 2.302221132048194
+    }, 
+    {
+      "vnf": "v_gen_3_2_1526292057.02", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 19.705063851745994
+    }, 
+    {
+      "vnf": "v_gen_4_10_1526292057.01", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 4.583898131510663
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 16.99967794265934
+    }, 
+    {
+      "vnf": "v_gen_2_18_1526292057.0", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 9.978997571945772
+    }, 
+    {
+      "vnf": "v_gen_6_9_1526292057.02", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 14.102120377838608
+    }, 
+    {
+      "vnf": "v_gen_2_12_1526292057.01", 
+      "host": "server_0_switch_0_pod_0", 
+      "cost": 4.421576439774719
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 16.56092791376166
+    }, 
+    {
+      "vnf": "v_gen_8_15_1526292057.03", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 4.6997699863168005
+    }, 
+    {
+      "vnf": "v_gen_1_10_1526292057.0", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 17.96342447794707
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526292057.03", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 7.119966853433109
+    }, 
+    {
+      "vnf": "v_gen_5_14_1526292057.01", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 10.153809684670113
+    }, 
+    {
+      "vnf": "v_gen_3_5_1526292057.01", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 6.0908436736384255
+    }, 
+    {
+      "vnf": "v_gen_1_6_1526292057.02", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 5.107856811847138
+    }, 
+    {
+      "vnf": "v_gen_4_10_1526292057.01", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 13.404805891634853
+    }, 
+    {
+      "vnf": "v_gen_2_12_1526292057.01", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 5.0430346644659725
+    }, 
+    {
+      "vnf": "v_gen_7_14_1526292057.01", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 11.79557786204629
+    }, 
+    {
+      "vnf": "v_gen_4_9_1526292057.02", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 12.869947909383397
+    }, 
+    {
+      "vnf": "v_gen_3_2_1526292057.02", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 7.14546402539148
+    }, 
+    {
+      "vnf": "v_gen_4_14_1526292057.0", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 2.152544423727288
+    }, 
+    {
+      "vnf": "v_gen_7_9_1526292057.03", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 13.459430684701186
+    }, 
+    {
+      "vnf": "v_gen_6_7_1526292057.01", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 7.812134626792072
+    }, 
+    {
+      "vnf": "v_gen_7_2_1526292057.02", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 1.7194623714202293
+    }, 
+    {
+      "vnf": "v_gen_3_8_1526292057.0", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 3.2464192451197995
+    }, 
+    {
+      "vnf": "v_gen_5_15_1526292057.03", 
+      "host": "server_0_switch_0_pod_1", 
+      "cost": 9.961009271473001
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 13.519236074838874
+    }, 
+    {
+      "vnf": "v_gen_6_7_1526292057.01", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 2.213812295734796
+    }, 
+    {
+      "vnf": "v_gen_2_18_1526292057.0", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 10.221482039800287
+    }, 
+    {
+      "vnf": "v_gen_4_9_1526292057.02", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 13.621482065421374
+    }, 
+    {
+      "vnf": "v_gen_4_14_1526292057.0", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 13.331388444001687
+    }, 
+    {
+      "vnf": "v_gen_7_9_1526292057.03", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 13.374968304585911
+    }, 
+    {
+      "vnf": "v_gen_4_10_1526292057.01", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 8.762569864654116
+    }, 
+    {
+      "vnf": "v_gen_3_2_1526292057.02", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 9.924838554570469
+    }, 
+    {
+      "vnf": "v_gen_8_20_1526292057.01", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 14.691348968179925
+    }, 
+    {
+      "vnf": "v_gen_6_9_1526292057.02", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 9.250425588670108
+    }, 
+    {
+      "vnf": "v_gen_3_8_1526292057.0", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 14.811899274268946
+    }, 
+    {
+      "vnf": "v_gen_1_10_1526292057.0", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 13.306521518511047
+    }, 
+    {
+      "vnf": "v_gen_8_15_1526292057.03", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 1.610653479450196
+    }, 
+    {
+      "vnf": "v_gen_1_6_1526292057.02", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 10.751233311335625
+    }, 
+    {
+      "vnf": "v_gen_5_15_1526292057.03", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 16.372268426714264
+    }, 
+    {
+      "vnf": "v_gen_2_12_1526292057.01", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 19.000361078293697
+    }, 
+    {
+      "vnf": "v_gen_1_4_1526292057.01", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 8.84903171289497
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526292057.02", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 16.671845365172338
+    }, 
+    {
+      "vnf": "v_gen_7_14_1526292057.01", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 15.399599752514032
+    }, 
+    {
+      "vnf": "v_gen_3_5_1526292057.01", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 4.59254706643084
+    }, 
+    {
+      "vnf": "v_gen_5_18_1526292057.02", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 14.350014726657777
+    }, 
+    {
+      "vnf": "v_gen_5_14_1526292057.01", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 2.3403628026919225
+    }, 
+    {
+      "vnf": "v_gen_7_2_1526292057.02", 
+      "host": "server_0_switch_0_pod_2", 
+      "cost": 13.690820015955214
+    }, 
+    {
+      "vnf": "v_gen_3_2_1526292057.02", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 7.226677027388861
+    }, 
+    {
+      "vnf": "v_gen_1_4_1526292057.01", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 11.530698285737257
+    }, 
+    {
+      "vnf": "v_gen_4_10_1526292057.01", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 8.47199110736734
+    }, 
+    {
+      "vnf": "v_gen_6_7_1526292057.01", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 12.66491447110328
+    }, 
+    {
+      "vnf": "v_gen_2_12_1526292057.01", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 18.613414359973184
+    }, 
+    {
+      "vnf": "v_gen_5_14_1526292057.01", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 18.566775532894084
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526292057.02", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 11.949248635083542
+    }, 
+    {
+      "vnf": "v_gen_7_2_1526292057.02", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 13.971260867064116
+    }, 
+    {
+      "vnf": "v_gen_7_9_1526292057.03", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 7.532695053115777
+    }, 
+    {
+      "vnf": "v_gen_8_20_1526292057.01", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 5.398278183800852
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 6.229055937403608
+    }, 
+    {
+      "vnf": "v_gen_5_18_1526292057.02", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 19.732231738456242
+    }, 
+    {
+      "vnf": "v_gen_3_8_1526292057.0", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 12.026106564626735
+    }, 
+    {
+      "vnf": "v_gen_4_9_1526292057.02", 
+      "host": "server_0_switch_0_pod_3", 
+      "cost": 2.782260435913942
+    }, 
+    {
+      "vnf": "v_gen_7_9_1526292057.03", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 19.94015977490541
+    }, 
+    {
+      "vnf": "v_gen_2_18_1526292057.0", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 7.7603448859122715
+    }, 
+    {
+      "vnf": "v_gen_3_5_1526292057.01", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 6.9587107203523635
+    }, 
+    {
+      "vnf": "v_gen_8_15_1526292057.03", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 8.073733220977665
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 19.377033878527165
+    }, 
+    {
+      "vnf": "v_gen_7_14_1526292057.01", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 19.297609678237514
+    }, 
+    {
+      "vnf": "v_gen_3_8_1526292057.0", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 3.9395716446506084
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526292057.03", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 1.5704962262847908
+    }, 
+    {
+      "vnf": "v_gen_6_9_1526292057.02", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 2.795440568543624
+    }, 
+    {
+      "vnf": "v_gen_8_20_1526292057.01", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 14.81608146355661
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526292057.02", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 18.04517080897609
+    }, 
+    {
+      "vnf": "v_gen_1_10_1526292057.0", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 8.654647481388455
+    }, 
+    {
+      "vnf": "v_gen_6_7_1526292057.01", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 11.282188875925453
+    }, 
+    {
+      "vnf": "v_gen_4_14_1526292057.0", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 6.105765077553472
+    }, 
+    {
+      "vnf": "v_gen_1_6_1526292057.02", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 1.0708930889849622
+    }, 
+    {
+      "vnf": "v_gen_4_10_1526292057.01", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 5.3635669178355965
+    }, 
+    {
+      "vnf": "v_gen_5_18_1526292057.02", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 18.93543350767532
+    }, 
+    {
+      "vnf": "v_gen_1_4_1526292057.01", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 8.866762767620262
+    }, 
+    {
+      "vnf": "v_gen_2_12_1526292057.01", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 13.75216107021257
+    }, 
+    {
+      "vnf": "v_gen_5_14_1526292057.01", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 5.091818048538683
+    }, 
+    {
+      "vnf": "v_gen_4_9_1526292057.02", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 1.9135258412668041
+    }, 
+    {
+      "vnf": "v_gen_5_15_1526292057.03", 
+      "host": "server_0_switch_1_pod_1", 
+      "cost": 4.375525230457047
+    }, 
+    {
+      "vnf": "v_gen_3_2_1526292057.02", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 13.677687046008575
+    }, 
+    {
+      "vnf": "v_gen_1_4_1526292057.01", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 1.7281482749185424
+    }, 
+    {
+      "vnf": "v_gen_3_8_1526292057.0", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 10.803641452537013
+    }, 
+    {
+      "vnf": "v_gen_8_20_1526292057.01", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 3.4371193215196993
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526292057.03", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 1.3583020359626718
+    }, 
+    {
+      "vnf": "v_gen_7_9_1526292057.03", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 12.837463589102173
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 17.01984563587722
+    }, 
+    {
+      "vnf": "v_gen_8_15_1526292057.03", 
+      "host": "server_0_switch_1_pod_0", 
+      "cost": 8.05728367439653
+    }, 
+    {
+      "vnf": "v_gen_3_2_1526292057.02", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 16.356989288144714
+    }, 
+    {
+      "vnf": "v_gen_4_14_1526292057.0", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 2.577514887580207
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526292057.02", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 15.869899256324791
+    }, 
+    {
+      "vnf": "v_gen_4_10_1526292057.01", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 18.563344619819027
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 19.025858215013955
+    }, 
+    {
+      "vnf": "v_gen_1_4_1526292057.01", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 2.43705192129174
+    }, 
+    {
+      "vnf": "v_gen_5_14_1526292057.01", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 13.005039411559702
+    }, 
+    {
+      "vnf": "v_gen_2_18_1526292057.0", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 2.936154597379407
+    }, 
+    {
+      "vnf": "v_gen_5_18_1526292057.02", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 14.20432400915422
+    }, 
+    {
+      "vnf": "v_gen_8_15_1526292057.03", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 8.066404508396863
+    }, 
+    {
+      "vnf": "v_gen_7_14_1526292057.01", 
+      "host": "server_0_switch_1_pod_3", 
+      "cost": 3.911218346061852
+    }, 
+    {
+      "vnf": "v_gen_3_8_1526292057.0", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 14.66971581032916
+    }, 
+    {
+      "vnf": "v_gen_3_5_1526292057.01", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 1.365366251400775
+    }, 
+    {
+      "vnf": "v_gen_7_2_1526292057.02", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 15.45530444805289
+    }, 
+    {
+      "vnf": "v_gen_1_6_1526292057.02", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 9.605118234997521
+    }, 
+    {
+      "vnf": "v_gen_4_14_1526292057.0", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 8.448418989732895
+    }, 
+    {
+      "vnf": "v_gen_8_20_1526292057.01", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 19.212843393397456
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526292057.02", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 17.269139243403
+    }, 
+    {
+      "vnf": "v_gen_5_14_1526292057.01", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 18.8659359103113
+    }, 
+    {
+      "vnf": "v_gen_1_10_1526292057.0", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 7.670283891641771
+    }, 
+    {
+      "vnf": "v_gen_6_9_1526292057.02", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 9.192818325986982
+    }, 
+    {
+      "vnf": "v_gen_2_18_1526292057.0", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 13.523233645672901
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526292057.03", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 15.452753335367996
+    }, 
+    {
+      "vnf": "v_gen_3_2_1526292057.02", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 11.105618001615703
+    }, 
+    {
+      "vnf": "v_gen_2_12_1526292057.01", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 19.750369983344186
+    }, 
+    {
+      "vnf": "v_gen_7_14_1526292057.01", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 11.020025153873119
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 8.342475579406068
+    }, 
+    {
+      "vnf": "v_gen_6_7_1526292057.01", 
+      "host": "server_0_switch_1_pod_2", 
+      "cost": 5.226576275617986
+    }, 
+    {
+      "vnf": "v_gen_1_6_1526292057.02", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 4.613574581530104
+    }, 
+    {
+      "vnf": "v_gen_7_14_1526292057.01", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 17.482934635113097
+    }, 
+    {
+      "vnf": "v_gen_4_14_1526292057.0", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 3.8725030193936902
+    }, 
+    {
+      "vnf": "v_gen_7_2_1526292057.02", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 19.95370426675698
+    }, 
+    {
+      "vnf": "v_gen_5_14_1526292057.01", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 11.529801233824635
+    }, 
+    {
+      "vnf": "v_gen_2_12_1526292057.01", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 18.548416860970857
+    }, 
+    {
+      "vnf": "v_gen_2_18_1526292057.0", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 13.569487375907737
+    }, 
+    {
+      "vnf": "v_gen_8_20_1526292057.01", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 8.576322181532504
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 13.417006559804745
+    }, 
+    {
+      "vnf": "v_gen_5_18_1526292057.02", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 2.892178262159658
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526292057.03", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 5.1489846486151425
+    }, 
+    {
+      "vnf": "v_gen_4_10_1526292057.01", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 15.764135811951997
+    }, 
+    {
+      "vnf": "v_gen_1_10_1526292057.0", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 9.299216691787885
+    }, 
+    {
+      "vnf": "v_gen_3_5_1526292057.01", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 12.789330154442233
+    }, 
+    {
+      "vnf": "v_gen_5_15_1526292057.03", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 19.10003532850552
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526292057.02", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 7.520841732380646
+    }, 
+    {
+      "vnf": "v_gen_6_7_1526292057.01", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 18.44615999655296
+    }, 
+    {
+      "vnf": "v_gen_1_4_1526292057.01", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 11.47643757386396
+    }, 
+    {
+      "vnf": "v_gen_7_9_1526292057.03", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 4.34957365940066
+    }, 
+    {
+      "vnf": "v_gen_8_15_1526292057.03", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 18.0018000943923
+    }, 
+    {
+      "vnf": "v_gen_3_2_1526292057.02", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 15.966321582801381
+    }, 
+    {
+      "vnf": "v_gen_4_9_1526292057.02", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 10.686516816511865
+    }, 
+    {
+      "vnf": "v_gen_6_9_1526292057.02", 
+      "host": "server_1_switch_1_pod_2", 
+      "cost": 11.470427273912744
+    }, 
+    {
+      "vnf": "v_gen_6_9_1526292057.02", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 18.95293266994527
+    }, 
+    {
+      "vnf": "v_gen_8_15_1526292057.03", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 1.4015314124701337
+    }, 
+    {
+      "vnf": "v_gen_3_5_1526292057.01", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 5.103681268465592
+    }, 
+    {
+      "vnf": "v_gen_1_10_1526292057.0", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 5.545944544778744
+    }, 
+    {
+      "vnf": "v_gen_5_18_1526292057.02", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 15.358810712203518
+    }, 
+    {
+      "vnf": "v_gen_5_15_1526292057.03", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 9.010622088996197
+    }, 
+    {
+      "vnf": "v_gen_2_18_1526292057.0", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 1.5704221713598825
+    }, 
+    {
+      "vnf": "v_gen_7_9_1526292057.03", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 11.42881972167089
+    }, 
+    {
+      "vnf": "v_gen_2_12_1526292057.01", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 6.904663391419681
+    }, 
+    {
+      "vnf": "v_gen_4_14_1526292057.0", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 15.698019930350688
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526292057.03", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 8.642643592812057
+    }, 
+    {
+      "vnf": "v_gen_3_8_1526292057.0", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 5.619245050302398
+    }, 
+    {
+      "vnf": "v_gen_1_6_1526292057.02", 
+      "host": "server_1_switch_1_pod_3", 
+      "cost": 5.391511708678825
+    }, 
+    {
+      "vnf": "v_gen_5_18_1526292057.02", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 17.723135642789117
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526292057.02", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 10.910329552328996
+    }, 
+    {
+      "vnf": "v_gen_8_20_1526292057.01", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 13.28113444950186
+    }, 
+    {
+      "vnf": "v_gen_3_5_1526292057.01", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 6.3009148281270475
+    }, 
+    {
+      "vnf": "v_gen_6_7_1526292057.01", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 5.249884370651477
+    }, 
+    {
+      "vnf": "v_gen_7_2_1526292057.02", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 10.080292506684765
+    }, 
+    {
+      "vnf": "v_gen_5_15_1526292057.03", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 6.402151157243525
+    }, 
+    {
+      "vnf": "v_gen_1_4_1526292057.01", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 15.97287189914677
+    }, 
+    {
+      "vnf": "v_gen_3_8_1526292057.0", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 3.033447044162451
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 15.920856307059012
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526292057.03", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 13.82758354608063
+    }, 
+    {
+      "vnf": "v_gen_7_9_1526292057.03", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 13.320645783910752
+    }, 
+    {
+      "vnf": "v_gen_8_15_1526292057.03", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 18.2194281959355
+    }, 
+    {
+      "vnf": "v_gen_2_18_1526292057.0", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 16.652485130230865
+    }, 
+    {
+      "vnf": "v_gen_2_12_1526292057.01", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 6.862526239601891
+    }, 
+    {
+      "vnf": "v_gen_1_6_1526292057.02", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 18.407473992658016
+    }, 
+    {
+      "vnf": "v_gen_5_14_1526292057.01", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 7.79355552268767
+    }, 
+    {
+      "vnf": "v_gen_4_14_1526292057.0", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 3.533213156489942
+    }, 
+    {
+      "vnf": "v_gen_4_10_1526292057.01", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 17.837569183327354
+    }, 
+    {
+      "vnf": "v_gen_3_2_1526292057.02", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 4.983236444694613
+    }, 
+    {
+      "vnf": "v_gen_7_14_1526292057.01", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 5.777967822160791
+    }, 
+    {
+      "vnf": "v_gen_4_9_1526292057.02", 
+      "host": "server_1_switch_1_pod_0", 
+      "cost": 19.494425643655035
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 12.468367691023527
+    }, 
+    {
+      "vnf": "v_gen_5_18_1526292057.02", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 18.418170422351324
+    }, 
+    {
+      "vnf": "v_gen_4_9_1526292057.02", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 16.216505528218867
+    }, 
+    {
+      "vnf": "v_gen_8_15_1526292057.03", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 9.936037467496881
+    }, 
+    {
+      "vnf": "v_gen_6_7_1526292057.01", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 17.750653532126503
+    }, 
+    {
+      "vnf": "v_gen_2_18_1526292057.0", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 16.914191542090855
+    }, 
+    {
+      "vnf": "v_gen_1_4_1526292057.01", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 14.715544229774245
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526292057.03", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 9.62208119433777
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526292057.02", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 14.944233028375015
+    }, 
+    {
+      "vnf": "v_gen_3_8_1526292057.0", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 1.44929483158417
+    }, 
+    {
+      "vnf": "v_gen_7_14_1526292057.01", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 4.409520186059174
+    }, 
+    {
+      "vnf": "v_gen_3_5_1526292057.01", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 15.209681502676073
+    }, 
+    {
+      "vnf": "v_gen_6_9_1526292057.02", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 17.344133267688786
+    }, 
+    {
+      "vnf": "v_gen_5_14_1526292057.01", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 2.4041667207363746
+    }, 
+    {
+      "vnf": "v_gen_4_14_1526292057.0", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 10.670384091234235
+    }, 
+    {
+      "vnf": "v_gen_5_15_1526292057.03", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 15.608561082906158
+    }, 
+    {
+      "vnf": "v_gen_1_6_1526292057.02", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 10.882309439589202
+    }, 
+    {
+      "vnf": "v_gen_8_20_1526292057.01", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 3.124285979180218
+    }, 
+    {
+      "vnf": "v_gen_2_12_1526292057.01", 
+      "host": "server_1_switch_1_pod_1", 
+      "cost": 13.753439493381943
+    }, 
+    {
+      "vnf": "v_gen_1_10_1526292057.0", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 4.783848569739158
+    }, 
+    {
+      "vnf": "v_gen_2_12_1526292057.01", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 18.90936518446911
+    }, 
+    {
+      "vnf": "v_gen_4_10_1526292057.01", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 4.35983839231533
+    }, 
+    {
+      "vnf": "v_gen_7_9_1526292057.03", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 5.00867835776746
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 12.113002852377141
+    }, 
+    {
+      "vnf": "v_gen_5_18_1526292057.02", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 13.575251937422603
+    }, 
+    {
+      "vnf": "v_gen_3_8_1526292057.0", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 16.57309856881517
+    }, 
+    {
+      "vnf": "v_gen_1_4_1526292057.01", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 16.677247056701162
+    }, 
+    {
+      "vnf": "v_gen_5_15_1526292057.03", 
+      "host": "server_1_switch_0_pod_3", 
+      "cost": 4.842200641745576
+    }, 
+    {
+      "vnf": "v_gen_3_2_1526292057.02", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 12.70258399127416
+    }, 
+    {
+      "vnf": "v_gen_4_14_1526292057.0", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 14.079063189768629
+    }, 
+    {
+      "vnf": "v_gen_3_8_1526292057.0", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 9.969815409804879
+    }, 
+    {
+      "vnf": "v_gen_4_10_1526292057.01", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 9.408374072019894
+    }, 
+    {
+      "vnf": "v_gen_6_7_1526292057.01", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 18.055415192946707
+    }, 
+    {
+      "vnf": "v_gen_4_9_1526292057.02", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 16.43972945941064
+    }, 
+    {
+      "vnf": "v_gen_8_15_1526292057.03", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 7.547729307502267
+    }, 
+    {
+      "vnf": "v_gen_5_14_1526292057.01", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 4.455456816403184
+    }, 
+    {
+      "vnf": "v_gen_7_14_1526292057.01", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 2.249855582896828
+    }, 
+    {
+      "vnf": "v_gen_8_18_1526292057.02", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 9.00024075497036
+    }, 
+    {
+      "vnf": "v_gen_7_9_1526292057.03", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 17.560107919388354
+    }, 
+    {
+      "vnf": "v_gen_7_2_1526292057.02", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 6.983721471491342
+    }, 
+    {
+      "vnf": "v_gen_1_4_1526292057.01", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 3.4097259088002447
+    }, 
+    {
+      "vnf": "v_gen_1_6_1526292057.02", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 2.7491448305332393
+    }, 
+    {
+      "vnf": "v_gen_5_15_1526292057.03", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 19.951884475511754
+    }, 
+    {
+      "vnf": "v_gen_1_10_1526292057.0", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 7.271810483359308
+    }, 
+    {
+      "vnf": "v_gen_3_5_1526292057.01", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 14.88720873948469
+    }, 
+    {
+      "vnf": "v_gen_5_18_1526292057.02", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 11.041384773350215
+    }, 
+    {
+      "vnf": "v_gen_8_20_1526292057.01", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 18.275474620015856
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526292057.03", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 5.680068945651044
+    }, 
+    {
+      "vnf": "v_gen_6_9_1526292057.02", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 8.859834215801587
+    }, 
+    {
+      "vnf": "v_gen_2_18_1526292057.0", 
+      "host": "server_1_switch_0_pod_2", 
+      "cost": 17.99114161525053
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 6.577247814181954
+    }, 
+    {
+      "vnf": "v_gen_1_4_1526292057.01", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 4.624492122639641
+    }, 
+    {
+      "vnf": "v_gen_1_10_1526292057.0", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 17.405638787604786
+    }, 
+    {
+      "vnf": "v_gen_3_5_1526292057.01", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 1.3806235037971821
+    }, 
+    {
+      "vnf": "v_gen_6_7_1526292057.01", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 9.587726796805839
+    }, 
+    {
+      "vnf": "v_gen_7_2_1526292057.02", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 9.184742970075492
+    }, 
+    {
+      "vnf": "v_gen_5_15_1526292057.03", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 14.658908316020396
+    }, 
+    {
+      "vnf": "v_gen_8_20_1526292057.01", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 2.564644353373449
+    }, 
+    {
+      "vnf": "v_gen_3_2_1526292057.02", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 6.6386705018784795
+    }, 
+    {
+      "vnf": "v_gen_7_14_1526292057.01", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 14.914672789452677
+    }, 
+    {
+      "vnf": "v_gen_3_8_1526292057.0", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 11.68671433192615
+    }, 
+    {
+      "vnf": "v_gen_7_9_1526292057.03", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 13.953287641613503
+    }, 
+    {
+      "vnf": "v_gen_2_18_1526292057.0", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 19.05473016272482
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526292057.03", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 4.806048139055504
+    }, 
+    {
+      "vnf": "v_gen_5_18_1526292057.02", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 14.50421115003978
+    }, 
+    {
+      "vnf": "v_gen_1_6_1526292057.02", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 4.106559442618844
+    }, 
+    {
+      "vnf": "v_gen_4_10_1526292057.01", 
+      "host": "server_1_switch_0_pod_1", 
+      "cost": 3.8083073576129105
+    }, 
+    {
+      "vnf": "v_gen_8_20_1526292057.01", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 14.20958773131018
+    }, 
+    {
+      "vnf": "v_gen_5_15_1526292057.03", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 13.523277212726082
+    }, 
+    {
+      "vnf": "v_gen_6_9_1526292057.02", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 17.226116734611278
+    }, 
+    {
+      "vnf": "v_gen_2_3_1526292057.02", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 8.175589448172879
+    }, 
+    {
+      "vnf": "v_gen_3_2_1526292057.02", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 3.885685892522008
+    }, 
+    {
+      "vnf": "v_gen_1_4_1526292057.01", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 11.954655660355415
+    }, 
+    {
+      "vnf": "v_gen_6_19_1526292057.03", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 3.0841570192729337
+    }, 
+    {
+      "vnf": "v_gen_5_18_1526292057.02", 
+      "host": "server_1_switch_0_pod_0", 
+      "cost": 2.1687482342776083
+    }
+  ], 
+  "hosts": [
+    {
+      "host_name": "server_0_switch_0_pod_0", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_0_pod_1", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_0_pod_2", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_0_pod_3", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_1_pod_1", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_1_pod_0", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_1_pod_3", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_0_switch_1_pod_2", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_1_pod_2", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_1_pod_3", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_1_pod_0", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_1_pod_1", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_0_pod_3", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_0_pod_2", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_0_pod_1", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }, 
+    {
+      "host_name": "server_1_switch_0_pod_0", 
+      "capabilities": {
+        "storage": 16, 
+        "cpu": 1000, 
+        "memory": 128
+      }
+    }
+  ], 
+  "solution_performance": {
+    "execution_time": 180.04779, 
+    "latency": {
+      "total": 40.39342698467173, 
+      "processing": 40.36016575825317, 
+      "network": 0.03326122641855871
+    }, 
+    "cost": 102.398442652522, 
+    "availability": 1.0, 
+    "generations": 50
+  }, 
+  "services": [
+    {
+      "service_name": "s_gen_0", 
+      "max_latency": 73, 
+      "traversed_vnfs": {
+        "v_gen_8_20_1526292057.01": 0.7066400179915688, 
+        "v_gen_1_10_1526292057.0": 1, 
+        "v_gen_7_14_1526292057.01": 0.29335998200843116, 
+        "v_gen_3_8_1526292057.0": 1, 
+        "v_gen_5_14_1526292057.01": 0.1464247157660096, 
+        "v_gen_2_18_1526292057.0": 1, 
+        "v_gen_6_7_1526292057.01": 0.6357028636030229, 
+        "v_gen_4_14_1526292057.0": 0.21787242063096757
+      }
+    }, 
+    {
+      "service_name": "s_gen_1", 
+      "max_latency": 103, 
+      "traversed_vnfs": {
+        "v_gen_4_10_1526292057.01": 1, 
+        "v_gen_5_18_1526292057.02": 1, 
+        "v_gen_6_9_1526292057.02": 1, 
+        "v_gen_3_5_1526292057.01": 0.7190823830041536, 
+        "v_gen_1_4_1526292057.01": 1, 
+        "v_gen_2_12_1526292057.01": 0.2809176169958464, 
+        "v_gen_7_2_1526292057.02": 1, 
+        "v_gen_8_18_1526292057.02": 1
+      }
+    }, 
+    {
+      "service_name": "s_gen_2", 
+      "max_latency": 82, 
+      "traversed_vnfs": {
+        "v_gen_1_6_1526292057.02": 1, 
+        "v_gen_6_19_1526292057.03": 1, 
+        "v_gen_2_3_1526292057.02": 1, 
+        "v_gen_8_15_1526292057.03": 1, 
+        "v_gen_5_15_1526292057.03": 1, 
+        "v_gen_7_9_1526292057.03": 1, 
+        "v_gen_4_9_1526292057.02": 0.5540801860809644, 
+        "v_gen_3_2_1526292057.02": 0.44591981391903557
+      }
+    }
+  ], 
+  "host_edges": [
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 23
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 46
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 25
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 26
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 35
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 26
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 17
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 18
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 12
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 29
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 24
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 15
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 21
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 29
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 14
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 16
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 14
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 16
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 30
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 25
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 23
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 46
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 25
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 26
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 35
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 26
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 17
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 18
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 12
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 29
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 24
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 15
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 21
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 29
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 14
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 16
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 14
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 16
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 30
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_0_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.002, 
+      "source": "server_1_switch_1_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 25
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_0_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_1_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_0", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_3", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.004, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_1_pod_1", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_2", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_3", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_1", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_2", 
+      "utilization": 0
+    }, 
+    {
+      "delay": 0.006, 
+      "source": "server_1_switch_0_pod_0", 
+      "capacity": 62.5, 
+      "target": "server_1_switch_0_pod_1", 
+      "utilization": 0
+    }
+  ], 
+  "vnf_edges": [
+    {
+      "delay": 13, 
+      "source": "v_gen_1_10_1526292057.0", 
+      "traffic": 25, 
+      "target": "v_gen_2_18_1526292057.0", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_1_pod_2", 
+        "target": "server_1_switch_1_pod_3"
+      }
+    }, 
+    {
+      "delay": 12, 
+      "source": "v_gen_2_18_1526292057.0", 
+      "traffic": 15, 
+      "target": "v_gen_3_8_1526292057.0", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_1_switch_1_pod_3", 
+        "target": "server_0_switch_0_pod_1"
+      }
+    }, 
+    {
+      "delay": 5, 
+      "source": "v_gen_3_8_1526292057.0", 
+      "traffic": 12, 
+      "target": "v_gen_4_14_1526292057.0", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_0_pod_1", 
+        "target": "server_0_switch_1_pod_3"
+      }
+    }, 
+    {
+      "delay": 6, 
+      "source": "v_gen_3_8_1526292057.0", 
+      "traffic": 19, 
+      "target": "v_gen_5_14_1526292057.01", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_0_pod_1", 
+        "target": "server_0_switch_0_pod_2"
+      }
+    }, 
+    {
+      "delay": 12, 
+      "source": "v_gen_3_8_1526292057.0", 
+      "traffic": 16, 
+      "target": "v_gen_6_7_1526292057.01", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_0_pod_1", 
+        "target": "server_0_switch_0_pod_2"
+      }
+    }, 
+    {
+      "delay": 3, 
+      "source": "v_gen_5_14_1526292057.01", 
+      "traffic": 29, 
+      "target": "v_gen_8_20_1526292057.01", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_0_pod_2", 
+        "target": "server_0_switch_0_pod_3"
+      }
+    }, 
+    {
+      "delay": 11, 
+      "source": "v_gen_5_14_1526292057.01", 
+      "traffic": 14, 
+      "target": "v_gen_7_14_1526292057.01", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_0_pod_2", 
+        "target": "server_0_switch_1_pod_3"
+      }
+    }, 
+    {
+      "delay": 2, 
+      "source": "v_gen_1_4_1526292057.01", 
+      "traffic": 18, 
+      "target": "v_gen_2_12_1526292057.01", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_1_pod_0", 
+        "target": "server_0_switch_0_pod_1"
+      }
+    }, 
+    {
+      "delay": 8, 
+      "source": "v_gen_1_4_1526292057.01", 
+      "traffic": 30, 
+      "target": "v_gen_3_5_1526292057.01", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_1_pod_0", 
+        "target": "server_0_switch_1_pod_2"
+      }
+    }, 
+    {
+      "delay": 5, 
+      "source": "v_gen_2_12_1526292057.01", 
+      "traffic": 23, 
+      "target": "v_gen_4_10_1526292057.01", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_0_pod_1", 
+        "target": "server_0_switch_0_pod_0"
+      }
+    }, 
+    {
+      "delay": 5, 
+      "source": "v_gen_3_5_1526292057.01", 
+      "traffic": 29, 
+      "target": "v_gen_7_2_1526292057.02", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_1_pod_2", 
+        "target": "server_0_switch_0_pod_1"
+      }
+    }, 
+    {
+      "delay": 2, 
+      "source": "v_gen_4_10_1526292057.01", 
+      "traffic": 25, 
+      "target": "v_gen_5_18_1526292057.02", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_0_pod_0", 
+        "target": "server_1_switch_1_pod_2"
+      }
+    }, 
+    {
+      "delay": 14, 
+      "source": "v_gen_5_18_1526292057.02", 
+      "traffic": 16, 
+      "target": "v_gen_6_9_1526292057.02", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_1_switch_1_pod_2", 
+        "target": "server_0_switch_1_pod_1"
+      }
+    }, 
+    {
+      "delay": 14, 
+      "source": "v_gen_6_9_1526292057.02", 
+      "traffic": 17, 
+      "target": "v_gen_7_2_1526292057.02", 
+      "host_edge": {
+        "delay": 0.004, 
+        "source": "server_0_switch_1_pod_1", 
+        "target": "server_0_switch_0_pod_1"
+      }
+    }, 
+    {
+      "delay": 8, 
+      "source": "v_gen_7_2_1526292057.02", 
+      "traffic": 24, 
+      "target": "v_gen_8_18_1526292057.02", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_0_pod_1", 
+        "target": "server_1_switch_1_pod_2"
+      }
+    }, 
+    {
+      "delay": 2, 
+      "source": "v_gen_1_6_1526292057.02", 
+      "traffic": 28, 
+      "target": "v_gen_2_3_1526292057.02", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_1_pod_1", 
+        "target": "server_0_switch_0_pod_0"
+      }
+    }, 
+    {
+      "delay": 6, 
+      "source": "v_gen_2_3_1526292057.02", 
+      "traffic": 26, 
+      "target": "v_gen_3_2_1526292057.02", 
+      "host_edge": {
+        "delay": 0.004, 
+        "source": "server_0_switch_0_pod_0", 
+        "target": "server_1_switch_1_pod_0"
+      }
+    }, 
+    {
+      "delay": 7, 
+      "source": "v_gen_2_3_1526292057.02", 
+      "traffic": 13, 
+      "target": "v_gen_4_9_1526292057.02", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "server_0_switch_0_pod_0", 
+        "target": "server_0_switch_0_pod_0"
+      }
+    }, 
+    {
+      "delay": 11, 
+      "source": "v_gen_3_2_1526292057.02", 
+      "traffic": 21, 
+      "target": "v_gen_5_15_1526292057.03", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_1_switch_1_pod_0", 
+        "target": "server_0_switch_0_pod_1"
+      }
+    }, 
+    {
+      "delay": 2, 
+      "source": "v_gen_4_9_1526292057.02", 
+      "traffic": 18, 
+      "target": "v_gen_6_19_1526292057.03", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_0_pod_0", 
+        "target": "server_0_switch_1_pod_1"
+      }
+    }, 
+    {
+      "delay": 12, 
+      "source": "v_gen_5_15_1526292057.03", 
+      "traffic": 26, 
+      "target": "v_gen_7_9_1526292057.03", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_0_pod_1", 
+        "target": "server_0_switch_0_pod_3"
+      }
+    }, 
+    {
+      "delay": 14, 
+      "source": "v_gen_6_19_1526292057.03", 
+      "traffic": 16, 
+      "target": "v_gen_7_9_1526292057.03", 
+      "host_edge": {
+        "delay": 0.006, 
+        "source": "server_0_switch_1_pod_1", 
+        "target": "server_0_switch_0_pod_3"
+      }
+    }, 
+    {
+      "delay": 7, 
+      "source": "v_gen_7_9_1526292057.03", 
+      "traffic": 14, 
+      "target": "v_gen_8_15_1526292057.03", 
+      "host_edge": {
+        "delay": 0.004, 
+        "source": "server_0_switch_0_pod_3", 
+        "target": "server_1_switch_1_pod_3"
+      }
+    }
+  ]
+}

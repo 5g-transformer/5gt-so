@@ -1,0 +1,103 @@
+# After changing this file, check it on:
+#   http://lint.travis-ci.org/
+#
+language: python
+
+python:
+  - "2.6"
+  - "2.7"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "pypy"
+
+matrix:
+  fast_finish: true
+
+  include:
+    - python: "3.4"
+      env: OPTIONAL_DEPS=source
+
+  allow_failures:
+    # 3.4 and pypy Wheels are not yet available.
+    - python: "pypy"
+      env: OPTIONAL_DEPS=pip
+    - env: OPTIONAL_DEPS=source
+
+env:
+  global:
+    # Install from wheels *only*.
+    - PIPINSTALL="pip install -v --use-wheel --no-index --find-links=http://wheels.astropy.org --find-links=http://wheels2.astropy.org"
+    - NXOPTDEPS=""
+  matrix:
+    - OPTIONAL_DEPS=pip
+    - OPTIONAL_DEPS=no
+
+before_install:
+  ### Prepare the system to install prerequisites or dependencies
+  - uname -a
+  - printenv
+  - pip install --upgrade setuptools
+  - pip install --upgrade pip
+  - pip install wheel
+  - pip --version
+
+install:
+  ### Install any prerequisites or dependencies necessary to run the build.
+
+  # Skipping pydot (not 3.x compatible)
+  # Skipping gdal (errors during pip installs)
+  - sudo apt-get update -qq
+  - if [[ "${OPTIONAL_DEPS}" =~ pip|source ]]; then sudo apt-get install graphviz libsuitesparse-dev; fi
+  - if [[ "${TRAVIS_PYTHON_VERSION}${OPTIONAL_DEPS}" =~ 2\..(pip|source) ]]; then pip install pygraphviz; fi
+  - if [ "${OPTIONAL_DEPS}" == "pip" ]; then pip install --use-wheel pyyaml pyparsing; fi
+  - if [ "${OPTIONAL_DEPS}" == "pip" ]; then $PIPINSTALL numpy scipy matplotlib Cython; fi
+
+  # Try to install latest and greatest from source.
+  - if [ "${OPTIONAL_DEPS}" == "source" ]; then sudo apt-get install -qq libatlas-dev libatlas-base-dev liblapack-dev gfortran; fi
+  - if [ "${OPTIONAL_DEPS}" == "source" ]; then pip install --upgrade pyyaml pyparsing numpy scipy matplotlib Cython; fi
+
+  # Install stuff that depends on Cython.
+  - if [[ "${OPTIONAL_DEPS}" =~ pip|source ]]; then pip install scikits.sparse; fi
+
+before_script:
+  ### Use this to prepare your build for testing
+  - pip install --upgrade nose
+  - pip install --upgrade coverage
+  - pip install --upgrade coveralls
+
+script:
+  - printenv PWD
+  - pip install .
+
+  - export NX_INSTALL=`pip show networkx | grep Location | awk '{print $2"/networkx"}'`
+
+  # nose 1.3.0 does not tell coverage to only cover the requested
+  # package (except during the report).  So to restrict coverage, we must
+  # inform coverage through the .coveragerc file.
+  - cp .coveragerc $NX_INSTALL
+  - cp setup.cfg $NX_INSTALL
+
+  # Move to new directory so that networkx is not imported from repository.
+  # Why? Because we want the tests to make sure that NetworkX was installed
+  # correctly. Example: setup.py might not have included some submodules.
+  # Testing from the git repository cannot catch a mistake like that.
+  #
+  # Export current directory for logs.
+  - cd $NX_INSTALL
+  - printenv PWD
+
+  # Run nosetests.
+  - nosetests --verbosity=2 --with-coverage --cover-package=networkx
+
+after_success:
+  # We must run coveralls from the git repo. But we ran tests from the
+  # installed directory. The .coverage file looks like it contains absolute
+  # paths, but coveralls does not seem to care.
+  - cp .coverage $TRAVIS_BUILD_DIR
+  - cd $TRAVIS_BUILD_DIR
+  # Report coverage for 2.7 and 3.4 only.
+  - if [[ "${TRAVIS_PYTHON_VERSION}${OPTIONAL_DEPS}" =~ 2\.7pip|3\.4source ]]; then coveralls; fi
+
+notifications:
+  email: false
