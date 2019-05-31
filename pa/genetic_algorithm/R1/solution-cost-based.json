@@ -1,0 +1,180 @@
+{
+  "vnfs": [
+    {
+      "requirements": {
+        "storage": 1, 
+        "cpu": 1, 
+        "mec": true, 
+        "memory": 1
+      }, 
+      "place_at": [
+        "pop2"
+      ], 
+      "processing_time": 5, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "location": {
+        "radius": 0, 
+        "center": {
+          "latitude": 0, 
+          "longitude": 0
+        }
+      }, 
+      "vnf_name": "v1"
+    }, 
+    {
+      "requirements": {
+        "storage": 1, 
+        "cpu": 1, 
+        "mec": false, 
+        "memory": 1
+      }, 
+      "place_at": [
+        "pop2"
+      ], 
+      "processing_time": 5, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "location": {
+        "radius": 0, 
+        "center": {
+          "latitude": 0, 
+          "longitude": 0
+        }
+      }, 
+      "vnf_name": "v2"
+    }
+  ], 
+  "costs": [
+    {
+      "vnf": "v1", 
+      "host": "pop1", 
+      "cost": 1
+    }, 
+    {
+      "vnf": "v2", 
+      "host": "pop1", 
+      "cost": 1
+    }, 
+    {
+      "vnf": "v1", 
+      "host": "pop2", 
+      "cost": 1
+    }, 
+    {
+      "vnf": "v2", 
+      "host": "pop2", 
+      "cost": 1
+    }
+  ], 
+  "hosts": [
+    {
+      "gw_ip_address": "192.168.1.1", 
+      "failure_rate": 0.5, 
+      "host_name": "pop1", 
+      "capabilities": {
+        "bandwidth": 1, 
+        "storage": 100, 
+        "cpu": 20, 
+        "mec": false, 
+        "memory": 10
+      }, 
+      "location": {
+        "radius": 0, 
+        "center": {
+          "latitude": 0, 
+          "longitude": 0
+        }
+      }
+    }, 
+    {
+      "gw_ip_address": "192.168.1.2", 
+      "failure_rate": 0.5, 
+      "host_name": "pop2", 
+      "capabilities": {
+        "bandwidth": 1, 
+        "storage": 100, 
+        "cpu": 2, 
+        "mec": true, 
+        "memory": 10
+      }, 
+      "location": {
+        "radius": 0, 
+        "center": {
+          "latitude": 0, 
+          "longitude": 0
+        }
+      }
+    }
+  ], 
+  "solution_performance": {
+    "latency": {
+      "total": 10.0, 
+      "processing": 10.0, 
+      "network": 0.0
+    }, 
+    "link_capacity_constraints_ok": true, 
+    "execution_time": 0.270163, 
+    "delay_constraints_ok": true, 
+    "legal_placement": true, 
+    "host_capacity_constraints_ok": true, 
+    "cost": 2, 
+    "mec_constraints_ok": true, 
+    "availability": 0.25, 
+    "generations": 20
+  }, 
+  "services": [
+    {
+      "service_name": "s1", 
+      "max_latency": 100, 
+      "target_availability": 0, 
+      "traversed_vnfs": {
+        "v1": 1.0, 
+        "v2": 1.0
+      }, 
+      "max_cost": 100
+    }
+  ], 
+  "resource_types": [
+    "cpu", 
+    "memory", 
+    "storage"
+  ], 
+  "host_edges": [
+    {
+      "capacity": 100.0, 
+      "target": "pop2", 
+      "utilization": 0, 
+      "delay": 10.0, 
+      "source": "pop1", 
+      "id": "1"
+    }, 
+    {
+      "capacity": 100.0, 
+      "target": "pop1", 
+      "utilization": 0, 
+      "delay": 10.0, 
+      "source": "pop2", 
+      "id": "1-inv"
+    }
+  ], 
+  "vnf_edges": [
+    {
+      "source": "v1", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "pop2", 
+        "target": "pop2"
+      }, 
+      "traffic": 2, 
+      "id": "vl1", 
+      "target": "v2"
+    }, 
+    {
+      "source": "v1", 
+      "traffic": 0, 
+      "id": "vl1", 
+      "target": null
+    }
+  ]
+}

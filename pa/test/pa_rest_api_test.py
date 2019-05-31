@@ -14,8 +14,8 @@ from json import dumps, loads
 class TestRegression(TestCase):
 
     def setUp(self):
-        self.ip = "localhost"
-        self.port = "8081"
+        self.ip = "10.0.200.231"
+        self.port = "6161"
         self.headers = {'Content-Type': 'application/json',
                         'Accept': 'application/json'}
         self.timeout = 10

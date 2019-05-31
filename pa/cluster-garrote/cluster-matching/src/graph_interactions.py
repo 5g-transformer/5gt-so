@@ -1,9 +1,21 @@
+from haversine import haversine
 import json
+import re
 import networkx as nx
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__),
     '../../generator/src/vnfsMapping'))
+sys.path.append(os.path.join(os.path.dirname(__file__),
+    '../..'))
 from NS import *
+from itertools import combinations
+
+# Manually import the fork's algorithms
+sys.path.append(os.path.join(os.path.dirname(__file__),
+    '../../networkx_fork/networkx/algorithms'))
+import simple_paths as uc3m_simple
+#import networkx_fork.networkx.algorithms.simple_paths as uc3m_simple
+
 
 
 def nfvi_pop_costs(pa_req, nfvi_pop_id):
@@ -31,17 +43,26 @@ def create_ns_graph(pa_req):
     """
     ns_graph = nx.MultiGraph()
 
+	# Add the VNFs
     for vnf in pa_req['nsd']['VNFs']:
         if 'place_at' not in vnf:
             vnf['place_at'] = []
         ns_graph.add_node(vnf['VNFid'], **vnf)
 
-    vl_idx = 0
-    for vnf_edge in pa_req['nsd']['VNFLinks']:
-        vnf_edge['PAReqIndex'] = vl_idx
-        vl_idx += 1
-        ns_graph.add_edge(vnf_edge['source'], vnf_edge['destination'],
-                **vnf_edge)
+	# Add the VNF links
+    for vl in pa_req['nsd']['VNFLinks']:
+        # Search VNFs connected to vl
+        connected_vnfs = []
+        for vnf in pa_req['nsd']['VNFs']:
+            linked_cps = [cp for cp in vnf['CP']\
+                          if 'VNFLink' in cp and cp['VNFLink']['id'] == vl['id']]
+            if len(linked_cps) > 0:
+                connected_vnfs.append(vnf['VNFid'])
+        # Add all pairs VNF1---vl---VNF2
+        for VNFe in list(combinations(connected_vnfs, 2)):
+            vl['source'] = VNFe[0]
+            vl['destination'] = VNFe[1]
+            ns_graph.add_edge(VNFe[0], VNFe[1], key=vl['id'], **vl)
 
     return ns_graph
 
@@ -56,20 +77,25 @@ def get_vls(ns_graph):
 
     vls = {}
     
+    ids = nx.get_edge_attributes(ns_graph, "id")
     req_cap = nx.get_edge_attributes(ns_graph, "required_capacity")
     trav_probs = nx.get_edge_attributes(ns_graph, "traversal_probability")
     pa_req_idx = nx.get_edge_attributes(ns_graph, "PAReqIndex")
     sources = nx.get_edge_attributes(ns_graph, "source")
     destinations = nx.get_edge_attributes(ns_graph, "destination")
+    latencies = nx.get_edge_attributes(ns_graph, "latency")
+    mapped_delays = nx.get_edge_attributes(ns_graph, "mapped_delay")
 
-
-    for vl in req_cap:
+    for vl in ids:
         vls[vl] = {
-            "required_capacity": req_cap[vl],
-            "traversal_probability": trav_probs[vl],
-            "PAReqIndex": pa_req_idx[vl],
-            "source": sources[vl],
-            "destination": destinations[vl]
+            "id": ids[vl],
+            "required_capacity": req_cap[vl] if vl in req_cap else None,
+            "traversal_probability": trav_probs[vl] if vl in trav_probs else None,
+            "latency": latencies[vl] if vl in latencies else None,
+            "PAReqIndex": pa_req_idx[vl] if vl in pa_req_idx else None,
+            "source": sources[vl] if vl in sources else None,
+            "mapped_delay": mapped_delays[vl] if vl in mapped_delays else None,
+            "destination": destinations[vl] if vl in destinations else None
         }
 
     return vls
@@ -133,6 +159,29 @@ def create_nfvi_pop_graph(pa_req):
             **ll)
 
     return infra_graph
+
+
+def get_vnf_connections(pa_req):
+    """Retrieves which VNFids are connected by each VL
+
+    :pa_req: API PARequest dictionary
+    :returns: [(VNFid_1, VNFid_2, VNFLink.id)]
+
+    """
+    all_conns = []
+    for vl in pa_req['nsd']['VNFLinks']:
+        connects = []
+
+        # Connected VNFs 
+        for vnf in pa_req['nsd']['VNFs']:
+            for cp in [c for c in vnf['CP']\
+                    if 'VNFLink' in c and c['VNFLink']['id'] == vl['id']]:
+                connects.append(vnf['VNFid'])
+
+        all_conns.append((connects[0], connects[1], vl['id']))
+
+
+    return all_conns
 
 
 def create_nfvi_pop_clusters(pa_req):
@@ -199,6 +248,7 @@ def create_ns_clusters(pa_reqs):
             ns_clusters[vnf['cluster']].add_node(vnf['VNFid'], **vnf)
 
     # Add the cluster edges
+    vnf_conns = get_vnf_connections(pa_req)
     for pa_req in pa_reqs:
         reqIdx = 0
         for edge in pa_req['nsd']['VNFLinks']:
@@ -208,10 +258,10 @@ def create_ns_clusters(pa_reqs):
                 cluster = ns_clusters[cluster_num]
                 cluster_vnfs = cluster.nodes()
 
-                if edge['source'] in cluster_vnfs and\
-                    edge['destination'] in cluster_vnfs:
-                        cluster.add_edge(edge['source'], edge['destination'],
-                            **edge)
+                v1, v2, vl = list(filter(lambda vc: vc[2] == edge['id'],
+                    vnf_conns))[0]
+                if v1 in cluster_vnfs and v2 in cluster_vnfs:
+                    cluster.add_edge(v1, v2, key=vl, **edge)
 
     return ns_clusters
 
@@ -224,6 +274,11 @@ def get_nfvi_pop(nfvi_pop_graph, nfvi_pop_id):
     :returns: dictionary with all the NFVI PoP properties
 
     """
+    nfvi_pop_loc = None
+    if nfvi_pop_id in nx.get_node_attributes(nfvi_pop_graph, 'location'):
+        nfvi_pop_loc = nx.get_node_attributes(nfvi_pop_graph,
+                                              'location')[nfvi_pop_id]
+
     return {
         'cluster': nx.get_node_attributes(nfvi_pop_graph,
             'cluster')[nfvi_pop_id],
@@ -236,8 +291,7 @@ def get_nfvi_pop(nfvi_pop_graph, nfvi_pop_id):
 			'mappedVNFs')[nfvi_pop_id],
         'costs': nx.get_node_attributes(nfvi_pop_graph,
             'costs')[nfvi_pop_id],
-        'location': nx.get_node_attributes(nfvi_pop_graph,
-            'location')[nfvi_pop_id],
+        'location': nfvi_pop_loc,
         'VLCost': nx.get_node_attributes(nfvi_pop_graph,
             'VLCost')[nfvi_pop_id]
     }
@@ -252,21 +306,29 @@ def get_vnf(ns_graph, vnf_id):
 
     """
     asCluster = nx.get_node_attributes(ns_graph, "nfviPoPCluster")
-    asCluster = asCluster[vnf_id] if vnf_id in asCluster else "NULL"
+    processing_latencies = nx.get_node_attributes(ns_graph,
+            'processing_latency')
+    place_ats = nx.get_node_attributes(ns_graph, 'place_at')
+    requirementss = nx.get_node_attributes(ns_graph, 'requirements')
+    clusters = nx.get_node_attributes(ns_graph, 'cluster')
+    locations = nx.get_node_attributes(ns_graph, 'location')
+    cps = nx.get_node_attributes(ns_graph, 'CP')
+    instancess = nx.get_node_attributes(ns_graph, 'instances')
+    failures = nx.get_node_attributes(ns_graph, 'failure_rate')
 
     vnf_dict = {
         "VNFid": vnf_id,
-        "processing_latency": nx.get_node_attributes(ns_graph,
-    		'processing_latency')[vnf_id],
-    	"place_at": nx.get_node_attributes(ns_graph,
-    		'place_at')[vnf_id],
-    	"requirements": nx.get_node_attributes(ns_graph,
-    		'requirements')[vnf_id],
-    	"cluster": nx.get_node_attributes(ns_graph,
-    		'cluster')[vnf_id],
-        "location": nx.get_node_attributes(ns_graph,
-    		'location')[vnf_id],
-        "nfviPoPCluster": asCluster
+        "processing_latency": processing_latencies[vnf_id] if vnf_id in
+            processing_latencies else None,
+    	"place_at": place_ats[vnf_id] if vnf_id in place_ats else None,
+    	"requirements": requirementss[vnf_id] if vnf_id in requirementss\
+                else None,
+    	"cluster": clusters[vnf_id] if vnf_id in clusters else None,
+        "location": locations[vnf_id] if vnf_id in locations else None,
+        "nfviPoPCluster": asCluster[vnf_id] if vnf_id in asCluster else None,
+        "CP": cps[vnf_id] if vnf_id in cps else None,
+        "instances": instancess[vnf_id] if vnf_id in instancess else None,
+        "failure_rate": failures[vnf_id] if vnf_id in failures else None
     }
 
     if vnf_id in nx.get_node_attributes(ns_graph, 'host_cluster'):
@@ -389,13 +451,23 @@ def ns_cluster_vnf_req(ns_cluster):
     cluster_reqs = {}
     
     # Initialize cluster requirements dictionary
-    for req in vnfs_req[vnfs_req.keys()[0]]:
-        cluster_reqs[req] = 0
+    first_vnf_req = vnfs_req[vnfs_req.keys()[0]]
+    for req in first_vnf_req:
+        if type(first_vnf_req[req]) == int or\
+                type(first_vnf_req[req]) == float:
+            cluster_reqs[req] = 0
+        elif type(first_vnf_req[req]) == bool:
+            cluster_reqs[req] = False
 
     # Add all VNFs requirements
     for vnf_id in vnfs_req:
         for req in cluster_reqs:
-            cluster_reqs[req] += vnfs_req[vnf_id][req]
+            if type(cluster_reqs[req]) == int or\
+                    type(cluster_reqs[req]) == float:
+                cluster_reqs[req] += vnfs_req[vnf_id][req]
+            elif type(cluster_reqs[req]) == bool:
+                cluster_reqs[req] = cluster_reqs[req] or\
+                        vnfs_req[vnf_id][req]
 
     return cluster_reqs
 
@@ -427,13 +499,24 @@ def nfvi_pop_cluster_cap(nfvi_pop_cluster):
     cluster_cap = {}
 
     # Initialize cluster requirements dictionary
-    for req in nfvi_pop_cap[nfvi_pop_cap.keys()[0]]:
-        cluster_cap[req] = 0
+    first_cluster_caps = nfvi_pop_cap[nfvi_pop_cap.keys()[0]]
+    for req in first_cluster_caps:
+        if type(first_cluster_caps[req]) == float or\
+                type(first_cluster_caps[req]) == int:
+            cluster_cap[req] = 0
+        elif type(first_cluster_caps[req]) == bool:
+            cluster_cap[req] = False
 
     # Add all NFVI PoPs capabilities
     for host_name in nfvi_pop_cap:
         for req in cluster_cap:
-            cluster_cap[req] += nfvi_pop_cap[host_name][req]
+            if type(cluster_cap[req]) == float or\
+                    type(cluster_cap[req]) == int:
+                cluster_cap[req] += nfvi_pop_cap[host_name][req]
+            elif type(cluster_cap[req]) == bool:
+                cluster_cap[req] = cluster_cap[req] or\
+                    nfvi_pop_cap[host_name][req]
+
 
     # Add LLs bandwidth
     for (nfvi_pop1, nfvi_pop2, mLl) in get_lls(nfvi_pop_cluster):
@@ -456,13 +539,23 @@ def nfvi_pop_cluster_free_cap(nfvi_pop_cluster):
     cluster_free_cap = {}
     
     # Initialize cluster requirements dictionary
-    for req in nfvi_pop_free_cap[nfvi_pop_free_cap.keys()[0]]:
-        cluster_free_cap[req] = 0
+    first_pop_frees = nfvi_pop_free_cap[nfvi_pop_free_cap.keys()[0]]
+    for req in first_pop_frees:
+        if type(first_pop_frees[req]) == int or\
+                type(first_pop_frees[req]) == float:
+            cluster_free_cap[req] = 0
+        elif type(first_pop_frees[req]) == bool:
+            cluster_free_cap[req] = False
 
     # Add all VNFs requirements
     for nfvi_pop_id in nfvi_pop_free_cap:
         for req in cluster_free_cap:
-            cluster_free_cap[req] += nfvi_pop_free_cap[nfvi_pop_id][req]
+            if type(cluster_free_cap[req]) == int or\
+                    type(cluster_free_cap[req]) == float:
+                cluster_free_cap[req] += nfvi_pop_free_cap[nfvi_pop_id][req]
+            elif type(cluster_free_cap[req]) == bool:
+                cluster_free_cap[req] = cluster_free_cap[req] or\
+                    nfvi_pop_free_cap[nfvi_pop_id][req]
 
     # Add LLs bandwidth
     for (nfvi_pop1, nfvi_pop2, mLl) in get_lls(nfvi_pop_cluster):
@@ -524,6 +617,54 @@ def enough_cluster_res(ns_cluster, nfvi_pop_cluster):
     return enough_cl_res
 
 
+def in_nfvi_area(nfvi_pop_node, vnf_node):
+    """Checks if the VNF location constraint falls within the NFVI PoP location
+
+    :nfvi_pop_node: NFVI PoP dict having: {'availableCapabilities':{},
+    'costs': {'vnf_1':2}}
+    :vnf_node: VNF dict having: {'requirements':{}, 'vnf_id'}
+    :returns: Boolean
+
+    """
+    if 'location' not in vnf_node or vnf_node['location'] == None:
+        return False
+
+    nfvi_coord = (nfvi_pop_node['location']['center']['latitude'],
+            nfvi_pop_node['location']['center']['longitude'])
+    vnf_node_coord = (vnf_node['location']['center']['latitude'],
+            vnf_node['location']['center']['longitude'])
+
+    return haversine(nfvi_coord, vnf_node_coord) <=\
+            vnf_node['location']['radius']
+
+
+def in_nfvi_cluster(ns_cluster, nfvi_pop_cluster):
+    """Determines if NS cluster location constraints' can fall inside NFVI PoP
+    cluster locations
+
+    :ns_cluster: networkX NS cluster
+    :nfvi_pop_cluster: networkX NFVI PoP cluster
+    :returns: Boolean
+
+    """
+    vnfs = [get_vnf(ns_cluster, v) for v in ns_cluster.nodes()]
+    nfvis = [get_nfvi_pop(nfvi_pop_cluster, p)\
+                for p in nfvi_pop_cluster.nodes()]    
+    nfvis = list(filter(lambda nfvi: nfvi['location'] != None, nfvis))
+
+    for vnf in [v for v in vnfs if 'location' in v and v['location'] != None]:
+        i, found = 0, False
+        while not found and i < len(nfvis):
+            nfvi = nfvis[i]
+            found = in_nfvi_area(nfvi, vnf)
+            i += 1
+
+        if not found:
+            return False
+
+    return True
+
+        
 def can_host_vnf(nfvi_pop_node, vnf_node):
     """Checks if a NFVI PoP can instantiate a vnf inside
 
@@ -536,16 +677,29 @@ def can_host_vnf(nfvi_pop_node, vnf_node):
     # Check if VNF is supported
     if vnf_node['VNFid'] not in nfvi_pop_node['costs']:
         return False
+    # Check if MEC is supported
+    if 'mec' in vnf_node['requirements']:
+        if vnf_node['requirements']['mec'] and\
+                not nfvi_pop_node['capabilities']['mec']:
+            return False
+    # NFVI PoP does not have location, and VNF asks for location constraint
+    if 'location' in vnf_node and vnf_node['location'] != None\
+            and nfvi_pop_node['location'] == None:
+        return False
+
 
     i = 0
     enough_res = True
     nfvi_pop_free_capabilities = nfvi_pop_node['availableCapabilities']
     vnf_requirements = vnf_node['requirements']
-    resources_list = vnf_requirements.keys()
+    resources_list = [r for r in vnf_requirements.keys()\
+                        if type(vnf_requirements[r]) in [float,int]]
 
     # Check if host has enough resources
     while enough_res and i < len(resources_list):
         res = resources_list[i]
+        if vnf_node['location'] and not in_nfvi_area(nfvi_pop_node, vnf_node):
+            return False
         if nfvi_pop_free_capabilities[res] < vnf_requirements[res]:
             enough_res = False
         else:
@@ -562,7 +716,8 @@ def exist_capable_nfvi_pop(vnf_node, nfvi_pop_graph):
     :returns: (boolean, nfvi_pop_id)
 
     """
-    nfvi_pops_ids = nfvi_pop_graph.nodes()
+    nfvi_pops_ids = list(nfvi_pop_graph.nodes())
+
     i = 0
     found_host, nfvi_pop_id = False, None
     while not found_host and i < len(nfvi_pops_ids):
@@ -629,7 +784,7 @@ def fake_cluster_cap_reduction(nfvi_pop_graph, cap_reduction):
     :returns: Nothing
 
     """
-    nfvi_pop1 = nfvi_pop_graph.nodes()[0]
+    nfvi_pop1 = list(nfvi_pop_graph.nodes())[0]
 
     # Reduce host resources
     nfvi_pop1_res = nx.get_node_attributes(nfvi_pop_graph,
@@ -638,8 +793,8 @@ def fake_cluster_cap_reduction(nfvi_pop_graph, cap_reduction):
         nfvi_pop1_res[capability] -= cap_reduction['host'][capability]
 
     # Reduce link resources
-    if len(nfvi_pop_graph.edges()) > 0:
-        nfvi_pop1, nfvi_pop2 = nfvi_pop_graph.edges()[0]
+    if len(list(nfvi_pop_graph.edges())) > 0:
+        nfvi_pop1, nfvi_pop2 = list(nfvi_pop_graph.edges())[0]
         for cap in cap_reduction['link']:
             if cap == 'traffic':
                 nfvi_pop_graph[nfvi_pop1][nfvi_pop2][0]['capacity']\
@@ -1080,12 +1235,12 @@ def result2PAResponse(garrota_result):
             assoc_nfvi_id = mapped_vnfs_[vl['source']]
             if assoc_nfvi_id not in usedVLs_:
                 usedVLs_[assoc_nfvi_id] = []
-            usedVLs_[asssoc_nfvi_id].append(vl['id'])
+            usedVLs_[assoc_nfvi_id].append(vl['id'])
     usedVLs = []
     for nfvi_pop_id in usedVLs_:
         usedVLs.append({
             'NFVIPoP': nfvi_pop_id,
-            'mappedVLs': usedVLs_[nfvi_pop_id].keys()
+            'mappedVLs': usedVLs_[nfvi_pop_id]
         })
     pa_response['usedVLs'] = usedVLs
 
@@ -1097,4 +1252,183 @@ def result2PAResponse(garrota_result):
     pa_response['result'] = 'Placement algorithm success'
 
     return pa_response
+
+
+def put_loc_in_sap_vnfs(pa_req):
+    """Includes the location constraints within the fake VNFs that represent
+    SAPs
+
+    :pa_req: API PARequest dictionary
+    :returns: Nothing
+
+    :note: saps include the key 'SAPidx' to reference its possition
+           within the list pa_req['nsd']['SAP']
+
+    """
+    vnfLocs = []
+    for (v, vIdx) in zip(pa_req['nsd']['VNFs'],\
+            range(len(pa_req['nsd']['VNFs']))):
+        if 'SAPidx' in v and 'location' in pa_req['nsd']['SAP'][v['SAPidx']]:
+            vnfLocs.append((vIdx,
+                pa_req['nsd']['SAP'][v['SAPidx']]['location']))
+
+    for (vIdx, loc) in vnfLocs:
+        pa_req['nsd']['VNFs'][vIdx]['location'] = loc
+
+
+def put_loc_in_cp_vnfs(pa_req):
+    """Include the location constraints of SAPs associated to VNFs, within
+    those VNFs.
+
+    :pa_req: API PARequest dictionary
+    :returns: TODO
+
+    :note: saps include the key 'SAPidx' to reference its possition
+           within the list pa_req['nsd']['SAP']
+    :note: we assume a maximum of one SAP with location constraints
+
+    """
+    cpSaps = [s for s in pa_req['nsd']['SAP']\
+            if 'CPid' in s and s['CPid'] != '']
+    locCpSaps = list(filter(lambda s: 'location' in s, cpSaps))
+    
+    # Include location constraint in VNFs associated to the SAPs
+    vnfsLocs = []
+    for sap in locCpSaps: 
+        i = 0
+        for vnf in pa_req['nsd']['VNFs']:
+            if sap['CPid'] in [c['cpId'] for c in vnf['CP']]:
+                vnfsLocs.append((i, sap['location']))
+            i += 1
+    
+    # Note: we assume a maximum of one SAP with location constraints
+    for (vnfIdx, location) in vnfsLocs:
+        pa_req['nsd']['VNFs'][vnfIdx]['location']  = location 
+
+
+def attach_sap_to_vnfs(pa_req):
+    """Includes within the VNFs' CP information that they are SAPs
+
+    :pa_req: API PARequest dictionary
+    :returns: Nothing
+
+    """
+    cpSAPs = [s['CPid'] for s in pa_req['nsd']['SAP'] if 'CPid' in s\
+            and s['CPid'] != None]
+    for i in range(len(pa_req['nsd']['VNFs'])):
+        for j in range(len(pa_req['nsd']['VNFs'][i]['CP'])):
+            if pa_req['nsd']['VNFs'][i]['CP'][j]['cpId'] in cpSAPs:
+                pa_req['nsd']['VNFs'][i]['CP'][j]['sap'] = True
+
+
+def rid_of_uncorrect_vnf_locations(pa_req):
+    """Remove the location parameters present in VNFs
+
+    :pa_req: API PARequest dictionary
+    :returns: Nothing
+
+    """
+    for i in range(len(pa_req['nsd']['VNFs'])):
+        if 'location' in pa_req['nsd']['VNFs'][i]:
+            del pa_req['nsd']['VNFs'][i]['location']
+
+
+def location_in_vnfs(pa_req):
+    """Include location constraints of a PARequest inside VNFs
+
+    :pa_req: API PARequest dictionary
+    :returns: Nothing
+
+    :note: saps include the key 'SAPidx' to reference its possition
+           within the list pa_req['nsd']['SAP']
+
+    """
+    rid_of_uncorrect_vnf_locations(pa_req)
+    put_loc_in_sap_vnfs(pa_req)
+    put_loc_in_cp_vnfs(pa_req)
+
+
+def nfvis_cope_with_saps(pa_req):
+    """Indicate that NFVI PoPs can host the fake SAP VNFs
+
+    :pa_req: API PARequest dictionary
+    :returns: Nothing
+
+    """
+    sapVnfs = [v['VNFid'] for v in pa_req['nsd']['VNFs']\
+            if 'sap' in v['VNFid']]
+    nfvi_pops = [p['id'] for p in pa_req['nfvi']['NFVIPoPs']]
+    for vnf in sapVnfs:
+        for nfvi_pop in nfvi_pops:
+            pa_req['nfvi']['VNFCosts'].append({
+                'cost': 0,
+                'vnfid': vnf,
+                'NFVIPoPid': nfvi_pop
+            })
+
+
+def heat_wood(pa_req):
+    """It prepares the PARequest dictionary for the garrote matching.
+       Every preprocessing before the heuristic is performed here.
+
+    :pa_req: API PARequest dictionary
+    :returns: Nothing
+
+    """
+    location_in_vnfs(pa_req)
+    attach_sap_to_vnfs(pa_req)
+    nfvis_cope_with_saps(pa_req)
+
+
+def ns_mapping_below_latency(pa_req, ns_graph):
+    """Checks if all simple paths of the NS starting from the SAPs, stay below
+       the maximum latency imposed in the PARequest
+
+    :pa_req: API PARequest dictionary
+    :ns_graph: networkx multi-graph with NS information
+    :returns: Boolean
+
+    """
+    
+    # Get VLs mapped delay
+    mapped_delay = {}
+    for vl in pa_req['nsd']['VNFLinks']:
+        mapped_delay[vl['id']] = 0
+    for ll in pa_req['nfvi']['LLs']:
+        for mapped_vl in ll['mappedVLs']:
+            req_vl = pa_req['nsd']['VNFLinks'][mapped_vl['PAReqVLIndex']]
+            mapped_delay[req_vl['id']] += ll['delay']
+
+    # Include the mapped delay in the NS graph
+    vls = get_vls(ns_graph)
+    for (v1, v2, ml) in vls.keys():
+        nx.set_edge_attributes(ns_graph, 'mapped_delay',
+                {(v1, v2, ml): mapped_delay[vls[v1, v2, ml]['id']]})
+
+    # Obtain all VNFs associated to SAPs
+    vnfSAPs = []
+    for vnf in pa_req['nsd']['VNFs']:
+        sapCPs = [c for c in vnf['CP'] if 'sap' in c]
+        if len(sapCPs) > 0 or 'SAPidx' in vnf:
+            vnfSAPs.append(vnf['VNFid'])
+
+    # Check all mapped paths are below pa_req['max_delay']
+    for vnfId in vnfSAPs:
+        for targetVNF in [v for v in ns_graph.nodes() if v != vnfId]:
+            print "    from " + vnfId + " to " + str(targetVNF)
+            paths = uc3m_simple.all_simple_paths(ns_graph, source=vnfId,
+                    target=targetVNF, cutoff=len(ns_graph.nodes()))
+            # Get delay of each path
+            for path in paths:
+                delay = 0
+                for (v1,v2,ml) in path:
+                    delay += ns_graph[v1][v2][ml]['mapped_delay']
+                if delay > pa_req['nsd']['max_latency']:
+                    return False
+
+    return True
+   
+
+
+
 

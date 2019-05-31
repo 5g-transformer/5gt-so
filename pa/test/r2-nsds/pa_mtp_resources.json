@@ -1,0 +1,165 @@
+{
+    "logicalLinkInterNfviPops": [
+        {
+            "logicalLinks": {
+                "networkQoS": {
+                    "linkCostValue": 0,
+                    "linkDelay": "delay",
+                    "linkCost": "cost",
+                    "linkDelayValue": 20
+                },
+                "interNfviPopNetworkType": "",
+                "srcGwIpAddress": "10.0.0.5",
+                "dstGwIpAddress": "16.11.11.16",
+                "totalBandwidth": 1000,
+                "logicalLinkId": "151515_f",
+                "localLinkId": 10000,
+                "availableBandwidth": 1100,
+                "remoteLinkId": 10001,
+                "networkLayer": "L2",
+                "interNfviPopNetworkTopology": ""
+            }
+        },
+        {
+            "logicalLinks": {
+                "networkQoS": {
+                    "linkCostValue": 0,
+                    "linkDelay": "delay",
+                    "linkCost": "cost",
+                    "linkDelayValue": 20
+                },
+                "interNfviPopNetworkType": "",
+                "srcGwIpAddress": "16.11.11.16",
+                "dstGwIpAddress": "10.0.0.5",
+                "totalBandwidth": 1000,
+                "logicalLinkId": "151515_b",
+                "localLinkId": 10002,
+                "availableBandwidth": 1100,
+                "remoteLinkId": 10003,
+                "networkLayer": "L2",
+                "interNfviPopNetworkTopology": ""
+            }
+        },
+        {
+            "logicalLinks": {
+                "networkQoS": {
+                    "linkCostValue": 10,
+                    "linkDelay": "",
+                    "linkCost": "",
+                    "linkDelayValue": 10
+                },
+                "interNfviPopNetworkType": "",
+                "srcGwIpAddress": "10.0.0.5",
+                "dstGwIpAddress": "16.11.11.16",
+                "totalBandwidth": 1500,
+                "logicalLinkId": "161616_f",
+                "localLinkId": 10000,
+                "availableBandwidth": 1500,
+                "remoteLinkId": 10001,
+                "networkLayer": "L2",
+                "interNfviPopNetworkTopology": ""
+            }
+        },
+        {
+            "logicalLinks": {
+                "networkQoS": {
+                    "linkCostValue": 10,
+                    "linkDelay": "",
+                    "linkCost": "",
+                    "linkDelayValue": 10
+                },
+                "interNfviPopNetworkType": "",
+                "srcGwIpAddress": "16.11.11.16",
+                "dstGwIpAddress": "10.0.0.5",
+                "totalBandwidth": 1500,
+                "logicalLinkId": "161616_b",
+                "localLinkId": 10001,
+                "availableBandwidth": 1500,
+                "remoteLinkId": 10000,
+                "networkLayer": "L2",
+                "interNfviPopNetworkTopology": ""
+            }
+        }
+    ],
+    "NfviPops": [
+        {
+            "nfviPopAttributes": {
+                "MecCapable": "True",
+                "vimId": "1",
+                "resourceZoneAttributes": [
+                    {
+                        "storageResourceAttributes": {
+                            "reservedCapacity": "0",
+                            "availableCapacity": "995",
+                            "allocatedCapacity": "5",
+                            "totalCapacity": "1000"
+                        },
+                        "zoneId": "1",
+                        "metadata": "",
+                        "zoneProperty": "",
+                        "memoryResourceAttributes": {
+                            "reservedCapacity": "0",
+                            "availableCapacity": "50176",
+                            "allocatedCapacity": "1024",
+                            "totalCapacity": "51200"
+                        },
+                        "cpuResourceAttributes": {
+                            "reservedCapacity": "0",
+                            "availableCapacity": "18",
+                            "allocatedCapacity": "2",
+                            "totalCapacity": "20"
+                        },
+                        "zoneState": "ACTIVE",
+                        "zoneName": "SC231"
+                    }
+                ],
+                "networkConnectivityEndpoint": [
+                    {
+                        "netGwIpAddress": "10.0.0.5"
+                    }
+                ],
+                "nfviPopId": "1",
+                "geographicalLocationInfo": "(40.3325323,-3.7675058)"
+            }
+        },
+        {
+            "nfviPopAttributes": {
+                "vimId": "2",
+                "resourceZoneAttributes": [
+                    {
+                        "storageResourceAttributes": {
+                            "reservedCapacity": "0",
+                            "availableCapacity": "996",
+                            "allocatedCapacity": "4",
+                            "totalCapacity": "1000"
+                        },
+                        "zoneId": "2",
+                        "metadata": "",
+                        "zoneProperty": "",
+                        "memoryResourceAttributes": {
+                            "reservedCapacity": "0",
+                            "availableCapacity": "51200",
+                            "allocatedCapacity": "0",
+                            "totalCapacity": "51200"
+                        },
+                        "cpuResourceAttributes": {
+                            "reservedCapacity": "0",
+                            "availableCapacity": "20",
+                            "allocatedCapacity": "0",
+                            "totalCapacity": "20"
+                        },
+                        "zoneState": "ACTIVE",
+                        "zoneName": "COMPUTE2"
+                    }
+                ],
+                "networkConnectivityEndpoint": [
+                    {
+                        "netGwIpAddress": "16.11.11.16"
+                    }
+                ],
+                "nfviPopId": "2",
+                "geographicalLocationInfo": "ONS"
+            }
+        }
+    ]
+}

@@ -10,9 +10,12 @@ from swagger_server import util
 # Cluster matching dependencies
 this_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(this_dir + '/../../../clustering/')
-sys.path.append(this_dir + '/../../../cluster-matching/src')
+sys.path.append(this_dir + '/../../../cluster-matching/src/')
+
 from cluster import cluster
-from garrota import best_garrote
+import garrota
+from garrota import best_garrote 
+
 
 
 def p_a_comp_get():  # noqa: E501
@@ -36,11 +39,8 @@ def p_a_comp_post(PARequest):  # noqa: E501
 
     :rtype: PAResponse
     """
-    pa_req = None
-
     if connexion.request.is_json:
         pa_req = connexion.request.get_json()
-        # PARequest = PARequest_.from_dict(connexion.request.get_json())  # noqa: E501
 
     pa_req = cluster(pa_req)
 

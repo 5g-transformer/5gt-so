@@ -18,6 +18,7 @@ File description
 
 # python imports
 import json
+import re
 from http.client import HTTPConnection
 from six.moves.configparser import RawConfigParser
 from uuid import uuid4
@@ -62,7 +63,7 @@ def amending_pa_output(nsd_info, placement_info):
     VNF_links_in_nsd = {}
     VNF_links_in_pa_output = []
     for vl in nsd_info["VNFLinks"]:
-        VNF_links_in_nsd[vl["VLid"]] = vl['source'] 
+        VNF_links_in_nsd[vl["id"]] = vl['source'] 
         #if the vl is not connecting vnf's, the vl will have destination field set to None
     for elem in placement_info.keys():
         # log_queue.put(["DEBUG", "el valor elem: %s"% elem])
@@ -119,6 +120,7 @@ def extract_nsd_info_for_pa(nsd_json, vnfds_json, body):
     nsd["nsd"]["name"] = str(name)
     Df_descript = None
     nsDf = NSD["nsd"]["nsDf"]
+    vl_prof_desc = {} # (virtualLinkProfileId, virtualLinkDescId)
     for df in nsDf:
         if df["nsDfId"] == flavourId:
             Df_descript = df
@@ -126,8 +128,12 @@ def extract_nsd_info_for_pa(nsd_json, vnfds_json, body):
                 if instlevel["nsLevelId"] == nsLevelId:
                     vnfToLevelMapping = instlevel["vnfToLevelMapping"]
                     virtualLinkToLevelMapping = instlevel["virtualLinkToLevelMapping"]
+            for vl_profile in df['virtualLinkProfile']:
+                vl_prof_desc[vl_profile['virtualLinkProfileId']] =\
+                    vl_profile['virtualLinkDescId']
     vnfs_il = []  # storing the name of the vnfs in the requested instantiation level
     if Df_descript is not None:
+        vnfCps = {} # CPs of the VNFs
         for vnfelem in vnfToLevelMapping:
             vnf = vnfelem["vnfProfileId"]
             numberOfInstances = vnfelem["numberOfInstances"]
@@ -136,6 +142,19 @@ def extract_nsd_info_for_pa(nsd_json, vnfds_json, body):
                     vnfdId = profile["vnfdId"]
                     vnfdDf = profile["flavourId"]
                     vnfs_il.append(vnfdId)
+
+                    # Get a list of CP.{id,vl_id} for the VNFs
+                    # CPs needed by the R2 API
+                    for cpConnectivity in profile['nsVirtualLinkConnectivity']:
+                        if vnfdId not in vnfCps:
+                            vnfCps[vnfdId] = []
+                        for cp_id in cpConnectivity['cpdId']:
+                            vnfCps[vnfdId] += [{
+                                'cpId': cp_id,
+                                'vl_id': vl_prof_desc[cpConnectivity['virtualLinkProfileId']]
+                            }]
+
+
                     for vId in vnfds.keys():
                         log_queue.put(["DEBUG", "the value of vId is: %s"%(vId)])
                         if (vId == vnfdId):
@@ -150,16 +169,27 @@ def extract_nsd_info_for_pa(nsd_json, vnfds_json, body):
                                 if (elem["virtualComputeDescId"] == virtualComputeDesc):
                                     memory = elem["virtualMemory"]["virtualMemSize"]
                                     cpu = elem["virtualCpu"]["numVirtualCpu"]
+
+                                    # We assume that a "mec" flag is present in the
+                                    # virtualComputeDesc element.
+                                    # This is really tentative, just for checking.
+                                    # To be removed if/when the NSD will include
+                                    # AppD references
+                                    mec = False
+                                    if "mec" in elem:
+                                      mec = elem["mec"]
+
                             for elem in vnfds[vId]["virtualStorageDesc"]:
                                 if (elem["id"] == virtualStorageDesc):
                                     storage = elem["sizeOfStorage"]
                             nsd["nsd"]["VNFs"].append({"VNFid": str(vnfdId), "instances": numberOfInstances,
                                                        "location": {"center": {"longitude": 0,
                                                                                "latitude": 0},
-                                                                    "radius": 0},
+                                                                    "radius": 10},
                                                        "requirements": {"cpu": cpu,
                                                                         "ram": memory,
-                                                                        "storage": storage},
+                                                                        "storage": storage,
+                                                                        "mec": mec},
                                                        "failure_rate": 0,
                                                        "processing_latency": 0})
         # be careful, this function assumes that there is not vnffg and then, it generates "artificial links",
@@ -193,27 +223,62 @@ def extract_nsd_info_for_pa(nsd_json, vnfds_json, body):
                                 if (df["flavourId"] == vl_flavour):
                                     vld_to_vnf2[vlprofile["virtualLinkDescId"]]["latency"] = df["qos"]["latency"]
 
+
+        # Replace CPs VL ids by the VNFLink
         for vld in vld_to_vnf2.keys():
-            log_queue.put(["INFO", "let's show vld_to_vnf2:%s" % vld])
-            log_queue.put(["INFO", dumps(vld_to_vnf2[vld], indent=4)])
+            for vnf in vnfCps.keys():
+                for i in range(len(vnfCps[vnf])):
+                    if vnfCps[vnf][i]['vl_id'] == vld:
+                        vnfCps[vnf][i]['VNFLink'] = {
+                            'id': vld,
+                            'latency': vld_to_vnf2[vld]['latency'],
+                            'traversal_probability': 1,
+                            'required_capacity': float(vld_to_vnf2[vld]["bw"])
+                        }
+
+                # Include the information in the resulting VNF
+                for i in range(len(nsd['nsd']['VNFs'])):
+                    if nsd['nsd']['VNFs'][i]['VNFid'] == vnf:
+                        nsd['nsd']['VNFs'][i]['CP'] = vnfCps[vnf]
+
+
+        for vld in vld_to_vnf2.keys():
             if (len(vld_to_vnf2[vld]['vnfs']) > 1):
                 endpoints = list(itertools.combinations(vld_to_vnf2[vld]['vnfs'], 2))
                 log_queue.put(["INFO", dumps(endpoints, indent=4)])
                 for pair in endpoints:
                     nsd["nsd"]["VNFLinks"].append({"source": str(pair[0]), "destination": str(pair[1]),
-                                                   "required_capacity": vld_to_vnf2[vld]["bw"],
-                                                   "required_latency": vld_to_vnf2[vld]["latency"],
-                                                   "VLid": vld,
+                                                   "required_capacity": float(vld_to_vnf2[vld]["bw"]),
+                                                   "latency": vld_to_vnf2[vld]["latency"],
+                                                   "id": vld,
                                                    "traversal_probability": 1})
             elif (len(vld_to_vnf2[vld]['vnfs']) == 1):
                 nsd["nsd"]["VNFLinks"].append({"source": vld_to_vnf2[vld]['vnfs'][0], "destination": "None",
-                                               "required_capacity": vld_to_vnf2[vld]["bw"],
-                                               "required_latency": vld_to_vnf2[vld]["latency"],
-                                               "VLid": vld,
+                                               "required_capacity": float(vld_to_vnf2[vld]["bw"]),
+                                               "latency": vld_to_vnf2[vld]["latency"],
+                                               "id": vld,
                                                "traversal_probability": 1})
+        # Include the SAPs
+        nsd['nsd']['SAP'] = []
+        for sapd in NSD['nsd']['sapd']:
+            nsd['nsd']['SAP'] += [{
+                'CPid': sapd['associatedCpdId']
+            } if 'associatedCpdId' in sapd else {
+                'VNFLink': sapd['nsVirtualLinkDescId']
+            }]
+
+            # Seek possible location constraint
+            if body.sap_data:
+                for sap_data in body.sapData:
+                    if sap_data.sapd_id == sapd['cpdId']:
+                        nsd['nsd']['SAP'][-1]['location'] =\
+                            sap_data.location_info
+
+
+
         nsd["nsd"]["max_latency"] = max_latency
-        nsd["nsd"]["target_availability"] = 1
-        nsd["nsd"]["max_cost"] = 1
+        nsd["nsd"]["target_availability"] = 0.0
+        nsd["nsd"]["max_cost"] = 1000000000
     return nsd
 
 
@@ -245,17 +310,43 @@ def parse_resources_for_pa(resources, vnfs_ids):
         pa_pop["gw_ip_address"] = pop["nfviPopAttributes"]["networkConnectivityEndpoint"][0]["netGwIpAddress"]
         pa_pop["capabilities"] = {}
         pa_pop["availableCapabilities"] = {}
+
+        # MEC capabilities: Assumes that the MTP adds a MEC flag according
+        # to the current version of the MTP API.
+        pa_pop["capabilities"]["mec"] = False
+        pa_pop["availableCapabilities"]["mec"] = False
+        if "MecCapable" in pop["nfviPopAttributes"]:
+          if str(pop["nfviPopAttributes"]["MecCapable"]).lower() == "true" or pop["nfviPopAttributes"]["MecCapable"] == True:
+            pa_pop["capabilities"]["mec"] = True
+            pa_pop["availableCapabilities"]["mec"] = True
+
         pa_pop["capabilities"]["cpu"] = int(pop["nfviPopAttributes"]["resourceZoneAttributes"][0]["cpuResourceAttributes"]["totalCapacity"])
         pa_pop["availableCapabilities"]["cpu"] = int(pop["nfviPopAttributes"]["resourceZoneAttributes"][0]["cpuResourceAttributes"]["availableCapacity"])
         pa_pop["capabilities"]["ram"] = int(pop["nfviPopAttributes"]["resourceZoneAttributes"][0]["memoryResourceAttributes"]["totalCapacity"])
         pa_pop["availableCapabilities"]["ram"] = int(pop["nfviPopAttributes"]["resourceZoneAttributes"][0]["memoryResourceAttributes"]["availableCapacity"])
-        pa_pop["capabilities"]["storage"] = 1000
-        pa_pop["availableCapabilities"]["storage"] = 1000
+        pa_pop["capabilities"]["storage"] = int(pop["nfviPopAttributes"]["resourceZoneAttributes"][0]["storageResourceAttributes"]["totalCapacity"])
+        pa_pop["availableCapabilities"]["storage"] = int(pop["nfviPopAttributes"]["resourceZoneAttributes"][0]["storageResourceAttributes"]["availableCapacity"])
+        # pa_pop["capabilities"]["storage"] = 1000
+        # pa_pop["availableCapabilities"]["storage"] = 1000
         pa_pop["capabilities"]["bandwidth"] = 0
         pa_pop["availableCapabilities"]["bandwidth"] = 0
         pa_pop["internal_latency"] = 0
         pa_pop["failure_rate"] = 0
-        pa_pop["location"] = {"radius": 0, "center": {"latitude": 0, "longitude": 0}}
+       # Store NFVI PoP location if present as coordinates
+        center = None
+        coord_regex = '(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)'
+        search = re.search(coord_regex,
+                    pop["nfviPopAttributes"]['geographicalLocationInfo'])
+        if search:
+            pa_pop["location"] = {
+                'radius': 0,
+                'center': {
+                    "latitude": float(search.group(1)),
+                    "longitude": float(search.group(3))
+                }
+            }
+        else: 
+            pa_pop["location"] = {"radius": 0, "center": {"latitude": 0, "longitude": 0}}
         gw_pop_mapping[pa_pop["gw_ip_address"]] = pa_pop["id"]
         pa_resources["NFVIPoPs"].append(pa_pop)
         vl_cost = {}

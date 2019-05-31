@@ -188,7 +188,8 @@ def resources_fullness(capabilities, used_capabilities):
 
     """
     fullness = {}
-    for capability in capabilities:
+    for capability in [cap for cap in capabilities\
+                            if type(cap) in [float,int]]:
         fullness[capability] =\
 			 float(used_capabilities[capability]) / capabilities[capability]
 
@@ -204,6 +205,9 @@ def resources_availability(capabilities, used_capabilities):
 
     """
     availability = resources_fullness(capabilities, used_capabilities)
+    print('availability capas: ' + str(availability.keys()))
+    print('\t capas:' + str(capabilities))
+    print('\t ised:' + str(used_capabilities))
     for capability in availability:
         availability[capability] = 1 - availability[capability]
 
@@ -262,19 +266,31 @@ def map_unbalance(capabilities, used_capabilities, req_capabilities):
     # Calculate how much of each resource consumes the VNF in the host
     # (expressed in percentage)
     req_consum = {}
-    for cap in capabilities:
+    req_caps = [cap for cap in req_capabilities\
+                    if type(req_capabilities[cap]) in [float, int]\
+                    and req_capabilities[cap] > 0]
+
+    # If no resources required, unbalance is zero
+    if len(req_caps) == 0:
+        return 0
+
+    for cap in req_caps:
         req_consum[cap] = float(req_capabilities[cap]) / capabilities[cap]
 
     # Get resource availability mean after mapping
+    print('these are the capabilities: ' + str(capabilities))
+    print('these are the used capabilities: ' + str(used_capabilities))
     availability = resources_availability(capabilities, used_capabilities)
     availability_mean = float(0)
-    for cap in capabilities:
+    print('availability: ' + str(availability))
+    print('req_caps: ' + str(req_caps))
+    for cap in req_caps:
         availability_mean += availability[cap] - req_consum[cap]
-    availability_mean /= float(len(req_capabilities.keys()))
+    availability_mean /= float(len(req_caps))
 
     # Unbalancing calculation
     unbalance = 0
-    for resource in availability:
+    for resource in req_caps:
         unbalance += abs(availability[resource] - req_consum[resource]\
             - availability_mean)
 
@@ -296,19 +312,25 @@ def map_unbalance2(capabilities, available_capabilities, req_capabilities):
     # Calculate how much of each resource consumes the VNF in the host
     # (expressed in percentage)
     req_consum = {}
-    for cap in req_capabilities:
+    for cap in [c for c in req_capabilities\
+                    if type(req_capabilities[c]) == int\
+                    or type(req_capabilities[c]) == float]:
         req_consum[cap] = float(req_capabilities[cap]) / capabilities[cap]
 
     # Get resource availability mean after mapping
     availability = available_capabilities
     availability_mean = float(0)
-    for cap in req_capabilities:
+    for cap in [c for c in req_capabilities\
+                        if type(req_capabilities[c]) == int\
+                        or type(req_capabilities[c]) == float]:
         availability_mean += availability[cap] - req_consum[cap]
     availability_mean /= float(len(req_capabilities.keys()))
 
     # Unbalancing calculation
     unbalance = 0
-    for resource in req_capabilities:
+    for resource in [c for c in req_capabilities\
+                        if type(req_capabilities[c]) == int\
+                        or type(req_capabilities[c]) == float]:
         unbalance += abs(availability[resource] - req_consum[resource]\
             - availability_mean)
 
@@ -328,6 +350,9 @@ def can_map_clusters(ns_cluster, nfvi_pop_cluster):
     :returns: boolean telling if ns_cluster can be mapped to nfvi_pop_cluster
 
     """
+    if not in_nfvi_cluster(ns_cluster, nfvi_pop_cluster):
+        return False
+    
     for vnf in ns_cluster.nodes():
         vnf_node = get_vnf(ns_cluster, vnf)
         exists_nfvi_pop, nfvi_pop_id = exist_capable_nfvi_pop(vnf_node,
@@ -349,6 +374,7 @@ def garrote_best_nfvi_pop_cluster(ns_cluster, nfvi_pop_clusters):
     :ns_cluster: networkX NS cluster instance
     :nfvi_pop_clusters: dictionary with NFVI PoPs clusters
     :returns: {'nfvi_pop_cluster': 1, 'cost': 2, 'unbalance': 3}
+              {} if no NFVI PoP cluster can host it
 
     """
     map_props = {
@@ -361,12 +387,14 @@ def garrote_best_nfvi_pop_cluster(ns_cluster, nfvi_pop_clusters):
     nfvi_pop_clusters_cap = {}
     for nfvi_pop_cl_name in nfvi_pop_clusters:
         nfvi_pop_cluster = nfvi_pop_clusters[nfvi_pop_cl_name]
+
         nfvi_pop_clusters_cap[nfvi_pop_cl_name] = {
             'nfvi_pop_cl_capab': nfvi_pop_cluster_cap(nfvi_pop_cluster),
             'nfvi_pop_cl_free_cap': nfvi_pop_cluster_free_cap(nfvi_pop_cluster)
         }
 
     ns_cl_req = ns_cluster_vnf_req(ns_cluster)
+
 
     # Decide best NFVI PoPs cluster to map NS clusters
     for nfvi_pop_cl_name in nfvi_pop_clusters:
@@ -379,7 +407,7 @@ def garrote_best_nfvi_pop_cluster(ns_cluster, nfvi_pop_clusters):
                 ns_cl_req
             )
             cost = cluster_match_cost(ns_cluster,
-                    nfvi_pop_clusters[nfvi_pop_cl_name])
+                       nfvi_pop_clusters[nfvi_pop_cl_name])
 
             # Best mapping
             if cost < map_props['cost'] or\
@@ -389,7 +417,7 @@ def garrote_best_nfvi_pop_cluster(ns_cluster, nfvi_pop_clusters):
                 map_props['cost'] = cost
                 map_props['unbalance'] = unbalance
     
-    return map_props
+    return map_props if map_props['nfvi_pop_cluster'] != 'h_fake' else {}
 
 
 def garrote_best_cluster_matching(nfvi_pop_clusters, ns_clusters):
@@ -417,14 +445,14 @@ def garrote_best_cluster_matching(nfvi_pop_clusters, ns_clusters):
         'unbalance': sys.maxint
     }
     for ns_cl_name in ns_clusters:
-        map_props =\
-            garrote_best_nfvi_pop_cluster(ns_clusters[ns_cl_name],
-                    nfvi_pop_clusters)
-        map_props['ns_cluster'] = ns_cl_name
-        if map_props['cost'] < best_map['cost'] or\
-            (map_props['cost'] == best_map['cost']) and\
-                (map_props['unbalance'] < best_map['unbalance']):
-            best_map = map_props
+        map_props = garrote_best_nfvi_pop_cluster(
+                ns_clusters[ns_cl_name], nfvi_pop_clusters)
+        if map_props != {}:
+            map_props['ns_cluster'] = ns_cl_name
+            if map_props['cost'] < best_map['cost'] or\
+                (map_props['cost'] == best_map['cost']) and\
+                    (map_props['unbalance'] < best_map['unbalance']):
+                best_map = map_props
 
     return best_map
 
@@ -516,11 +544,11 @@ def garrote_best_vnf_nfvi_pops(pa_req, vnf_node, nfvi_pop_cluster,
         if nfvi_pop1['costs'][vnf_id] != nfvi_pop2['costs'][vnf_id]:
             res = nfvi_pop1['costs'][vnf_id] != nfvi_pop2['costs'][vnf_id]
         else:
-            m1 = map_unbalance(nfvi_pop1['capabilities'],
-                    nfvi_pop1['available_capabilities'],
+            m1 = map_unbalance2(nfvi_pop1['capabilities'],
+                    nfvi_pop1['availableCapabilities'],
                     vnf_node['requirements']) 
-            m2 = map_unbalance(nfvi_pop2['capabilities'],
-                    nfvi_pop2['available_capabilities'],
+            m2 = map_unbalance2(nfvi_pop2['capabilities'],
+                    nfvi_pop2['availableCapabilities'],
                     vnf_node['requirements']) 
             res = m1 - m2
 
@@ -611,7 +639,8 @@ def garrote_find_edge_path_mg(ns_cluster, nfvi_pop_cluster, nfvi_pops_graph,
     nfvi_pops_graphC = nfvi_pops_graph.copy()
     lls = get_lls(nfvi_pop_cluster)
     for ll in lls:
-        if lls[ll]['capacity']['available'] < vl['required_capacity']:
+        if lls[ll]['capacity']['available'] < vl['required_capacity'] or\
+                lls[ll]['delay'] > vl['latency']:
             nfvi_pop1, nfvi_pop2, mLl = ll
             nfvi_pops_graphC.remove_edge(nfvi_pop1, nfvi_pop2, mLl)
 
@@ -620,7 +649,8 @@ def garrote_find_edge_path_mg(ns_cluster, nfvi_pop_cluster, nfvi_pops_graph,
             weight='delay')
 
     # No path to the target NFVI PoP
-    if vnf2['place_at'][0] not in pred:
+    if vnf2['place_at'][0] not in pred or\
+            dist[vnf2['place_at'][0]] > vl['latency']:
         return []
 
     currNFVIPoP = vnf2['place_at'][0]
@@ -689,6 +719,8 @@ def garrote_ns_mapping(pa_req, ns_cluster, nfvi_pop_cluster, nfvi_pops_graph,
             if pa_req['nsd']['VNFs'][i]['VNFid'] == vnf_id:
                 pa_req['nsd']['VNFs'][i]['place_at'].insert(0,
                         best_nfvi_pops[0])
+                print "   VNF " + pa_req['nsd']['VNFs'][i]['VNFid'] + " --  host " + best_nfvi_pops[0]
+
         for i in range(len(pa_req['nfvi']['NFVIPoPs'])):
             if pa_req['nfvi']['NFVIPoPs'][i]['id'] == best_nfvi_pops[0]:
                 pa_req['nfvi']['NFVIPoPs'][i]['mappedVNFs'].insert(0, vnf_id)
@@ -716,7 +748,6 @@ def garrote_mapping(pa_req, legacy_reqs):
 
     """
     # Cluster matching
-
     pa_req, worked = garrote_matching(pa_req, legacy_reqs)
     if not worked:
         return pa_req, False
@@ -729,13 +760,12 @@ def garrote_mapping(pa_req, legacy_reqs):
     nfvi_pop_clusters = create_nfvi_pop_clusters(pa_req)
     nfvi_pop_graph = create_nfvi_pop_graph(pa_req)
 
-    print "NFVI PoP clusters: " + str(nfvi_pop_clusters.keys())
-
     # Perform intra cluster mapping
     for ns_cl_name in ns_clusters:
         ns_cluster = ns_clusters[ns_cl_name]
-        vnf_node = get_vnf(ns_graph, ns_cluster.nodes()[0])
+        vnf_node = get_vnf(ns_graph, list(ns_cluster.nodes())[0])
         nfvi_pop_cluster = nfvi_pop_clusters[vnf_node['nfviPoPCluster']]
+        print "ns_cl:" + ns_cl_name + " <--> nfvi_cl:" + vnf_node['nfviPoPCluster']
         pa_req, map_worked = garrote_ns_mapping(pa_req, ns_cluster,
             nfvi_pop_cluster, nfvi_pop_graph, ns_cl_name, vnf_node['cluster'])
         if not map_worked:
@@ -749,6 +779,11 @@ def garrote_mapping(pa_req, legacy_reqs):
         map_vnfs_edge(ns_graph, nfvi_pop_graph, vnfs_edge, nfvi_pops_path)
         persist_vnf_path_map(pa_req, nfvi_pop_graph, ns_graph, vnfs_edge,
                 nfvi_pops_path)
+
+    # Check if all NS' simple paths are below max_latency
+    if 'max_latency' in pa_req['nsd']:
+        if not ns_mapping_below_latency(pa_req, ns_graph):
+            return pa_req, False
 
     # For testing purpose
     with open('/tmp/finish_req.json', 'w') as tmp:
@@ -781,10 +816,14 @@ def best_garrote(pa_req):
     """
     best_cost, best_mapping = sys.maxint, None
 
+    heat_wood(pa_req)
+    with open('/tmp/vl-sap.json', 'w') as tmp:
+        json.dump(pa_req, tmp, indent=4)
     for clust_idx in range(len(pa_req['clustering_decisions'])):
         pa_req_ = copy.deepcopy(pa_req)
         integrate_decisions(pa_req_, clust_idx)
         pa_req_, worked = garrote_mapping(pa_req_, [])
+        print "worked=" + str(worked)
         with open('/tmp/cluster-' + str(clust_idx) + '-map.json', 'w') as tmp:
             json.dump(pa_req_, tmp, indent=4)
 
@@ -798,6 +837,8 @@ def best_garrote(pa_req):
                 print "BEST option => " + str(clust_idx + 1) + " clusters"
                 best_mapping = pa_req_
                 best_cost = mapped_cost
+
+        print "\n"
 
     return result2PAResponse(best_mapping)
 

@@ -1,0 +1,27 @@
+{
+  "totalCost": 2, 
+  "usedLLs": [
+    {
+      "mappedVLs": [
+        "vl1"
+      ], 
+      "LLid": "1"
+    }
+  ], 
+  "usedVLs": [], 
+  "totalLatency": 20.0, 
+  "usedNFVIPops": [
+    {
+      "mappedVNFs": [
+        "v1"
+      ], 
+      "NFVIPoPID": "pop2"
+    }, 
+    {
+      "mappedVNFs": [
+        "v2"
+      ], 
+      "NFVIPoPID": "pop1"
+    }
+  ]
+}

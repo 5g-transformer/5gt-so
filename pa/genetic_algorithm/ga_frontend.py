@@ -18,7 +18,8 @@ limitations under the License.
 
 """
 #################################################################
-Genetic placement algorithm REST front end.
+Genetic placement algorithm REST front end. This version does not
+work with callbacks.
 
 To start it:
 python main.py -c ./default.conf 
@@ -39,19 +40,20 @@ import threading
 import pymongo
 import datetime
 from flask import Flask, jsonify, request
-from flask_restful import reqparse, abort, Api, Resource
+from flask_restful import reqparse, Api, Resource
+
 import translator
 
 class GAFrontEnd(object):
   """Genetic algorithm front-end server.
 
   This class implements a REST API for executing the genetic placement algorithm. The server
-  operates asynchronously. Callers request a service placement by providing information on
-  the NFVI topology and network service, as well as a request identifier and a callback URL.
-  When the algorithm has terminated and has come up with a placement, it notifies the caller
-  over the registered callback URL. 
+  operates *synchronously*. Callers request a service placement by providing information on
+  the NFVI topology and network service, as well as a request identifier, but NO callback URL,
+  which will be ignored if present. When the algorithm has terminated and has come up with a
+  placement, it notifies the caller over the registered callback URL.
 
-  It is also possible for the caller to query the status of a request by specifying the request id.
+  It is possible to query the status of a request by specifying the request id.
   A request status can be one of the following: INPROGRESS, SUCCESS, FAIL.
 
   All request data (input, status, request id, timestamps, placement solution) are stored in 
@@ -137,7 +139,8 @@ class GAFrontEnd(object):
     self.db_collection_external.insert_one(req_ext)
 
     # now do the necessary translation to the internal representation
-    req_internal = translator.translate_request(request.json)
+    processed_rec = translator.preprocess_external_request(request.json)
+    req_internal = translator.translate_request(processed_rec)
     req = {
       "ReqId": req_internal["ReqId"],
       "status": "INPROGRESS",
@@ -161,52 +164,44 @@ class GAFrontEnd(object):
       projection={"_id": False},
       return_document=pymongo.collection.ReturnDocument.AFTER)
 
-    # start thread
-    t = threading.Thread(target=self._placement_algorithm_execute, kwargs=dict(scenario=scenario, callback=req_internal["callback"], reqid=req_internal["ReqId"]))
-    t.start()
-
-    return jsonify({"status": "created"}), 201
+    # Execute algorithm
+    resp, err = self._placement_algorithm_execute(scenario, req_internal["ReqId"])
+    if err is None:
+      return jsonify(resp), 200
+    else:
+      return jsonify(err), 400
 
 
   #############################################################################
   #                          Internal methods                                 #
   #############################################################################
-
-  def _execute_callback(self, callback, data, reqid):
-    """For the given request ID, POST the data (JSON) to the callback URL which should have been
-    provided by the caller when sending a placement request. This function is called by the
-    thread that runs the placement algorithm, as soon as the latter has terminated.
-    """
-    r = requests.post(callback, data=json.dumps(data), headers={"Content-Type":"application/json"})
-    print r.text
- 
-
-  def _placement_algorithm_execute(self, scenario, callback, reqid):
-    """Thread function which executes the placement algorithm for the given scenario.
-    The thread is started inside the receive_request method. At the end of the execution,
-    the solution is posted to the callback URL. If for some reason the algorithm fails
-    to produce a valid placement (e.g., some constraint is violated), the function still 
-    posts the placement, but specific error information are included inside the JSON object
-    which represents the solution. 
+  def _placement_algorithm_execute(self, scenario, reqid):
+    """Executes the placement algorithm for the given scenario.If for some reason
+    the algorithm fails to produce a valid placement (e.g., some constraint is violated),
+    the function still returns the placement, but specific error information is included
+    inside the JSON object which represents the solution. 
     """
 
     cfg = copy.deepcopy(self.configuration)
     cfg["scenario"] = scenario
     g = GA(cfg)
-    solution = g.execute()
+    if g.error:
+      err = g.error_string
+      solution = copy.deepcopy(scenario)
+    else:
+      solution = g.execute()
+      # Check for errors/constrain violations
+      err = None
+      if not solution["solution_performance"]["link_capacity_constraints_ok"]:
+        err = "Link capacity exceeded."
+      if not solution["solution_performance"]["delay_constraints_ok"]:
+        err = "Delay constraints violated."
+      if not solution["solution_performance"]["host_capacity_constraints_ok"]:
+        err = "Host capacity constraints violated."
+      if not solution["solution_performance"]["legal_placement"]:
+        err = "Illegal placement."
 
-    # Check for errors/constrain violations
-    err = None
-    if not solution["solution_performance"]["link_capacity_constraints_ok"]:
-      err = "Link capacity exceeded."
-    if not solution["solution_performance"]["delay_constraints_ok"]:
-      err = "Delay constraints violated."
-    if not solution["solution_performance"]["host_capacity_constraints_ok"]:
-      err = "Host capacity constraints violated."
-    if not solution["solution_performance"]["legal_placement"]:
-      err = "Illegal placement."
-
-    self._output_solution(solution)
+      self._output_solution(solution)
 
     # update the record in the database with the new status and the derived solution
     timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")
@@ -229,8 +224,7 @@ class GAFrontEnd(object):
       projection={"_id": False},
       return_document=pymongo.collection.ReturnDocument.AFTER)
 
-    # execute callback
-    self._execute_callback(callback, translated_solution, reqid)
+    return translated_solution, err
 
 
   def _output_solution(self, solution):

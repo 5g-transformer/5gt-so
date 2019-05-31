@@ -18,9 +18,11 @@ class LL(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, l_lid=None, capacity=None, delay=None, source=None, destination=None):  # noqa: E501
+    def __init__(self, length=None, l_lid=None, capacity=None, delay=None, source=None, destination=None):  # noqa: E501
         """LL - a model defined in Swagger
 
+        :param length: The length of this LL.  # noqa: E501
+        :type length: float
         :param l_lid: The l_lid of this LL.  # noqa: E501
         :type l_lid: str
         :param capacity: The capacity of this LL.  # noqa: E501
@@ -33,6 +35,7 @@ class LL(Model):
         :type destination: LLDestination
         """
         self.swagger_types = {
+            'length': float,
             'l_lid': str,
             'capacity': LLCapacity,
             'delay': float,
@@ -41,6 +44,7 @@ class LL(Model):
         }
 
         self.attribute_map = {
+            'length': 'length',
             'l_lid': 'LLid',
             'capacity': 'capacity',
             'delay': 'delay',
@@ -48,6 +52,7 @@ class LL(Model):
             'destination': 'destination'
         }
 
+        self._length = length
         self._l_lid = l_lid
         self._capacity = capacity
         self._delay = delay
@@ -64,6 +69,27 @@ class LL(Model):
         :rtype: LL
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def length(self):
+        """Gets the length of this LL.
+
+
+        :return: The length of this LL.
+        :rtype: float
+        """
+        return self._length
+
+    @length.setter
+    def length(self, length):
+        """Sets the length of this LL.
+
+
+        :param length: The length of this LL.
+        :type length: float
+        """
+
+        self._length = length
 
     @property
     def l_lid(self):

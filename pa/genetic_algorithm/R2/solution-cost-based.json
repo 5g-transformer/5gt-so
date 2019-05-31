@@ -1,0 +1,240 @@
+{
+  "vnfs": [
+    {
+      "requirements": {
+        "storage": 10, 
+        "cpu": 1, 
+        "mec": true, 
+        "memory": 1
+      }, 
+      "place_at": [
+        "1"
+      ], 
+      "processing_time": 0, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "location": {
+        "radius": 10, 
+        "center": {
+          "latitude": 0, 
+          "longitude": 0
+        }
+      }, 
+      "vnf_name": "webserver"
+    }, 
+    {
+      "requirements": {
+        "storage": 50, 
+        "cpu": 1, 
+        "mec": false, 
+        "memory": 4
+      }, 
+      "place_at": [
+        "1"
+      ], 
+      "processing_time": 0, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "location": {
+        "radius": 10, 
+        "center": {
+          "latitude": 0, 
+          "longitude": 0
+        }
+      }, 
+      "vnf_name": "spr1"
+    }, 
+    {
+      "requirements": {
+        "storage": 10, 
+        "cpu": 1, 
+        "mec": true, 
+        "memory": 1
+      }, 
+      "place_at": [
+        "1"
+      ], 
+      "processing_time": 0, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "location": {
+        "radius": 10, 
+        "center": {
+          "latitude": 0, 
+          "longitude": 0
+        }
+      }, 
+      "vnf_name": "spr21"
+    }
+  ], 
+  "costs": [
+    {
+      "vnf": "spr21", 
+      "host": "1", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "webserver", 
+      "host": "1", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "spr1", 
+      "host": "1", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "spr21", 
+      "host": "2", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "webserver", 
+      "host": "2", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "spr1", 
+      "host": "2", 
+      "cost": 0
+    }
+  ], 
+  "hosts": [
+    {
+      "gw_ip_address": "10.0.0.5", 
+      "failure_rate": 0, 
+      "host_name": "1", 
+      "capabilities": {
+        "bandwidth": 0, 
+        "storage": 1000, 
+        "cpu": 18, 
+        "mec": true, 
+        "memory": 50176
+      }, 
+      "location": {
+        "radius": 10, 
+        "center": {
+          "latitude": 0, 
+          "longitude": 0
+        }
+      }
+    }, 
+    {
+      "gw_ip_address": "16.11.11.16", 
+      "failure_rate": 0, 
+      "host_name": "2", 
+      "capabilities": {
+        "bandwidth": 0, 
+        "storage": 1000, 
+        "cpu": 20, 
+        "mec": false, 
+        "memory": 51200
+      }, 
+      "location": {
+        "radius": 10, 
+        "center": {
+          "latitude": 0, 
+          "longitude": 0
+        }
+      }
+    }
+  ], 
+  "solution_performance": {
+    "latency": {
+      "total": 0.0, 
+      "processing": 0.0, 
+      "network": 0.0
+    }, 
+    "link_capacity_constraints_ok": true, 
+    "execution_time": 0.424458, 
+    "delay_constraints_ok": true, 
+    "legal_placement": true, 
+    "host_capacity_constraints_ok": true, 
+    "cost": 0, 
+    "mec_constraints_ok": true, 
+    "availability": 1.0, 
+    "generations": 20
+  }, 
+  "services": [
+    {
+      "service_name": "vCDN_v02", 
+      "max_latency": 10000.0, 
+      "target_availability": 0.0, 
+      "traversed_vnfs": {
+        "webserver": 1.0, 
+        "spr1": 1.0, 
+        "spr21": 1.0
+      }, 
+      "max_cost": 1000000000
+    }
+  ], 
+  "resource_types": [
+    "cpu", 
+    "memory", 
+    "storage"
+  ], 
+  "host_edges": [
+    {
+      "capacity": 1000.0, 
+      "target": "2", 
+      "utilization": 0, 
+      "delay": 20.0, 
+      "source": "1", 
+      "id": "151515_f"
+    }, 
+    {
+      "capacity": 1000.0, 
+      "target": "1", 
+      "utilization": 0, 
+      "delay": 20.0, 
+      "source": "2", 
+      "id": "151515_b"
+    }, 
+    {
+      "capacity": 1500.0, 
+      "target": "2", 
+      "utilization": 0, 
+      "delay": 10.0, 
+      "source": "1", 
+      "id": "161616_f"
+    }, 
+    {
+      "capacity": 1500.0, 
+      "target": "1", 
+      "utilization": 0, 
+      "delay": 10.0, 
+      "source": "2", 
+      "id": "161616_b"
+    }
+  ], 
+  "vnf_edges": [
+    {
+      "source": "spr1", 
+      "traffic": "1", 
+      "id": "mgt", 
+      "target": null
+    }, 
+    {
+      "source": "spr1", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }, 
+      "traffic": "1", 
+      "id": "VideoData", 
+      "target": "spr21"
+    }, 
+    {
+      "source": "webserver", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }, 
+      "traffic": "1", 
+      "id": "VideoDistribution", 
+      "target": "spr21"
+    }
+  ]
+}

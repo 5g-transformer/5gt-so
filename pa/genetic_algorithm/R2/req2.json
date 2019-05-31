@@ -1,0 +1,285 @@
+{
+    "ReqId": "dec06926-2747-4aa9-9837-48d7706ec5c8",
+    "nfvi": {
+        "resource_types": [
+            "cpu",
+            "memory",
+            "storage"
+        ],
+        "NFVIPoPs": [
+            {
+                "id": "1",
+                "gw_ip_address": "192.168.3.30",
+                "capabilities": {
+                    "cpu": 1,
+                    "ram": 16000,
+                    "storage": 1000,
+                    "bandwidth": 0,
+                    "mec": true
+                },
+                "availableCapabilities": {
+                    "cpu": 2,
+                    "ram": 16000,
+                    "storage": 1000,
+                    "bandwidth": 0
+                },
+                "internal_latency": 0,
+                "failure_rate": 0,
+                "location": {
+                    "radius": 0,
+                    "center": {
+                        "latitude": 0,
+                        "longitude": 0
+                    }
+                }
+            },
+            {
+                "id": "2",
+                "gw_ip_address": "192.168.4.40",
+                "capabilities": {
+                    "cpu": 32,
+                    "ram": 16000,
+                    "storage": 1000,
+                    "bandwidth": 0
+                },
+                "availableCapabilities": {
+                    "cpu": 32,
+                    "ram": 16000,
+                    "storage": 1000,
+                    "bandwidth": 0
+                },
+                "internal_latency": 0,
+                "failure_rate": 0,
+                "location": {
+                    "radius": 0,
+                    "center": {
+                        "latitude": 0,
+                        "longitude": 0
+                    }
+                }
+            }
+        ],
+        "LLs": [
+            {
+                "LLid": "1",
+                "delay": 70,
+                "length": 0,
+                "capacity": {
+                    "total": 1000000.0,
+                    "available": 1000000.0
+                },
+                "source": {
+                    "GwIpAddress": "192.168.3.30",
+                    "id": "1"
+                },
+                "destination": {
+                    "GwIpAddress": "192.168.4.40",
+                    "id": "2"
+                }
+            },
+            {
+                "LLid": "2",
+                "delay": 95,
+                "length": 0,
+                "capacity": {
+                    "total": 1000000.0,
+                    "available": 1000000.0
+                },
+                "source": {
+                    "GwIpAddress": "192.168.3.30",
+                    "id": "1"
+                },
+                "destination": {
+                    "GwIpAddress": "192.168.4.40",
+                    "id": "2"
+                }
+            },
+            {
+                "LLid": "3",
+                "delay": 70,
+                "length": 0,
+                "capacity": {
+                    "total": 1000000.0,
+                    "available": 1000000.0
+                },
+                "source": {
+                    "GwIpAddress": "192.168.4.40",
+                    "id": "2"
+                },
+                "destination": {
+                    "GwIpAddress": "192.168.3.30",
+                    "id": "1"
+                }
+            },
+            {
+                "LLid": "4",
+                "delay": 95,
+                "length": 0,
+                "capacity": {
+                    "total": 1000000.0,
+                    "available": 1000000.0
+                },
+                "source": {
+                    "GwIpAddress": "192.168.4.40",
+                    "id": "2"
+                },
+                "destination": {
+                    "GwIpAddress": "192.168.3.30",
+                    "id": "1"
+                }
+            }
+        ],
+        "VNFCosts": [
+            {
+                "vnfid": "webserver",
+                "NFVIPoPid": "1",
+                "cost": 0
+            },
+            {
+                "vnfid": "spr2",
+                "NFVIPoPid": "1",
+                "cost": 0
+            },
+            {
+                "vnfid": "spr1",
+                "NFVIPoPid": "1",
+                "cost": 0
+            },
+            {
+                "vnfid": "webserver",
+                "NFVIPoPid": "2",
+                "cost": 0
+            },
+            {
+                "vnfid": "spr2",
+                "NFVIPoPid": "2",
+                "cost": 0
+            },
+            {
+                "vnfid": "spr1",
+                "NFVIPoPid": "2",
+                "cost": 0
+            }
+        ],
+        "LLCosts": [
+            {
+                "LL": "1",
+                "cost": 1
+            },
+            {
+                "LL": "2",
+                "cost": 1
+            },
+            {
+                "LL": "3",
+                "cost": 1
+            },
+            {
+                "LL": "4",
+                "cost": 1
+            }
+        ],
+        "VLCosts": [
+            {
+                "NFVIPoP": "1",
+                "cost": 0
+            },
+            {
+                "NFVIPoP": "2",
+                "cost": 0
+            }
+        ]
+    },
+    "nsd": {
+        "id": "vCDN_v02",
+        "name": "vCDN_ATOS_TIMEO",
+        "VNFs": [
+            {
+                "VNFid": "webserver",
+                "instances": 1,
+                "location": {
+                    "center": {
+                        "longitude": 0,
+                        "latitude": 0
+                    },
+                    "radius": 0
+                },
+                "requirements": {
+                    "cpu": 1,
+                    "ram": 4,
+                    "storage": 10
+                },
+                "failure_rate": 0,
+                "processing_latency": 0
+            },
+            {
+                "VNFid": "spr1",
+                "instances": 1,
+                "location": {
+                    "center": {
+                        "longitude": 0,
+                        "latitude": 0
+                    },
+                    "radius": 0
+                },
+                "requirements": {
+                    "cpu": 1,
+                    "ram": 4,
+                    "storage": 50
+                },
+                "failure_rate": 0,
+                "processing_latency": 0
+            },
+            {
+                "VNFid": "spr2",
+                "instances": 1,
+                "location": {
+                    "center": {
+                        "longitude": 0,
+                        "latitude": 0
+                    },
+                    "radius": 0
+                },
+                "requirements": {
+                    "cpu": 2,
+                    "ram": 4,
+                    "storage": 10,
+                    "mec": true
+                },
+                "failure_rate": 0,
+                "processing_latency": 0
+            }
+        ],
+        "VNFLinks": [
+            {
+                "source": "spr1",
+                "destination": "None",
+                "required_capacity": 1,
+                "required_latency": 0,
+                "VLid": "mgt",
+                "traversal_probability": 1
+            },
+            {
+                "source": "spr1",
+                "destination": "spr2",
+                "required_capacity": "1",
+                "required_latency": 0,
+                "VLid": "VideoData",
+                "traversal_probability": 1
+            },
+            {
+                "source": "webserver",
+                "destination": "spr2",
+                "required_capacity": "1",
+                "required_latency": 0,
+                "VLid": "VideoDistribution",
+                "traversal_probability": 1
+            }
+        ],
+        "max_latency": 10000.0,
+        "target_availability": 1,
+        "max_cost": 1
+    },
+    "callback": "http://127.0.0.1:9999/5gt/so/v1/PACompResp"
+}
+

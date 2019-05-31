@@ -237,7 +237,6 @@ def scale_ns_provider (nsId_n, body, domain, additionalParams=None):
         conn.sock.settimeout(timeout)
         rsp = conn.getresponse()
         data = rsp.read().decode()
-        self.assertEqual(rsp.status, 200)
         data = loads(data)
         operationId = data["operationId"]
     return [operationId, conn, target_il]
@@ -395,7 +394,7 @@ def instantiate_ns_process(nsId, body, requester):
                 # there has been a problem with the nested service and the process failed, we have 
                 # to abort the instantiation
                 operationId = operation_db.get_operationId(nsId, "INSTANTIATION")
-                operation_db.set_operation_status(operationIdglobal, "FAILED")
+                operation_db.set_operation_status(operationId, "FAILED")
                 # set ns status as FAILED
                 ns_db.set_ns_status(nsId, "FAILED")
                 # remove the reference previously set
@@ -527,7 +526,7 @@ def scale_ns_process(nsId, body):
             # 3) enter in a loop to wait until service is instantiated, checking with the operationid, that the operation 
             # 4) update the register of nested services instantiated
             while (status != "SUCCESSFULLY_DONE"):		
-                status = get_operation_status_provider(operationId, conn)
+                status = get_operation_status_provider(operation_id, conn)
                 if (status == 'FAILED'):
                     operationIdglobal = operation_db.get_operationId(nsId, "INSTANTIATION")
                     operation_db.set_operation_status(operationIdglobal, "FAILED")
@@ -779,9 +778,8 @@ def scale_ns(nsId, body):
     # for the moment, we only consider two cases for scaling:  
     # 1) local scaling and 2) scaling of a single delegated NS
     # get the nsdId that corresponds to nsId
-    nsd_json = nsd_db.get_nsd_json(nsdId, None)
     nsdId = ns_db.get_nsdId(nsId)
-    # first get the ns and vnfs descriptors
+    nsd_json = nsd_db.get_nsd_json(nsdId, None)
     domain = nsd_db.get_nsd_domain (nsdId)
     log_queue.put(["DEBUG", "scaling domain: %s"%(domain)])
     if (domain == "local"):

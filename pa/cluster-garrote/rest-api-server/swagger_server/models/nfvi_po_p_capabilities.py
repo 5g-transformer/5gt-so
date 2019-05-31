@@ -15,7 +15,7 @@ class NFVIPoPCapabilities(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, cpu=None, ram=None, storage=None, bandwidth=None):  # noqa: E501
+    def __init__(self, cpu=None, ram=None, storage=None, bandwidth=None, mec=None):  # noqa: E501
         """NFVIPoPCapabilities - a model defined in Swagger
 
         :param cpu: The cpu of this NFVIPoPCapabilities.  # noqa: E501
@@ -26,25 +26,30 @@ class NFVIPoPCapabilities(Model):
         :type storage: float
         :param bandwidth: The bandwidth of this NFVIPoPCapabilities.  # noqa: E501
         :type bandwidth: float
+        :param mec: The mec of this NFVIPoPCapabilities.  # noqa: E501
+        :type mec: bool
         """
         self.swagger_types = {
             'cpu': float,
             'ram': float,
             'storage': float,
-            'bandwidth': float
+            'bandwidth': float,
+            'mec': bool
         }
 
         self.attribute_map = {
             'cpu': 'cpu',
             'ram': 'ram',
             'storage': 'storage',
-            'bandwidth': 'bandwidth'
+            'bandwidth': 'bandwidth',
+            'mec': 'mec'
         }
 
         self._cpu = cpu
         self._ram = ram
         self._storage = storage
         self._bandwidth = bandwidth
+        self._mec = mec
 
     @classmethod
     def from_dict(cls, dikt):
@@ -154,3 +159,26 @@ class NFVIPoPCapabilities(Model):
         """
 
         self._bandwidth = bandwidth
+
+    @property
+    def mec(self):
+        """Gets the mec of this NFVIPoPCapabilities.
+
+        MEC capability  # noqa: E501
+
+        :return: The mec of this NFVIPoPCapabilities.
+        :rtype: bool
+        """
+        return self._mec
+
+    @mec.setter
+    def mec(self, mec):
+        """Sets the mec of this NFVIPoPCapabilities.
+
+        MEC capability  # noqa: E501
+
+        :param mec: The mec of this NFVIPoPCapabilities.
+        :type mec: bool
+        """
+
+        self._mec = mec

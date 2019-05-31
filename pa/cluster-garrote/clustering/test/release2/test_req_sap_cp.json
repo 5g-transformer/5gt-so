@@ -1,0 +1,585 @@
+{
+  "ReqId": "string",
+  "nfvi": {
+    "resource_types": [
+      "cpu",
+      "ram",
+      "storage",
+      "bandwidth"
+    ],
+    "NFVIPoPs": [
+      {
+        "id": "A",
+        "location": {
+          "center": {
+            "longitude": -1.878099,
+            "latitude": 38.9921979
+          },
+          "radius": 0
+        },
+        "gw_ip_address": ["0.0.0.0"],
+        "capabilities": {
+          "cpu": 100,
+          "ram": 100,
+          "storage": 100,
+          "bandwidth": 100
+        },
+        "availableCapabilities": {
+          "cpu": 100,
+          "ram": 100,
+          "storage": 100,
+          "bandwidth": 100
+        },
+        "failure_rate": 0,
+        "internal_latency": 0
+      },
+      {
+        "id": "B",
+        "location": {
+          "center": {
+            "longitude": -1.878099,
+            "latitude": 38.9921979
+          },
+          "radius": 0
+        },
+        "gw_ip_address": ["0.0.0.0"],
+        "capabilities": {
+          "cpu": 100,
+          "ram": 100,
+          "storage": 100,
+          "bandwidth": 100
+        },
+        "availableCapabilities": {
+          "cpu": 100,
+          "ram": 100,
+          "storage": 100,
+          "bandwidth": 100
+        },
+        "failure_rate": 0,
+        "internal_latency": 0
+      },
+      {
+        "id": "C",
+        "location": {
+          "center": {
+            "longitude": -1.878099,
+            "latitude": 38.9921979
+          },
+          "radius": 0
+        },
+        "gw_ip_address": ["0.0.0.0"],
+        "capabilities": {
+          "cpu": 100,
+          "ram": 100,
+          "storage": 100,
+          "bandwidth": 100
+        },
+        "availableCapabilities": {
+          "cpu": 100,
+          "ram": 100,
+          "storage": 100,
+          "bandwidth": 100
+        },
+        "failure_rate": 0,
+        "internal_latency": 0
+      },
+      {
+        "id": "D",
+        "location": {
+          "center": {
+            "longitude": -1.1426034,
+            "latitude": 39.0306169
+          },
+          "radius": 0
+        },
+        "gw_ip_address": ["0.0.0.0"],
+        "capabilities": {
+          "cpu": 100,
+          "ram": 100,
+          "storage": 100,
+          "bandwidth": 100
+        },
+        "availableCapabilities": {
+          "cpu": 100,
+          "ram": 100,
+          "storage": 100,
+          "bandwidth": 100
+        },
+        "failure_rate": 0,
+        "internal_latency": 0
+      },
+      {
+        "id": "E",
+        "location": {
+          "center": {
+            "longitude": -1.878099,
+            "latitude": 38.9921979
+          },
+          "radius": 0
+        },
+        "gw_ip_address": ["0.0.0.0"],
+        "capabilities": {
+          "cpu": 100,
+          "ram": 100,
+          "storage": 100,
+          "bandwidth": 100
+        },
+        "availableCapabilities": {
+          "cpu": 100,
+          "ram": 100,
+          "storage": 100,
+          "bandwidth": 100
+        },
+        "failure_rate": 0,
+        "internal_latency": 0
+      },
+      {
+        "id": "F",
+        "location": {
+          "center": {
+            "longitude": -1.878099,
+            "latitude": 38.9921979
+          },
+          "radius": 0
+        },
+        "gw_ip_address": ["0.0.0.0"],
+        "capabilities": {
+          "cpu": 100,
+          "ram": 100,
+          "storage": 100,
+          "bandwidth": 100
+        },
+        "availableCapabilities": {
+          "cpu": 100,
+          "ram": 100,
+          "storage": 100,
+          "bandwidth": 100
+        },
+        "failure_rate": 0,
+        "internal_latency": 0
+      }
+    ],
+    "LLs": [
+      {
+        "LLid": "A-C",
+        "capacity": {
+          "total": 40,
+          "available": 40
+        },
+        "delay": 16,
+        "source": {
+          "id": "A",
+          "GwIpAddress": "0.0.0.0"
+        },
+        "destination": {
+          "id": "C",
+          "GwIpAddress": "0.0.0.0"
+        }
+      },
+      {
+        "LLid": "A-B",
+        "capacity": {
+          "total": 80,
+          "available": 80
+        },
+        "delay": 10,
+        "source": {
+          "id": "A",
+          "GwIpAddress": "0.0.0.0"
+        },
+        "destination": {
+          "id": "B",
+          "GwIpAddress": "0.0.0.0"
+        }
+      },
+      {
+        "LLid": "A-F",
+        "capacity": {
+          "total": 50,
+          "available": 50
+        },
+        "delay": 10,
+        "source": {
+          "id": "A",
+          "GwIpAddress": "0.0.0.0"
+        },
+        "destination": {
+          "id": "F",
+          "GwIpAddress": "0.0.0.0"
+        }
+      },
+      {
+        "LLid": "C-D",
+        "capacity": {
+          "total": 50,
+          "available": 50
+        },
+        "delay": 10,
+        "source": {
+          "id": "C",
+          "GwIpAddress": "0.0.0.0"
+        },
+        "destination": {
+          "id": "D",
+          "GwIpAddress": "0.0.0.0"
+        }
+      },
+      {
+        "LLid": "C-F",
+        "capacity": {
+          "total": 35,
+          "available": 35
+        },
+        "delay": 10,
+        "source": {
+          "id": "C",
+          "GwIpAddress": "0.0.0.0"
+        },
+        "destination": {
+          "id": "F",
+          "GwIpAddress": "0.0.0.0"
+        }
+      },
+      {
+        "LLid": "B-F",
+        "capacity": {
+          "total": 15,
+          "available": 15
+        },
+        "delay": 10,
+        "source": {
+          "id": "B",
+          "GwIpAddress": "0.0.0.0"
+        },
+        "destination": {
+          "id": "F",
+          "GwIpAddress": "0.0.0.0"
+        }
+      },
+      {
+        "LLid": "F-E-1",
+        "capacity": {
+          "total": 20,
+          "available": 20
+        },
+        "delay": 10,
+        "source": {
+          "id": "F",
+          "GwIpAddress": "0.0.0.0"
+        },
+        "destination": {
+          "id": "E",
+          "GwIpAddress": "0.0.0.0"
+        }
+      },
+      {
+        "LLid": "F-E-2",
+        "capacity": {
+          "total": 10,
+          "available": 10
+        },
+        "delay": 10,
+        "source": {
+          "id": "F",
+          "GwIpAddress": "0.0.0.0"
+        },
+        "destination": {
+          "id": "E",
+          "GwIpAddress": "0.0.0.0"
+        }
+      }
+    ],
+    "VNFCosts": [
+      {
+        "cost": 10,
+        "vnfid": "v1",
+        "NFVIPoPid": "A"
+      },
+      {
+        "cost": 20,
+        "vnfid": "v1",
+        "NFVIPoPid": "D"
+      },
+      {
+        "cost": 10,
+        "vnfid": "v2",
+        "NFVIPoPid": "C"
+      },
+      {
+        "cost": 10,
+        "vnfid": "v3",
+        "NFVIPoPid": "F"
+      },
+      {
+        "cost": 10,
+        "vnfid": "v4",
+        "NFVIPoPid": "A"
+      },
+      {
+        "cost": 5,
+        "vnfid": "v4",
+        "NFVIPoPid": "B"
+      }
+    ],
+
+    "LLCosts": [
+      {
+        "cost": 10,
+        "LL": "A-B"
+      },
+      {
+        "cost": 10,
+        "LL": "A-C"
+      },
+      {
+        "cost": 10,
+        "LL": "A-F"
+      },
+      {
+        "cost": 10,
+        "LL": "C-D"
+      },
+      {
+        "cost": 10,
+        "LL": "C-F"
+      },
+      {
+        "cost": 10,
+        "LL": "B-F"
+      },
+      {
+        "cost": 10,
+        "LL": "F-E-1"
+      },
+      {
+        "cost": 10,
+        "LL": "F-E-2"
+      }
+    ],
+    "VLCosts": [
+      {
+        "cost": 10,
+        "NFVIPoP": "A"
+      },
+      {
+        "cost": 10,
+        "NFVIPoP": "B"
+      },
+      {
+        "cost": 10,
+        "NFVIPoP": "C"
+      },
+      {
+        "cost": 10,
+        "NFVIPoP": "D"
+      },
+      {
+        "cost": 10,
+        "NFVIPoP": "E"
+      },
+      {
+        "cost": 10,
+        "NFVIPoP": "F"
+      }
+    ]
+  },
+  "nsd": {
+    "id": "rel1-nsd-test",
+    "name": "multi-graph-ns",
+    "SAP": [
+        {
+            "CPid": "CP1",
+            "location": {
+              "center": {
+                "longitude": -1.0769422,
+                "latitude": 39.1398602
+              },
+              "radius": 20
+            }
+        }
+    ],
+    "VNFs": [
+      {
+        "VNFid": "v1",
+        "instances": 1,
+        "requirements": {
+          "cpu": 1,
+          "ram": 100,
+          "storage": 1
+        },
+        "failure_rate": 0,
+        "processing_latency": 0,
+        "CP": [
+            {
+                "cpId": "CP1"
+            },
+            {
+                "cpId": "CP2",
+                "VNFLink": {
+                    "id": "v1-v2-1",
+                    "latency": 12,
+                    "required_capacity": 30,
+                    "traversal_probability": 0
+                }
+            },
+            {
+                "cpId": "CP4",
+                "VNFLink": {
+                    "id": "v1-v2-0",
+                    "latency": 12,
+                    "required_capacity": 10,
+                    "traversal_probability": 0
+                }
+            },
+            {
+                "cpId": "CP3",
+                "VNFLink": {
+                    "id": "v1-v4-0",
+                    "latency": 28,
+                    "required_capacity": 5,
+                    "traversal_probability": 0
+                }
+            }
+        ]
+      },
+      {
+        "VNFid": "v2",
+        "instances": 1,
+        "requirements": {
+          "cpu": 1,
+          "ram": 100,
+          "storage": 1
+        },
+        "failure_rate": 0,
+        "processing_latency": 0,
+        "CP": [
+            {
+                "cpId": "CP5",
+                "VNFLink": {
+                    "id": "v1-v2-0",
+                    "latency": 12,
+                    "required_capacity": 10,
+                    "traversal_probability": 0
+                }
+            },
+            {
+                "cpId": "CP6",
+                "VNFLink": {
+                    "id": "v1-v2-1",
+                    "latency": 12,
+                    "required_capacity": 30,
+                    "traversal_probability": 0
+                }
+            },
+            {
+                "cpId": "CP7",
+                "VNFLink": {
+                    "id": "v2-v3-0",
+                    "latency": 12,
+                    "required_capacity": 20,
+                    "traversal_probability": 0
+                }
+            }
+        ]
+      },
+      {
+        "VNFid": "v3",
+        "instances": 1,
+        "requirements": {
+          "cpu": 1,
+          "ram": 1,
+          "storage": 1
+        },
+        "failure_rate": 0,
+        "processing_latency": 0,
+        "CP": [
+            {
+                "cpId": "CP8",
+                "VNFLink": {
+                    "id": "v2-v3-0",
+                    "latency": 12,
+                    "required_capacity": 20,
+                    "traversal_probability": 0
+                }
+            },
+            {
+                "cpId": "CP9",
+                "VNFLink": {
+                    "id": "v3-v4-0",
+                    "latency": 40,
+                    "required_capacity": 10,
+                    "traversal_probability": 0
+                }
+            }
+        ]
+      },
+      {
+        "VNFid": "v4",
+        "instances": 1,
+        "requirements": {
+          "cpu": 1,
+          "ram": 1,
+          "storage": 1
+        },
+        "failure_rate": 0,
+        "processing_latency": 0,
+        "CP": [
+            {
+                "cpId": "CP10",
+                "VNFLink": {
+                    "id": "v3-v4-0",
+                    "latency": 40,
+                    "required_capacity": 10,
+                    "traversal_probability": 0
+                }
+            },
+            {
+                "cpId": "CP11",
+                "VNFLink": {
+                    "id": "v1-v4-0",
+                    "latency": 28,
+                    "required_capacity": 5,
+                    "traversal_probability": 0
+                }
+            }
+        ]
+      }
+    ],
+    "VNFLinks": [
+      {
+        "id": "v1-v2-0",
+        "latency": 12,
+        "required_capacity": 10,
+        "traversal_probability": 0
+      },
+      {
+        "id": "v1-v2-1",
+        "latency": 12,
+        "required_capacity": 30,
+        "traversal_probability": 0
+      },
+      {
+        "id": "v2-v3-0",
+        "latency": 12,
+        "required_capacity": 20,
+        "traversal_probability": 0
+      },
+      {
+        "id": "v3-v4-0",
+        "latency": 40,
+        "required_capacity": 10,
+        "traversal_probability": 0
+      },
+      {
+        "id": "v1-v4-0",
+        "latency": 28,
+        "required_capacity": 5,
+        "traversal_probability": 0
+      }
+    ],
+    "max_latency": 100,
+    "target_availability": 0,
+    "max_cost": 0
+  },
+  "callback": "string"
+}

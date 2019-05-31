@@ -1,0 +1,449 @@
+{
+    "nsd": {
+        "security": {
+            "certificate": "vCDN_NSD_CERTIFICATE",
+            "algorithm": "vCDN_NSD_ALGORITHM",
+            "signature": "vCDN_NSD_SIGNATURE"
+        },
+        "nsdName": "vCDN_ATOS_TIMEO",
+        "autoScalingRule": [
+            {
+                "ruleCondition": {
+                    "thresholdTime": 150,
+                    "cooldownTime": 60,
+                    "initialInstantiationLevel": "il_vCDN_small",
+                    "scaleInOperationType": "AND",
+                    "name": "cache1-overload",
+                    "scalingCriteria": [
+                        {
+                            "scaleOutRelationalOperation": "GT",
+                            "scaleOutThreshold": "75",
+                            "nsMonitoringParamRef": "mp1",
+                            "name": "cache-overload"
+                        },
+                        {
+                            "scaleOutRelationalOperation": "GT",
+                            "scaleOutThreshold": "75",
+                            "nsMonitoringParamRef": "mp2",
+                            "name": "cache-overload"
+                        }
+                    ],
+                    "enabled": true,
+                    "scalingType": "AUTOMATED_SCALING"
+                },
+                "ruleActions": [
+                    {
+                        "scaleType": "SCALE_NS",
+                        "scaleNsToLevelData": {
+                            "nsInstantiationLevel": "il_vCDN_big"
+                        }
+                    }
+                ],
+                "ruleId": "ar1"
+            },
+            {
+                "ruleCondition": {
+                    "thresholdTime": 150,
+                    "cooldownTime": 60,
+                    "initialInstantiationLevel": "il_vCDN_small",
+                    "name": "cache2-is_not_used",
+                    "scalingCriteria": [
+                        {
+                            "scaleOutRelationalOperation": "LE",
+                            "scaleOutThreshold": "20",
+                            "nsMonitoringParamRef": "mp1",
+                            "name": "cache-overload"
+                        },
+                        {
+                            "scaleOutRelationalOperation": "LE",
+                            "scaleOutThreshold": "20",
+                            "nsMonitoringParamRef": "mp2",
+                            "name": "cache-overload"
+                        }
+                    ],
+                    "scaleOutOperationType": "AND",
+                    "enabled": true,
+                    "scalingType": "AUTOMATED_SCALING"
+                },
+                "ruleActions": [
+                    {
+                        "scaleType": "SCALE_NS",
+                        "scaleNsToLevelData": {
+                            "nsInstantiationLevel": "il_vCDN_small"
+                        }
+                    }
+                ],
+                "ruleId": "ar2"
+            }
+        ],
+        "version": "0.2",
+        "nsdIdentifier": "vCDN_v02",
+        "monitoredInfo": [
+            {
+                "monitoringParameter": {
+                    "monitoringParameterId": "mp1",
+                    "performanceMetric": "VcpuUsageMean.spr21",
+                    "name": "cacheLoad"
+                }
+            },
+            {
+                "monitoringParameter": {
+                    "monitoringParameterId": "mp2",
+                    "performanceMetric": "VcpuUsageMean.webserver",
+                    "name": "webserverLoad"
+                }
+            }
+        ],
+        "designer": "Nextworks",
+        "vnfdId": [
+            "webserver",
+            "spr21",
+            "spr1"
+        ],
+        "nsdInvariantId": "vCDN_ATOS_TIMEO_v02",
+        "virtualLinkDesc": [
+            {
+                "connectivityType": {
+                    "layerProtocol": "IPV4"
+                },
+                "description": "Network for video distribution",
+                "virtualLinkDescId": "VideoDistribution",
+                "virtuaLinkDescVersion": "0.1",
+                "virtualLinkDescProvider": "NXW",
+                "virtualLinkDf": [
+                    {
+                        "bitrateRequirements": {
+                            "root": 2,
+                            "leaf": 2
+                        },
+                        "qos": {
+                            "packetDelayVariation": 0,
+                            "priority": 0,
+                            "latency": 0,
+                            "packetLossRatio": 0
+                        },
+                        "flavourId": "df_VideoDistribution",
+                        "serviceAvaibilityLevel": "LEVEL_1"
+                    }
+                ]
+            },
+            {
+                "connectivityType": {
+                    "layerProtocol": "IPV4"
+                },
+                "description": "Management network",
+                "virtualLinkDescId": "mgt",
+                "virtuaLinkDescVersion": "0.1",
+                "virtualLinkDescProvider": "NXW",
+                "virtualLinkDf": [
+                    {
+                        "bitrateRequirements": {
+                            "root": 4,
+                            "leaf": 1
+                        },
+                        "qos": {
+                            "packetDelayVariation": 0,
+                            "priority": 0,
+                            "latency": 0,
+                            "packetLossRatio": 0
+                        },
+                        "flavourId": "df_mgt",
+                        "serviceAvaibilityLevel": "LEVEL_1"
+                    }
+                ]
+            },
+            {
+                "connectivityType": {
+                    "layerProtocol": "IPV4"
+                },
+                "description": "Network for retrieving videos from origin server",
+                "virtualLinkDescId": "VideoData",
+                "virtuaLinkDescVersion": "0.1",
+                "virtualLinkDescProvider": "NXW",
+                "virtualLinkDf": [
+                    {
+                        "bitrateRequirements": {
+                            "root": 8,
+                            "leaf": 8
+                        },
+                        "qos": {
+                            "packetDelayVariation": 0,
+                            "priority": 0,
+                            "latency": 0,
+                            "packetLossRatio": 0
+                        },
+                        "flavourId": "df_VideoData",
+                        "serviceAvaibilityLevel": "LEVEL_1"
+                    }
+                ]
+            }
+        ],
+        "sapd": [
+            {
+                "sapAddressAssignment": false,
+                "layerProtocol": "IPV4",
+                "addressData": [
+                    {
+                        "iPAddressType": "IPv4",
+                        "iPAddressAssignment": false,
+                        "addressType": "IP_ADDRESS",
+                        "floatingIpActivated": true,
+                        "numberOfIpAddress": 1
+                    }
+                ],
+                "cpdId": "mgtSap",
+                "cpRole": "ROOT",
+                "nsVirtualLinkDescId": "mgt",
+                "description": "Management SAP for all the vCDN VNFs"
+            },
+            {
+                "sapAddressAssignment": false,
+                "layerProtocol": "IPV4",
+                "addressData": [
+                    {
+                        "iPAddressType": "IPv4",
+                        "iPAddressAssignment": false,
+                        "addressType": "IP_ADDRESS",
+                        "floatingIpActivated": true,
+                        "numberOfIpAddress": 1
+                    }
+                ],
+                "cpdId": "videoSap",
+                "cpRole": "ROOT",
+                "nsVirtualLinkDescId": "VideoDistribution",
+                "description": "SAP interconnecting to the CDN clients"
+            }
+        ],
+        "nsDf": [
+            {
+                "virtualLinkProfile": [
+                    {
+                        "virtualLinkProfileId": "vl_profile_mgt",
+                        "minBitrateRequirements": {
+                            "root": "1",
+                            "leaf": "1"
+                        },
+                        "virtualLinkDescId": "mgt",
+                        "flavourId": "df_mgt",
+                        "maxBitrateRequirements": {
+                            "root": "1",
+                            "leaf": "1"
+                        }
+                    },
+                    {
+                        "virtualLinkProfileId": "vl_profile_VideoData",
+                        "minBitrateRequirements": {
+                            "root": "1",
+                            "leaf": "1"
+                        },
+                        "virtualLinkDescId": "VideoData",
+                        "flavourId": "df_VideoData",
+                        "maxBitrateRequirements": {
+                            "root": "1",
+                            "leaf": "1"
+                        }
+                    },
+                    {
+                        "virtualLinkProfileId": "vl_profile_VideoDistribution",
+                        "minBitrateRequirements": {
+                            "root": "1",
+                            "leaf": "1"
+                        },
+                        "virtualLinkDescId": "VideoDistribution",
+                        "flavourId": "df_VideoDistribution",
+                        "maxBitrateRequirements": {
+                            "root": "1",
+                            "leaf": "1"
+                        }
+                    }
+                ],
+                "dependencies": [
+                    {
+                        "secondaryId": [
+                            "spr21_profile",
+                            "webserver_profile"
+                        ],
+                        "primaryId": [
+                            "spr1_profile"
+                        ]
+                    },
+                    {
+                        "secondaryId": [
+                            "webserver_profile"
+                        ],
+                        "primaryId": [
+                            "spr21_profile"
+                        ]
+                    }
+                ],
+                "nsInstantiationLevel": [
+                    {
+                        "nsLevelId": "il_vCDN_big",
+                        "vnfToLevelMapping": [
+                            {
+                                "vnfProfileId": "webserver_profile",
+                                "numberOfInstances": 1
+                            },
+                            {
+                                "vnfProfileId": "spr1_profile",
+                                "numberOfInstances": 1
+                            },
+                            {
+                                "vnfProfileId": "spr21_profile",
+                                "numberOfInstances": 2
+                            }
+                        ],
+                        "virtualLinkToLevelMapping": [
+                            {
+                                "virtualLinkProfileId": "vl_profile_mgt",
+                                "bitRateRequirements": {
+                                    "root": "1",
+                                    "leaf": "1"
+                                }
+                            },
+                            {
+                                "virtualLinkProfileId": "vl_profile_VideoData",
+                                "bitRateRequirements": {
+                                    "root": "1",
+                                    "leaf": "1"
+                                }
+                            },
+                            {
+                                "virtualLinkProfileId": "vl_profile_VideoDistribution",
+                                "bitRateRequirements": {
+                                    "root": "1",
+                                    "leaf": "1"
+                                }
+                            }
+                        ],
+                        "description": "Big instantiation level for the vCDN"
+                    },
+                    {
+                        "nsLevelId": "il_vCDN_small",
+                        "vnfToLevelMapping": [
+                            {
+                                "vnfProfileId": "webserver_profile",
+                                "numberOfInstances": 1
+                            },
+                            {
+                                "vnfProfileId": "spr1_profile",
+                                "numberOfInstances": 1
+                            },
+                            {
+                                "vnfProfileId": "spr21_profile",
+                                "numberOfInstances": 1
+                            }
+                        ],
+                        "virtualLinkToLevelMapping": [
+                            {
+                                "virtualLinkProfileId": "vl_profile_mgt",
+                                "bitRateRequirements": {
+                                    "root": "1",
+                                    "leaf": "1"
+                                }
+                            },
+                            {
+                                "virtualLinkProfileId": "vl_profile_VideoData",
+                                "bitRateRequirements": {
+                                    "root": "1",
+                                    "leaf": "1"
+                                }
+                            },
+                            {
+                                "virtualLinkProfileId": "vl_profile_VideoDistribution",
+                                "bitRateRequirements": {
+                                    "root": "1",
+                                    "leaf": "1"
+                                }
+                            }
+                        ],
+                        "description": "Small instantiation level for the vCDN"
+                    }
+                ],
+                "nsDfId": "df_vCDN",
+                "nsProfile": [
+                    {
+                        "minNumberOfInstances": 1,
+                        "nsProfileId": "ns_profile_vCdn_big",
+                        "nsDfId": "df_vCDN",
+                        "maxNumberOfInstances": 1,
+                        "nsInstantiationLevelId": "il_vCDN_big",
+                        "nsdId": "vCDN_v01"
+                    },
+                    {
+                        "minNumberOfInstances": 1,
+                        "nsProfileId": "ns_profile_vCdn_small",
+                        "nsDfId": "df_vCDN",
+                        "maxNumberOfInstances": 1,
+                        "nsInstantiationLevelId": "il_vCDN_small",
+                        "nsdId": "vCDN_v01"
+                    }
+                ],
+                "flavourKey": "df_vCDN",
+                "defaultNsInstantiationLevelId": "il_vCDN_small",
+                "vnfProfile": [
+                    {
+                        "minNumberOfInstances": 1,
+                        "flavourId": "df_webserver",
+                        "vnfProfileId": "webserver_profile",
+                        "maxNumberOfInstances": 1,
+                        "instantiationLevel": "il_webserver",
+                        "nsVirtualLinkConnectivity": [
+                            {
+                                "virtualLinkProfileId": "vl_profile_VideoDistribution",
+                                "cpdId": [
+                                    "webDistExt"
+                                ]
+                            }
+                        ],
+                        "vnfdId": "webserver"
+                    },
+                    {
+                        "minNumberOfInstances": 1,
+                        "flavourId": "df_spr1",
+                        "vnfProfileId": "spr1_profile",
+                        "maxNumberOfInstances": 1,
+                        "instantiationLevel": "il_spr1",
+                        "nsVirtualLinkConnectivity": [
+                            {
+                                "virtualLinkProfileId": "vl_profile_mgt",
+                                "cpdId": [
+                                    "spr1MgtExt"
+                                ]
+                            },
+                            {
+                                "virtualLinkProfileId": "vl_profile_VideoData",
+                                "cpdId": [
+                                    "spr1DataExt"
+                                ]
+                            }
+                        ],
+                        "vnfdId": "spr1"
+                    },
+                    {
+                        "minNumberOfInstances": 1,
+                        "flavourId": "df_spr21",
+                        "vnfProfileId": "spr21_profile",
+                        "maxNumberOfInstances": 2,
+                        "instantiationLevel": "il_spr21",
+                        "nsVirtualLinkConnectivity": [
+                            {
+                                "virtualLinkProfileId": "vl_profile_VideoDistribution",
+                                "cpdId": [
+                                    "spr21DistExt"
+                                ]
+                            },
+                            {
+                                "virtualLinkProfileId": "vl_profile_VideoData",
+                                "cpdId": [
+                                    "spr21DataExt"
+                                ]
+                            }
+                        ],
+                        "vnfdId": "spr21"
+                    }
+                ]
+            }
+        ]
+    }
+}

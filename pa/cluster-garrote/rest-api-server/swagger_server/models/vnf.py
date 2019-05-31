@@ -6,7 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
-from swagger_server.models.location import Location  # noqa: F401,E501
+from swagger_server.models.cp import CP  # noqa: F401,E501
 from swagger_server.models.vnf_requirements import VNFRequirements  # noqa: F401,E501
 from swagger_server import util
 
@@ -17,15 +17,15 @@ class VNF(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, vn_fid=None, instances=None, location=None, requirements=None, failure_rate=None, processing_latency=None):  # noqa: E501
+    def __init__(self, vn_fid=None, cp=None, instances=None, requirements=None, failure_rate=None, processing_latency=None):  # noqa: E501
         """VNF - a model defined in Swagger
 
         :param vn_fid: The vn_fid of this VNF.  # noqa: E501
         :type vn_fid: str
+        :param cp: The cp of this VNF.  # noqa: E501
+        :type cp: List[CP]
         :param instances: The instances of this VNF.  # noqa: E501
         :type instances: float
-        :param location: The location of this VNF.  # noqa: E501
-        :type location: Location
         :param requirements: The requirements of this VNF.  # noqa: E501
         :type requirements: VNFRequirements
         :param failure_rate: The failure_rate of this VNF.  # noqa: E501
@@ -35,8 +35,8 @@ class VNF(Model):
         """
         self.swagger_types = {
             'vn_fid': str,
+            'cp': List[CP],
             'instances': float,
-            'location': Location,
             'requirements': VNFRequirements,
             'failure_rate': float,
             'processing_latency': float
@@ -44,16 +44,16 @@ class VNF(Model):
 
         self.attribute_map = {
             'vn_fid': 'VNFid',
+            'cp': 'CP',
             'instances': 'instances',
-            'location': 'location',
             'requirements': 'requirements',
             'failure_rate': 'failure_rate',
             'processing_latency': 'processing_latency'
         }
 
         self._vn_fid = vn_fid
+        self._cp = cp
         self._instances = instances
-        self._location = location
         self._requirements = requirements
         self._failure_rate = failure_rate
         self._processing_latency = processing_latency
@@ -95,6 +95,27 @@ class VNF(Model):
         self._vn_fid = vn_fid
 
     @property
+    def cp(self):
+        """Gets the cp of this VNF.
+
+
+        :return: The cp of this VNF.
+        :rtype: List[CP]
+        """
+        return self._cp
+
+    @cp.setter
+    def cp(self, cp):
+        """Sets the cp of this VNF.
+
+
+        :param cp: The cp of this VNF.
+        :type cp: List[CP]
+        """
+
+        self._cp = cp
+
+    @property
     def instances(self):
         """Gets the instances of this VNF.
 
@@ -116,27 +137,6 @@ class VNF(Model):
         """
 
         self._instances = instances
-
-    @property
-    def location(self):
-        """Gets the location of this VNF.
-
-
-        :return: The location of this VNF.
-        :rtype: Location
-        """
-        return self._location
-
-    @location.setter
-    def location(self, location):
-        """Sets the location of this VNF.
-
-
-        :param location: The location of this VNF.
-        :type location: Location
-        """
-
-        self._location = location
 
     @property
     def requirements(self):

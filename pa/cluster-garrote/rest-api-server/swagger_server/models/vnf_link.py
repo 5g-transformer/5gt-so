@@ -15,41 +15,36 @@ class VNFLink(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, source=None, destination=None, required_capacity=None, traversal_probability=None):  # noqa: E501
+    def __init__(self, id=None, required_capacity=None, traversal_probability=None, latency=None):  # noqa: E501
         """VNFLink - a model defined in Swagger
 
         :param id: The id of this VNFLink.  # noqa: E501
         :type id: str
-        :param source: The source of this VNFLink.  # noqa: E501
-        :type source: str
-        :param destination: The destination of this VNFLink.  # noqa: E501
-        :type destination: str
         :param required_capacity: The required_capacity of this VNFLink.  # noqa: E501
         :type required_capacity: float
         :param traversal_probability: The traversal_probability of this VNFLink.  # noqa: E501
         :type traversal_probability: float
+        :param latency: The latency of this VNFLink.  # noqa: E501
+        :type latency: float
         """
         self.swagger_types = {
             'id': str,
-            'source': str,
-            'destination': str,
             'required_capacity': float,
-            'traversal_probability': float
+            'traversal_probability': float,
+            'latency': float
         }
 
         self.attribute_map = {
             'id': 'id',
-            'source': 'source',
-            'destination': 'destination',
             'required_capacity': 'required_capacity',
-            'traversal_probability': 'traversal_probability'
+            'traversal_probability': 'traversal_probability',
+            'latency': 'latency'
         }
 
         self._id = id
-        self._source = source
-        self._destination = destination
         self._required_capacity = required_capacity
         self._traversal_probability = traversal_probability
+        self._latency = latency
 
     @classmethod
     def from_dict(cls, dikt):
@@ -86,56 +81,6 @@ class VNFLink(Model):
             raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
         self._id = id
-
-    @property
-    def source(self):
-        """Gets the source of this VNFLink.
-
-        Source VNF id  # noqa: E501
-
-        :return: The source of this VNFLink.
-        :rtype: str
-        """
-        return self._source
-
-    @source.setter
-    def source(self, source):
-        """Sets the source of this VNFLink.
-
-        Source VNF id  # noqa: E501
-
-        :param source: The source of this VNFLink.
-        :type source: str
-        """
-        if source is None:
-            raise ValueError("Invalid value for `source`, must not be `None`")  # noqa: E501
-
-        self._source = source
-
-    @property
-    def destination(self):
-        """Gets the destination of this VNFLink.
-
-        Destination VNF id  # noqa: E501
-
-        :return: The destination of this VNFLink.
-        :rtype: str
-        """
-        return self._destination
-
-    @destination.setter
-    def destination(self, destination):
-        """Sets the destination of this VNFLink.
-
-        Destination VNF id  # noqa: E501
-
-        :param destination: The destination of this VNFLink.
-        :type destination: str
-        """
-        if destination is None:
-            raise ValueError("Invalid value for `destination`, must not be `None`")  # noqa: E501
-
-        self._destination = destination
 
     @property
     def required_capacity(self):
@@ -182,3 +127,26 @@ class VNFLink(Model):
         """
 
         self._traversal_probability = traversal_probability
+
+    @property
+    def latency(self):
+        """Gets the latency of this VNFLink.
+
+        Maximum latency in ms  # noqa: E501
+
+        :return: The latency of this VNFLink.
+        :rtype: float
+        """
+        return self._latency
+
+    @latency.setter
+    def latency(self, latency):
+        """Sets the latency of this VNFLink.
+
+        Maximum latency in ms  # noqa: E501
+
+        :param latency: The latency of this VNFLink.
+        :type latency: float
+        """
+
+        self._latency = latency

@@ -15,7 +15,7 @@ class VNFRequirements(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, cpu=None, ram=None, storage=None):  # noqa: E501
+    def __init__(self, cpu=None, ram=None, storage=None, mec=None):  # noqa: E501
         """VNFRequirements - a model defined in Swagger
 
         :param cpu: The cpu of this VNFRequirements.  # noqa: E501
@@ -24,22 +24,27 @@ class VNFRequirements(Model):
         :type ram: float
         :param storage: The storage of this VNFRequirements.  # noqa: E501
         :type storage: float
+        :param mec: The mec of this VNFRequirements.  # noqa: E501
+        :type mec: bool
         """
         self.swagger_types = {
             'cpu': float,
             'ram': float,
-            'storage': float
+            'storage': float,
+            'mec': bool
         }
 
         self.attribute_map = {
             'cpu': 'cpu',
             'ram': 'ram',
-            'storage': 'storage'
+            'storage': 'storage',
+            'mec': 'mec'
         }
 
         self._cpu = cpu
         self._ram = ram
         self._storage = storage
+        self._mec = mec
 
     @classmethod
     def from_dict(cls, dikt):
@@ -126,3 +131,26 @@ class VNFRequirements(Model):
             raise ValueError("Invalid value for `storage`, must not be `None`")  # noqa: E501
 
         self._storage = storage
+
+    @property
+    def mec(self):
+        """Gets the mec of this VNFRequirements.
+
+        Requirement that MEC is supported  # noqa: E501
+
+        :return: The mec of this VNFRequirements.
+        :rtype: bool
+        """
+        return self._mec
+
+    @mec.setter
+    def mec(self, mec):
+        """Sets the mec of this VNFRequirements.
+
+        Requirement that MEC is supported  # noqa: E501
+
+        :param mec: The mec of this VNFRequirements.
+        :type mec: bool
+        """
+
+        self._mec = mec

@@ -6,6 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
+from swagger_server.models.sap import SAP  # noqa: F401,E501
 from swagger_server.models.vnf import VNF  # noqa: F401,E501
 from swagger_server.models.vnf_link import VNFLink  # noqa: F401,E501
 from swagger_server import util
@@ -17,7 +18,7 @@ class NetworkService(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, vn_fs=None, vnf_links=None, max_latency=None, target_availability=None, max_cost=None):  # noqa: E501
+    def __init__(self, id=None, name=None, vn_fs=None, vnf_links=None, sap=None, max_latency=None, target_availability=None, max_cost=None):  # noqa: E501
         """NetworkService - a model defined in Swagger
 
         :param id: The id of this NetworkService.  # noqa: E501
@@ -28,6 +29,8 @@ class NetworkService(Model):
         :type vn_fs: List[VNF]
         :param vnf_links: The vnf_links of this NetworkService.  # noqa: E501
         :type vnf_links: List[VNFLink]
+        :param sap: The sap of this NetworkService.  # noqa: E501
+        :type sap: List[SAP]
         :param max_latency: The max_latency of this NetworkService.  # noqa: E501
         :type max_latency: float
         :param target_availability: The target_availability of this NetworkService.  # noqa: E501
@@ -40,6 +43,7 @@ class NetworkService(Model):
             'name': str,
             'vn_fs': List[VNF],
             'vnf_links': List[VNFLink],
+            'sap': List[SAP],
             'max_latency': float,
             'target_availability': float,
             'max_cost': float
@@ -50,6 +54,7 @@ class NetworkService(Model):
             'name': 'name',
             'vn_fs': 'VNFs',
             'vnf_links': 'VNFLinks',
+            'sap': 'SAP',
             'max_latency': 'max_latency',
             'target_availability': 'target_availability',
             'max_cost': 'max_cost'
@@ -59,6 +64,7 @@ class NetworkService(Model):
         self._name = name
         self._vn_fs = vn_fs
         self._vnf_links = vnf_links
+        self._sap = sap
         self._max_latency = max_latency
         self._target_availability = target_availability
         self._max_cost = max_cost
@@ -144,8 +150,6 @@ class NetworkService(Model):
         :param vn_fs: The vn_fs of this NetworkService.
         :type vn_fs: List[VNF]
         """
-        if vn_fs is None:
-            raise ValueError("Invalid value for `vn_fs`, must not be `None`")  # noqa: E501
 
         self._vn_fs = vn_fs
 
@@ -169,10 +173,29 @@ class NetworkService(Model):
         :param vnf_links: The vnf_links of this NetworkService.
         :type vnf_links: List[VNFLink]
         """
-        if vnf_links is None:
-            raise ValueError("Invalid value for `vnf_links`, must not be `None`")  # noqa: E501
 
         self._vnf_links = vnf_links
+
+    @property
+    def sap(self):
+        """Gets the sap of this NetworkService.
+
+
+        :return: The sap of this NetworkService.
+        :rtype: List[SAP]
+        """
+        return self._sap
+
+    @sap.setter
+    def sap(self, sap):
+        """Sets the sap of this NetworkService.
+
+
+        :param sap: The sap of this NetworkService.
+        :type sap: List[SAP]
+        """
+
+        self._sap = sap
 
     @property
     def max_latency(self):

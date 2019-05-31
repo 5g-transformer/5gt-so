@@ -125,7 +125,7 @@ class NFVIPoP(Model):
     def gw_ip_address(self):
         """Gets the gw_ip_address of this NFVIPoP.
 
-        Gateway IP address  # noqa: E501
+        Gateway IP addresses  # noqa: E501
 
         :return: The gw_ip_address of this NFVIPoP.
         :rtype: str
@@ -136,7 +136,7 @@ class NFVIPoP(Model):
     def gw_ip_address(self, gw_ip_address):
         """Sets the gw_ip_address of this NFVIPoP.
 
-        Gateway IP address  # noqa: E501
+        Gateway IP addresses  # noqa: E501
 
         :param gw_ip_address: The gw_ip_address of this NFVIPoP.
         :type gw_ip_address: str

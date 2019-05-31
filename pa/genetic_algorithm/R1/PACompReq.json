@@ -1,0 +1,181 @@
+{
+  "ReqId": "1234",
+  "nfvi": {
+    "resource_types": ["cpu","memory","storage"],
+    "NFVIPoPs": [
+      {
+        "id": "pop1",
+        "location": {
+          "center": {
+            "longitude": 0,
+            "latitude": 0
+          },
+          "radius": 0
+        },
+        "gw_ip_address": "192.168.1.1",
+        "capabilities": {
+          "cpu": 10,
+          "ram": 100,
+          "storage": 1000,
+          "bandwidth": 10,
+	  "mec": false
+        },
+        "availableCapabilities": {
+          "cpu": 20,
+          "ram": 10,
+          "storage": 100,
+          "bandwidth": 1
+        },
+        "failure_rate": 0.5,
+        "internal_latency": 1
+      },
+      {
+        "id": "pop2",
+        "location": {
+          "center": {
+            "longitude": 0,
+            "latitude": 0
+          },
+          "radius": 0
+        },
+        "gw_ip_address": "192.168.1.2",
+        "capabilities": {
+          "cpu": 10,
+          "ram": 100,
+          "storage": 1000,
+          "bandwidth": 10,
+	  "mec": true
+        },
+        "availableCapabilities": {
+          "cpu": 2,
+          "ram": 10,
+          "storage": 100,
+          "bandwidth": 1
+        },
+        "failure_rate": 0.5,
+        "internal_latency": 1
+      }
+
+    ],
+    "LLs": [
+      {
+        "LLid": "1",
+        "capacity": {
+          "total": 100,
+          "available": 10
+        },
+        "delay": 10,
+        "source": {
+          "id": "pop1",
+          "GwIpAddress": "192.168.1.1"
+        },
+        "destination": {
+          "id": "pop2",
+          "GwIpAddress": "192.168.1.2"
+        }
+      }
+    ],
+    "VNFCosts": [
+      {
+        "cost": 1,
+        "vnfid": "v1",
+        "NFVIPoPid": "pop1"
+      },
+      {
+        "cost": 1,
+        "vnfid": "v2",
+        "NFVIPoPid": "pop1"
+      },
+      {
+        "cost": 1,
+        "vnfid": "v1",
+        "NFVIPoPid": "pop2"
+      },
+      {
+        "cost": 1,
+        "vnfid": "v2",
+        "NFVIPoPid": "pop2"
+      }
+    ],
+    "LLCosts": [
+      {
+        "cost": 1,
+        "LL": "1"
+      }
+    ],
+    "VLCosts": [
+      {
+        "cost": 1,
+        "NFVIPoP": "pop1"
+      },
+      {
+        "cost": 1,
+        "NFVIPoP": "pop2"
+      }
+    ]
+  },
+  "nsd": {
+    "id": "s1",
+    "name": "s1",
+    "VNFs": [
+      {
+        "VNFid": "v1",
+        "instances": 1,
+        "location": {
+          "center": {
+            "longitude": 0,
+            "latitude": 0
+          },
+          "radius": 0
+        },
+        "requirements": {
+          "cpu": 1,
+          "ram": 1,
+          "storage": 1,
+          "mec": true
+        },
+        "failure_rate": 0,
+        "processing_latency": 5
+      },
+      {
+        "VNFid": "v2",
+        "instances": 1,
+        "location": {
+          "center": {
+            "longitude": 0,
+            "latitude": 0
+          },
+          "radius": 0
+        },
+        "requirements": {
+          "cpu": 1,
+          "ram": 1,
+          "storage": 1,
+          "mec": false
+        },
+        "failure_rate": 0,
+        "processing_latency": 5
+      }
+    ],
+    "VNFLinks": [
+      {
+        "id": "vl1",
+        "source": "v1",
+        "destination": "v2",
+        "required_capacity": 2,
+        "traversal_probability": 1
+      },
+      {
+        "id": "vl1",
+        "source": "v1",
+        "destination": "None",
+        "required_capacity": 0,
+        "traversal_probability": 1
+      }
+    ],
+    "max_latency": 100,
+    "target_availability": 0,
+    "max_cost": 100
+  },
+  "callback": "http://127.0.0.1:9999/5gt/so/v1/PACompResp"
+}
