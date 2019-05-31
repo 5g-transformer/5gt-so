@@ -1,6 +1,8 @@
 # 5gt-so
 ## Release 2 Features
 
+
+
 ### Extended REST-based NBI offering catalogue and lifecycle management functions:
 - NFV-NS scaling
 - NFV-NS lifecycle management (ID creation, instantiation, operation status, NS info, termination)
@@ -45,4 +47,10 @@
 
 ### Service composition and federation support for deployment of NFV-NSs in one or multiple domains (involving different 5GT-SOs)
 
+### MEC support through:
+- AppD onboarding  as part of the integration with the VS
+- extending the placement algorithms for MEC AppDs
+- integration with the MTP on obtaining MEC abstraction and instantiating MEC AppDs
+
+### 5GT-SO graphical user interface (GUI) to visualize NFV-NSs, placement, database content, NBI, etc.
 
