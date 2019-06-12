@@ -1,8 +1,8 @@
 ---
 swagger: "2.0"
 info:
-  description: "REST-API server for the North Bound Interface\
-    \ of the 5GT-SO. Find more at http://5g-transformer.eu"
+  description: "REST-API server for the North Bound Interface of the 5GT-SO. Find\
+    \ more at http://5g-transformer.eu"
   version: "1.0"
   title: "5GT-SO NBI"
 host: "localhost:8080"
@@ -99,6 +99,39 @@ paths:
         500:
           description: "Internal Error"
       x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+  /ns/{nsId}/scale:
+    put:
+      tags:
+      - "network service"
+      summary: "Scales the Network Service referenced by nsId"
+      description: ""
+      operationId: "scale_ns"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nsId"
+        in: "path"
+        description: "Identifier of the NS to be scaled"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Scale information"
+        required: true
+        schema:
+          $ref: "#/definitions/NsScaleRequest"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/inline_response_200"
+        400:
+          description: "Bad Request"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
   /operation/{operationId}:
     get:
       tags:
@@ -170,7 +203,37 @@ paths:
           description: "Successful Operation"
           schema:
             type: "object"
-            properties: {}
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+    delete:
+      tags:
+      - "network service"
+      summary: "Delete the onboarded network service referenced by nsdId"
+      description: ""
+      operationId: "delete_nsd"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nsdId"
+        in: "path"
+        description: "ID of the network service descriptor"
+        required: true
+        type: "string"
+      - name: "version"
+        in: "path"
+        description: "Version of the network service descriptor"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful Operation"
+          schema:
+            $ref: "#/definitions/inline_response_201"
         404:
           description: "Not Found"
         500:
@@ -202,7 +265,184 @@ paths:
           description: "Successful Operation"
           schema:
             type: "object"
-            properties: {}
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+    delete:
+      tags:
+      - "network service"
+      summary: "Deletes the specified virtual network function"
+      description: ""
+      operationId: "delete_vnfd"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "vnfdId"
+        in: "path"
+        description: "ID of the virtual network function descriptor"
+        required: true
+        type: "string"
+      - name: "version"
+        in: "path"
+        description: "Version of the virtual network function descriptor"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful Operation"
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+  /ns/appd/{appdId}/{version}:
+    get:
+      tags:
+      - "network service"
+      summary: "Returns information of the MEC app function referenced by appdId"
+      description: ""
+      operationId: "query_appd"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "appdId"
+        in: "path"
+        description: "ID of the MEC app descriptor"
+        required: true
+        type: "string"
+      - name: "version"
+        in: "path"
+        description: "Version of the MEC app descriptor"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful Operation"
+          schema:
+            type: "object"
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+    delete:
+      tags:
+      - "network service"
+      summary: "Deletes the specified MEC application"
+      description: ""
+      operationId: "delete_appd"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "appdId"
+        in: "path"
+        description: "ID of the MEC app descriptor"
+        required: true
+        type: "string"
+      - name: "version"
+        in: "path"
+        description: "Version of the MEC app descriptor"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful Operation"
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+  /ns/vnfdManagement/vnfPackage:
+    post:
+      tags:
+      - "network service"
+      summary: "Returns information of the onboarded virtual network function"
+      description: ""
+      operationId: "onboard_vnfd"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Information about the VNF descriptor"
+        required: true
+        schema:
+          $ref: "#/definitions/VnfOnboardingRequest"
+      responses:
+        200:
+          description: "Successful Operation"
+          schema:
+            $ref: "#/definitions/VnfOnboardingReply"
+        400:
+          description: "Bad Request"
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+  /ns/appdManagement/appPackage:
+    post:
+      tags:
+      - "network service"
+      summary: "Returns information of the onboarded MEC application"
+      description: ""
+      operationId: "onboard_appd"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Information about the MEC APP descriptor"
+        required: true
+        schema:
+          $ref: "#/definitions/AppOnboardingRequest"
+      responses:
+        200:
+          description: "Successful Operation"
+          schema:
+            $ref: "#/definitions/AppOnboardingReply"
+        400:
+          description: "Bad Request"
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Error"
+      x-swagger-router-controller: "swagger_server.controllers.network_service_controller"
+  /ns/nsdManagement/nsd:
+    post:
+      tags:
+      - "network service"
+      summary: "Returns information of the onboarded network service"
+      description: ""
+      operationId: "onboard_nsd"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "The NSD descriptor"
+        required: true
+        schema:
+          type: "object"
+      responses:
+        200:
+          description: "Successful Operation"
+          schema:
+            $ref: "#/definitions/NsOnboardingReply"
+        400:
+          description: "Bad Request"
         404:
           description: "Not Found"
         500:
@@ -221,12 +461,12 @@ definitions:
         type: "string"
       nsDescription:
         type: "string"
+    xml:
+      name: "NsIdentifierRequest"
     example:
       nsdId: "nsdId"
       nsName: "nsName"
       nsDescription: "nsDescription"
-    xml:
-      name: "NsIdentifierRequest"
   NsInfo:
     type: "object"
     properties:
@@ -257,9 +497,353 @@ definitions:
         type: "string"
       nsInstantiationLevelId:
         type: "string"
+      sapData:
+        type: "array"
+        items:
+          $ref: "#/definitions/SapData_im"
+      pnfInfo:
+        type: "array"
+        items:
+          $ref: "#/definitions/PnfInfo_im"
+      vnfInstanceData:
+        type: "array"
+        items:
+          $ref: "#/definitions/VnfInstanceData_im"
+      nestedNsInstanceId:
+        type: "array"
+        items:
+          type: "string"
+      locationConstraints:
+        type: "array"
+        items:
+          $ref: "#/definitions/VnfLocationConstraint_im"
+      additionalParamForNs:
+        type: "object"
+        additionalProperties:
+          type: "string"
+      additionalParamForVnf:
+        type: "array"
+        items:
+          $ref: "#/definitions/ParamsForVnf_im"
+      startTime:
+        type: "string"
+      additionalAffinityOrAntiAffinityRule:
+        type: "array"
+        items:
+          $ref: "#/definitions/AffinityOrAntiAffinityRule_im"
     example:
       flavourId: "flavourId"
       nsInstantiationLevelId: "nsInstantiationLevelId"
+  VnfOnboardingRequest:
+    type: "object"
+    required:
+    - "checksum"
+    - "name"
+    - "provider"
+    - "version"
+    - "vnfPackagePath"
+    properties:
+      name:
+        type: "string"
+      version:
+        type: "string"
+      provider:
+        type: "string"
+      checksum:
+        type: "string"
+      vnfPackagePath:
+        type: "string"
+      userDefinedData:
+        $ref: "#/definitions/userDefinedDatadef"
+    example:
+      name: "spr1"
+      version: "0.2"
+      provider: "ATOS"
+      checksum: "VNFD_TEST_001_checksum"
+      userDefinedData:
+        pwd: "secret"
+      vnfPackagePath: "http://{VS-IP}/CDN_SPR1_VNFD_0_2.tar"
+  VnfOnboardingReply:
+    type: "object"
+    required:
+    - "onboardedVnfPkgInfoId"
+    - "vnfdId"
+    properties:
+      onboardedVnfPkgInfoId:
+        type: "string"
+      vnfdId:
+        type: "string"
+    example:
+      onboardedVnfPkgInfoId: "spr1"
+      vnfId: "spr1"
+  AppOnboardingRequest:
+    type: "object"
+    required:
+    - "appPackagePath"
+    - "checksum"
+    - "name"
+    - "provider"
+    - "version"
+    properties:
+      name:
+        type: "string"
+      version:
+        type: "string"
+      provider:
+        type: "string"
+      checksum:
+        type: "string"
+      appPackagePath:
+        type: "string"
+      userDefinedData:
+        $ref: "#/definitions/userDefinedDatadef"
+    example:
+      name: "MECAppRobot"
+      version: "1.0"
+      provider: "pfrag"
+      checksum: "APPD_TEST_001_checksum"
+      userDefinedData:
+        pwd: "secret"
+      appPackagePath: "http://{VS-IP}/appd_1_0.tar"
+  AppOnboardingReply:
+    type: "object"
+    required:
+    - "appDId"
+    - "onboardedAppPkgId"
+    properties:
+      onboardedAppPkgId:
+        type: "string"
+      appDId:
+        type: "string"
+    example:
+      onboardedAppPkgId: "6ee7f285-8247-4693-af55-6ad6c454724e"
+      appDId: "robot-control-app"
+  SapData_im:
+    type: "object"
+    required:
+    - "description"
+    - "sapName"
+    - "sapdId"
+    properties:
+      sapdId:
+        type: "string"
+      sapName:
+        type: "string"
+      description:
+        type: "string"
+      address:
+        type: "string"
+  PnfInfo_im:
+    type: "object"
+    required:
+    - "cpInfo"
+    - "pnfName"
+    - "pnfdInfoId"
+    properties:
+      pnfName:
+        type: "string"
+      pnfdInfoId:
+        type: "string"
+      cpInfo:
+        type: "array"
+        items:
+          $ref: "#/definitions/PnfExtCpInfo_im"
+  PnfExtCpInfo_im:
+    type: "object"
+    required:
+    - "address"
+    - "cpdId"
+    properties:
+      cpdId:
+        type: "string"
+      address:
+        type: "string"
+  VnfInstanceData_im:
+    type: "object"
+    required:
+    - "vnfInstanceId"
+    properties:
+      vnfInstanceId:
+        type: "string"
+      vnfProfileId:
+        type: "string"
+  VnfLocationConstraint_im:
+    type: "object"
+    required:
+    - "locationConstraints"
+    - "vnfProfileId"
+    properties:
+      vnfProfileId:
+        type: "string"
+      locationConstraints:
+        type: "string"
+  ParamsForVnf_im:
+    type: "object"
+    required:
+    - "vnfProfileId"
+    properties:
+      vnfProfileId:
+        type: "string"
+      additionalParam:
+        type: "object"
+        additionalProperties:
+          type: "string"
+  AffinityOrAntiAffinityRule_im:
+    type: "object"
+    required:
+    - "affinityOrAntiAffinity"
+    - "descriptorId"
+    - "scope"
+    properties:
+      descriptorId:
+        type: "string"
+      vnfInstanceId:
+        type: "string"
+      affinityOrAntiAffinity:
+        type: "boolean"
+      scope:
+        type: "string"
+  NsOnboardingReply:
+    type: "object"
+    required:
+    - "nsdInfoId"
+    properties:
+      nsdInfoId:
+        type: "string"
+    example:
+      nsdInfoId: "vCDN_v02"
+  NsScaleRequest:
+    type: "object"
+    required:
+    - "scaleType"
+    properties:
+      scaleType:
+        type: "string"
+        enum:
+        - "SCALE_NS"
+        - "SCALE_VNF"
+      scaleNsData:
+        $ref: "#/definitions/ScaleNsData_im"
+      scaleVnfData:
+        type: "array"
+        items:
+          $ref: "#/definitions/ScaleVnfData_im"
+      scaleTime:
+        type: "string"
+  ScaleNsData_im:
+    type: "object"
+    properties:
+      vnfInstanceToBeAdded:
+        type: "array"
+        items:
+          $ref: "#/definitions/VnfInstanceData_im"
+      vnfInstanceToBeRemoved:
+        type: "array"
+        items:
+          type: "string"
+      scaleNsByStepsData:
+        $ref: "#/definitions/ScaleNsByStepsData_im"
+      scaleNsToLevelData:
+        $ref: "#/definitions/ScaleNsToLevelData_im"
+      additionalParamForNs:
+        type: "object"
+        additionalProperties:
+          type: "string"
+  ScaleNsByStepsData_im:
+    type: "object"
+    required:
+    - "aspectId"
+    - "scalingDirection"
+    properties:
+      scalingDirection:
+        type: "string"
+        enum:
+        - "SCALE_IN"
+        - "SCALE_OUT"
+      aspectId:
+        type: "string"
+      numberOfSteps:
+        type: "integer"
+  ScaleNsToLevelData_im:
+    type: "object"
+    properties:
+      nsInstantiationLevel:
+        type: "string"
+      nsScaleInfo:
+        type: "array"
+        items:
+          $ref: "#/definitions/NsScaleInfo_im"
+  NsScaleInfo_im:
+    type: "object"
+    required:
+    - "nsScaleLevelId"
+    - "nsScalingAspectId"
+    properties:
+      nsScalingAspectId:
+        type: "string"
+      nsScaleLevelId:
+        type: "string"
+  userDefinedDatadef:
+    type: "object"
+    additionalProperties:
+      type: "string"
+  ScaleVnfData_im:
+    type: "object"
+    required:
+    - "type"
+    - "vnfInstanceId"
+    properties:
+      vnfInstanceId:
+        type: "string"
+      type:
+        type: "string"
+        enum:
+        - "SCALE_OUT"
+        - "SCALE_IN"
+        - "SCALE_UP"
+        - "SCALE_DOWN"
+      scaleToLevelData:
+        $ref: "#/definitions/ScaleToLevelData_im"
+      scaleByStepData:
+        $ref: "#/definitions/ScaleByStepData_im"
+  ScaleToLevelData_im:
+    type: "object"
+    properties:
+      instantiationLevelId:
+        type: "string"
+      scaleInfo:
+        type: "array"
+        items:
+          $ref: "#/definitions/ScaleInfo_im"
+      additionalParam:
+        type: "string"
+  ScaleInfo_im:
+    type: "object"
+    required:
+    - "aspectId"
+    - "scaleLevel"
+    properties:
+      aspectId:
+        type: "string"
+      scaleLevel:
+        type: "integer"
+  ScaleByStepData_im:
+    type: "object"
+    required:
+    - "aspectId"
+    - "type"
+    properties:
+      type:
+        type: "string"
+        enum:
+        - "SCALE_IN"
+        - "SCALE_OUT"
+      aspectId:
+        type: "string"
+      numberOfSteps:
+        type: "integer"
+      additionalParam:
+        type: "string"
   inline_response_201:
     required:
     - "nsId"
