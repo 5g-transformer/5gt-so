@@ -60,13 +60,25 @@ def amending_pa_output(nsd_info, placement_info):
     dict
         Dictionary with the placement_info containing all virtual links, including the ones that are not connecting VNFs.
     """
+    list_of_vnfs = []
+    for elem in nsd_info['VNFs']:
+        list_of_vnfs.append(elem['VNFid'])
+    for elem in placement_info['usedNFVIPops']:
+
+        new_mappedvnfs =[] 
+        for vnf in elem['mappedVNFs']:
+            # log_queue.put(["DEBUG", "la vnf que miro es: %s"%vnf])
+            if vnf in list_of_vnfs:
+                new_mappedvnfs.append(vnf)
+        elem['mappedVNFs'] = new_mappedvnfs
+
     VNF_links_in_nsd = {}
     VNF_links_in_pa_output = []
     for vl in nsd_info["VNFLinks"]:
-        VNF_links_in_nsd[vl["id"]] = vl['source'] 
+        VNF_links_in_nsd[vl["VLid"]] = vl['source'] 
+        VNF_links_in_nsd[vl["id"]] = vl['source']
         #if the vl is not connecting vnf's, the vl will have destination field set to None
     for elem in placement_info.keys():
-        # log_queue.put(["DEBUG", "el valor elem: %s"% elem])
         if (elem == 'usedVLs' or elem == 'usedLLs') : 
             if placement_info[elem]:
                 # the list is not empty
@@ -75,7 +87,6 @@ def amending_pa_output(nsd_info, placement_info):
                         VNF_links_in_pa_output.append(vl)
     pop_id = None
     for vl in VNF_links_in_nsd.keys():
-        # log_queue.put(["DEBUG", "el valor vl: %s"% vl])
         if vl not in VNF_links_in_pa_output:
             # we are missing this link, we have to look for the associated vnf, check where it is
             # and then update the mappedVLs field of used VLs
@@ -83,9 +94,20 @@ def amending_pa_output(nsd_info, placement_info):
                if VNF_links_in_nsd[vl] in pop['mappedVNFs']:
                    pop_id = pop["NFVIPoPID"]
                    # we have found our element
+                   present = False
                    for vl_p in placement_info['usedVLs']:
-                       if vl_p["NFVIPoPID"] == pop_id:
-                           vl_p['mappedVLs'].append(vl)
+                       if 'NFVIPoPID' in vl_p.keys(): #R1
+                           if vl_p["NFVIPoPID"] == pop_id:
+                               present = True
+                               vl_p['mappedVLs'].append(vl)
+                       else: #R2
+                           if vl_p["NFVIPoP"] == pop_id:
+                               present = True
+                               vl_p['mappedVLs'].append(vl)
+
+                   if not present:
+                       #the vl is not mapped anywhere and we need to create an entry for this in the usedVLs
+                       placement_info['usedVLs'].append({'NFVIPoP': pop_id, 'mappedVLs': [vl]})
     return placement_info
 
 def extract_nsd_info_for_pa(nsd_json, vnfds_json, body):
@@ -156,7 +178,7 @@ def extract_nsd_info_for_pa(nsd_json, vnfds_json, body):
 
 
                     for vId in vnfds.keys():
-                        log_queue.put(["DEBUG", "the value of vId is: %s"%(vId)])
+                        # log_queue.put(["DEBUG", "the value of vId is: %s"%(vId)])
                         if (vId == vnfdId):
                             for df in vnfds[vId]["deploymentFlavour"]:
                                 if (df["flavourId"] == vnfdDf):
@@ -249,15 +271,24 @@ def extract_nsd_info_for_pa(nsd_json, vnfds_json, body):
                 for pair in endpoints:
                     nsd["nsd"]["VNFLinks"].append({"source": str(pair[0]), "destination": str(pair[1]),
                                                    "required_capacity": float(vld_to_vnf2[vld]["bw"]),
+                                                   "required_latency": vld_to_vnf2[vld]["latency"],
+                                                   #PA_testing
                                                    "latency": vld_to_vnf2[vld]["latency"],
+                                                   "VLid": vld,
+                                                   #PA_testing
                                                    "id": vld,
                                                    "traversal_probability": 1})
             elif (len(vld_to_vnf2[vld]['vnfs']) == 1):
                 nsd["nsd"]["VNFLinks"].append({"source": vld_to_vnf2[vld]['vnfs'][0], "destination": "None",
                                                "required_capacity": float(vld_to_vnf2[vld]["bw"]),
+                                               "required_latency": vld_to_vnf2[vld]["latency"],
+                                               #PA_testing
                                                "latency": vld_to_vnf2[vld]["latency"],
+                                               "VLid": vld,
+                                               #PA_testing
                                                "id": vld,
                                                "traversal_probability": 1})
+
         # Include the SAPs
         nsd['nsd']['SAP'] = []
         for sapd in NSD['nsd']['sapd']:
@@ -269,10 +300,11 @@ def extract_nsd_info_for_pa(nsd_json, vnfds_json, body):
 
             # Seek possible location constraint
             if body.sap_data:
-                for sap_data in body.sapData:
-                    if sap_data.sapd_id == sapd['cpdId']:
-                        nsd['nsd']['SAP'][-1]['location'] =\
-                            sap_data.location_info
+                for sap_data in body.sap_data:
+                    if sap_data.sapd_id == sapd['cpdId'] and isinstance(sap_data.location_info,dict):
+                        nsd['nsd']['SAP'][-1]['location']['center']['longitude'] = sap_data.location_info.longitude
+                        nsd['nsd']['SAP'][-1]['location']['center']['latitude'] = sap_data.location_info.latitude
+                        nsd['nsd']['SAP'][-1]['location']['radius'] = sap_data.location_info.range
 
 
 
@@ -385,8 +417,7 @@ def parse_resources_for_pa(resources, vnfs_ids):
 
     return pa_resources
 
-
-def extract_vls_info_mtp(resources, extracted_info, placement_info, nsId):
+def extract_vls_info_mtp(resources, extracted_info, placement_info, nsId, nestedInfo=None):
     """
     Function description
     Parameters
@@ -406,7 +437,7 @@ def extract_vls_info_mtp(resources, extracted_info, placement_info, nsId):
     # vls_info will be a list of LL to be deployed where each LL is a json
     # according the input body that the mtp expects.
     vls_info = {"interNfviPopNetworkType": "L2-VPN",
-                "networkLayer": "L2",
+                "networkLayer": "VLAN",
                 "logicalLinkPathList": [],
                 "metaData": []
                }
@@ -436,11 +467,12 @@ def extract_vls_info_mtp(resources, extracted_info, placement_info, nsId):
         vls_properties[vlId]["reqLatency"] = vl["required_latency"]
 
     ll_processed = {}
-    # for now we are deploying one LL per request
+
+    src_dst_link_triplet = []
     for ll in placement_info["usedLLs"]:
         llId = ll["LLID"]
         for vl in ll["mappedVLs"]:  # vl is the VL Id
-            if not llId in ll_processed:
+            if not vl in ll_processed:
                 ll_processed[vl] = 1
             else:
                 ll_processed[vl] = ll_processed[vl] + 1
@@ -455,7 +487,9 @@ def extract_vls_info_mtp(resources, extracted_info, placement_info, nsId):
                         "reqLatency": 0,
                         "metaData": []
                        }
-            ll_info["metaData"] = getVnfIPs(vl, extracted_info["nsd"]["VNFLinks"], vnf_info, network_info, ll_processed[vl])
+            metadata, src_dst_link_triplet =  getVnfIPs(vl, extracted_info["nsd"]["VNFLinks"], vnf_info, network_info, \
+                                              ll_processed[vl], placement_info, llId, resources, src_dst_link_triplet, nestedInfo)
+            ll_info["metaData"] = metadata
             ll_info["reqBandwidth"] = ll_resources[llId]["capacity"]
             ll_info["reqLatency"] = ll_resources[llId]["latency"]
             ll_info["logicalLinkAttributes"]["dstGwIpAddress"] = ll_resources[llId]["dstGwIpAddress"]
@@ -470,35 +504,103 @@ def extract_vls_info_mtp(resources, extracted_info, placement_info, nsId):
 
     return vls_info
 
-def getVnfIPs(vlId, VNFLinks, vnf_info, network_info, index):
+
+
+def getVnfIPs(vlId, VNFLinks, vnf_info, network_info, index, placement_info, llId, resources, src_dst_link_triplet, nestedInfo=None):
     ll_type_llid_processed = 0
     for vl_link in VNFLinks:
         if (vl_link["VLid"] == vlId):
-            ll_type_llid_processed = ll_type_llid_processed + 1
-            if (ll_type_llid_processed == index):
-                # we are in the appropriate VNFLink, if several LLs are required for a VL, they will be the same
-                # since the definition is for a VLs, not between VNFs
-                vl = vl_link["VLid"]
-                src_vnf = vl_link["source"]
-                dst_vnf = vl_link["destination"]
-                for net in network_info["cidr"]:
-                    if (net.find(vl) !=-1):
-                        cidr = network_info["cidr"][net]
-                        network_name = net
-                for vnf in vnf_info:
-                    if (vnf["name"] == src_vnf):
-                        for port in vnf["port_info"]: 
-                            if netaddr.IPAddress(port["ip_address"]) in netaddr.IPNetwork(cidr):
-                                srcVnfIpAddress = port["ip_address"]
-                                srcVnfMacAddress = port["mac_address"]
-                    if (vnf["name"] == dst_vnf):
-                        for port in vnf["port_info"]: 
-                            if netaddr.IPAddress(port["ip_address"]) in netaddr.IPNetwork(cidr):
-                                dstVnfIpAddress = port["ip_address"]
-                                dstVnfMacAddress = port["mac_address"]
-    return [ {"key": "srcVnfIpAddress", "value": srcVnfIpAddress}, {"key": "dstVnfIpAddress", "value": dstVnfIpAddress}, 
-             {"key": "srcVnfMacAddress", "value": srcVnfMacAddress }, {"key": "dstVnfMacAddress", "value": dstVnfMacAddress}, 
-             {"key": "networkName", "value": network_name} ]
+            # I should check also if VNFs are mapped in different PoPs and that we are in the correct logical link
+            src = vl_link["source"]
+            dst = vl_link["destination"]
+            src_pop = None
+            dst_pop = None
+            for pop in placement_info["usedNFVIPops"]:
+                if (src in pop["mappedVNFs"]):
+                    src_pop = pop["NFVIPoPID"]
+                if (dst in pop["mappedVNFs"]):
+                    dst_pop = pop["NFVIPoPID"]
+            triplet = [src,dst,vlId,llId]
+            # if (src_pop != dst_pop and src_pop != None and dst_pop !=None):
+            if (src_pop != dst_pop and src_pop != None and dst_pop !=None and (triplet not in src_dst_link_triplet) \
+                and checkPoPsvsLlId (src_pop, dst_pop, llId, resources)):                      
+                    src_dst_link_triplet.append(triplet)
+                    # verify that the pops are really connected by the llId? It is needed to ensure that you are addressing
+                    # the proper VNF Link (imagine you have the NS distributed in more than 2 NFVIPoPs)
+                    vl = vl_link["VLid"]
+                    src_vnf = vl_link["source"]
+                    dst_vnf = vl_link["destination"]
+                    for net in network_info["cidr"]:
+                        # for composition/federation when having a nested in multi-pop 
+                        # and you are instantiating everything from scratch
+                        if nestedInfo:
+                        # look for the appropriate link and change the vl value
+                            nested_id = next(iter(nestedInfo))
+                            for virtual_link in nestedInfo[nested_id][0]:
+                                for key in virtual_link.keys():
+                                    if (key == vl):
+                                        vl = virtual_link[key]                   
+                        if (net.find(vl) !=-1):
+                            cidr = network_info["cidr"][net]
+                            log_queue.put(["INFO", "el cidr es: %s"%cidr])
+                            network_name = net
+                    for vnf in vnf_info:
+                        if (vnf["name"] == src_vnf):
+                            for port in vnf["port_info"]: 
+                                if netaddr.IPAddress(port["ip_address"]) in netaddr.IPNetwork(cidr):
+                                    srcVnfIpAddress_tmp = port["ip_address"]
+                                    srcVnfMacAddress_tmp = port["mac_address"]
+
+                        if (vnf["name"] == dst_vnf):
+                            for port in vnf["port_info"]: 
+                                if netaddr.IPAddress(port["ip_address"]) in netaddr.IPNetwork(cidr):
+                                    dstVnfIpAddress_tmp = port["ip_address"]
+                                    dstVnfMacAddress_tmp = port["mac_address"]
+                    #now we have to take into account the sense of the of the link
+                    orderedpops = checkSenseLL(llId, resources)
+                    if (orderedpops[0] == src_pop and orderedpops[1] == dst_pop):
+                        srcVnfIpAddress = srcVnfIpAddress_tmp
+                        srcVnfMacAddress = srcVnfMacAddress_tmp
+                        dstVnfIpAddress = dstVnfIpAddress_tmp
+                        dstVnfMacAddress = dstVnfMacAddress_tmp
+                    else:
+                        srcVnfIpAddress = dstVnfIpAddress_tmp
+                        srcVnfMacAddress = dstVnfMacAddress_tmp
+                        dstVnfIpAddress = srcVnfIpAddress_tmp
+                        dstVnfMacAddress = srcVnfMacAddress_tmp
+                    return [ [{"key": "srcVnfIpAddress", "value": srcVnfIpAddress}, {"key": "dstVnfIpAddress", "value": dstVnfIpAddress}, 
+                              {"key": "srcVnfMacAddress", "value": srcVnfMacAddress }, {"key": "dstVnfMacAddress", "value": dstVnfMacAddress}, 
+                              {"key": "networkName", "value": network_name}], src_dst_link_triplet ]
+
+def checkSenseLL(llId, resources):
+    #function to verify the sense of the llId
+    for ll in resources["logicalLinkInterNfviPops"]:
+        if (ll["logicalLinks"]["logicalLinkId"] == llId):
+            src_gw = ll["logicalLinks"]["srcGwIpAddress"]
+            dst_gw = ll["logicalLinks"]["dstGwIpAddress"]
+    for PoP in resources["NfviPops"]:
+        for gw in PoP["nfviPopAttributes"]["networkConnectivityEndpoint"]:
+            if (gw["netGwIpAddress"] == src_gw):
+                src_pop = PoP["nfviPopAttributes"]["nfviPopId"]
+            if (gw["netGwIpAddress"] == dst_gw):
+                dst_pop = PoP["nfviPopAttributes"]["nfviPopId"] 
+    return [src_pop, dst_pop]
+
+def checkPoPsvsLlId (src_pop, dst_pop, llId, resources):
+    # function to verify that the src, dst pops are in the pops that the llId
+    # is connecting
+    gw_resources = []
+    valid_pop_combination = False
+    for PoP in resources["NfviPops"]:
+        if (PoP["nfviPopAttributes"]["nfviPopId"] == src_pop or PoP["nfviPopAttributes"]["nfviPopId"] == dst_pop):
+            for gw in PoP["nfviPopAttributes"]["networkConnectivityEndpoint"]:
+                gw_resources.append(gw["netGwIpAddress"])
+    for ll in resources["logicalLinkInterNfviPops"]:
+        if (ll["logicalLinks"]["logicalLinkId"] == llId):
+            if ( ll["logicalLinks"]["srcGwIpAddress"] in gw_resources and ll["logicalLinks"]["dstGwIpAddress"] in gw_resources):
+                valid_pop_combination = True
+    return valid_pop_combination
+
 
 def extract_target_il(request):
     if (request.scale_type == "SCALE_NS"):
@@ -523,7 +625,7 @@ def update_vls_info_mtp(nsId, scale_ops):
     vnf_info = nsir_db.get_vnf_deployed_info(nsId)
     ll_links = nsir_db.get_vls(nsId)
     vls_info = {"interNfviPopNetworkType": "L2-VPN",
-                "networkLayer": "L2",
+                "networkLayer": "VLAN",
                 "logicalLinkPathList": [],
                 "metaData": []
                }
@@ -571,8 +673,6 @@ def update_vls_info_mtp(nsId, scale_ops):
                     if (elem["key"].find("srcVnfIpAddress") != -1):
                         if (elem["value"] in vnfs_ips):
                             ip = vnfs_ips.pop(vnfs_ips.index(elem["value"]))
-                            # print ("The IP is: ", ip)
-                            # print ("VNFS_ips is: ", vnfs_ips)
                             for ips in range(0,len(vnfs_ips)):
                                if (netaddr.IPNetwork(vnfs_ips[ips] + '/24') == netaddr.IPNetwork(ip + '/24')):
                                    #it means we have to copy this element and change the corresponding value
@@ -591,7 +691,7 @@ def update_vls_info_mtp(nsId, scale_ops):
                                if (netaddr.IPNetwork(vnfs_ips[ips] + '/24') == netaddr.IPNetwork(ip + '/24')):
                                    #it means we have to copy this element and change the corresponding value
                                    new_vl = copy.deepcopy(value)
-                                   for key in range(0, len(new_vl["metaData"].keys())):
+                                   for key in range(0, len(new_vl["metaData"])):
                                        if (new_vl["metaData"][key]["key"] == "dstVnfIpAddress"):
                                            new_vl["metaData"][key]["value"] = vnfs_ips[ips]
                                        if (new_vl["metaData"][key]["key"] == "dstVnfMacAddress"):
@@ -644,12 +744,15 @@ def instantiate_ns(nsId, nsd_json, vnfds_json, request, nestedInfo=None):
         return description
     """
     # extract the relevant information for the PA algorithm from the nsd_vnfd
+    log_queue.put(["INFO", "*****Time measure: ROE starting ROE processing"])
     extracted_info = extract_nsd_info_for_pa(nsd_json, vnfds_json, request)
+    log_queue.put(["INFO", "*****Time measure: ROE extracted NSD info at ROE"])
     log_queue.put(["INFO", dumps(extracted_info, indent=4)])
     # first get mtp resources and lock db
     resources = sbi.get_mtp_resources()
     log_queue.put(["INFO", "MTP resources are:"])
     log_queue.put(["INFO", dumps(resources, indent=4)])
+    log_queue.put(["INFO", "*****Time measure: ROE retrieved MTP resources"])
     
     # ask pa to calculate the placement - read pa config from properties file
     config = RawConfigParser()
@@ -657,34 +760,50 @@ def instantiate_ns(nsId, nsd_json, vnfds_json, request, nestedInfo=None):
     pa_ip = config.get("PA", "pa.ip")
     pa_port = config.get("PA", "pa.port")
     pa_path = config.get("PA", "pa.path")
-    pa_uri = "http://" + pa_ip + ":" + pa_port + pa_path
-    # ask pa to calculate the placement - prepare the body
-    paId = str(uuid4())
-    pa_resources = parse_resources_for_pa(resources, vnfds_json.keys())
-    body_pa = {"ReqId": paId,
-               "nfvi": pa_resources,
-               "nsd": extracted_info["nsd"],
-               "callback": "http://localhost:8080/5gt/so/v1/__callbacks/pa/" + paId}
-    log_queue.put(["INFO", "Body for PA is:"])
-    log_queue.put(["INFO", dumps(body_pa, indent=4)])
-    # ask pa to calculate the placement - do request
-    header = {'Content-Type': 'application/json',
-              'Accept': 'application/json'}
+    pa_enable = config.get("PA", "pa.enable")
     placement_info = {}
-    try:
-        conn = HTTPConnection(pa_ip, pa_port)
-        conn.request("POST", pa_uri, dumps(body_pa), header)
-        # ask pa to calculate the placement - read response and close connection
-        rsp = conn.getresponse()
-        placement_info = rsp.read().decode('utf-8')
-        placement_info = loads(placement_info)
-        conn.close()
-    except ConnectionRefusedError:
-        # the PA server is not running or the connection configuration is wrong
-        log_queue.put(["ERROR", "the PA server is not running or the connection configuration is wrong"])
-    placement_info = amending_pa_output(extracted_info["nsd"], placement_info)
-    log_queue.put(["INFO", "PA output is:"])
-    log_queue.put(["DEBUG", placement_info])
+    if pa_enable == "yes":
+        pa_uri = "http://" + pa_ip + ":" + pa_port + pa_path
+        # ask pa to calculate the placement - prepare the body
+        paId = str(uuid4())
+        pa_resources = parse_resources_for_pa(resources, vnfds_json.keys())
+        body_pa = {"ReqId": paId,
+                   "nfvi": pa_resources,
+                   "nsd": extracted_info["nsd"],
+                   "callback": "http://localhost:8080/5gt/so/v1/__callbacks/pa/" + paId}
+        log_queue.put(["INFO", "Body for PA is:"])
+        log_queue.put(["INFO", dumps(body_pa, indent=4)])
+        # ask pa to calculate the placement - do request
+        header = {'Content-Type': 'application/json',
+                  'Accept': 'application/json'}
+        log_queue.put(["INFO", "*****Time measure: ROE PA request generated"])
+        try:
+            conn = HTTPConnection(pa_ip, pa_port)
+            conn.request("POST", pa_uri, dumps(body_pa), header)
+            # ask pa to calculate the placement - read response and close connection
+            rsp = conn.getresponse()
+            placement_info = rsp.read().decode('utf-8')
+            placement_info = loads(placement_info)
+            conn.close()
+        except ConnectionRefusedError:
+            # the PA server is not running or the connection configuration is wrong
+            log_queue.put(["ERROR", "the PA server is not running or the connection configuration is wrong"])
+        log_queue.put(["INFO", "output of the PA is: "])
+        log_queue.put(["INFO", placement_info])
+        placement_info = amending_pa_output(extracted_info["nsd"], placement_info)
+        log_queue.put(["INFO", "*****Time measure: ROE PA calculation done"])
+        log_queue.put(["INFO", "PA tuned output is:"])
+        log_queue.put(["INFO", placement_info])
+    else:
+        # to be removed when PA code tested: static placement for testing purposes
+        pa_responses = config.items("RESPONSE")
+        for pa_response in pa_responses:
+            if (nsd_json["nsd"]["nsdIdentifier"].lower().find(pa_response[0]) !=-1):
+                placement_info = json.loads(pa_response[1])
+        log_queue.put(["INFO", "PA TUNED (manually) output is:"])
+        log_queue.put(["DEBUG", placement_info])
+
+    log_queue.put(["DEBUG", "Service NameId is: %s" % nsd_json["nsd"]["nsdIdentifier"]])
     if nestedInfo:
         key = next(iter(nestedInfo))
         log_queue.put(["DEBUG", "the key of nestedInfo in ROOE is: %s"%key])
@@ -704,16 +823,17 @@ def instantiate_ns(nsId, nsd_json, vnfds_json, request, nestedInfo=None):
     deployed_vnfs_info = coreMano.instantiate_ns(nsId, nsd_json, vnfds_json, request, placement_info, resources, nestedInfo)
     log_queue.put(["INFO", "The deployed_vnfs_info"])
     log_queue.put(["INFO", dumps(deployed_vnfs_info, indent=4)])
-    if deployed_vnfs_info is not None and "sapInfo" in deployed_vnfs_info:
+    if (deployed_vnfs_info is not None) and ("sapInfo" in deployed_vnfs_info):
         log_queue.put(["INFO", "ROOE: updating nsi:%s sapInfo: %s" % (nsId, deployed_vnfs_info["sapInfo"])])
         ns_db.save_sap_info(nsId, deployed_vnfs_info["sapInfo"])
-
-
-    # list of VLs to be deployed
-    vls_info = extract_vls_info_mtp(resources, extracted_info, placement_info, nsId_tmp)
-    # ask network execution engine to deploy the virtual links
-    eenet.deploy_vls(vls_info, nsId_tmp)
-    # eenet.deploy_vls(vls_info, nsId)
+        log_queue.put(["INFO", "*****Time measure: ROE created VNF's"])
+    if deployed_vnfs_info is not None:
+      # list of VLs to be deployed
+      vls_info = extract_vls_info_mtp(resources, extracted_info, placement_info, nsId_tmp, nestedInfo)
+      log_queue.put(["INFO", "*****Time measure: ROE extracted VL's at MTP"])
+      # ask network execution engine to deploy the virtual links
+      eenet.deploy_vls(vls_info, nsId_tmp)
+    log_queue.put(["INFO", "*****Time measure: ROE created LL's at MTP"])
 
     # set operation status as SUCCESSFULLY_DONE
     if (nsId_tmp.find('_') == -1):
@@ -739,7 +859,7 @@ def scale_ns(nsId, nsd_json, vnfds_json, request, current_df, current_il):
     scaled_vnfs_info = {}
     placement_info = nsir_db.get_placement_info(nsId)
     [scaled_vnfs_info, scale_ops] = coreMano.scale_ns(nsId, nsd_json, vnfds_json, request, current_df, current_il, placement_info)
-    if scaled_vnfs_info is not None and "sapInfo" in scaled_vnfs_info:
+    if (scaled_vnfs_info is not None) and ("sapInfo" in scaled_vnfs_info):
         log_queue.put(["DEBUG", "ROOE: SCALING updating nsi:%s sapInfo %s" % (nsId, scaled_vnfs_info["sapInfo"])])
         ns_db.save_sap_info(nsId, scaled_vnfs_info["sapInfo"])
     # update list of VLs to be deployed
@@ -779,25 +899,34 @@ def terminate_ns(nsId):
     name: type
         return description
     """
-    ns_db.set_ns_status(nsId, "TERMINATING")
+    log_queue.put(["INFO", "*****Time measure: ROE Starting ROE processing to terminate"])
+    if (nsId.find('_') == -1):
+        status = ns_db.get_ns_status(nsId)
+        ns_db.set_ns_status(nsId, "TERMINATING")
+    else:
+        status = "INSTANTIATED"
     # tell the eenet to release the links
     # line below commented until mtp is ready
-    
-    # tell the mano to terminate
-    coreMano = createWrapper()
-    coreMano.terminate_ns(nsId)
 
-    # ask network execution engine to deploy the virtual links
-    eenet.uninstall_vls(nsId)
+    if (status != "FAILED"):
+        # if it has failed, the MANO platform should have cleaned the deployment and
+        # no any logical link has been established
+    
+        # tell the mano to terminate
+        coreMano = createWrapper()
+        coreMano.terminate_ns(nsId)
+        log_queue.put(["INFO", "*****Time measure: ROE ROE, terminated VNFs"])
+        # ask network execution engine to deploy the virtual links
+        eenet.uninstall_vls(nsId)
+        log_queue.put(["INFO", "*****Time measure: ROE ROE, terminated VLs at MTP"])
 
     # remove the information from the nsir
     nsir_db.delete_nsir_record(nsId)
 
-    # update service status in db
-    ns_db.set_ns_status(nsId, "TERMINATED")
-
     # set operation status as SUCCESSFULLY_DONE
     if (nsId.find('_') == -1):
+        # update service status in db
+        ns_db.set_ns_status(nsId, "TERMINATED")
         #the service is single, I can update the operationId and the status
         log_queue.put(["INFO", "Removing a single NS"])
         operationId = operation_db.get_operationId(nsId, "TERMINATION")

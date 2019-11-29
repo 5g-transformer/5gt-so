@@ -442,6 +442,12 @@ def check_delay_constraints(solution):
   """Check if the delay constraint is respected for all services.
   """
   
+  # check if there's an edge mapped to a link that cannot support it
+  for ve in solution["vnf_edges"]:
+    hedge = get_host_edge(solution, ve)
+    if hedge is not None and ve["latency"] < hedge["delay"]:
+      return False
+
   for s in solution["services"]:
     # for constraint checking, we have to take into account processing delays, too
     latency = get_solution_delay(solution, s["service_name"], True)

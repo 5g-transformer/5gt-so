@@ -39,7 +39,7 @@ def configure_log(log_file, log_level):
 
     # config log
     logger = getLogger("5gtso")
-    handler = RotatingFileHandler(log_file, maxBytes=1000000, backupCount=3)
+    handler = RotatingFileHandler(log_file, maxBytes=3000000, backupCount=3)
 
     # log format
     formatter = Formatter("[%(asctime)s.%(msecs).03d] %(levelname)-8s %(message)s", datefmt="%m/%d/%Y %I:%M:%S")

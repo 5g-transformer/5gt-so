@@ -39,21 +39,20 @@ if __name__ == '__main__':
         flavour_id='df_vCDN' if is_cdn else 'eHealth-vEPC_df',
         ns_instantiation_level_id='il_vCDN_small' if is_cdn\
                                     else 'eHealth-vEPC_il_default',
-        NsInstantiationRequest={
-            'sapData': [{
-                'sapdId': 'videoSap' if is_cdn else '',
-                'sapName': 'videoSap' if is_cdn else '',
-                'description': 'SAP to access CDN video' if is_cdn else '',
-                'locationInfo': {
-                    'center': {
-                        'latitude': 40.3325323,
-                        'longitude': -3.7675058,
-                        'description': 'UC3M location'
-                    },
-                    'radius': 10
-                }
-            }]
-        }
+        sapData=[Bunch(
+            sapdId='videoSap' if is_cdn else 'sgi_vepc_sap',
+            sapName='videoSap' if is_cdn else 'sgi_vepc_sap',
+            description='SAP to access CDN video' if is_cdn\
+                                                    else 'SGI SAP',
+            locationInfo={
+                'center': {
+                    'latitude': 40.3325323,
+                    'longitude': -3.7675058,
+                    'description': 'UC3M location'
+                },
+                'radius': 10
+            }
+        )]
     )
 
     pa_info = extract_nsd_info_for_pa(nsd, vnfds, body)
@@ -62,8 +61,8 @@ if __name__ == '__main__':
 
     # Execute the selected PA with the translated NSD
     if args.pa == 'polito_uc3m':
-        pa_ip = "127.0.0.1"
-        pa_port = 8080
+        pa_ip = "192.168.56.101"
+        pa_port = 6262
         pa_uri = "/5gt/so/v2/PAComp"
     elif args.pa == 'sssa':
         pa_ip = "127.0.0.1"
@@ -91,20 +90,13 @@ if __name__ == '__main__':
     placement_info = {}
     print('sent request\n' + json.dumps(body_pa, indent=4))
 
-    try:
-        conn = HTTPConnection(pa_ip, pa_port)
-        conn.request("POST", pa_uri, json.dumps(body_pa), header)
+    conn = HTTPConnection(pa_ip, pa_port)
+    conn.request("POST", pa_uri, json.dumps(body_pa), header)
 
-        # ask pa to calculate the placement - read response and close connection
-        rsp = conn.getresponse()
-        if rsp.getcode() >= 400:
-          print(rsp.read().decode('utf-8'))
-        else:
-          placement_info = rsp.read().decode('utf-8')
-          placement_info = json.loads(placement_info)
-          placement_info = amending_pa_output(pa_info["nsd"], placement_info)
-          print(placement_info)
-        conn.close()
-    except ConnectionRefusedError:
-        pass
+    # ask pa to calculate the placement - read response and close connection
+    rsp = conn.getresponse()
+    placement_info = rsp.read().decode('utf-8')
+    placement_info = json.loads(placement_info)
+    print(json.dumps(placement_info, indent=4))
+
 

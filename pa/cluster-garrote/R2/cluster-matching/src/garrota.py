@@ -205,9 +205,6 @@ def resources_availability(capabilities, used_capabilities):
 
     """
     availability = resources_fullness(capabilities, used_capabilities)
-    print('availability capas: ' + str(availability.keys()))
-    print('\t capas:' + str(capabilities))
-    print('\t ised:' + str(used_capabilities))
     for capability in availability:
         availability[capability] = 1 - availability[capability]
 
@@ -278,12 +275,8 @@ def map_unbalance(capabilities, used_capabilities, req_capabilities):
         req_consum[cap] = float(req_capabilities[cap]) / capabilities[cap]
 
     # Get resource availability mean after mapping
-    print('these are the capabilities: ' + str(capabilities))
-    print('these are the used capabilities: ' + str(used_capabilities))
     availability = resources_availability(capabilities, used_capabilities)
     availability_mean = float(0)
-    print('availability: ' + str(availability))
-    print('req_caps: ' + str(req_caps))
     for cap in req_caps:
         availability_mean += availability[cap] - req_consum[cap]
     availability_mean /= float(len(req_caps))
@@ -337,6 +330,23 @@ def map_unbalance2(capabilities, available_capabilities, req_capabilities):
     return unbalance
 
 
+def unbalance(capabilities, available_capabilities):
+    """Obtains the unbalance out of a dictionary of existing and available
+    resources
+
+    :capabilities: dictionary of existing resources
+    :available_capabilities: dictionary of available resources
+    :returns: float
+
+    """
+    zero_req = {
+        cap: 0
+        for cap in capabilities if type(capabilities[cap]) in [float, int]
+    }
+
+    return map_unbalance2(capabilities, available_capabilities, zero_req)
+
+
 # ======================================================
 # === From here on all is about the cluster matching ===
 # ======================================================
@@ -350,7 +360,9 @@ def can_map_clusters(ns_cluster, nfvi_pop_cluster):
     :returns: boolean telling if ns_cluster can be mapped to nfvi_pop_cluster
 
     """
+    print '\t\t    = enter can_map_clusters'
     if not in_nfvi_cluster(ns_cluster, nfvi_pop_cluster):
+        print '\t\t    =   can\'t map: not in the area'
         return False
     
     for vnf in ns_cluster.nodes():
@@ -358,10 +370,12 @@ def can_map_clusters(ns_cluster, nfvi_pop_cluster):
         exists_nfvi_pop, nfvi_pop_id = exist_capable_nfvi_pop(vnf_node,
                 nfvi_pop_cluster)
         if not exists_nfvi_pop:
+            print '\t\t    = No NFVI PoP can host ' + str(vnf)
             return False
 
     for vl in get_vls(ns_cluster):
         if not exist_capable_edge(nfvi_pop_cluster, ns_cluster, vl):
+            print 'Not capable edge for traffic'
             return False
 
     
@@ -377,6 +391,7 @@ def garrote_best_nfvi_pop_cluster(ns_cluster, nfvi_pop_clusters):
               {} if no NFVI PoP cluster can host it
 
     """
+    print '\t\t=Entering garrote_best_nfvi_pop_cluster'
     map_props = {
         'cost': sys.maxint,
         'unbalance': sys.maxint,
@@ -395,11 +410,11 @@ def garrote_best_nfvi_pop_cluster(ns_cluster, nfvi_pop_clusters):
 
     ns_cl_req = ns_cluster_vnf_req(ns_cluster)
 
-
-    # Decide best NFVI PoPs cluster to map NS clusters
+    # Decide best NFVI PoPs cluster to map NS cluster
     for nfvi_pop_cl_name in nfvi_pop_clusters:
         nfvi_pop_cluster = nfvi_pop_clusters[nfvi_pop_cl_name]
         if can_map_clusters(ns_cluster, nfvi_pop_cluster):
+            print('\t\t=  can map into ' + str(nfvi_pop_cl_name))
             unbalance = map_unbalance2(
                 nfvi_pop_clusters_cap[nfvi_pop_cl_name]['nfvi_pop_cl_capab'],
                 nfvi_pop_clusters_cap[\
@@ -412,12 +427,50 @@ def garrote_best_nfvi_pop_cluster(ns_cluster, nfvi_pop_clusters):
             # Best mapping
             if cost < map_props['cost'] or\
                 (cost == map_props['cost'] and\
-                    unbalance < ns_cl_unbalance['unbalance']):
+                    unbalance < map_props['unbalance']):
                 map_props['nfvi_pop_cluster'] = nfvi_pop_cl_name
                 map_props['cost'] = cost
                 map_props['unbalance'] = unbalance
+        else:
+            print '\t\t=  Cannot map into NFVI cluster: ' + nfvi_pop_cl_name
     
     return map_props if map_props['nfvi_pop_cluster'] != 'h_fake' else {}
+
+
+def priority_loc_ns_clusters(ns_clusters):
+    """Give priority to location constrained NS clusters. If there are clusters
+    with location constraints, and other without; remove last ones.
+
+    :ns_clusters: dictionary of networkX clusters indexed by NS cluster name
+    :returns: list of NS cluster indexes
+    """
+    print '\t\t= entering priority_loc_ns_clusters'
+    priors = []
+
+    # Count the number of active boolean restrictions
+    for ns_cl_name in ns_clusters:
+        loc_constraints = 0
+        print '\t\t      cluster=' + ns_cl_name
+        for vnf_id in ns_clusters[ns_cl_name].nodes():
+            vnf = get_vnf(ns_clusters[ns_cl_name], vnf_id)
+            print '\t\t        vnf=' + vnf_id 
+            if 'location' in vnf and vnf['location'] != None:
+                print '\t\t        has location constraints'
+                loc_constraints += 1
+        priors.append((ns_cl_name, loc_constraints))
+
+    print '\t\t=  clusters\' location constraints: ' + str(priors)
+
+    # If some clusters have boolean restrictions and others no, remove last
+    # ones
+    with_bool = map(lambda (cl,bools): bools > 0, priors)
+    if True in with_bool and False in with_bool:
+        priors = list(filter(lambda (cl,bools): bools > 0, priors))
+
+    priors.sort(key=lambda el: el[1], reverse=True)
+    priors = list(map(lambda (cl,bools): cl, priors))
+
+    return priors
 
 
 def garrote_best_cluster_matching(nfvi_pop_clusters, ns_clusters):
@@ -437,6 +490,8 @@ def garrote_best_cluster_matching(nfvi_pop_clusters, ns_clusters):
 
     """
 
+    print '\t== Entering garrote_best_cluster_matching'
+
     # Find the best mapping
     best_map = {
         'ns_cluster': None,
@@ -444,7 +499,13 @@ def garrote_best_cluster_matching(nfvi_pop_clusters, ns_clusters):
         'cost': sys.maxint,
         'unbalance': sys.maxint
     }
-    for ns_cl_name in ns_clusters:
+
+    # Give priority to boolean restrictive NS clusters
+    prior_ns_clusters = priority_loc_ns_clusters(ns_clusters)
+    print '\t==  priority NS clusters=' + str(prior_ns_clusters)
+
+    for ns_cl_name in prior_ns_clusters:
+        print '\t==  which is best for NS_cl=' + ns_cl_name + '?'
         map_props = garrote_best_nfvi_pop_cluster(
                 ns_clusters[ns_cl_name], nfvi_pop_clusters)
         if map_props != {}:
@@ -453,6 +514,9 @@ def garrote_best_cluster_matching(nfvi_pop_clusters, ns_clusters):
                 (map_props['cost'] == best_map['cost']) and\
                     (map_props['unbalance'] < best_map['unbalance']):
                 best_map = map_props
+
+    print '\t== Best mapping is: NS_cl=' + str(map_props['ns_cluster']) +\
+            ' to NFVI_cl=' + str(map_props['nfvi_pop_cluster'])
 
     return best_map
 
@@ -473,7 +537,8 @@ def garrote_matching(pa_req, legacy_reqs):
     nfvi_pop_clusters = create_nfvi_pop_clusters(pa_req)
     ns_clusters = create_ns_clusters([pa_req])
     fake_reducts = []
-    
+
+    print '=== Entering the cluster matching'
 
     can_map_more, remain_ns_cl = True, len(ns_clusters.keys()) 
     while can_map_more and remain_ns_cl > 0:
@@ -623,7 +688,8 @@ def garrote_find_edge_path_mg(ns_cluster, nfvi_pop_cluster, nfvi_pops_graph,
     :nfvi_pop_cluster: networkX graph instance with a nfvi_pop cluster
     :nfvi_pops_graph: networkX graph instance the the nfvi_pops
     :vnfs_edge: triad ('vnf_id', 'vnf_id2', vl_key)
-    :returns: a list of nfvi_pops to map the vnfs_edge. Empty if no possible path:
+    :returns: a list of nfvi_pops to map the vnfs_edge. Empty if end VNFs are
+    co-located. None if there is no possible path
     [('NFVIPoP1', 'NFVIPoP2', key), ...]
 
     """
@@ -634,6 +700,10 @@ def garrote_find_edge_path_mg(ns_cluster, nfvi_pop_cluster, nfvi_pops_graph,
     vl = get_vls(ns_cluster)[vnfs_edge]
     vnf1 = get_vnf(ns_cluster, vnfs_edge[0])
     vnf2 = get_vnf(ns_cluster, vnfs_edge[1])
+
+    # If both VNFs are co-located, don't search a path
+    if vnf1['place_at'][0] == vnf2['place_at'][0]:
+        return []
     
     # Remove LLs with not enough bandwidth for the VLs
     nfvi_pops_graphC = nfvi_pops_graph.copy()
@@ -651,7 +721,7 @@ def garrote_find_edge_path_mg(ns_cluster, nfvi_pop_cluster, nfvi_pops_graph,
     # No path to the target NFVI PoP
     if vnf2['place_at'][0] not in pred or\
             dist[vnf2['place_at'][0]] > vl['latency']:
-        return []
+        return None
 
     currNFVIPoP = vnf2['place_at'][0]
     path = []
@@ -683,6 +753,29 @@ def garrote_find_edge_path_mg(ns_cluster, nfvi_pop_cluster, nfvi_pops_graph,
     return path
 
 
+def get_priority_vnfs(ns_cluster):
+    """Get a list of VNFs with boolean priority regarding the VNF mapping.
+
+    :ns_cluster: networkX multi-graph instance with NS cluster
+    :returns: list of VNF ids
+
+    """
+    priors = []
+
+    for vnf_id in ns_cluster.nodes():
+        booleans = 0
+        vnf = get_vnf(ns_cluster, vnf_id)
+        for att in vnf:
+            booleans += 1 if type(vnf[att]) == bool and vnf[att] else 0
+        priors += [(vnf_id, booleans)]
+
+    # Store only the VNF ids and sort them by number of boolean restrictions
+    priors.sort(key=lambda (_id,bools): bools, reverse=True)
+    priors = list(map(lambda (_id,bools): _id, priors))
+
+    return priors
+
+
 def garrote_ns_mapping(pa_req, ns_cluster, nfvi_pop_cluster, nfvi_pops_graph,
         ns_cl_name=None, nfvi_pop_cl_name=None):
     """Maps all VNFs inside the NS cluster to the NFVI PoPs cluster. Changes 
@@ -698,10 +791,13 @@ def garrote_ns_mapping(pa_req, ns_cluster, nfvi_pop_cluster, nfvi_pops_graph,
               and a boolean telling if mapping worked (True/False)
 
     """
-    mappings = {'vnf': {}, 'link': {}}
+    mappings = {'vnf': {}, 'vl': {}}
+
+    # Give higher priority to VNFs with boolean constraints
+    prioritized_vnfs = get_priority_vnfs(ns_cluster)
 
     # Map VNF to hosts
-    for vnf_id in ns_cluster.nodes():
+    for vnf_id in prioritized_vnfs:
         best_nfvi_pops = garrote_best_vnf_nfvi_pops(
             pa_req,
             get_vnf(ns_cluster, vnf_id),
@@ -725,13 +821,215 @@ def garrote_ns_mapping(pa_req, ns_cluster, nfvi_pop_cluster, nfvi_pops_graph,
             if pa_req['nfvi']['NFVIPoPs'][i]['id'] == best_nfvi_pops[0]:
                 pa_req['nfvi']['NFVIPoPs'][i]['mappedVNFs'].insert(0, vnf_id)
 
+    print('gonna map VLs: ', get_vls(ns_cluster).keys())
+
     # Map VNF edges to host edges
     for vl in get_vls(ns_cluster):
+        print('\t= Mapping intra-cluster={} vl={}'.format(ns_cl_name, vl[2]))
         nfvi_pops_path = garrote_find_edge_path_mg(ns_cluster,
                 nfvi_pop_cluster, nfvi_pops_graph, vl)
+        print('\t  = hosts_path:{}'.format(nfvi_pops_path))
         map_vnfs_edge(ns_cluster, nfvi_pops_graph, vl, nfvi_pops_path)
         persist_vnf_path_map(pa_req, nfvi_pops_graph, ns_cluster, vl,
                 nfvi_pops_path)
+
+    return pa_req, True
+
+
+def candidate_vnf_maps(pa_req, ns_cluster, nfvi_pop_cluster, nfvi_pops_graph,
+        ns_cl_name=None, nfvi_pop_cl_name=None):
+    """Returns a list of possible mappings of vnfs
+
+    :pa_req: API PARequest dictionary
+    :ns_cluster: networkX multi-graph instance with NS cluster
+    :nfvi_pop_cluster: networkX multi-graph instance with a NFVI PoPs cluster
+    :nfvi_pops_graph: networkX multi-graph instance the hosts
+    :ns_cl_name: name of the ns_cluster
+    :nfvi_pop_cl_name: name of the host_cl
+    :returns: None if some vnfs cannot be mapped
+              a list of mapping dictionaries keyed by the VNF:
+                [{'vnf1': 'hostA',...}, ...]
+
+    """
+    # Give higher priority to VNFs with boolean constraints
+    prioritized_vnfs = get_priority_vnfs(ns_cluster)
+
+    # Get the list of candidate hosts for each VNF
+    candidate_hosts = {}
+    for vnf_id in prioritized_vnfs:
+        candidate_hosts[vnf_id] = garrote_best_vnf_nfvi_pops(
+            pa_req,
+            get_vnf(ns_cluster, vnf_id),
+            nfvi_pop_cluster,
+            nfvi_pops_graph
+        )
+        if not candidate_hosts[vnf_id]:
+            return None
+
+    # Create all combinations
+    def zip_combs(keys_, dict_):
+        """It generates zips of combinations for keyed arrays.
+        For example dict_ = {'a': [1,2], 'b': [3,4]}
+        will return
+        generator<[1, 3], [1, 4], [2, 3], [2, 4]>
+
+        :keys_: dict_.keys()
+        :dict_: dictionary of arrays
+        :returns: a generator of combinations
+
+        """
+        if len(keys_) == 0:
+            yield []
+        if len(keys_) == 1:
+          for num in dict_[keys_[0]]:
+            yield [num]
+        if len(keys_) > 1:
+          for num in dict_[keys_[0]]:
+            for des in zip_combs(keys_[1:], dict_):
+              yield [num] + des
+
+    # Assign keys to the mappings
+    possible_maps = zip_combs(candidate_hosts.keys(), candidate_hosts)
+    dict_maps = []
+    for map_ in possible_maps:
+        dict_map = {}
+        for vnf,host in zip(candidate_hosts.keys(), map_):
+            dict_map[vnf] = host
+        dict_maps += [dict_map]
+
+    return dict_maps
+
+
+def brute_garrote_ns_mapping(pa_req, ns_cluster, nfvi_pop_cluster, nfvi_pops_graph,
+        ns_cl_name=None, nfvi_pop_cl_name=None):
+    """Maps all VNFs inside the NS cluster to the NFVI PoPs cluster. Changes 
+    are reflected in the pa_req PARequest JSON and inside the nfvi_pops_graph
+    The algorithm starts trying different mappings of VNFs, until it finds the
+    correct one.
+
+    :pa_req: API PARequest dictionary
+    :ns_cluster: networkX multi-graph instance with NS cluster
+    :nfvi_pop_cluster: networkX multi-graph instance with a NFVI PoPs cluster
+    :nfvi_pops_graph: networkX multi-graph instance the hosts
+    :ns_cl_name: name of the ns_cluster
+    :nfvi_pop_cl_name: name of the host_cl
+    :returns: a PARequest JSON extended with mapping decisions
+              and a boolean telling if mapping worked (True/False)
+
+    """
+    mappings = {'vnf': {}, 'vl': {}}
+
+    candidate_mappings = candidate_vnf_maps(pa_req, ns_cluster,
+                           nfvi_pop_cluster, nfvi_pops_graph,
+                           ns_cl_name=None, nfvi_pop_cl_name=None)
+    if not candidate_mappings:
+        print '  !!ERR: cannot map vnf=' + vnf_id +\
+                ' when mapping ns_cluster=' + str(ns_cl_name) +\
+                ' into nfvi_pop_cluster=' + str(nfvi_pop_cl_name)
+        return pa_req, False
+
+    
+    print '\t=There are {} candidate mappings'.format(len(candidate_mappings))
+    found_map, j = False, 0
+    while j < len(candidate_mappings) and not found_map:
+        candidate_map = candidate_mappings[j]
+        tmp_ns_cluster = ns_cluster.copy()
+        tmp_nfvi_pop_cluster = nfvi_pop_cluster.copy()
+        tmp_nfvi_pops_graph = nfvi_pops_graph.copy()
+        print '\t=Trying out candidate map {}'.format(candidate_map)
+
+        # VNF fake mapping
+        for vnf_id in candidate_map:
+            mappings['vnf'][vnf_id] = candidate_map[vnf_id]
+            nx.set_node_attributes(tmp_ns_cluster, 'place_at',
+                    {vnf_id: [candidate_map[vnf_id]]})
+            map_vnf(tmp_ns_cluster, tmp_nfvi_pops_graph,
+                    vnf_id, candidate_map[vnf_id])
+
+        # VL MAPPING
+        # Map VNF edges to host edges
+        found_map = True
+        for vl in get_vls(tmp_ns_cluster):
+            print('\t\t= Mapping intra-cluster={} vl={}'.format(ns_cl_name, vl[2]))
+            nfvi_pops_path = garrote_find_edge_path_mg(tmp_ns_cluster,
+                    tmp_nfvi_pop_cluster, tmp_nfvi_pops_graph, vl)
+            print('\t\t\t= found nvi_pops_path={}'.format(nfvi_pops_path))
+
+            # If there's no possible path, break loop to try next combination
+            if nfvi_pops_path == None:
+                found_map = False
+                break
+
+            mappings['vl'][vl] = nfvi_pops_path
+            map_vnfs_edge(tmp_ns_cluster, tmp_nfvi_pops_graph, vl, nfvi_pops_path)
+
+        j += 1
+
+
+    # No mapping achieved
+    if not found_map:
+        print '  !!ERR: cannot map ' +\
+                ' ns_cluster=' + str(ns_cl_name) +\
+                ' into nfvi_pop_cluster=' + str(nfvi_pop_cl_name)
+        return pa_req, False
+
+    # If a mapping's been found, make it persistant
+    print ' = Found cluster mapping, persistent maps:'
+    if found_map:
+        # Persist VNF mapping in the NS cluster
+        for vnf_id in ns_cluster.nodes():
+            # vnf = get_vnf(ns_cluster, vnf_id)
+            print "   VNF " + vnf_id + " --  host " + candidate_map[vnf_id]
+            map_vnf(ns_cluster, nfvi_pops_graph, vnf_id, candidate_map[vnf_id])
+            nx.set_node_attributes(ns_cluster, 'place_at',
+                    {vnf_id: [candidate_map[vnf_id]]})
+
+            for i in range(len(pa_req['nsd']['VNFs'])):
+                if pa_req['nsd']['VNFs'][i]['VNFid'] == vnf_id:
+                    pa_req['nsd']['VNFs'][i]['place_at'] =\
+                        [candidate_map[vnf_id]]
+                    print "   VNF " + pa_req['nsd']['VNFs'][i]['VNFid'] + " --  host " + candidate_map[vnf_id]
+
+            for i in range(len(pa_req['nfvi']['NFVIPoPs'])):
+                if pa_req['nfvi']['NFVIPoPs'][i]['id'] == candidate_map[vnf_id]:
+                    pa_req['nfvi']['NFVIPoPs'][i]['mappedVNFs'].insert(0, vnf_id)
+
+        # Persist VLs mapping in the NFVI PoP cluster
+        for vl in get_vls(tmp_ns_cluster):
+            # It can be that the TMP graph has a changed order
+            vl_ = vl
+            if vl not in get_vls(ns_cluster):
+                vl_ = (vl[1], vl[0], vl[2])
+            map_vnfs_edge(ns_cluster, nfvi_pops_graph, vl_, mappings['vl'][vl])
+            persist_vnf_path_map(pa_req, nfvi_pops_graph, ns_cluster, vl_,
+                    mappings['vl'][vl])
+
+###### UNITL HETER
+
+
+   ##      map_vnf(ns_cluster, nfvi_pops_graph, vnf_id, best_nfvi_pops[0])
+   ##      mappings['vnf'][vnf_id] = best_nfvi_pops[0]
+   ##      for i in range(len(pa_req['nsd']['VNFs'])):
+   ##          if pa_req['nsd']['VNFs'][i]['VNFid'] == vnf_id:
+   ##              pa_req['nsd']['VNFs'][i]['place_at'].insert(0,
+   ##                      best_nfvi_pops[0])
+   ##              print "   VNF " + pa_req['nsd']['VNFs'][i]['VNFid'] + " --  host " + best_nfvi_pops[0]
+
+   ##      for i in range(len(pa_req['nfvi']['NFVIPoPs'])):
+   ##          if pa_req['nfvi']['NFVIPoPs'][i]['id'] == best_nfvi_pops[0]:
+   ##              pa_req['nfvi']['NFVIPoPs'][i]['mappedVNFs'].insert(0, vnf_id)
+
+   ##  print('gonna map VLs: ', get_vls(ns_cluster).keys())
+
+   ##  # Map VNF edges to host edges
+   ##  for vl in get_vls(ns_cluster):
+   ##      print('\t= Mapping intra-cluster={} vl={}'.format(ns_cl_name, vl[2]))
+   ##      nfvi_pops_path = garrote_find_edge_path_mg(ns_cluster,
+   ##              nfvi_pop_cluster, nfvi_pops_graph, vl)
+   ##      print('\t  = hosts_path:{}'.format(nfvi_pops_path))
+   ##      map_vnfs_edge(ns_cluster, nfvi_pops_graph, vl, nfvi_pops_path)
+   ##      persist_vnf_path_map(pa_req, nfvi_pops_graph, ns_cluster, vl,
+   ##              nfvi_pops_path)
 
     return pa_req, True
 
@@ -766,16 +1064,33 @@ def garrote_mapping(pa_req, legacy_reqs):
         vnf_node = get_vnf(ns_graph, list(ns_cluster.nodes())[0])
         nfvi_pop_cluster = nfvi_pop_clusters[vnf_node['nfviPoPCluster']]
         print "ns_cl:" + ns_cl_name + " <--> nfvi_cl:" + vnf_node['nfviPoPCluster']
-        pa_req, map_worked = garrote_ns_mapping(pa_req, ns_cluster,
+        ######## TODO : put to test
+        pa_req, map_worked = brute_garrote_ns_mapping(pa_req, ns_cluster,
             nfvi_pop_cluster, nfvi_pop_graph, ns_cl_name, vnf_node['cluster'])
+        ##############
+        # pa_req, map_worked = garrote_ns_mapping(pa_req, ns_cluster,
+        #     nfvi_pop_cluster, nfvi_pop_graph, ns_cl_name, vnf_node['cluster'])
         if not map_worked:
             return pa_req, False
 
+    # Reflect cluster mappings in the ns_graph
+    for ns_cl_name in ns_clusters:
+        ns_cluster = ns_clusters[ns_cl_name]
+        for vnf_id, vnf_d in ns_cluster.nodes(data=True):
+            nx.set_node_attributes(ns_graph, 'place_at',
+                    {vnf_id: vnf_d['place_at']})
+
     # Perform inter cluster links mapping
     inter_cluster_vl = get_inter_cluster_vl(ns_graph)
+    print '\t == mapping inter-cluster VLs: ' + str(map(lambda o: o[2],
+                                                        inter_cluster_vl))
     for vnfs_edge in inter_cluster_vl:
         nfvi_pops_path = garrote_find_edge_path_mg(ns_graph, nfvi_pop_graph,
                 nfvi_pop_graph, vnfs_edge)
+        if nfvi_pops_path == None:
+            print '  !!ERR: cannot map ' +\
+                    ' inter cluster link: ' + str(vnfs_edge)
+            return pa_req, False
         map_vnfs_edge(ns_graph, nfvi_pop_graph, vnfs_edge, nfvi_pops_path)
         persist_vnf_path_map(pa_req, nfvi_pop_graph, ns_graph, vnfs_edge,
                 nfvi_pops_path)

@@ -633,6 +633,28 @@ definitions:
         type: "string"
       address:
         type: "string"
+      locationInfo:
+        $ref: "#/definitions/locationInfo_im"
+  locationInfo_im:
+    type: "object"
+    required:
+    - "latitude"
+    - "longitude"
+    - "altitude"
+    - "range"
+    properties: 
+      latitude:
+        type: "number"
+        format: "double"
+      longitude:
+        type: "number"
+        format: "double"
+      altitude:
+        type: "number"
+        format: "float"
+      range:
+        type: "number"
+        format: "float"
   PnfInfo_im:
     type: "object"
     required:
@@ -676,7 +698,7 @@ definitions:
       vnfProfileId:
         type: "string"
       locationConstraints:
-        type: "string"
+        $ref: "#/definitions/locationInfo_im"
   ParamsForVnf_im:
     type: "object"
     required:
@@ -696,9 +718,13 @@ definitions:
     - "scope"
     properties:
       descriptorId:
-        type: "string"
+        type: "array"
+        items:
+          type: "string"
       vnfInstanceId:
-        type: "string"
+        type: "array"
+        items:
+          type: "string"
       affinityOrAntiAffinity:
         type: "boolean"
       scope:

@@ -2,10 +2,10 @@
   "vnfs": [
     {
       "requirements": {
-        "storage": 10, 
-        "cpu": 1, 
-        "mec": true, 
-        "memory": 1
+        "storage": 20, 
+        "cpu": 2, 
+        "mec": false, 
+        "memory": 2
       }, 
       "place_at": [
         "1"
@@ -13,19 +13,212 @@
       "processing_time": 0, 
       "instances": 1, 
       "failure_rate": 0, 
-      "location": {
-        "radius": 10, 
-        "center": {
-          "latitude": 0, 
-          "longitude": 0
+      "vnf_name": "SGW_VNF", 
+      "CP": [
+        {
+          "vl_id": "s1c_s1u_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "s1c_s1u_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "sgw_s1u_extcp"
+        }, 
+        {
+          "vl_id": "mgt_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "mgt_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "sgw_mgt_extcp"
+        }, 
+        {
+          "vl_id": "s5_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "s5_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "sgw_s5_extcp"
         }
-      }, 
-      "vnf_name": "webserver"
+      ]
     }, 
     {
       "requirements": {
-        "storage": 50, 
-        "cpu": 1, 
+        "storage": 20, 
+        "cpu": 2, 
+        "mec": false, 
+        "memory": 2
+      }, 
+      "place_at": [
+        "1"
+      ], 
+      "processing_time": 0, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "vnf_name": "HSS_VNF", 
+      "CP": [
+        {
+          "vl_id": "s6b_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "s6b_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "hss_s6b_extcp"
+        }, 
+        {
+          "vl_id": "mgt_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "mgt_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "hss_mgt_extcp"
+        }
+      ]
+    }, 
+    {
+      "requirements": {
+        "storage": 20, 
+        "cpu": 2, 
+        "mec": false, 
+        "memory": 2
+      }, 
+      "place_at": [
+        "1"
+      ], 
+      "processing_time": 0, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "vnf_name": "PGW_VNF", 
+      "CP": [
+        {
+          "vl_id": "s6b_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "s6b_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "pgw_s6b_extcp"
+        }, 
+        {
+          "vl_id": "sgi_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "sgi_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "pgw_sgi_extcp"
+        }, 
+        {
+          "vl_id": "mgt_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "mgt_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "pgw_mgt_extcp"
+        }, 
+        {
+          "vl_id": "s5_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "s5_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "pgw_s5_extcp"
+        }
+      ]
+    }, 
+    {
+      "requirements": {
+        "storage": 20, 
+        "cpu": 2, 
+        "mec": false, 
+        "memory": 2
+      }, 
+      "place_at": [
+        "1"
+      ], 
+      "processing_time": 0, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "vnf_name": "MME_VNF", 
+      "CP": [
+        {
+          "vl_id": "s1c_s1u_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "s1c_s1u_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "mme_s1c_extcp"
+        }, 
+        {
+          "vl_id": "mgt_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "mgt_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "mme_mgt_extcp"
+        }
+      ]
+    }, 
+    {
+      "requirements": {
+        "storage": 20, 
+        "cpu": 2, 
+        "mec": false, 
+        "memory": 2
+      }, 
+      "place_at": [
+        "1"
+      ], 
+      "processing_time": 0, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "vnf_name": "SERVER_VNF", 
+      "CP": [
+        {
+          "vl_id": "sgi_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "sgi_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "central_data_extcp"
+        }, 
+        {
+          "vl_id": "mgt_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "mgt_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "central_mgt_extcp"
+        }
+      ]
+    }, 
+    {
+      "requirements": {
+        "storage": 20, 
+        "cpu": 2, 
         "mec": false, 
         "memory": 4
       }, 
@@ -35,66 +228,229 @@
       "processing_time": 0, 
       "instances": 1, 
       "failure_rate": 0, 
-      "location": {
-        "radius": 10, 
-        "center": {
-          "latitude": 0, 
-          "longitude": 0
+      "vnf_name": "SECGW_VNF", 
+      "CP": [
+        {
+          "vl_id": "radio_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "radio_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "secgw_radio_extcp"
+        }, 
+        {
+          "vl_id": "s1c_s1u_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "s1c_s1u_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "secgw_s1c_extcp"
+        }, 
+        {
+          "vl_id": "mgt_vepc_vl", 
+          "VNFLink": {
+            "latency": 0, 
+            "required_capacity": 1.0, 
+            "id": "mgt_vepc_vl", 
+            "traversal_probability": 1
+          }, 
+          "cpId": "secgw_mgt_extcp"
         }
-      }, 
-      "vnf_name": "spr1"
+      ]
     }, 
     {
       "requirements": {
-        "storage": 10, 
-        "cpu": 1, 
-        "mec": true, 
-        "memory": 1
+        "storage": 0, 
+        "cpu": 0, 
+        "mec": false, 
+        "memory": 0
+      }, 
+      "place_at": [
+        "2"
+      ], 
+      "processing_time": 0, 
+      "is_sap": true, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "vnf_name": "sap_0"
+    }, 
+    {
+      "requirements": {
+        "storage": 0, 
+        "cpu": 0, 
+        "mec": false, 
+        "memory": 0
+      }, 
+      "place_at": [
+        "2"
+      ], 
+      "processing_time": 0, 
+      "is_sap": true, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "vnf_name": "sap_1"
+    }, 
+    {
+      "requirements": {
+        "storage": 0, 
+        "cpu": 0, 
+        "mec": false, 
+        "memory": 0
       }, 
       "place_at": [
         "1"
       ], 
       "processing_time": 0, 
+      "is_sap": true, 
       "instances": 1, 
       "failure_rate": 0, 
-      "location": {
-        "radius": 10, 
-        "center": {
-          "latitude": 0, 
-          "longitude": 0
-        }
+      "vnf_name": "sap_2"
+    }, 
+    {
+      "requirements": {
+        "storage": 0, 
+        "cpu": 0, 
+        "mec": false, 
+        "memory": 0
       }, 
-      "vnf_name": "spr21"
+      "place_at": [
+        "1"
+      ], 
+      "processing_time": 0, 
+      "is_sap": true, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "vnf_name": "sap_3"
+    }, 
+    {
+      "requirements": {
+        "storage": 0, 
+        "cpu": 0, 
+        "mec": false, 
+        "memory": 0
+      }, 
+      "place_at": [
+        "2"
+      ], 
+      "processing_time": 0, 
+      "is_sap": true, 
+      "instances": 1, 
+      "failure_rate": 0, 
+      "vnf_name": "sap_4"
     }
   ], 
   "costs": [
     {
-      "vnf": "spr21", 
+      "vnf": "SERVER_VNF", 
       "host": "1", 
       "cost": 0
     }, 
     {
-      "vnf": "webserver", 
+      "vnf": "SECGW_VNF", 
       "host": "1", 
       "cost": 0
     }, 
     {
-      "vnf": "spr1", 
+      "vnf": "MME_VNF", 
       "host": "1", 
       "cost": 0
     }, 
     {
-      "vnf": "spr21", 
+      "vnf": "HSS_VNF", 
+      "host": "1", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "SGW_VNF", 
+      "host": "1", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "PGW_VNF", 
+      "host": "1", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "SERVER_VNF", 
       "host": "2", 
       "cost": 0
     }, 
     {
-      "vnf": "webserver", 
+      "vnf": "SECGW_VNF", 
       "host": "2", 
       "cost": 0
     }, 
     {
-      "vnf": "spr1", 
+      "vnf": "MME_VNF", 
+      "host": "2", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "HSS_VNF", 
+      "host": "2", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "SGW_VNF", 
+      "host": "2", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "PGW_VNF", 
+      "host": "2", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "sap_0", 
+      "host": "1", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "sap_0", 
+      "host": "2", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "sap_1", 
+      "host": "1", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "sap_1", 
+      "host": "2", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "sap_2", 
+      "host": "1", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "sap_2", 
+      "host": "2", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "sap_3", 
+      "host": "1", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "sap_3", 
+      "host": "2", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "sap_4", 
+      "host": "1", 
+      "cost": 0
+    }, 
+    {
+      "vnf": "sap_4", 
       "host": "2", 
       "cost": 0
     }
@@ -106,13 +462,13 @@
       "host_name": "1", 
       "capabilities": {
         "bandwidth": 0, 
-        "storage": 1000, 
-        "cpu": 18, 
-        "mec": true, 
-        "memory": 50176
+        "storage": 995, 
+        "cpu": 20, 
+        "mec": false, 
+        "memory": 51200
       }, 
       "location": {
-        "radius": 10, 
+        "radius": 0, 
         "center": {
           "latitude": 0, 
           "longitude": 0
@@ -125,13 +481,13 @@
       "host_name": "2", 
       "capabilities": {
         "bandwidth": 0, 
-        "storage": 1000, 
+        "storage": 980, 
         "cpu": 20, 
         "mec": false, 
         "memory": 51200
       }, 
       "location": {
-        "radius": 10, 
+        "radius": 0, 
         "center": {
           "latitude": 0, 
           "longitude": 0
@@ -146,7 +502,7 @@
       "network": 0.0
     }, 
     "link_capacity_constraints_ok": true, 
-    "execution_time": 0.424458, 
+    "execution_time": 4.151301, 
     "delay_constraints_ok": true, 
     "legal_placement": true, 
     "host_capacity_constraints_ok": true, 
@@ -157,13 +513,17 @@
   }, 
   "services": [
     {
-      "service_name": "vCDN_v02", 
+      "service_name": "eHealth-Mon-NS", 
       "max_latency": 10000.0, 
       "target_availability": 0.0, 
       "traversed_vnfs": {
-        "webserver": 1.0, 
-        "spr1": 1.0, 
-        "spr21": 1.0
+        "SECGW_VNF": 1.0, 
+        "SERVER_VNF": 1.0, 
+        "MME_VNF": 1.0, 
+        "sap_3": 1.0, 
+        "PGW_VNF": 1.0, 
+        "SGW_VNF": 1.0, 
+        "HSS_VNF": 1.0
       }, 
       "max_cost": 1000000000
     }
@@ -209,32 +569,268 @@
   ], 
   "vnf_edges": [
     {
-      "source": "spr1", 
-      "traffic": "1", 
-      "id": "mgt", 
-      "target": null
-    }, 
-    {
-      "source": "spr1", 
+      "latency": 0, 
+      "target": "SERVER_VNF", 
+      "source": "PGW_VNF", 
+      "traffic": 1.0, 
+      "id": "sgi_vepc_vl", 
       "host_edge": {
         "delay": 0, 
         "source": "1", 
         "target": "1"
-      }, 
-      "traffic": "1", 
-      "id": "VideoData", 
-      "target": "spr21"
+      }
     }, 
     {
-      "source": "webserver", 
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "SECGW_VNF", 
+      "traffic": 1.0, 
+      "id": "s1c_s1u_vepc_vl", 
       "host_edge": {
         "delay": 0, 
         "source": "1", 
         "target": "1"
-      }, 
-      "traffic": "1", 
-      "id": "VideoDistribution", 
-      "target": "spr21"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "SECGW_VNF", 
+      "traffic": 1.0, 
+      "id": "s1c_s1u_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "MME_VNF", 
+      "traffic": 1.0, 
+      "id": "s1c_s1u_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "PGW_VNF", 
+      "source": "HSS_VNF", 
+      "traffic": 1.0, 
+      "id": "s6b_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "sap_3", 
+      "source": "SECGW_VNF", 
+      "traffic": 1.0, 
+      "id": "radio_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "PGW_VNF", 
+      "source": "PGW_VNF", 
+      "traffic": 1.0, 
+      "id": "s5_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "SECGW_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "SECGW_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "SECGW_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "SECGW_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "SECGW_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "MME_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "MME_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "MME_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "MME_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "HSS_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "HSS_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "HSS_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "PGW_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "PGW_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
+    }, 
+    {
+      "latency": 0, 
+      "target": "SECGW_VNF", 
+      "source": "SGW_VNF", 
+      "traffic": 1.0, 
+      "id": "mgt_vepc_vl", 
+      "host_edge": {
+        "delay": 0, 
+        "source": "1", 
+        "target": "1"
+      }
     }
   ]
 }

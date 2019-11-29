@@ -64,7 +64,7 @@ def create_ns_record(nsId, body):
                  "ns_description": body.ns_description,
                  "sapInfo": "",
                  "monitoring_jobs": [],
-                 "dashboard_info": "",
+                 "dashboard_info": {},
                  }
 
     ns_coll.insert_one(ns_record)

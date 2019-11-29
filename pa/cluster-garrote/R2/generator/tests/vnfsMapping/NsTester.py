@@ -21,24 +21,42 @@ class NsTester(object):
         :returns: networkx instance of the chain
 
         """
-        # Create the mock chain
-        mockChain = nx.Graph()
-        mockChain.add_node('start', memory=2, disk=3, cpu=4)
-        mockChain.add_edge('start', 1, bw=2, delay=3)
-        mockChain.add_node(1, memory=2, disk=3, cpu=4)
-        mockChain.add_node(2, memory=2, disk=3, cpu=4)
-        mockChain.add_node(4, memory=2, disk=3, cpu=4)
-        mockChain.add_edge(1, 2, bw=2, delay=3)
-        mockChain.add_edge(1, 4, bw=2, delay=3)
+        mockChain = nx.MultiGraph()
 
-        mockChain.add_node(3, memory=2, disk=3, cpu=4)
-        mockChain.add_edge(2, 3, bw=2, delay=3)
-        mockChain.add_node(5, memory=2, disk=3, cpu=4)
-        mockChain.add_node(6, memory=2, disk=3, cpu=4)
-        mockChain.add_edge(3, 5, bw=2, delay=3)
-        mockChain.add_edge(3, 6, bw=2, delay=3)
+        # VNFs
+        mockChain.add_node("MECa", memory=2, disk=3, cpu=4, vnf_name='',
+                id = "MECa", processing_time = 1)
+        mockChain.add_node("MECb", memory=2, disk=3, cpu=4, vnf_name='',
+                id = "MECb", processing_time = 1)
+        mockChain.add_node("WebServer", memory=2, disk=3, cpu=4, vnf_name='',
+                id = "WebServer", processing_time = 1)
+        mockChain.add_node("DB", memory=2, disk=3, cpu=4, vnf_name='',
+                id = "DB", processing_time = 1)
+        mockChain.add_node("Renderer", memory=2, disk=3, cpu=4, vnf_name='',
+                id = "Rendered", processing_time = 1)
+
+        # VLs
+        mockChain.add_edge('MECa', "WebServer", bw=2, delay=3)
+        mockChain.add_edge('MECb', "WebServer", bw=2, delay=3)
+        mockChain.add_edge('WebServer', "DB", bw=2, delay=3)
+        mockChain.add_edge('WebServer', "Renderer", bw=2, delay=3)
+        # redundancy
+        mockChain.add_edge('WebServer', "Renderer", bw=20, delay=3) 
 
         return mockChain
+
+
+    def __mockNfpds(self):
+        """Creates the Nfpds used for the mock Chain to be generated
+        :returns: the nfpd dictionary for the setNfpds() method
+
+        """
+        return {
+            "aWay": ["MECa", "WebServer", "DB", "WebServer", "DB",
+                "WebServer", "Renderer"],
+            "bWay": ["MECb", "WebServer", "DB", "WebServer", "DB",
+                "WebServer", "Renderer"]
+        }
 
 
     def testReadWrite(self):
@@ -78,6 +96,7 @@ class NsTester(object):
 
         ns = NS.NS()
         ns.setChain(mockChain)
+        ns.setNfpds(self.__mockNfpds())
         ns.initIter()
 
         # Check nodes retrieval
@@ -85,30 +104,76 @@ class NsTester(object):
         print '## Iteration tester ##'
         print '######################'
         correct = True
-        nextVnfs = ns.iterNext()
 
-        if [1] != nextVnfs:
-            print '  retrieval 1 is not == [1]'
+        # aWay iteration #
+        nextVnf = ns.iterNext("aWay")
+        print "# starting with Nfpd=aWay"
+        if "MECa" != nextVnf:
+            print '  aWay retrieval 1 is not == MECa'
+            correct = False
+        
+        if "WebServer" != ns.iterNext("aWay"):
+            print '  aWay retrieval 2 is not == WebServer'
+            correct = False
+        
+        if "DB" != ns.iterNext("aWay"):
+            print '  aWay retrieval 3 is not == DB'
+            correct = False
+        
+        if "WebServer" != ns.iterNext("aWay"):
+            print '  aWay retrieval 4 is not == WebServer'
+            correct = False
+        
+        if "DB" != ns.iterNext("aWay"):
+            print '  aWay retrieval 5 is not == DB'
+            correct = False
+        
+        if "WebServer" != ns.iterNext("aWay"):
+            print '  aWay retrieval 6 is not == WebServer'
+            correct = False
+        
+        if "Renderer" != ns.iterNext("aWay"):
+            print '  aWay retrieval 7 is not == Rendered'
             correct = False
 
-        nextVnfs = ns.iterNext()
-        if 2 not in nextVnfs or 4 not in nextVnfs or len(nextVnfs) != 2:
-            print '  retrieval 1 is not == [2, 4]'
+        if None != ns.iterNext("aWay"):
+            print '  aWay retrieval 8 is not == None'
             correct = False
 
-        nextVnfs = ns.iterNext()
-        if [3] != nextVnfs:
-            print '  retrieval 3 is not == [3]'
+
+        # aWay iteration #
+        nextVnf = ns.iterNext("bWay")
+        print "# starting with Nfpd=bWay"
+        if "MECb" != nextVnf:
+            print '  bWay retrieval 1 is not == MECa'
+            correct = False
+        
+        if "WebServer" != ns.iterNext("bWay"):
+            print '  bWay retrieval 2 is not == WebServer'
+            correct = False
+        
+        if "DB" != ns.iterNext("bWay"):
+            print '  bWay retrieval 3 is not == DB'
+            correct = False
+        
+        if "WebServer" != ns.iterNext("bWay"):
+            print '  bWay retrieval 4 is not == WebServer'
+            correct = False
+        
+        if "DB" != ns.iterNext("bWay"):
+            print '  bWay retrieval 5 is not == DB'
+            correct = False
+        
+        if "WebServer" != ns.iterNext("bWay"):
+            print '  bWay retrieval 6 is not == WebServer'
+            correct = False
+        
+        if "Renderer" != ns.iterNext("bWay"):
+            print '  bWay retrieval 7 is not == Rendered'
             correct = False
 
-        nextVnfs = ns.iterNext()
-        if 5 not in nextVnfs or 6 not in nextVnfs or len(nextVnfs) != 2:
-            print '  retrieval 4 is not == [5, 6]'
-            correct = False
-
-        nextVnfs = ns.iterNext()
-        if [] != nextVnfs:
-            print '  retrieval 8 is not == []'
+        if None != ns.iterNext("bWay"):
+            print '  aWay retrieval 8 is not == None'
             correct = False
         
         if correct:
@@ -127,33 +192,30 @@ class NsTester(object):
         mockChain = self.__createMockChain()
         ns = NS.NS()
         ns.setChain(mockChain)
-        ns.setSplitsNum(2)
-        ns.setBranchNum(3)
-        ns.setMaxSplitW(2)
+        ns.setNfpds(self.__mockNfpds())
 
-        prevs = ns.prevVNFs('start')
-        if prevs == []:
-            print '  first retrieval: OK!'
+        if None == ns.prevVNF('MECa', 'aWay'):
+            print '  first aWay retrieval: OK!'
         else:
-            print '  first retrieval: ERR!'
+            print '  first aWay retrieval: ERR!'
 
-        prevs = ns.prevVNFs(1)
-        if prevs == ['start']:
-            print '  second retrieval: OK!'
+        if "WebServer" == ns.prevVNF("DB", "aWay"):
+            print '  second aWay retrieval: OK!'
         else:
-            print '  second retrieval: ERR!'
+            print '  second aWay retrieval: ERR!'
 
-        prevs = ns.prevVNFs(2)
-        if prevs == [1]:
-            print '  third retrieval: OK'
+        if None == ns.prevVNF('MECa', 'bWay'):
+            print '  first bWay retrieval: OK!'
         else:
-            print '  third retrieval: ERR'
+            print '  first bWay retrieval: ERR!'
 
-        if ns._NS__prevNeighsCache[1] == ['start'] and\
-                ns._NS__prevNeighsCache[2] == [1]:
-            print '  cache storage works: OK!'
+        if "WebServer" == ns.prevVNF("DB", "bWay"):
+            print '  second bWay retrieval: OK!'
         else:
-            print '  cache storage works: ERR!'
+            print '  second bWay retrieval: ERR!'
+
+        return
+
 
 
     def testNextVNFs(self):
@@ -168,41 +230,69 @@ class NsTester(object):
         mockChain = self.__createMockChain()
         ns = NS.NS()
         ns.setChain(mockChain)
-        ns.setSplitsNum(2)
-        ns.setBranchNum(3)
-        ns.setMaxSplitW(2)
+        ns.setNfpds(self.__mockNfpds())
 
-        nexts = ns.getNextVNFs('start')
-        if nexts == [1]:
-            print '  first retrieval: OK!'
+        if None == ns.getNextVNF('Renderer', 'aWay'):
+            print '  first aWay retrieval: OK!'
         else:
-            print '  first retrieval: ERR!'
+            print '  first aWay retrieval: ERR!'
 
-        nexts = ns.getNextVNFs(1)
-        if 2 in nexts and 4 in nexts:
-            print '  second retrieval: OK!'
+        if 'WebServer' == ns.getNextVNF('MECa', 'aWay'):
+            print '  second aWay retrieval: OK!'
         else:
-            print '  second retrieval: ERR!'
+            print '  second aWay retrieval: ERR!'
 
-        nexts = ns.getNextVNFs(5)
-        if nexts == []:
-            print '  third retrieval: OK!'
+        if None == ns.getNextVNF('Renderer', 'bWay'):
+            print '  first bWay retrieval: OK!'
         else:
-            print '  third retrieval: ERR!'
+            print '  first bWay retrieval: ERR!'
 
-        if 2 in ns._NS__nextNeighsCache[1] and\
-                4 in ns._NS__nextNeighsCache[1] and\
-                [1] == ns._NS__nextNeighsCache['start'] and\
-                [] == ns._NS__nextNeighsCache[5]:
-            print '  cache storage: OK!'
+        if 'WebServer' == ns.getNextVNF('MECb', 'bWay'):
+            print '  second bWay retrieval: OK!'
         else:
-            print '  cache storage: ERR!'
+            print '  second bWay retrieval: ERR!'
+
+        return
+
+
+    def testGetters(self):
+        """Tests the get methods for VNFs and VLs
+        :returns: Nothing
+
+        """
+        print '#############'
+        print '## getters ##'
+        print '#############'
+
+        mockChain = self.__createMockChain()
+        ns = NS.NS()
+        ns.setChain(mockChain)
+        ns.setNfpds(self.__mockNfpds())
+
+        wsVNF = ns.getVnf("WebServer")
+        if wsVNF['cpu'] == 4 and wsVNF['disk'] == 3 and wsVNF['memory'] == 2:
+            print "  WebServer VNF retrieved OK with its properties"
+        else:
+            print "  WebServer VNF properties are not retrieved properly"
+
+
+        ws2RenderLinks = ns.getLinks("WebServer", "Renderer")
+        if ws2RenderLinks[0]['bw'] == 2 and ws2RenderLinks[0]['delay'] == 3\
+                and ws2RenderLinks[1]['bw'] == 20 and\
+                ws2RenderLinks[1]['delay'] == 3:
+            print "  multiple links between WebServer and Renderer: OK!"
+        else:
+            print "  the links between WebServer and Renderere BAD"
+
+        return
+        
 
 
 if __name__ == '__main__':
     tester = NsTester()
     tester.testIteration()
-    tester.testReadWrite()
+    # tester.testReadWrite()
     tester.testPrevVNFs()
     tester.testNextVNFs()
+    tester.testGetters()
 

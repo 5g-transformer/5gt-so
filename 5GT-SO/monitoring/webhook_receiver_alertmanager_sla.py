@@ -1,3 +1,15 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from datetime import timedelta, datetime
 import pytz
 from flask import request
@@ -19,8 +31,9 @@ so_scale_ns_base_path = config.get("ALERTS", "so_scale_ns.base_path")
 class SLAManagerAPI(MethodView):
 
     def post(self):
-        data_json = request.data
-        data = json.loads(data_json)
+        #data_json = request.data
+        # data = json.loads(data_json)
+        data = request.get_json(force=True)
         alerts = data['alerts']
         for alert in alerts:
 
@@ -119,9 +132,8 @@ def request_to_so_scale_ns(alert):
               "scaleTime": "0"
             }
 
-        header = {
-                  'Content-Type': 'application/json'
-                  }
+        header = {'Content-Type': 'application/json',
+                  'Accept': 'application/json'}
 
         scale_uri = "http://" + so_ip + ":" + so_port + so_scale_ns_base_path + "/" + ns_id + "/scale"
 
@@ -135,7 +147,7 @@ def request_to_so_scale_ns(alert):
             log_queue.put(["DEBUG", scale_request])
             log_queue.put(["DEBUG", "Response from SO on Scale request are:"])
             log_queue.put(["DEBUG", resp_scale])
-            resp_scale = json.loads(resources)
+            resp_scale = json.loads(resp_scale)
             log_queue.put(["DEBUG", "Response from SO on Scale request are:"])
             log_queue.put(["DEBUG", json.dumps(resp_scale, indent=4)])
             conn.close()

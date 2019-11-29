@@ -22,21 +22,21 @@ class AffinityOrAntiAffinityRuleIm(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, descriptor_id: str=None, vnf_instance_id: str=None, affinity_or_anti_affinity: bool=None, scope: str=None):  # noqa: E501
+    def __init__(self, descriptor_id: List[str]=None, vnf_instance_id: List[str]=None, affinity_or_anti_affinity: bool=None, scope: str=None):  # noqa: E501
         """AffinityOrAntiAffinityRuleIm - a model defined in Swagger
 
         :param descriptor_id: The descriptor_id of this AffinityOrAntiAffinityRuleIm.  # noqa: E501
-        :type descriptor_id: str
+        :type descriptor_id: List[str]
         :param vnf_instance_id: The vnf_instance_id of this AffinityOrAntiAffinityRuleIm.  # noqa: E501
-        :type vnf_instance_id: str
+        :type vnf_instance_id: List[str]
         :param affinity_or_anti_affinity: The affinity_or_anti_affinity of this AffinityOrAntiAffinityRuleIm.  # noqa: E501
         :type affinity_or_anti_affinity: bool
         :param scope: The scope of this AffinityOrAntiAffinityRuleIm.  # noqa: E501
         :type scope: str
         """
         self.swagger_types = {
-            "descriptor_id": str,
-            "vnf_instance_id": str,
+            "descriptor_id": List[str],
+            "vnf_instance_id": List[str],
             "affinity_or_anti_affinity": bool,
             "scope": str
         }
@@ -65,22 +65,22 @@ class AffinityOrAntiAffinityRuleIm(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def descriptor_id(self) -> str:
+    def descriptor_id(self) -> List[str]:
         """Gets the descriptor_id of this AffinityOrAntiAffinityRuleIm.
 
 
         :return: The descriptor_id of this AffinityOrAntiAffinityRuleIm.
-        :rtype: str
+        :rtype: List[str]
         """
         return self._descriptor_id
 
     @descriptor_id.setter
-    def descriptor_id(self, descriptor_id: str):
+    def descriptor_id(self, descriptor_id: List[str]):
         """Sets the descriptor_id of this AffinityOrAntiAffinityRuleIm.
 
 
         :param descriptor_id: The descriptor_id of this AffinityOrAntiAffinityRuleIm.
-        :type descriptor_id: str
+        :type descriptor_id: List[str]
         """
         if descriptor_id is None:
             raise ValueError("Invalid value for `descriptor_id`, must not be `None`")  # noqa: E501
@@ -88,22 +88,22 @@ class AffinityOrAntiAffinityRuleIm(Model):
         self._descriptor_id = descriptor_id
 
     @property
-    def vnf_instance_id(self) -> str:
+    def vnf_instance_id(self) -> List[str]:
         """Gets the vnf_instance_id of this AffinityOrAntiAffinityRuleIm.
 
 
         :return: The vnf_instance_id of this AffinityOrAntiAffinityRuleIm.
-        :rtype: str
+        :rtype: List[str]
         """
         return self._vnf_instance_id
 
     @vnf_instance_id.setter
-    def vnf_instance_id(self, vnf_instance_id: str):
+    def vnf_instance_id(self, vnf_instance_id: List[str]):
         """Sets the vnf_instance_id of this AffinityOrAntiAffinityRuleIm.
 
 
         :param vnf_instance_id: The vnf_instance_id of this AffinityOrAntiAffinityRuleIm.
-        :type vnf_instance_id: str
+        :type vnf_instance_id: List[str]
         """
 
         self._vnf_instance_id = vnf_instance_id

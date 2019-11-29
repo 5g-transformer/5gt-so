@@ -50,6 +50,7 @@ def create_ns_graph(pa_req):
         ns_graph.add_node(vnf['VNFid'], **vnf)
 
 	# Add the VNF links
+    vl_pa_idx = 0
     for vl in pa_req['nsd']['VNFLinks']:
         # Search VNFs connected to vl
         connected_vnfs = []
@@ -63,6 +64,9 @@ def create_ns_graph(pa_req):
             vl['source'] = VNFe[0]
             vl['destination'] = VNFe[1]
             ns_graph.add_edge(VNFe[0], VNFe[1], key=vl['id'], **vl)
+            ns_graph[VNFe[0]][VNFe[1]][vl['id']]['PAReqIndex'] = vl_pa_idx
+
+        vl_pa_idx += 1
 
     return ns_graph
 
@@ -247,21 +251,31 @@ def create_ns_clusters(pa_reqs):
                 vnf['place_at'] = []
             ns_clusters[vnf['cluster']].add_node(vnf['VNFid'], **vnf)
 
-    # Add the cluster edges
-    vnf_conns = get_vnf_connections(pa_req)
-    for pa_req in pa_reqs:
-        reqIdx = 0
-        for edge in pa_req['nsd']['VNFLinks']:
-            edge['PAReqIndex'] = reqIdx
-            reqIdx += 1
-            for cluster_num in ns_clusters:
-                cluster = ns_clusters[cluster_num]
-                cluster_vnfs = cluster.nodes()
+    # Add the cluster VL edges
+    for cluster_num in ns_clusters:
+        cluster = ns_clusters[cluster_num]
+        cluster_vnfs = cluster.nodes()
+        cluster_vnfs = list(filter(lambda v: v['VNFid'] in cluster_vnfs,
+                                   list(pa_req['nsd']['VNFs'])))
 
-                v1, v2, vl = list(filter(lambda vc: vc[2] == edge['id'],
-                    vnf_conns))[0]
-                if v1 in cluster_vnfs and v2 in cluster_vnfs:
-                    cluster.add_edge(v1, v2, key=vl, **edge)
+        vl_pa_idx = 0
+        for vl in pa_req['nsd']['VNFLinks']:
+            # Search VNFs connected to vl
+            connected_vnfs = []
+            for vnf in cluster_vnfs:
+                linked_cps = [cp for cp in vnf['CP']\
+                              if 'VNFLink' in cp and\
+                                 cp['VNFLink']['id'] == vl['id']]
+                if len(linked_cps) > 0:
+                    connected_vnfs.append(vnf['VNFid'])
+            # Add all pairs VNF1---vl---VNF2
+            for VNFe in list(combinations(connected_vnfs, 2)):
+                vl['source'] = VNFe[0]
+                vl['destination'] = VNFe[1]
+                cluster.add_edge(VNFe[0], VNFe[1], key=vl['id'], **vl)
+                cluster[VNFe[0]][VNFe[1]][vl['id']]['PAReqIndex'] = vl_pa_idx
+
+            vl_pa_idx += 1
 
     return ns_clusters
 
@@ -461,7 +475,7 @@ def ns_cluster_vnf_req(ns_cluster):
 
     # Add all VNFs requirements
     for vnf_id in vnfs_req:
-        for req in cluster_reqs:
+        for req in [r for r in cluster_reqs if r in vnfs_req[vnf_id]]:
             if type(cluster_reqs[req]) == int or\
                     type(cluster_reqs[req]) == float:
                 cluster_reqs[req] += vnfs_req[vnf_id][req]
@@ -574,6 +588,7 @@ def nfvi_pop_cluster_free_bw(nfvi_pop_cluster):
     """
     cap = 0
 
+    lls = get_lls(nfvi_pop_cluster)
     for (nfvi_pop1, nfvi_pop2, mLl) in get_lls(nfvi_pop_cluster):
         cap += nfvi_pop_cluster[nfvi_pop1][nfvi_pop2][\
 mLl]['capacity']['available']
@@ -600,7 +615,9 @@ def enough_cluster_res(ns_cluster, nfvi_pop_cluster):
     nfvi_pop_cl_free_cap = nfvi_pop_cluster_free_cap(nfvi_pop_cluster)
     for req in ns_cl_req:
         enough_cl_res = enough_cl_res and\
-            ns_cl_req[req] <= nfvi_pop_cl_free_cap[req]
+            float(ns_cl_req[req]) <= float(nfvi_pop_cl_free_cap[req])
+            # float cast is for boolean requirements
+            # for example ns_cl_req['mec'] = False
 
     if not enough_cl_res:
         return False
@@ -612,7 +629,7 @@ def enough_cluster_res(ns_cluster, nfvi_pop_cluster):
 
     for req in ns_edge_req:
         enough_cl_res = enough_cl_res and\
-            ns_edge_req[req] < nfvi_pop_cl_ll_cap[req]
+            ns_edge_req[req] <= nfvi_pop_cl_ll_cap[req]
 
     return enough_cl_res
 
@@ -722,11 +739,15 @@ def exist_capable_nfvi_pop(vnf_node, nfvi_pop_graph):
     found_host, nfvi_pop_id = False, None
     while not found_host and i < len(nfvi_pops_ids):
         nfvi_node = get_nfvi_pop(nfvi_pop_graph, nfvi_pops_ids[i])
+        print('\t\t\t= can {1} be in host {0}?'.format(nfvi_pops_ids[i],
+                                                          vnf_node['VNFid']))
         found_host = can_host_vnf(nfvi_node, vnf_node)
         if not found_host:
             i += 1
+            print('\t\t\t   No')
         else:
             nfvi_pop_id = nfvi_pops_ids[i]
+            print('\t\t\t   Yes')
 
     return found_host, nfvi_pop_id
 
@@ -1367,6 +1388,22 @@ def nfvis_cope_with_saps(pa_req):
             })
 
 
+def set_nfvi_pops_bw(pa_req):
+    """Set the NFVI PoPs bandwidth as high as the demand
+
+    :pa_req: API PARequest dictionary
+    :returns: Nothing
+
+    """
+    vls_bw = reduce(lambda vl1,vl2: vl1 + vl2,
+                map(lambda vl: vl['required_capacity'],
+                    pa_req['nsd']['VNFLinks']))
+    for i in range(len(pa_req['nfvi']['NFVIPoPs'])):
+        pa_req['nfvi']['NFVIPoPs'][i]['capabilities']['bandwidth'] = vls_bw
+        pa_req['nfvi']['NFVIPoPs'][i]['availableCapabilities']['bandwidth'] =\
+                vls_bw
+
+
 def heat_wood(pa_req):
     """It prepares the PARequest dictionary for the garrote matching.
        Every preprocessing before the heuristic is performed here.
@@ -1375,6 +1412,7 @@ def heat_wood(pa_req):
     :returns: Nothing
 
     """
+    set_nfvi_pops_bw(pa_req)
     location_in_vnfs(pa_req)
     attach_sap_to_vnfs(pa_req)
     nfvis_cope_with_saps(pa_req)
@@ -1415,7 +1453,6 @@ def ns_mapping_below_latency(pa_req, ns_graph):
     # Check all mapped paths are below pa_req['max_delay']
     for vnfId in vnfSAPs:
         for targetVNF in [v for v in ns_graph.nodes() if v != vnfId]:
-            print "    from " + vnfId + " to " + str(targetVNF)
             paths = uc3m_simple.all_simple_paths(ns_graph, source=vnfId,
                     target=targetVNF, cutoff=len(ns_graph.nodes()))
             # Get delay of each path

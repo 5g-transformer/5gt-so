@@ -1,10 +1,10 @@
 swagger: '2.0'
 info:
   description: REST API for executing/integrating 5GT placement algorithms
-  version: '1'
+  version: '2'
   title: Placement algorithm API
-host: '127.0.0.1:8080'
-basePath: /5gt/so/v2
+host: '127.0.0.1:6161'
+basePath: /5gt/so/v1
 schemes:
   - http
 paths:

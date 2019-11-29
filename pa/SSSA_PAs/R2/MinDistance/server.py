@@ -28,26 +28,29 @@ def create_paths():
     if not request.json:
         abort(400)
 
-    PArequest = PAreqSchema()
-    inputReq = PArequest.load(request.json)
+    #PArequest = PAreqSchema()
+    #print PArequest
+    #inputReq = PArequest.load(request.json)
+    #print request.json
     # PArequests.append(inputReq)
-    for key in inputReq.keys():
+    req=request.json
+    for key in req.keys():
         if key == "nfvi":
-            for key1 in inputReq[key].keys():
+            for key1 in req[key].keys():
                 if key1 == "LLs":
-                    LLs = inputReq[key][key1]
+                    LLs = req[key][key1]
                 if key1 == "NFVIPoPs":
-                    NFVIPoP = inputReq[key][key1]
+                    NFVIPoPs = req[key][key1]
     # for key in inputReq.keys():
         if key == "nsd":
-            NSD = inputReq[key]
-    response = PAdist(NFVIPoP, LLs, NSD)
+            NSD = req[key]
+    response = PAdist(NFVIPoPs, LLs, NSD)
     # response=PAlatency(NFVIPoP,LLs,NSD)
     if response:
         print response
         PArequests.append(response)
         i = len(PArequests)
-        return jsonify({'response': PArequests[i - 1]}), 201
+        return jsonify(PArequests[i - 1]), 201
 
     else:
         abort(404)
@@ -74,4 +77,4 @@ def not_found(error):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=6161)
+    app.run(debug=True,host='0.0.0.0', port=6161)

@@ -29,6 +29,7 @@ import sys
 import ssl
 import os
 import shutil
+import netaddr
 
 # project imports
 # from coreMano.osm_db import osm_db
@@ -49,6 +50,9 @@ config.read("../../mtp.properties")
 mtp_ip = config.get("MTP", "mtp.ip")
 mtp_port = config.get("MTP", "mtp.port")
 mtp_path = config.get("MTP", "mtp.base_path")
+# load mon properties
+config.read("../../monitoring/monitoring.properties")
+mon_ip = config.get("MONITORING", "monitoring.ip")
 
 
 ########################################################################################################################
@@ -101,7 +105,7 @@ def extract_sap_info (config, nsr_info, ns_descriptor):
 
 def get_information_of_scaled_service_osm(nsi_id, placement_info, osmclient):
     # this function assumes that the scaled vnfs will be in the same pop as the original one
-    # example of placement_info: [{"NFVIPoPID": "1", "mappedVNFs": ["webserver", "spr21"]}, {"NFVIPoPID": "2", "mappedVNFs": ["spr1"]}],
+    # example of placement_info: {"usedNFVIPops": [{"NFVIPoPID": "1", "mappedVNFs": ["webserver", "spr1", "spr21"]}]}
     ns_show = osmclient.ns.get(nsi_id)
     vim_info = get_vim_info()
     service_vnf_info = list()
@@ -115,12 +119,14 @@ def get_information_of_scaled_service_osm(nsi_id, placement_info, osmclient):
             port_info = []
             name = vdur["name"].split("-")
             addresses = vdur["ip-address"].split(";")
+            vnf_info = {}
             for interface in vdur["interfaces"]:
                 mac_address = interface["mac-address"]
                 mask = '/24'
-                for vim in placement_info:
+                for vim in placement_info['usedNFVIPops']:
                    for mapped_vnf in vim["mappedVNFs"]:
-                       if (mapped_vnf == name[7]):
+                       if (name[7].find(mapped_vnf) !=-1):                       
+                           vnf_info['name'] = mapped_vnf
                            for nfvipopcheck in vim_info[vim["NFVIPoPID"]]['nfvipop_info']:
                                if nfvipopcheck['nfviPopId'] == vim["NFVIPoPID"]:
                                    host = nfvipopcheck['networkConnectivityEndpoint'].split('-')[0]
@@ -136,79 +142,95 @@ def get_information_of_scaled_service_osm(nsi_id, placement_info, osmclient):
                 elem_port_info = {"ip_address": ip_address, "mask": mask, "mac_address": mac_address,
                                   "dc_iface": dc_iface}
                 port_info.append(elem_port_info)
-            vnf_info = {"name": name[7], "dc": vim["NFVIPoPID"], "port_info": port_info, "instance": name[8]}  # R4
+            # vnf_info = {"name": name[7], "dc": vim["NFVIPoPID"], "port_info": port_info, "instance": name[8]}  # R4
+            vnf_info["dc"] = vim["NFVIPoPID"]
+            vnf_info["port_info"] = port_info
+            vnf_info ["instance"] =  name[8]
             if (len(addresses)>1):
-              vnf_info['floating_ips'] = {name[7]: addresses[0]}
+              vnf_info['floating_ips'] = []
+              # vnf_info['floating_ips'] = {vnf_info['name']: addresses[0]}
+              vnf_info['floating_ips'].append({vnf_info['name']: addresses[0]})
             service_vnf_info.append(vnf_info)
     return {"ns_name": nsi_id, "vnfs": service_vnf_info}
 
 def get_information_of_scaled_service_os(nsi_id, placement_info, scale_info):
     # this function assumes that the scaled vnfs will be in the same pop as the original one
-    # example of placement_info: [{"NFVIPoPID": "1", "mappedVNFs": ["webserver", "spr21"]}, {"NFVIPoPID": "2", "mappedVNFs": ["spr1"]}],
+    # example of placement_info: {"usedNFVIPops": [{"NFVIPoPID": "1", "mappedVNFs": ["webserver", "spr1", "spr21"]}]}
     # example of scale_info: {'scaleVnfType': 'SCALE_OUT', 'vnfIndex': '3', 'vnfName': 'spr21', 'instanceNumber': 2}
-    # OUTDATED FUNCTION. THIS IS OBTAINED THROUGH OSM!!!
+    # THIS IS USED BY OSM R6 !!!
     vim_info = get_vim_info()
     service_vnf_info = list()
-    vnf_vim_map = {}
-    vims = []
-    for vnf in scale_info:
-        for vim in placement_info:
-            for elem in vim["mappedVNFs"]:
-                if (elem == vnf["vnfName"]):
-                    if elem not in vnf_vim_map:
-                        vnf_vim_map[elem] = vim["NFVIPoPID"]
-                    if vim not in vims:
-                        vims.append(vim["NFVIPoPID"])
-    for vim in vims:
-        vim_ip = vim_info[vim]['ip']
-        vim_token = vim_info[vim]['token']
-        openstack_info = make_request2('GET', vim_ip, 'http://' + vim_ip +
-                                                         '/compute/v2.1/servers', None, vim_token)
-        for vnf in vnf_vim_map.keys():
-            if (vnf_vim_map[vnf] == vim):
-                # this scaled vnf is in the requested vim
-                for elem in scale_info:
-                    if ( (elem["vnfName"] == vnf and elem["scaleVnfType"] == "SCALE_OUT") ):
-                        for vm in openstack_info["servers"]:
-                            if (vm["name"] == (nsi_id + '-' + elem['vnfIndex'] + '-'+ elem['vnfName'] + '-' + elem['instanceNumber'])): # OSM R5
-                                port_info = []  # list with each one of the interfaces of the vm
-                                elem_port_info = []
-                                identifier = vm["id"]
-                                resource_ip_mac = make_request2('GET', vim_ip, 'http://' + vim_ip +
-                                                    '/compute/v2.1/servers/' + identifier + '/os-interface',
+    for vim in placement_info["usedNFVIPops"]:
+        # print ("vim: ", vim)
+        vim_ip = vim_info[vim['NFVIPoPID']]['ip']
+        vim_token = vim_info[vim['NFVIPoPID']]['token']
+        vim_token_catalog = vim_info[vim["NFVIPoPID"]]['token_catalog']
+        if vim_token_catalog != None:
+            compute_url = list(filter(lambda x: x['type'] == 'compute', vim_token_catalog))[0]['endpoints'][0]['url']
+        else:
+            compute_url = 'http://' + vim_ip + '/compute/v2.1'
+
+#        openstack_info = make_request2('GET', vim_ip, 'http://' + vim_ip +
+#                                                         '/compute/v2.1/servers', None, vim_token)
+        openstack_info = make_request2('GET', vim_ip, compute_url + '/servers', None, vim_token)
+
+        for vm in openstack_info["servers"]:
+            if (vm["name"].find("fgt") !=-1):
+                name = vm['name'].split('-')
+                if (name[0].find('fgt') !=-1 ):
+                    # we assume that only 5gt will create this kind of identifiers
+                    ns_id = name[0] + '-' + name[1] + '-' + name[2] + '-' + name[3] + '-' + name[4] + '-' + name[5] 
+                    if (nsi_id.find(ns_id) != -1): 
+                        vnf_info = {}
+                        # this is a VNF from the service
+                        port_info = []  # list with each one of the interfaces of the vm
+                        elem_port_info = []
+                        identifier = vm["id"]
+#                        resource_ip_mac = make_request2('GET', vim_ip, 'http://' + vim_ip +
+#                                                        '/compute/v2.1/servers/' + identifier + '/os-interface',
+#                                                        None, vim_token)
+                        resource_ip_mac = make_request2('GET', vim_ip, compute_url + '/servers/' + identifier + '/os-interface',
                                                     None, vim_token)
-                                for interface in resource_ip_mac['interfaceAttachments']:
-                                    mac_address = interface['mac_addr']
-                                    for ips in interface['fixed_ips']:
-                                        if (ips['ip_address'].find(':') == -1):
-                                         # this is the ipv4 address that I want
-                                            ip_address = ips['ip_address']
-                                            mask = '/24'  # for the moment we set it by default
-                                    for nfvipopcheck in vim_info[vim]['nfvipop_info']:
-                                        if nfvipopcheck['nfviPopId'] == vim:
-                                            host = nfvipopcheck['networkConnectivityEndpoint'].split('-')[0]
-                                            port = nfvipopcheck['networkConnectivityEndpoint'].split('-')[1]
-                                            dc_iface = {"host": host, "port": port}
-                                    elem_port_info = {"ip_address": ip_address, "mask": mask, "mac_address": mac_address,
-                                                      "dc_iface": dc_iface}
-                                    port_info.append(elem_port_info)
-                                vnf_info = {"name": vnf, "dc": vim, "port_info": port_info}  # R4
-                                #TO GET floaging IP information
-                                resource_floating = make_request2('GET', vim_ip, 'http://' + vim_ip +
-                                               '/compute/v2.1/servers/'+ identifier,
-                                               None, vim_token)
-                                floating_ips = []
-                                for net in resource_floating["server"]["addresses"]:
-                                    for iface in resource_floating["server"]["addresses"][net]:
-                                        if (iface["OS-EXT-IPS:type"] == "floating") :
-                                            floating_ips.append({vnf: iface["addr"]})
-                                vnf_info['floating_ips'] = floating_ips
-                                service_vnf_info.append(vnf_info)
+
+                        for interface in resource_ip_mac['interfaceAttachments']:
+                            mac_address = interface['mac_addr']
+                            for ips in interface['fixed_ips']:
+                                if (ips['ip_address'].find(':') == -1):
+                                    # this is the ipv4 address that I want
+                                    ip_address = ips['ip_address']
+                                    mask = '/24'  # for the moment we set it by default
+                            for nfvipopcheck in vim_info[vim['NFVIPoPID']]['nfvipop_info']:
+                                if nfvipopcheck['nfviPopId'] == vim['NFVIPoPID']:
+                                    host = nfvipopcheck['networkConnectivityEndpoint'].split('-')[0]
+                                    port = nfvipopcheck['networkConnectivityEndpoint'].split('-')[1]
+                                    dc_iface = {"host": host, "port": port}
+                            elem_port_info = {"ip_address": ip_address, "mask": mask, "mac_address": mac_address,
+                                             "dc_iface": dc_iface}
+                            port_info.append(elem_port_info)
+                        vnf_info = {"name": name[7], "dc": vim['NFVIPoPID'], "port_info": port_info}
+                        vnf_info ["instance"] =  name[8]
+                        #TO GET floaging IP information
+#                        resource_floating = make_request2('GET', vim_ip, 'http://' + vim_ip +
+#                                            '/compute/v2.1/servers/'+ identifier,
+#                                            None, vim_token)
+                        resource_floating = make_request2('GET', vim_ip, compute_url + '/servers/'+ identifier,
+                                            None, vim_token)
+                        floating_ips = []
+                        for net in resource_floating["server"]["addresses"]:
+                            for iface in resource_floating["server"]["addresses"][net]:
+                                if (iface["OS-EXT-IPS:type"] == "floating") :
+                                    floating_ips.append({name[7]: iface["addr"]})
+                        vnf_info['floating_ips'] = floating_ips
+                        service_vnf_info.append(vnf_info)
+                        vnf_info ["instance"] =  name[8]
     # in theory is all information to be updated
     return {"ns_name": nsi_id, "vnfs": service_vnf_info}
 
-def get_information_of_deployed_service_os(ns_name, placement_info):
+
+def get_information_of_deployed_service_os(ns_name, placement_info, osm_release):
     # example of placement_info: [{"NFVIPoPID": "1", "mappedVNFs": ["webserver", "spr21"]}, {"NFVIPoPID": "2", "mappedVNFs": ["spr1"]}],
+    # in OSMR3, machines in openstack are created with servicename.vnf_name.vnf_index.vnf_vdu
+    # in OSMR4 and advance machines in openstack are created with - as separator
     vim_info = get_vim_info()
     service_vnf_info = list()
     vnfs = []
@@ -217,47 +239,71 @@ def get_information_of_deployed_service_os(ns_name, placement_info):
     for vim in placement_info:  # be careful, I am assuming there are not zones in this version. Different zones have the same "control IP"
         vim_ip = vim_info[vim["NFVIPoPID"]]['ip']
         vim_token = vim_info[vim["NFVIPoPID"]]['token']
-        openstack_info[vim["NFVIPoPID"]] = make_request2('GET', vim_ip, 'http://' + vim_ip +
-                                                         '/compute/v2.1/servers', None, vim_token)
+        vim_token_catalog = vim_info[vim["NFVIPoPID"]]['token_catalog']
+        if vim_token_catalog != None:
+            compute_url = list(filter(lambda x: x['type'] == 'compute', vim_token_catalog))[0]['endpoints'][0]['url']
+        else:
+            compute_url = 'http://' + vim_ip + '/compute/v2.1'
+
+#        openstack_info[vim["NFVIPoPID"]] = make_request2('GET', vim_ip, 'http://' + vim_ip +
+#                                                         '/compute/v2.1/servers', None, vim_token)
+        openstack_info[vim["NFVIPoPID"]] = make_request2('GET', vim_ip, compute_url + '/servers', None, vim_token)
         for vnf in vim["mappedVNFs"]:
             vnf_name = vnf
-            log_queue.put(["DEBUG", "en OSM wrapper get information of deployed service, vnf name_ %s" %vnf_name])
             for vm in openstack_info[vim["NFVIPoPID"]]["servers"]:
                 # condition for OSM R3, creates the machine in openstack as: ns_name.vnf_name.vnfindex.vnf_id
-                if ((vm["name"].find(ns_name) != -1) and (vm["name"].find(vnf_name) != -1) ):
-                    port_info = []  # list with each one of the interfaces of the vm
-                    elem_port_info = []
-                    identifier = vm["id"]
-                    resource_ip_mac = make_request2('GET', vim_ip, 'http://' + vim_ip +
-                                                    '/compute/v2.1/servers/' + identifier + '/os-interface',
+                # condition for OSM R4 and next releases, creates the machine in openstack with '-' separator
+                if (vm["name"].find("fgt") !=-1):
+                    if (osm_release == '3'):
+                        name = vm["name"].split('.')
+                        vnf_name_os = name[1]
+                    else:
+                        name = vm["name"].split('-')
+                        # OSM R5 puts the name of the vdu instead of the vnfname, different to OSMR3
+                        # let's assume the name in the vdu_name is 'vnfname', 
+                        name_bis = name[7]
+                        vnf_name_os = name_bis
+#                    if ((vm["name"].find(ns_name) != -1) and (vm["name"].find(vnf_name) != -1) ):
+                    if ((vm["name"].find(ns_name) != -1) and (vnf_name == vnf_name_os) ):
+                        port_info = []  # list with each one of the interfaces of the vm
+                        elem_port_info = []
+                        identifier = vm["id"]
+#                        resource_ip_mac = make_request2('GET', vim_ip, 'http://' + vim_ip +
+#                                                       '/compute/v2.1/servers/' + identifier + '/os-interface',
+#                                                        None, vim_token)
+                        resource_ip_mac = make_request2('GET', vim_ip, compute_url + '/servers/' + identifier + '/os-interface',
                                                     None, vim_token)
-                    for interface in resource_ip_mac['interfaceAttachments']:
-                        mac_address = interface['mac_addr']
-                        for ips in interface['fixed_ips']:
-                            if (ips['ip_address'].find(':') == -1):
-                                # this is the ipv4 address that I want
-                                ip_address = ips['ip_address']
-                                mask = '/24'  # for the moment we set it by default
-                        for nfvipopcheck in vim_info[vim["NFVIPoPID"]]['nfvipop_info']:
-                            if nfvipopcheck['nfviPopId'] == vim["NFVIPoPID"]:
-                                host = nfvipopcheck['networkConnectivityEndpoint'].split('-')[0]
-                                port = nfvipopcheck['networkConnectivityEndpoint'].split('-')[1]
-                                dc_iface = {"host": host, "port": port}
-                        elem_port_info = {"ip_address": ip_address, "mask": mask, "mac_address": mac_address,
+
+                        for interface in resource_ip_mac['interfaceAttachments']:
+                            mac_address = interface['mac_addr']
+                            for ips in interface['fixed_ips']:
+                                if (ips['ip_address'].find(':') == -1):
+                                    # this is the ipv4 address that I want
+                                    ip_address = ips['ip_address']
+                                    mask = '/24'  # for the moment we set it by default
+                            for nfvipopcheck in vim_info[vim["NFVIPoPID"]]['nfvipop_info']:
+                                if nfvipopcheck['nfviPopId'] == vim["NFVIPoPID"]:
+                                    host = nfvipopcheck['networkConnectivityEndpoint'].split('-')[0]
+                                    port = nfvipopcheck['networkConnectivityEndpoint'].split('-')[1]
+                                    dc_iface = {"host": host, "port": port}
+                            elem_port_info = {"ip_address": ip_address, "mask": mask, "mac_address": mac_address,
                                           "dc_iface": dc_iface}
-                        port_info.append(elem_port_info)
-                    vnf_info = {"name": vnf_name, "dc": vim["NFVIPoPID"], "port_info": port_info}  # R4
-                    #TO GET floaging IP information
-                    resource_floating = make_request2('GET', vim_ip, 'http://' + vim_ip +
-                                               '/compute/v2.1/servers/'+ identifier,
+                            port_info.append(elem_port_info)
+                        vnf_info = {"name": vnf_name, "dc": vim["NFVIPoPID"], "port_info": port_info}  # R4
+                        # TO GET floaging IP information
+#                       resource_floating = make_request2('GET', vim_ip, 'http://' + vim_ip +
+#                                                   '/compute/v2.1/servers/'+ identifier,
+#                                                   None, vim_token)
+                        resource_floating = make_request2('GET', vim_ip, compute_url + '/servers/'+ identifier,
                                                None, vim_token)
-                    floating_ips = []
-                    for net in resource_floating["server"]["addresses"]:
-                        for iface in resource_floating["server"]["addresses"][net]:
-                            if (iface["OS-EXT-IPS:type"] == "floating") :
-                                floating_ips.append({vnf_name: iface["addr"]})
-                    vnf_info['floating_ips'] = floating_ips
-                    service_vnf_info.append(vnf_info)
+
+                        floating_ips = []
+                        for net in resource_floating["server"]["addresses"]:
+                            for iface in resource_floating["server"]["addresses"][net]:
+                                if (iface["OS-EXT-IPS:type"] == "floating") :
+                                    floating_ips.append({vnf_name: iface["addr"]})
+                        vnf_info['floating_ips'] = floating_ips
+                        service_vnf_info.append(vnf_info)
     return {"ns_name": ns_name, "vnfs": service_vnf_info}
 
 
@@ -322,28 +368,42 @@ def get_token(ip, user, password):
     header = {'Content-Type': 'application/json',
               'Accept': 'application/json'}
 
+    # old way
     # TODO handle exceptions to make sure connection is properly closed
     # get the connection and make the request
-    conn = HTTPConnection(ip, 80, timeout=10)
-    conn.request('POST', uri, dumps(body), header)
+    # conn = HTTPConnection(ip, 80, timeout=10)
+    # conn.request('POST', uri, dumps(body), header)
 
-    # read the response and close connection
-    rsp = conn.getresponse()
-    conn.close()
-    rsp.read()  # needed to empty buffer even if not used
+    # # read the response and close connection
+    # rsp = conn.getresponse()
+    # conn.close()
+    # rsp.read()  # needed to empty buffer even if not used
 
     # if result is not OK, raise Exception
-    if rsp.status not in [200, 201]:
-        raise HTTPException('Error: ' + str(rsp.status) + ', ' + rsp.reason)
+    # if rsp.status not in [200, 201]:
+    #     raise HTTPException('Error: ' + str(rsp.status) + ', ' + rsp.reason)
 
     # get token from header
-    rsp_header = rsp.getheaders()
-    token = rsp_header[2][1]
-    log_queue.put(["INFO", "In EECOMPUTE, rsp_header is:"])
-    log_queue.put(["INFO", rsp_header])
+    # rsp_header = rsp.getheaders()
+    # token = rsp_header[2][1]
+    # log_queue.put(["INFO", "In EECOMPUTE, rsp_header is:"])
+    # log_queue.put(["INFO", rsp_header])
+    # log_queue.put(["INFO", "In EECOMPUTE, Token is:"])
+    # log_queue.put(["INFO", token])
+    # return token
+    # new way, we need the endpoint catalog
+    token_response = requests.post('http://' + ip + '/identity/v3/auth/tokens',
+                                   data=dumps(body),
+                                   headers=header)
+    # Token is in the response headers
+    token = token_response.headers['X-Subject-Token']
     log_queue.put(["INFO", "In EECOMPUTE, Token is:"])
     log_queue.put(["INFO", token])
-    return token
+    catalog_endpoint = None
+    if 'catalog' in loads(token_response.content.decode('utf-8'))['token']:
+        catalog_endpoint = loads(token_response.content.decode('utf-8'))['token']['catalog']
+    catalog_endpoint = loads(token_response.content.decode('utf-8'))['token']['catalog']
+    return [token, catalog_endpoint]
 
 
 def get_vim_info():
@@ -367,9 +427,14 @@ def get_vim_info():
                     vim_info[identifier]['nfvipop_info'].append(nfvipop_info)
             else:
                 vim_info[identifier][option] = config.get(("VIM" + str(i)), option)
-        vim_info[identifier]['token'] = get_token(vim_info[identifier]['ip'],
-                                                  vim_info[identifier]['user'],
-                                                  vim_info[identifier]['password'])
+        [token, token_catalog] = get_token(vim_info[identifier]['ip'],
+                                           vim_info[identifier]['user'],
+                                           vim_info[identifier]['password'])
+        vim_info[identifier]['token'] = token
+        vim_info[identifier]['token_catalog'] = token_catalog
+        # vim_info[identifier]['token'] = get_token(vim_info[identifier]['ip'],
+        #                                           vim_info[identifier]['user'],
+        #                                          vim_info[identifier]['password'])
     return vim_info
 
 
@@ -386,34 +451,63 @@ def request_network_creation_mtp (service_id, network_name, floating_required, v
     # The required extra_info (CIDR and addressPool) should be passed through the typeSubnetData
     # However, the unified API of the MTP does not model this element as defined at IFA005. 
     # On the other hand,the response is modeled as defined at IFA005. We pass it as metadata
+    vim_info = get_vim_info()
     metadata= [
               {
-                 "key": "serviceId",
+                 "key": "ServiceId",
                  "value": service_id
               },
-              {
-                 "key": "floating_required",
-                 "value": floating_required
-              },
+              # {
+              #    "key": "floating_required",
+              #    "value": floating_required
+              # },
               {
                  "key": "vimId",
                  "value": vim_id
+              },
+              {
+                 "key": "AbstractNfviPoPId",
+                 "value": vim_id
               }]
+
+    typeSubnetData= {"resourceId": "",
+                     "networkId": "",
+                     "ipVersion": "ipv4",
+                     "gatewayIp": "",
+                     "cidr": "",
+                     "isDhcpEnabled": True,
+                     #"addressPool": "",
+                     "addressPool": [],
+                     #"metadata": []}
+                     "metadata": [{
+                                    "key": "ip-floating-required",
+                                    "value": floating_required}]}
+
+    if (floating_required == "True"):
+        cidr = netaddr.IPNetwork(mon_ip).supernet(24)[0]
+        # exgw = vim_info[vim_id]['nfvipop_info']['exgw']
+        typeSubnetData["metadata"].append({"key": "mon_cidr", "value": str(cidr)})
+
     if (extra_info):
-        #typeSubnetData = ""
-        metadata.append({"key": "cidr", "value": extra_info["cidr"]})
-        metadata.append({"key": "addressPool", "value": str(extra_info["addressPool"])})
+        # metadata.append({"key": "cidr", "value": extra_info["cidr"]})
+        # metadata.append({"key": "addressPool", "value": str(extra_info["addressPool"])})
+        typeSubnetData["cidr"] = extra_info["cidr"]
+        # typeSubnetData["addressPool"] = str(extra_info["addressPool"])
+        typeSubnetData["addressPool"] = extra_info["addressPool"]
     body = { "affinityOrAntiAffinityConstraints": "",
              "locationConstraints": "",
              "metadata": metadata,
              "networkResourceName": network_name,
-             "networkResourceType": "network",
+             #"networkResourceType": "network",
+             "networkResourceType": "subnet-vlan",
              "reservationId": "",
              "resourceGroupId": vim_id,
              "typeNetworkData": "",
              "typeNetworkPortData": "",
-             "typeSubnetData": ""
+             "typeSubnetData": typeSubnetData
            }
+    log_queue.put(["INFO", "Request from SO to MTP to create INTRAPOP network is:"])
+    log_queue.put(["INFO", dumps(body, indent=4)])
     try:
         conn = HTTPConnection(mtp_ip, mtp_port)
         conn.request("POST", mtp_uri, dumps(body), header)
@@ -500,13 +594,19 @@ def create_os_networks(info_to_create_networks, federatedInfo=None):
                 networkResourceIds.append(request['networkData']['networkResourceId'])
                 if not request["networkData"]["networkResourceName"] in cidrs:
                     cidrs[request["networkData"]["networkResourceName"]] = request["subnetData"]["cidr"]
-                if not request["networkData"]["networkResourceName"] in vlans:
-                    for elem in request["subnetData"]["metadata"]:
-                        if (elem["key"] == "SegmentationID"):
-                            vlans[request["networkData"]["networkResourceName"]] = elem["value"]
+                # 190828: with OSM always it will be vlan, however we check it, previous code commented
+                # if not request["networkData"]["networkResourceName"] in vlans:
+                #     for elem in request["subnetData"]["metadata"]:
+                #         if (elem["key"] == "SegmentationID"):
+                #             vlans[request["networkData"]["networkResourceName"]] = elem["value"]
+                if (request["networkData"]["networkType"].find("vlan") != -1):
+                    if not request["networkData"]["networkResourceName"] in vlans:
+                            vlans[request["networkData"]["networkResourceName"]] = request["networkData"]["segmentType"]
                 if not request["networkData"]["networkResourceName"] in addressPool:
                     addressPool[request["networkData"]["networkResourceName"]] = []
-                addressPool[request["networkData"]["networkResourceName"]].append(request["subnetData"]["addressPool"])
+                for pool in request["subnetData"]["addressPool"]:
+                    addressPool[request["networkData"]["networkResourceName"]].append(pool)
+                ###### end code 190828
     info_to_create_networks['networkResourceIds'] = networkResourceIds
     info_to_create_networks['cidr'] = cidrs
     info_to_create_networks['vlan_id'] = vlans
@@ -567,8 +667,8 @@ def deploy_vls_vim(nsId, nsd_json, vnfds_json, instantiationLevel, deployment_fl
         ll_pops[LLid].append(gw_pop[dst_ip])
     for vl in placement_info["usedVLs"]:
         for mvl in vl["mappedVLs"]:
-            if not vl["NFVIPoPID"] in virtual_link_vim[mvl]:
-                virtual_link_vim[mvl].append(vl["NFVIPoPID"])
+            if not vl["NFVIPoP"] in virtual_link_vim[mvl]:
+                virtual_link_vim[mvl].append(vl["NFVIPoP"])
     for ll in placement_info["usedLLs"]:
         for mvl in ll["mappedVLs"]:
             if not ll_pops[ll["LLID"]][0] in virtual_link_vim[mvl]:
@@ -786,7 +886,9 @@ class OsmWrapper(object):
         nsr = None
         while ((current_time < timeout) and nsr == None):
             nsr = self.get_service_status(ns_name)
-            if nsr is not None:
+            if (nsr == "Failed"):
+                return "Failed"
+            if ( (nsr is not None) and (nsr is not "Failed") ):
                 break
             current_time = time.time() - start_time
             time.sleep(5)
@@ -801,11 +903,19 @@ class OsmWrapper(object):
             if (nsr['name-ref'] == ns_name):
                 if ((nsr['operational-status'] == 'running') and (nsr['config-status'] == 'configured')):
                     return resp['nsd']
+
+                elif (nsr['operational-status'] == 'failed'):
+                    return "Failed"
+
                 else:
                     return None
         else:
             if ((resp['operational-status'] == 'running') and (resp['config-status'] == 'configured')):
                 return resp['nsd']
+            
+            elif (resp['operational-status'] == 'failed'):
+                return "Failed"
+
             else:
                 return None
 
@@ -853,7 +963,7 @@ class OsmWrapper(object):
                     # scale_info["instanceNumber"] = str(current_il_info[key] + ops + 1) -> not needed instance number
                     # scaling operation are done one by one
                     # protection for scale_in operation: the final number of VNFs cannot reach 0
-                    if not (scale_info["scaleVnfType"] == "SCALE_IN" and (current_il_info[key] - ops > 0) ):
+                    if not (scale_info["scaleVnfType"] == "SCALE_IN" and (current_il_info[key] - ops < 1) ):
                         scaling_il_info.append(scale_info)
         log_queue.put(["DEBUG", "Scale_il_info is: %s"%(scaling_il_info)])
         return scaling_il_info		
@@ -926,7 +1036,7 @@ class OsmWrapper(object):
         # for composition/federation
         if nestedInfo:
             nested_descriptor = next(iter(nestedInfo))
-            if len(nestedInfo[nested_descriptor]) > 1:
+            if len (nestedInfo[nested_descriptor]) > 1:
                 # nested from a consumer domain
                 nsId_tmp = nsi_id
             else:
@@ -934,12 +1044,15 @@ class OsmWrapper(object):
                 nsId_tmp = nsi_id + '_' + nested_descriptor
         else:
             nsId_tmp = nsi_id
+        log_queue.put(["INFO", "*****Time measure: OSMW start create networks OSM wrapper"])
         config = deploy_vls_vim(nsi_id, ns_descriptor, vnfds_descriptor, instantiationLevel, deploymentFlavour, resources, placement_info, nestedInfo)
         nsir_db.save_vim_networks_info(nsId_tmp, config)
         # pass nsi_id as ns_name
         # for OSM R5, we have to indicate that we do not want to use wim at the client
         config['release'] = self.release
         # in osm dbs, nsds will stored under the following convention: "nsdIdentifier_instantiationlevel"
+        log_queue.put(["INFO", "*****Time measure: OSMW finish create networks OSM wrapper"])
+        log_queue.put(["INFO", "*****Time measure: OSMW start instantiating VNFs at OSM wrapper"])
         log_queue.put(["INFO", "In OSM Wrapper, instantiate_ns"])
         distrib = self.adapt_placement_to_osm(
             placement_info['usedNFVIPops'], ns_descriptor["nsd"]['nsdIdentifier'] + '_' + body.flavour_id + '_' + body.ns_instantiation_level_id)
@@ -947,16 +1060,27 @@ class OsmWrapper(object):
                            body.ns_instantiation_level_id, config=config, distribution=distrib)
 
         if r is not None:
-            number_vnfs = len(placement_info)
+            number_vnfs = len(vnfds_descriptor)
             nsr = self.get_status_of_deployed_service(nsId_tmp, number_vnfs)
-            nsr_info = get_information_of_deployed_service_os(nsId_tmp, placement_info["usedNFVIPops"])
-            log_queue.put(["INFO", "In OSM Wrapper, instantiate_ns info is:"])
-            log_queue.put(["INFO", dumps(nsr_info, indent=4)])
-            nsir_db.save_vnf_deployed_info(nsId_tmp, nsr_info['vnfs'])
-            nsr = extract_sap_info (config, nsr_info, ns_descriptor)
-            # log_queue.put(["DEBUG", "In OSM Wrapper, instantiate_ns return is NSR:"])
-            # log_queue.put(["DEBUG", dumps(nsr, indent=4)])
-            return nsr
+            if (nsr == "Failed"):
+                log_queue.put(["INFO", "In OSM Wrapper, the instantiation of the service failed"])
+                # but osm needs to be cleaned
+                # try:
+                #    self.client.ns.delete(nsId_tmp)
+                # except ClientException as inst:
+                #    log_queue.put(["INFO", "%s" % inst])
+                #    return None
+                # time.sleep(10*number_vnfs)
+                return None
+            else:
+                nsr_info = get_information_of_deployed_service_os(nsId_tmp, placement_info["usedNFVIPops"], config['release'])
+                log_queue.put(["INFO", "In OSM Wrapper, instantiate_ns info is:"])
+                log_queue.put(["INFO", dumps(nsr_info, indent=4)])
+                nsir_db.save_vnf_deployed_info(nsId_tmp, nsr_info['vnfs'])
+                nsr = extract_sap_info (config, nsr_info, ns_descriptor)
+                # log_queue.put(["DEBUG", "In OSM Wrapper, instantiate_ns return is NSR:"])
+                # log_queue.put(["DEBUG", dumps(nsr, indent=4)])
+                return nsr
         else:
             return None
 
@@ -998,8 +1122,9 @@ class OsmWrapper(object):
             else:
                # there has been a failure and the scaling operation has not been processed
                return None
-        log_queue.put(["DEBUG", "scaled service: %s"])
-        nsr_scale_info = get_information_of_scaled_service_osm(nsi_id, placement_info, self.client)
+        log_queue.put(["DEBUG", "scaled service: %s" % nsi_id])
+        # nsr_scale_info = get_information_of_scaled_service_osm(nsi_id, placement_info, self.client)
+        nsr_scale_info = get_information_of_scaled_service_os(nsi_id, placement_info, self.client)
         # update nsir_db
         nsir_db.save_vnf_deployed_info(nsi_id, nsr_scale_info['vnfs'])
         config = nsir_db.get_vim_networks_info(nsi_id)
@@ -1023,20 +1148,25 @@ class OsmWrapper(object):
         """
         vnf_info = nsir_db.get_vnf_deployed_info(nsi_id)
         number_vnfs = len(vnf_info)
+        log_queue.put(["INFO", "*****Time measure: OSMW starting deleting VNFs at OSM for service: %s" %nsi_id])
         log_queue.put(["INFO", "In OSM Wrapper TERMINATE, number_vnfs: %s"%number_vnfs])
         try:
             self.client.ns.delete(nsi_id)
         except ClientException as inst:
-            log_queue.put(["INFO", "%s" % inst.message])
-            return None
+            # log_queue.put(["INFO", "%s" % inst.message])
+            log_queue.put(["INFO", "%s" % inst])
+            # there is an exception and then it exists, however, VNFs are correctly deleted
+            # return None
 
             # remove the created networks at the different vims
         # sleep to make sure all ports have been deleted by osm
         time.sleep(10*number_vnfs)
+        log_queue.put(["INFO", "*****Time measure: OSMW deleted VNFs at OSM"])
         vim_networks = nsir_db.get_vim_networks_info(nsi_id)
         log_queue.put(["INFO", "In OSM Wrapper TERMINATE, vim networks is:"])
         log_queue.put(["INFO", dumps(vim_networks, indent=4)])
         delete_networks(vim_networks)
+        log_queue.put(["INFO", "*****Time measure: OSMW deleted networks OSM"])
 
     def onboard_nsd(self, nsd_json):
         """
@@ -1050,6 +1180,7 @@ class OsmWrapper(object):
         """
         # perform the translation from IFA014 to OSM: for every df and il
         list_osm_json, default_index = ifa014_conversion(nsd_json)
+        log_queue.put(["INFO", "TRANSLATING NSD from IFA014 to OSM"])
         for osm_json in list_osm_json:
             # generate the tar.gz folder
             package, package_folder = create_osm_files(osm_json, upload_folder)
@@ -1074,6 +1205,7 @@ class OsmWrapper(object):
         """
         # perform the translation from IFA011 to OSM
         list_osm_json = [ifa011_conversion(vnfd_json)]
+        log_queue.put(["INFO", "TRANSLATING NSD from IFA011 to OSM"])
         for osm_json in list_osm_json:
             # generate the tar.gz folder
             package, package_folder = create_osm_files(osm_json, upload_folder)

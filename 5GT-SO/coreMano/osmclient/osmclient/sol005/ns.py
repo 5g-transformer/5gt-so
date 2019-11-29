@@ -310,24 +310,44 @@ class Ns(object):
                 for index, vld in enumerate(nsd['vld']):
                     if (vim_vld_name.find(vld['vim-network-name']) != -1):
                         #this is the network I was looking for
-                        net = { 'name': vld['name'],
-                                'vim-network-name': vim_vld_name}
-                        if 'release' in config:
-                            if config['release'] == "5":
-                                net['wimAccountId'] = False
+                        if config['release'] == "5":
+                            net = { 'name': vld['name'],
+                                    'vim-network-name': vim_vld_name}                       
+                            #if 'release' in config:
+                            #    if config['release'] == "5":
+                            #        net['wimAccountId'] = False
+                        elif config['release'] == "6":
+                            association = {}
+                            for vim in config['name'][key]:
+                                if vim not in association:
+                                    association[get_vim_account_id(vim)] = vim_vld_name
+                            net = { 'name': vld['name'],
+                                    'vim-network-name': association}
                         net_config.append(net)
                     #print "in osm, the used networks are: ", vim_vld_name 
             # the networks in config['mapping'] will always be needed
             for key in config['mapping'].keys():
-                net = {'name': key,
-                       'vim-network-name': config['mapping'][key]}
+                if config['release'] == "5":
+                    net = {'name': key,
+                           'vim-network-name': config['mapping'][key]}
+                elif config['release'] == "6":
+                    association = {} 
+                    network = config['mapping'][key]
+                    for vim in config['name'][network]:
+                        if vim not in association:
+                            association[get_vim_account_id(vim)] = network
+                    net = { 'name': key, 
+                            'vim-network-name': association }
                 net_config.append(net)
-            print ("en osm-create ns net_config es: ", ns)
+            # print ("en osm-create ns net_config es: ", ns)
             ns["vld"] = net_config
 
             if 'release' in config:
-                if config['release'] == "5":
+                #if config['release'] == "5":
+                #    ns['wimAccountId'] = False
+                if config['release'] == "6":
                     ns['wimAccountId'] = False
+
         print ("en osm-create ns: ", ns)
 
 ##        resp = self._http.post_cmd(

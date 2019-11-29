@@ -1,12 +1,21 @@
-"""
-File description
-"""
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 # python imports
 import datetime
-
 from coreMano.cloudify_wrapper_lib.cloudify_rest_client.client import CloudifyClient
 from coreMano.cloudify_wrapper_lib.cloudify_rest_client.exceptions import CloudifyClientError
+from coreMano.cloudify_wrapper_lib.converter_nsd_mtp_yaml import ConverterNSDMTPYAML
+from db.nsir_db import nsir_db
 from nbi import log_queue
 import time
 import requests
@@ -14,6 +23,8 @@ from coreMano.cloudify_wrapper_lib.converter_nsd_openstack_yaml import *
 import os
 
 from requests.auth import HTTPBasicAuth
+
+
 
 
 class CloudifyWrapper(object):
@@ -47,6 +58,10 @@ class CloudifyWrapper(object):
         self.__password = config.get("Cloudify", "password")
         self.__tenant = config.get("Cloudify", "tenant")
         self.__blueprints_path = "/tmp/CloudifyWrapper"
+        self.__wrapper = config.get("Cloudify", "wrapper")
+        self.__default_key_name = config.get("Cloudify", "default_key_name")
+        self.__install_cloudify_agent = config.get("Cloudify", "install_cloudify_agent")
+        self.__start_vlan = config.get("Cloudify", "vlan", fallback=None)
         self.__nfvo_ip = host_ip
         self.__cloudify_client = CloudifyClient(
             host=self.__nfvo_ip,
@@ -55,7 +70,7 @@ class CloudifyWrapper(object):
             tenant=self.__tenant)
 
 
-    def instantiate_ns(self, nsi_id, ns_descriptor, vnfds_descriptor, body, placement_info, resources):
+    def instantiate_ns(self, nsi_id, ns_descriptor, vnfds_descriptor, body, placement_info, resources, nestedInfo):
     # def instantiate_ns(self, nsi_id, ns_descriptor, body, placement_info):
         """
         Instanciates the network service identified by nsi_id, according to the infomation contained in the body and
@@ -75,34 +90,72 @@ class CloudifyWrapper(object):
         To be defined
         """
 
-        # creates tmp folder for blueprint
-        if not os.path.exists(self.__blueprints_path):
-            os.makedirs(self.__blueprints_path)
-        os.makedirs(self.__blueprints_path + "/" + nsi_id)
-        currentDT = datetime.datetime.now()
-        string_date = currentDT.strftime("%Y_%m_%d_%H_%M_%S")
-        path_to_blueprint = self.__blueprints_path + "/" + nsi_id + "/" + string_date
-        blueprint_name = ns_descriptor['nsd']['nsdIdentifier'] + "_" +body.ns_instantiation_level_id
-        #full path and name for blueprint
+        instantiationLevel = body.ns_instantiation_level_id
+        # for composition/federation
+        if nestedInfo:
+            nested_descriptor = next(iter(nestedInfo))
+            if len(nestedInfo[nested_descriptor]) > 1:
+                # nested from a consumer domain
+                nsId_tmp = nsi_id
+            else:
+                # nested local
+                nsId_tmp = nsi_id + '_' + nested_descriptor
+        else:
+            nsId_tmp = nsi_id
 
-        blueprint_yaml_name_with_path = path_to_blueprint + "/" + blueprint_name + ".yaml"
-        os.makedirs(path_to_blueprint)
+        blueprint_name = nsId_tmp + "_" + ns_descriptor['nsd']['nsdIdentifier'] + "_" + instantiationLevel
+        blueprints = self.__cloudify_client.blueprints.list(_include=['id'], id=[blueprint_name]).items
+        if len(blueprints) == 0:
+        # if True:
+            log_queue.put(["INFO", "CLOUDIFY_WRAPPER: Blueprint %s will be created" % (blueprint_name)])
+            # creates tmp folder for blueprint
+            if not os.path.exists(self.__blueprints_path + "/" + nsId_tmp):
+                os.makedirs(self.__blueprints_path + "/" + nsId_tmp)
+            # os.makedirs(self.__blueprints_path + "/" + nsId_tmp)
+            currentDT = datetime.datetime.now()
+            string_date = currentDT.strftime("%Y_%m_%d_%H_%M_%S")
+            path_to_blueprint = self.__blueprints_path + "/" + nsId_tmp + "/" + string_date
 
-        # set parameters for blueprint
-        converter_to_yaml = ConverterNSDOpenstackYAML()
-        converter_to_yaml.set_placement_info(placement_info)
-        converter_to_yaml.set_nfvis_pop_info(self.get_nfvi_pop_info())
-        converter_to_yaml.set_ns_instantiation_level_id(body.ns_instantiation_level_id)
-        converter_to_yaml.set_ns_descriptor(ns_descriptor)
-        converter_to_yaml.set_vnfds_descriptor(vnfds_descriptor)
-        converter_to_yaml.parse()
-        converter_to_yaml.sort_networks()
-        converter_to_yaml.sort_servers()
-        converter_to_yaml.generate_yaml(blueprint_yaml_name_with_path)
+            #full path and name for blueprint
+
+            blueprint_yaml_name_with_path = path_to_blueprint + "/" + blueprint_name + ".yaml"
+            os.makedirs(path_to_blueprint)
+
+            if self.__wrapper == "openstack":
+                # set parameters for blueprint
+                converter_to_yaml = ConverterNSDOpenstackYAML()
+                converter_to_yaml.set_placement_info(placement_info)
+                converter_to_yaml.set_nfvis_pop_info(self.get_nfvi_pop_info())
+                converter_to_yaml.set_ns_instantiation_level_id(instantiationLevel)
+                converter_to_yaml.set_ns_descriptor(ns_descriptor)
+                converter_to_yaml.set_vnfds_descriptor(vnfds_descriptor)
+                converter_to_yaml.set_ns_service_id(nsi_id)
+                converter_to_yaml.parse()
+                converter_to_yaml.sort_networks()
+                converter_to_yaml.sort_servers()
+                converter_to_yaml.generate_yaml(blueprint_yaml_name_with_path)
+
+            if self.__wrapper == "mtp":
+                converter_to_yaml = ConverterNSDMTPYAML()
+                converter_to_yaml.set_placement_info(placement_info)
+                converter_to_yaml.set_nested_info(nestedInfo)
+                converter_to_yaml.set_nfvis_pop_info(self.get_nfvi_pop_info())
+                converter_to_yaml.set_ns_instantiation_level_id(instantiationLevel)
+                converter_to_yaml.set_ns_descriptor(ns_descriptor)
+                converter_to_yaml.set_vnfds_descriptor(vnfds_descriptor)
+                converter_to_yaml.set_ns_service_id(nsId_tmp)
+                converter_to_yaml.set_start_vlan(self.__start_vlan)
+                converter_to_yaml.default_key_name(self.__default_key_name)
+                converter_to_yaml.install_cloudify_agent(self.__install_cloudify_agent)
+                converter_to_yaml.parse()
+                converter_to_yaml.sort_networks()
+                converter_to_yaml.sort_servers()
+                converter_to_yaml.generate_yaml(blueprint_yaml_name_with_path)
+
         # bluprint upload
         try:
             self.__cloudify_client.blueprints.upload(blueprint_yaml_name_with_path, blueprint_name)
-            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Blueprint %s.yaml upload completed" % (nsi_id)])
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Blueprint %s.yaml upload completed" % (nsId_tmp)])
         #Check if exists blueprint in cloudify
         except CloudifyClientError as e:
             if e.error_code == 'conflict_error':
@@ -116,40 +169,46 @@ class CloudifyWrapper(object):
         # deployment creation
 
         try:
-            self.__cloudify_client.deployments.create(blueprint_name, nsi_id)
-            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deployment %s creation started" % (nsi_id)])
+            self.__cloudify_client.deployments.create(blueprint_name, nsId_tmp)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deployment %s creation started" % (nsId_tmp)])
         except Exception as e:
             log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deployment creation error %s " % (e)])
             return None
 
         try:
-            self.wait_for_deployment_execution(nsi_id)
-            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deployment %s creation completed" % (nsi_id)])
+            self.wait_for_deployment_execution(nsId_tmp)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deployment %s creation completed" % (nsId_tmp)])
         except Exception as e:
             log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deployment creation error %s " % (e)])
             return None
 
         # deploying
         try:
-            self.__cloudify_client.executions.start(nsi_id, "install")
-            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deploying %s started" % (nsi_id)])
+            self.__cloudify_client.executions.start(nsId_tmp, "install")
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deploying %s started" % (nsId_tmp)])
         except Exception as e:
-            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deploying %s error %s " % (nsi_id, e)])
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deploying %s error %s " % (nsId_tmp, e)])
             return None
 
         try:
-            self.wait_for_deployment_execution(nsi_id)
-            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deploying %s completed" % (nsi_id)])
+            self.wait_for_deployment_execution(nsId_tmp)
+            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Deploying %s completed" % (nsId_tmp)])
         except Exception as e:
-            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deploying %s error %s " % (nsi_id, e)])
+            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Deploying %s error %s " % (nsId_tmp, e)])
             return None
 
-        nsi_sap = self.__cloudify_client.deployments.outputs.get(deployment_id=nsi_id)
+        nsi_sap = self.__cloudify_client.deployments.outputs.get(deployment_id=nsId_tmp)
 
+        instances = self.__cloudify_client.node_instances.list(deployment_id=nsId_tmp)
 
-        #
-        # instances = self.__cloudify_client.node_instances.list(deployment_id=nsi_id)
-        #
+        nodes = self.__cloudify_client.nodes.list(deployment_id=nsId_tmp)
+
+        vnf_deployed_info = self.get_information_of_vnf(instances)
+        nsir_db.save_vnf_deployed_info(nsId_tmp, vnf_deployed_info)
+
+        vim_net_info = self.get_information_of_networks(nsId_tmp, instances, nodes, nestedInfo)
+        nsir_db.save_vim_networks_info(nsId_tmp, vim_net_info)
+
         instantiation_output = {}
         instantiation_output["sapInfo"] = nsi_sap["outputs"]
         converted_output = self.convert_output(instantiation_output)
@@ -175,47 +234,73 @@ class CloudifyWrapper(object):
         -------
         To be defined
         """
-
-        # creates tmp folder for blueprint
-
         scale_ns_instantiation_level_id = self.extract_target_il(body)
-        scale_ops = self.extract_scaling_info(ns_descriptor, current_df, current_il, scale_ns_instantiation_level_id)
-        log_queue.put(["DEBUG", "scaling target il: %s" % (scale_ns_instantiation_level_id)])
-        # placement_info = nsir_db.get_placement_info(nsi_id)
-        if not os.path.exists(self.__blueprints_path):
-            os.makedirs(self.__blueprints_path)
-        os.makedirs(self.__blueprints_path + "/" + nsi_id, exist_ok=True)
-        currentDT = datetime.datetime.now()
-        string_date = currentDT.strftime("%Y_%m_%d_%H_%M_%S")
-        path_to_blueprint = self.__blueprints_path + "/" + nsi_id + "/" + string_date
-        blueprint_name = ns_descriptor['nsd']['nsdIdentifier'] + "_" + scale_ns_instantiation_level_id
-        #full path and name for blueprint
-        blueprint_yaml_name_with_path = path_to_blueprint + "/" + blueprint_name + ".yaml"
-        os.makedirs(path_to_blueprint)
+        blueprint_name = nsi_id + "_" +ns_descriptor['nsd']['nsdIdentifier'] + "_" + scale_ns_instantiation_level_id
+        blueprints = self.__cloudify_client.blueprints.list(_include=['id'], id=[blueprint_name]).items
+        if len(blueprints) == 0:
+            log_queue.put(["INFO", "CLOUDIFY_WRAPPER: Blueprint %s will be created" % (blueprint_name)])
+
+            # creates tmp folder for blueprint
+
+            scale_ops = self.extract_scaling_info(ns_descriptor, current_df, current_il, scale_ns_instantiation_level_id)
+            log_queue.put(["DEBUG", "scaling target il: %s" % (scale_ns_instantiation_level_id)])
+            # placement_info = nsir_db.get_placement_info(nsi_id)
+            if not os.path.exists(self.__blueprints_path):
+                os.makedirs(self.__blueprints_path)
+            os.makedirs(self.__blueprints_path + "/" + nsi_id, exist_ok=True)
+            currentDT = datetime.datetime.now()
+            string_date = currentDT.strftime("%Y_%m_%d_%H_%M_%S")
+            path_to_blueprint = self.__blueprints_path + "/" + nsi_id + "/" + string_date
+
+            #full path and name for blueprint
+            blueprint_yaml_name_with_path = path_to_blueprint + "/" + blueprint_name + ".yaml"
+            os.makedirs(path_to_blueprint)
 
 
-        # set parameters for blueprint
-        converter_to_yaml = ConverterNSDOpenstackYAML()
-        converter_to_yaml.set_placement_info(placement_info)
-        converter_to_yaml.set_nfvis_pop_info(self.get_nfvi_pop_info())
-        converter_to_yaml.set_ns_instantiation_level_id(scale_ns_instantiation_level_id)
-        converter_to_yaml.set_ns_descriptor(ns_descriptor)
-        converter_to_yaml.set_vnfds_descriptor(vnfds_descriptor)
-        converter_to_yaml.parse()
-        converter_to_yaml.sort_networks()
-        converter_to_yaml.sort_servers()
-        converter_to_yaml.generate_yaml(blueprint_yaml_name_with_path)
-        # bluprint upload
-        try:
-            self.__cloudify_client.blueprints.upload(blueprint_yaml_name_with_path, blueprint_name)
-            log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Blueprint %s.yaml upload completed" % (nsi_id)])
-        #Check if exists blueprint in cloudify
-        except CloudifyClientError as e:
-            if e.error_code == 'conflict_error':
-                log_queue.put(["INFO", "CLOUDIFY_WRAPPER: Blueprint %s %s" % (blueprint_name, e)])
-        except Exception as e:
-            log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Blueprint %s.yaml upload error %s " % (blueprint_name, e)])
-            return None
+            if self.__wrapper == "openstack":
+                # set parameters for blueprint
+                converter_to_yaml = ConverterNSDOpenstackYAML()
+                converter_to_yaml.set_placement_info(placement_info)
+                converter_to_yaml.set_nfvis_pop_info(self.get_nfvi_pop_info())
+                converter_to_yaml.set_ns_instantiation_level_id(scale_ns_instantiation_level_id)
+                converter_to_yaml.set_ns_descriptor(ns_descriptor)
+                converter_to_yaml.set_vnfds_descriptor(vnfds_descriptor)
+                converter_to_yaml.set_ns_service_id(nsi_id)
+                converter_to_yaml.parse()
+                converter_to_yaml.sort_networks()
+                converter_to_yaml.sort_servers()
+                converter_to_yaml.generate_yaml(blueprint_yaml_name_with_path)
+
+            if self.__wrapper == "mtp":
+                converter_to_yaml = ConverterNSDMTPYAML()
+                converter_to_yaml.set_placement_info(placement_info)
+                # converter_to_yaml.set_nested_info(nestedInfo)
+                converter_to_yaml.set_nfvis_pop_info(self.get_nfvi_pop_info())
+                converter_to_yaml.set_ns_instantiation_level_id(scale_ns_instantiation_level_id)
+                converter_to_yaml.set_ns_descriptor(ns_descriptor)
+                converter_to_yaml.set_vnfds_descriptor(vnfds_descriptor)
+                converter_to_yaml.set_ns_service_id(nsi_id)
+                converter_to_yaml.set_start_vlan(self.__start_vlan)
+                converter_to_yaml.default_key_name(self.__default_key_name)
+                converter_to_yaml.install_cloudify_agent(self.__install_cloudify_agent)
+                converter_to_yaml.parse()
+                converter_to_yaml.sort_networks()
+                converter_to_yaml.sort_servers()
+                converter_to_yaml.generate_yaml(blueprint_yaml_name_with_path)
+
+            # bluprint upload
+            try:
+                self.__cloudify_client.blueprints.upload(blueprint_yaml_name_with_path, blueprint_name)
+                log_queue.put(["DEBUG", "CLOUDIFY_WRAPPER: Blueprint %s.yaml upload completed" % (nsi_id)])
+            #Check if exists blueprint in cloudify
+            except CloudifyClientError as e:
+                if e.error_code == 'conflict_error':
+                    log_queue.put(["INFO", "CLOUDIFY_WRAPPER: Blueprint %s %s" % (blueprint_name, e)])
+            except Exception as e:
+                log_queue.put(["ERROR", "CLOUDIFY_WRAPPER: Blueprint %s.yaml upload error %s " % (blueprint_name, e)])
+                return None
+        else:
+            log_queue.put(["INFO", "CLOUDIFY_WRAPPER: Blueprint %s exists in cloudify" % (blueprint_name)])
 
 
         # deployment update
@@ -235,6 +320,12 @@ class CloudifyWrapper(object):
             return None
 
         nsi_sap = self.__cloudify_client.deployments.outputs.get(deployment_id=nsi_id)
+        instances = self.__cloudify_client.node_instances.list(deployment_id=nsi_id)
+        nodes = self.__cloudify_client.nodes.list(deployment_id=nsi_id)
+        vnf_deployed_info = self.get_information_of_vnf(instances)
+        nsir_db.save_vnf_deployed_info(nsi_id, vnf_deployed_info)
+        vim_net_info = self.get_information_of_networks(nsi_id, instances, nodes, None)
+        nsir_db.save_vim_networks_info(nsi_id, vim_net_info)
         instantiation_output = {}
         instantiation_output["sapInfo"] = nsi_sap["outputs"]
         converted_output = self.convert_output(instantiation_output)
@@ -284,6 +375,65 @@ class CloudifyWrapper(object):
     ##########################################################################
     # PRIVATE METHODS                                                                                                      #
     ##########################################################################
+
+    def get_information_of_vnf(self, instances):
+        # vnf_deployed_info = [{"name": "spr1",
+        #                       "port_info": [{"ip_address": "192.168.3.12", "mac_address": "192.168.3.12"}]},
+        #                      {"name": "spr2",
+        #                       "port_info": [{"ip_address": "192.168.3.13", "mac_address": "192.168.3.13"}]}
+        #                      ]
+        vnf_deployed_info = []
+
+        for instance in instances:
+            if instance.runtime_properties.get('external_type') == "mtp_compute":
+                net_interfaces = instance.runtime_properties.get('external_resource')['virtualNetworkInterface']
+                vm_name = instance.runtime_properties.get('external_resource')['computeName']
+                port_info = []
+
+                for net_interface in net_interfaces.values():
+                    dc = ""
+                    for metadata in net_interface['metadata']:
+                        if metadata['key'] == 'dc':
+                            dc = str(metadata['value'])
+                    port_info.append({"ip_address": net_interface['ipAddress'][0], "mac_address": net_interface['macAddress']})
+                vnf_deployed_info.append({"name": vm_name, "port_info": port_info, "dc": dc})
+
+        return vnf_deployed_info
+
+    def get_information_of_networks(self, ns_id, instances, nodes, nestedInfo):
+        # {"cidr": {"VideoData": "192.168.3.0/24"},
+        # "name": {"VideoData": ['1']},
+        # "vlan": {"VideoData": "30"},
+        # "vlan": {"addressPool": [0]}}
+
+        vim_net_info = {"cidr": {}, "name": {}, "vlan_id": {}, "addressPool": {}}
+
+        for instance in instances:
+            # pprint(node)
+            if 'external_type' in instance['runtime_properties'].keys():
+                if "subnet_vl" in instance['runtime_properties']['external_type']:
+                    network_runtime_properties = instance['runtime_properties']
+                    net_name = network_runtime_properties['external_resource']['networkData']['networkResourceName']
+                    net_name = net_name.replace(ns_id + "_","")
+                    if nestedInfo:
+                        nested_descriptor = next(iter(nestedInfo))
+                        network_mapping = nestedInfo[nested_descriptor][0]
+                        for network_map in network_mapping:
+                            for net_value, net_key in network_map.items():
+                                if net_name == net_key:
+                                    net_name = net_value
+                                    break
+                    net_cidr = network_runtime_properties['external_resource']['subnetData']['cidr']
+                    address_pool = network_runtime_properties['external_resource']['subnetData']['addressPool']
+                    vlan = 1
+                    if ('SegmentationID' in network_runtime_properties['external_resource']['subnetData']['metadata']):
+                        vlan = network_runtime_properties['external_resource']['subnetData']['metadata']['SegmentationID']
+                    vim_net_info["cidr"].update({net_name : net_cidr})
+                    vim_net_info["name"].update({net_name: ['1']})
+                    vim_net_info["vlan_id"].update({net_name: vlan})
+                    vim_net_info["addressPool"].update({net_name: address_pool})
+
+        return vim_net_info
 
     def extract_scaling_info(self, ns_descriptor, current_df, current_il, target_il):
         # we extract the required scaling operations comparing target_il with current_il

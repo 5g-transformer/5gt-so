@@ -23,12 +23,31 @@ function representation(rawData) {
 //    console.log("Groups_nested_2", groups_nested_2);
 
     var groups_placement = d3.nest().key(function(d) {
-        return d.placement_element;
+        return d.placement_element[0];
     }).entries(rawData.nodes);
+
+    var groups_placement_2 = d3.nest().key(function(d) {
+        return d.placement_element[1];
+    }).entries(rawData.nodes);
+
+    // merging all the existing object in 2nd group to the first one
+    groups_placement_2.forEach(function (element) {
+        groups_placement.forEach( function (pla) {
+            if (element['key'] === pla['key']) {
+                element['values'].forEach(function (ob) {
+                    pla['values'].push(ob);
+                });
+            }
+
+        });
+    });
+    // console.log("Groups_placement", groups_placement);
+    // console.log("Groups_placement_2", groups_placement_2);
 
     // removing "undefined" key in the group placement
     var groups_placement_filtered = groups_placement.filter(function(d) { return d.key !== 'undefined'; });
 
+    //// ASSUMPTION: VLD NODES ARE SHARED BY ONLY TWO FEDERATED DOMAIN
     var groups_federation = d3.nest().key(function(d) {
         return d.federation[0];
     }).entries(rawData.nodes);

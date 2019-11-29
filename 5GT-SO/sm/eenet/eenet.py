@@ -69,10 +69,11 @@ def update_vls(nsId, vl_list, vls_ids_to_remove):
     """
     #links to add
     mtp_vl_ids = []
+    if (len (vl_list["logicalLinkPathList"]) > 0):
+        mtp_vl_ids = sbi.deploy_vl(vl_list, nsId)    
     vl_info = []
-    mtp_vl_ids = sbi.deploy_vl(vl_list, nsId)
     for i in range(0, len(mtp_vl_ids)):
-        vl_info.append({mtp_vl_ids[i]: vl_list["logicalLinkAttributes"][i]})
+        vl_info.append({mtp_vl_ids[i]: vl_list["logicalLinkPathList"][i]})
     vl_list_prev = nsir_db.get_vls(nsId)
     vl_total = vl_list_prev + vl_info
     nsir_db.save_vls(vl_total, nsId)

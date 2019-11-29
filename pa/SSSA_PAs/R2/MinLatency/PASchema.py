@@ -122,8 +122,9 @@ class nsd(object):
 			return '<nsd(id={self.id!r})>'.format(self=self)
 
 class SAP(object):
-	def __init__(self,CPid,location):
-		self.CPid=CPid
+	def __init__(self,cpId,VNFLink,location):
+		self.cpId=cpId
+		self.VNFLink=VNFLink
 		self.location=location
 
 class VNFs(object):
@@ -139,16 +140,18 @@ class VNFs(object):
 		self.CP=CP
 
 class  CP(object):
-	def __init__(self, cpId,VNFLink):
+	def __init__(self, vl_id,cpId,VNFLink):
+		self.vl_id=vl_id
 		self.cpId=cpId
 		self.VNFLink=VNFLink
 
 class VNFLink(object):
-	def __init__(self,id,latency, required_capacity, traversal_probability):
-		self.id=id
+	def __init__(self,cpId,latency, required_capacity, traversal_probability):
+		self.cpId=cpId
 		self.latency=latency
 		self.required_capacity=required_capacity
 		self.traversal_probability=traversal_probability
+		
 		
 class requirements(object):
 	def __init__(self,cpu, ram, storage,mec):
@@ -159,8 +162,13 @@ class requirements(object):
 		
 
 class VNFLinks(object):
-	def __init__(self,source,destination,required_capacity,traversal_probability):
-		self.VNFLink=VNFLink
+	def __init__(self,id,required_capacity,traversal_probability,latency,destination,source):
+		self.id=id
+		self.required_capacity=required_capacity
+		self.traversal_probability=traversal_probability
+		self.latency=latency
+		self.destination=destination
+		self.source=source
 
 class centerSchema(Schema):
 	latitude=fields.Float(required=True)
@@ -251,8 +259,11 @@ class VNFLinkSchema(Schema):
 	required_capacity=fields.Float()
 	traversal_prob=fields.Float()
 	latency=fields.Float()
+	destination=fields.String()
+	source=fields.String()
 
 class CPSchema(Schema):
+	vl_id=fields.String()
 	cpId=fields.String(required=True)
 	VNFLink=fields.Nested(VNFLinkSchema)
 
@@ -269,15 +280,15 @@ class VNFsSchema(Schema):
 
 
 
-
-
-
 class SAPSchema(Schema):
-	CPid=fields.String(required=True)
+	cpId=fields.String()
+	VNFLink=fields.String()
 	location=fields.Nested(locationSchema)
 
 class VNFLinksSchema(Schema):
 	id=fields.String(required=True)
+	source=fields.String()
+	destination=fields.String()
 	required_capacity=fields.Float()
 	traversal_prob=fields.Float()
 	latency=fields.Float()
@@ -306,4 +317,3 @@ class PAreqSchema(Schema):
 
 
 	
-

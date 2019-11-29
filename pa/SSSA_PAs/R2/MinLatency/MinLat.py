@@ -1,6 +1,6 @@
 import random
 from operator import itemgetter
-
+from itertools import combinations
 selectedDst=[]
 single={}
 coupled={}
@@ -19,16 +19,22 @@ allocated={}
 tempAlloc={}
 selected=[]
 mapped=[]
+selLL=[]
+vlid=''
 VirtualLinks=[]
 selectedDst=False
 totalLatency=0.0
 mec=False
+cpx=''
+VNFLinkSap=''
 
 # -totalcost va nella risp anche se non lo considero?
 
 def PALat(NFVIPOP,LLs,NSD):
-	global nfviId, totalLatency, selected, selectedDst, allocated
+	global nfviId, totalLatency, selected, selectedDst, allocated, mapped,VirtualLinks
 	allocated={}
+	mapped=[]
+	VirtualLinks=[]
 	selectedDst=False
 	selected=[]
 	totalLatency=0.0
@@ -50,43 +56,77 @@ def PALat(NFVIPOP,LLs,NSD):
 
 
 def allocate(NSD,NFVIPOP,LLs):
-	global radius, longitude,latitude
+	global radius, longitude,latitude, VNFLinkSap
 	global cpu, ram, storage, allocated,mec
-	global single, coupled
+	global single, coupled, VirtualLinks
 	first=False
 	VNFs=NSD["VNFs"]
-	for i in range(len(VNFs)):
-		VNF=VNFs[i]["VNFid"]
-		instances=VNFs[i]["instances"]
-		requirements= VNFs[i]["requirements"]
-		for key2 in requirements.keys():
-			cpu=requirements["cpu"]
-			ram=requirements["ram"]
-			storage=requirements["storage"]
-			if "mec" in requirements.keys():
-				mec=requirements["mec"]
-		if first==False:
-			
-			for j in range(len(VNFs[i]["CP"])):
-				if VNFs[i]["CP"][j]["cpId"]==NSD["SAP"][0]['CPid']:
+	for v in single.keys():
+		for i in range(len(VNFs)):
+			if v==VNFs[i]["VNFid"]:
+				VNF=VNFs[i]["VNFid"]
+				instances=VNFs[i]["instances"]
+				requirements= VNFs[i]["requirements"]
+				for key2 in requirements.keys():
+					cpu=requirements["cpu"]
+					ram=requirements["ram"]
+					storage=requirements["storage"]
+					if "mec" in requirements.keys():
+						mec=requirements["mec"]
+				#if first==False:
+				if VNF not in allocated.keys():
+
+					for j in range(len(VNFs[i]["CP"])):
+						for p in range(len(NSD["SAP"])): #not needed
+							if VNFs[i]["CP"][j]["VNFLink"]['id']==VNFLinkSap:
+								checkSAPNodeAvailability(NFVIPOP,instances,cpu,ram,storage, mec,radius, longitude,latitude)	
+								break	
+							else: 
+								checkNodeAvailability(NFVIPOP,instances,cpu,ram,storage)			
 					
-					checkSAPNodeAvailability(NFVIPOP,instances,cpu,ram,storage, mec,radius, longitude,latitude)	
-					break	
-				else: 
-					checkNodeAvailability(NFVIPOP,instances,cpu,ram,storage)
-			
-			if NFVIPOPIdList:
-					for i in range(len(NFVIPOPIdList)):
-						selected=NFVIPOPIdList[i]
+					if NFVIPOPIdList:
+						tempAlloc={}
+						for j in range(len(single[VNF])):
+							latency=0.0
+							relatedLL=single[VNF][j][0]
+							for vl in NSD['VNFLinks']:
+								if vl['id'] in coupled.keys() and vl['id']==relatedLL :
+							#		required_capacity=vl['required_capacity']
+									latency=vl['latency']
+									src=vl['source']
+									dst=vl['destination']
+
+							if single[VNF][j][2] in allocated.keys() and latency==0:
+								for i in range(len(NFVIPOPIdList)):
+									if NFVIPOPIdList[i][0]==allocated[single[VNF][j][2]]:
+										selected=NFVIPOPIdList[i]
+										if [selected[0],relatedLL,src,dst] not in VirtualLinks:
+											VirtualLinks.append([selected[0],relatedLL,src,dst])
+							else:
+								selected=NFVIPOPIdList[0]
+
 						tempAlloc[VNF]=selected
 						first=True
 						allocated[VNF]=selected[0]
+
 						if findNextHop(tempAlloc, single, coupled,LLs, NSD, NFVIPOP):
 							break
+							
+					else:
+						print "No NFVIPOP available"
+						return
+				else:
+					for g in range(len(single[VNF])):
+						vnfdst= single[VNF][g][2]
+						vl=single[VNF][g][0]
+						if vnfdst in allocated.keys():
+							if allocated[VNF]==allocated[vnfdst]:
+								if [allocated[VNF],vl,VNF,vnfdst] not in VirtualLinks:
+									if [allocated[VNF],vl,vnfdst,VNF] not in VirtualLinks:
+										VirtualLinks.append([allocated[VNF],vl,VNF,vnfdst])
 					
-			else:
-				print "No NFVIPOP available"
-				return
+
+				#		print VNF +"not allocated"
 
 	#findNextHop(tempAlloc, single, coupled,LLs, NSD, NFVIPOP)
 
@@ -98,9 +138,20 @@ def checkSAPNodeAvailability (NFVIPOP,numInstances,cpu,ram,storage, mec,radius, 
 	for i in range(len(NFVIPOP)):
 		nfvipop=NFVIPOP[i]
 		if "mec" in NFVIPOP[i]["capabilities"].keys():
-			#print NFVIPOP[i]
 			if NFVIPOP[i]["capabilities"]["mec"]==True: #mumble
-				pass
+				NFVIPopLongitude=NFVIPOP[i]["location"]["center"]["longitude"]
+				NFVIPopLatitude=NFVIPOP[i]["location"]["center"]["latitude"]
+				
+				if ((NFVIPopLatitude-latitude)**2+(NFVIPopLongitude-longitude)**2)<=radius**2:
+					
+					gwIP=nfvipop["gw_ip_address"]
+					nfviId=nfvipop["id"]
+					internal_latency=nfvipop["internal_latency"]
+					availability(nfvipop)
+					if not (cpu*numInstances<=AVcpu and ram*numInstances<=AVram and storage*numInstances<=AVstorage):
+						return
+					else:
+						NFVIPOPIdList.append([nfviId,gwIP,internal_latency])
 		else:
 			NFVIPopLongitude=NFVIPOP[i]["location"]["center"]["longitude"]
 			NFVIPopLatitude=NFVIPOP[i]["location"]["center"]["latitude"]
@@ -113,8 +164,8 @@ def checkSAPNodeAvailability (NFVIPOP,numInstances,cpu,ram,storage, mec,radius, 
 					return
 				else:
 					NFVIPOPIdList.append([nfviId,gwIP,internal_latency])
-	NFVIPOPIdList=sorted(NFVIPOPIdList,key=itemgetter(2))
-	#print NFVIPOPIdList
+	if NFVIPOPIdList:
+		NFVIPOPIdList=sorted(NFVIPOPIdList,key=itemgetter(2))
 	return NFVIPOPIdList
 
 def checkNextHopAvailability (NFVIPOP,dstid,instances,cpu,ram,storage,mec):
@@ -150,133 +201,141 @@ def checkNodeAvailability (NFVIPOP,numInstances,cpu,ram,storage):
 		else:
 			NFVIPOPIdList.append([nfviId,gwIP,internal_latency])
 	NFVIPOPIdList=sorted(NFVIPOPIdList,key=itemgetter(2))
+
 	return NFVIPOPIdList
 
 def parseSap(NSD):
-	global radius, longitude,latitude
+	global radius, longitude,latitude, VNFLinkSap
 	SAP=NSD["SAP"]
-	for kk in SAP[0].keys():
-		if kk=="CPid":
-			CPid=SAP[0][kk]
-		if kk=="location":
-			SAPLocation=SAP[0][kk]
-			for kk2 in SAPLocation.keys():
-				if kk2=="radius" and SAPLocation[kk2]==0:
-					pass
-				else:
-					if kk2=="radius":
-						radius= SAPLocation[kk2]
-					if kk2=="center":
-						longitude=SAPLocation[kk2]["longitude"]
-						latitude =SAPLocation[kk2]["latitude"]
-	return radius, latitude, longitude
+	for kk in range(len(SAP)):
+		if "location" in SAP[kk].keys():
+			VNFLinkSap=SAP[kk]["VNFLink"]
+			radius=SAP[kk]["location"]['radius']
+			longitude=SAP[kk]["location"]['center']['longitude']
+			latitude=SAP[kk]["location"]['center']['latitude']
+
+	return VNFLinkSap,radius, latitude, longitude
 
 def parseVNFLINKS(NSD):
 	
-	global single, coupled
-	coupled={}
+	global single, cpx
 	single={}
 	shared=[]
+	generateCoupled(NSD)
+	if coupled:
+ 		for vnf in NSD['VNFs']:
+	 		for t in vnf['CP']:
+		 		for c in coupled.keys():
+		 			cpx=''
+		 			for v in range(len(coupled[c])):
+		 				if coupled[c][v][0]==vnf['VNFid']:
+		 					if t['VNFLink']['id']==c:
+		 						cpx=t['cpId']
+		 						if not single.keys() or coupled[c][v][0] not in single.keys():
+		 							single[coupled[c][v][0]]=[[c,cpx,coupled[c][v][1]]]
+		 						elif [c,cpx,coupled[c][v][1]] not in single[coupled[c][v][0]]:
+			 						single[coupled[c][v][0]].append([c,cpx,coupled[c][v][1]])
+	return single
+
+def generateCoupled(NSD):
+	global coupled
+	coupled={}
 	for vl in NSD['VNFLinks']:
-        # Search VNFs connected to vl
 		connected_vnfs = []
 		for vnf in NSD['VNFs']:
  			linked_cps = [cp for cp in vnf['CP']                      if 'VNFLink' in cp and cp['VNFLink']['id'] == vl['id']]
- 			if linked_cps:
- 				
-	 			if not shared or shared[0]['VNFLink']['id']==linked_cps[0]['VNFLink']['id']:
-		 			shared.append(linked_cps[0])
-		 	
 			if len(linked_cps) > 0:
 				connected_vnfs.append(vnf['VNFid'])
-
-		if len(connected_vnfs)==2:
-			if (connected_vnfs[0],connected_vnfs[1]) not in coupled.keys():
-				coupled[shared[0]['VNFLink']['id']]=[connected_vnfs[0],connected_vnfs[1]]
-				#coupled[connected_vnfs[0],connected_vnfs[1]]=[shared[0]['VNFLink']['id']]
-			else:
-				coupled[shared[0]['VNFLink']['id']].append([connected_vnfs[0],connected_vnfs[1]])
-			if connected_vnfs[0] not in single.keys():
-				single[connected_vnfs[0]]=[[shared[0]['VNFLink']['id'],shared[0]['cpId'],connected_vnfs[1]]]
-			else:
-				single[connected_vnfs[0]].append ([shared[0]['VNFLink']['id'],shared[0]['cpId'],connected_vnfs[1]])
-		shared=[]
-	
-	return single, coupled
+			for VNFe in list(combinations(connected_vnfs, 2)):
+				if not coupled.keys() or vl['id'] not in coupled.keys():
+					coupled[vl['id']]=[[VNFe[0],VNFe[1]]]
+				elif [VNFe[0],VNFe[1]] not in coupled[vl['id']] :
+					coupled[vl['id']].append([VNFe[0],VNFe[1]])
+	return coupled
 
 def availability(nfvipop):
 	global AVcpu, AVram, AVstorage
-
 	AVcpu=nfvipop["availableCapabilities"]["cpu"]
 	AVram=nfvipop["availableCapabilities"]["ram"]
 	AVstorage=nfvipop["availableCapabilities"]["storage"]
-	
 	return AVstorage,AVram,AVcpu
 
 def findNextHop(tempAlloc, single, coupled, LLs, NSD, NFVIPOP):
 	
-	global mapped, cpu, ram, storage,mec,totalLatency
-	global allocated, selectedDst, totalLatency,VirtualLinks
+	global mapped, cpu, ram, storage,mec,totalLatency, selLL, vlid
+	global allocated, selectedDst, totalLatency,VirtualLinks, VNFLinkSap
+
 	#totalLatency=0.0
-	mapped=[]
-	VirtualLinks=[]
 	internal_latency=0.0
 	mec=False
 
 	for VNFid in single.keys():
 		info=[]
 		selLL=[]
-		
+		vlid=''
 		VNFsrcIPs=tempAlloc[tempAlloc.keys()[0]][1]#[0][1]
-		for i in range(len(LLs)):
-			LogicalLink=LLs[i]
-			#for j in VNFsrcIPs:
-			if LogicalLink["source"]["GwIpAddress"]==VNFsrcIPs:
-				dest=LogicalLink['destination']['id']
-				for dc in range(len(NFVIPOP)):
-					if NFVIPOP[dc]['id']==dest:
-						internal_latency=NFVIPOP[dc]['internal_latency']
-						partialLatency=internal_latency+LogicalLink['delay']
-						info.append([LogicalLink['LLid'],LogicalLink['delay'],LogicalLink['capacity']['available'],partialLatency])
-		if len(info)>1:
-			info=sorted(info,key=itemgetter(3))
-		else:
-			print "no LL available len info"
-			return
+		parseLogicalLinks(LLs,NFVIPOP,VNFsrcIPs,info)
 		if VNFid==tempAlloc.keys()[0]:
-			for vl in NSD['VNFLinks']:
-				for m in range(len(single[VNFid])):
-					vnfdst=single[VNFid][m][2]
-					if vnfdst in allocated.keys(): #two connected VNF in the same POP
-						if VNFid in tempAlloc.keys():
-							if allocated[vnfdst]==tempAlloc[VNFid][0]:
-								if [allocated[vnfdst],single[VNFid][m][0]] not in VirtualLinks:
-									VirtualLinks.append([allocated[vnfdst],single[VNFid][m][0]])
-					if vl['id']==single[VNFid][m][0]:
-						required_capacity=vl['required_capacity']
-						latency=vl['latency']
-						if single[VNFid][m][2] in allocated.keys():
-
-							selLL=[]
-							dstDC=allocated[single[VNFid][m][2]]
-							for i in range(len(LLs)):
-								LogicalLink=LLs[i]
-								for j in VNFsrcIPs:
-									if LogicalLink["source"]["GwIpAddress"]==j:
-										if LogicalLink["destination"]["id"]:
-											selLL=[LogicalLink['LLid'],LogicalLink['delay'],LogicalLink['capacity']['available']]
-
-						for l in range(len(info)):
-							selLL=info[l]						
-							if selLL[1]<=latency and selLL[2]>=required_capacity:
-								
-								for i in range(len(LLs)):
-									LogicalLink=LLs[i]
-									if LogicalLink['LLid']==selLL[0]:
-										dstid=LogicalLink['destination']['id']
-										if vl['id'] in coupled.keys():								
-											if coupled[vl['id']][0]==VNFid:
-												vnf=coupled[vl['id']][1]
+			for m in range(len(single[VNFid])):
+				vnfdst=single[VNFid][m][2]
+				relatedLL=single[VNFid][m][0]
+				if vnfdst in allocated.keys(): #vnfdst already placed (same or different NFVIPoP)
+					dstDC=allocated[vnfdst]
+					if VNFid==tempAlloc.keys()[0]: #both VNFs in the same POP
+						if dstDC==tempAlloc[VNFid][0]:
+							if ([dstDC,relatedLL,VNFid,vnfdst]) not in VirtualLinks:
+								if  [dstDC,relatedLL,vnfdst, VNFid] not in VirtualLinks:
+									VirtualLinks.append([dstDC,relatedLL,VNFid,vnfdst]) #map to a VLINK
+						else: #VNFs already allocated in 2 different POP
+							VLmapping(NSD,relatedLL,info)
+							if selLL:
+								if [selLL[0],vlid] not in mapped:
+			   						mapped.append([selLL[0],vlid])
+			   						totalLatency+=selLL[1]
+			   				else:
+			   					print "not selLL"
+						
+						#map to the fastest LL that satisfies the requirements
+				else:
+					VLmapping(NSD, relatedLL,info)
+					if not selLL:
+						if vlid in coupled.keys():
+							for e in range(len(coupled[vlid])):
+								if coupled[vlid][e][0]==VNFid:
+									vnf=coupled[vlid][e][1]
+									if vnf not in allocated.keys():
+										if VNFid in tempAlloc.keys():
+											dstid=tempAlloc[VNFid][0]
+											for aa in range(len(NSD['VNFs'])):
+													if NSD['VNFs'][aa]['VNFid']==vnf:
+			 										   	cpu=NSD['VNFs'][aa]['requirements']['cpu']
+			 										   	ram=NSD['VNFs'][aa]['requirements']['ram']
+			 										   	storage=NSD['VNFs'][aa]['requirements']['storage']
+			 										   	if "mec" in NSD['VNFs'][aa]['requirements']:
+				 										   	mec=NSD['VNFs'][aa]['requirements']['mec']
+				 										else:
+				 											mec=False
+				 										instances=NSD['VNFs'][aa]['instances']
+				 										if checkNextHopAvailability(NFVIPOP, dstid,instances,cpu,ram,storage,mec):
+											   				allocated[vnf]=dstid
+											   				if [dstid,vlid,VNFid,vnf] not in VirtualLinks:
+											   					VirtualLinks.append([dstid,vlid, VNFid,vnf])
+														#REMOVED TO ALLOCATE ALL ll. cHECK WITH OTHER SCENARION
+											
+														#for p in range(len(NFVIPOP)):
+							   							#	if NFVIPOP[p]['id']==dstid and vnf in single.keys():
+							   							#		tempAlloc={}
+										   				#		tempAlloc[vnf]=[dstid,NFVIPOP[p]['gw_ip_address']]
+					else:
+						for i in range(len(LLs)):
+							LogicalLink=LLs[i]
+							if LogicalLink['LLid']==selLL[0]:
+								dstid=LogicalLink['destination']['id']
+								if vlid in coupled.keys():
+									for e in range(len(coupled[vlid])):
+										if coupled[vlid][e][0]==VNFid:
+											vnf=coupled[vlid][e][1]
+											if vnf not in allocated.keys():
 												for aa in range(len(NSD['VNFs'])):
 													if NSD['VNFs'][aa]['VNFid']==vnf:
 			 										   	cpu=NSD['VNFs'][aa]['requirements']['cpu']
@@ -286,60 +345,122 @@ def findNextHop(tempAlloc, single, coupled, LLs, NSD, NFVIPOP):
 				 										   	mec=NSD['VNFs'][aa]['requirements']['mec']
 				 										else:
 				 											mec=False
-			 										   	instances=NSD['VNFs'][aa]['instances']
-			 										   	if checkNextHopAvailability(NFVIPOP, dstid,instances,cpu,ram,storage,mec):
+				 										instances=NSD['VNFs'][aa]['instances']
+				 										CPs=NSD['VNFs'][aa]['CP']
+				 										for r in range(len(CPs)):
+				 											
+					 										if CPs[r]['vl_id']==VNFLinkSap:
+				 										   		checkSAPNodeAvailability(NFVIPOP,instances,cpu,ram,storage, mec,radius, longitude,latitude)
+			 										   		else:
+			 										   			checkNextHopAvailability(NFVIPOP, dstid,instances,cpu,ram,storage,mec)
+			 										   		
 			 										   		allocated[vnf]=dstid
-									   						if [selLL[0],vl['id']] not in mapped:
-										   						mapped.append([selLL[0],vl['id']])
-
+									   						if [selLL[0],vlid] not in mapped:
+										   						mapped.append([selLL[0],vlid])
 										   						totalLatency+=selLL[1]
 									   						for p in range(len(NFVIPOP)):
 
 								   								if NFVIPOP[p]['id']==dstid and vnf in single.keys():
 								   									tempAlloc={}
 											   						tempAlloc[vnf]=[dstid,NFVIPOP[p]['gw_ip_address'],NFVIPOP[p]['internal_latency']]
-											   						
-											   						break
-							else:
-								print "reject"
-								return
-							if [selLL[0],vl['id']] in mapped:
-								break
-					if len(allocated.keys())==len(NSD["VNFs"]):
-						break
+						#else:
+						#	print "reject"
+						#	return
+					#if [selLL[0],vlid] in mapped:
+						#break
+					#	print 'eccolo'
+					#if len(allocated.keys())==len(NSD["VNFs"]):
+					#	break
+	
 	for v in allocated.keys():
 		for x in range(len(NFVIPOP)):
 			if allocated[v]==NFVIPOP[x]['id']:
 
 				totalLatency+=NFVIPOP[x]['internal_latency']
-	if len(allocated.keys())==len(NSD["VNFs"]) and len(mapped)+len(VirtualLinks)==len(NSD['VNFLinks']):
-		#computeTotalLatency(mapped,allocated,NFVIPOP,LLs)
+	if len(allocated.keys())==len(NSD["VNFs"]): #and len(mapped)+len(VirtualLinks)==len(NSD['VNFLinks']):
 		selectedDst=True							   					
-	#print totalLatency
-	#mapped=list(set(mapped))
-	#print mapped,allocated, VirtualLinks
+	
 	return mapped, allocated, totalLatency, selectedDst, VirtualLinks
 
-def computeTotalLatency(mapped,allocated,NFVIPOP,LLs):
-	totalLatency=0.0
-	for i in range(len(mapped)):
-		print mapped[i]
-	for  j in allocated.keys():
-		print j
+def parseLogicalLinks(LLs,NFVIPOP, VNFsrcIPs,info):
+	#from the "source" VNF computes all the LLs connected to it and returns an ordered array with the the LLs characteristics 
+	for i in range(len(LLs)):
+			LogicalLink=LLs[i]
+			#for j in VNFsrcIPs:
+			if LogicalLink["source"]["GwIpAddress"]==VNFsrcIPs:
+				dest=LogicalLink['destination']['id']
+
+				for dc in range(len(NFVIPOP)):
+					if NFVIPOP[dc]['id']==dest:
+						internal_latency=NFVIPOP[dc]['internal_latency']
+						partialLatency=internal_latency+LogicalLink['delay']
+						info.append([LogicalLink['LLid'],LogicalLink['delay'],LogicalLink['capacity']['available'],partialLatency])
+	
+	if len(info)>=1:
+		info=sorted(info,key=itemgetter(3))
+	else:
+		print "no LL available len info"
+		return
+	return info
+
+def VLmapping(NSD, relatedLL,info):
+	global selLL, vlid, VNFLinkSap, coupled
+	latency=0.0
+	required_capacity=0.0
+	for vl in NSD['VNFLinks']:
+		if vl['id']==relatedLL and vl['id'] in coupled.keys():
+			required_capacity=vl['required_capacity']
+			latency=vl['latency']
+			
+			for l in range(len(info)):
+				selLL=info[l]
+				if latency==0:
+					vlid=vl['id']
+					selLL=[]
+					return vlid					
+				elif selLL[1]<=latency and selLL[2]>=required_capacity:
+					vlid=vl['id']
+					return selLL,vlid
+				else:
+					vlid=vl['id']
+					selLL=[]
+					return vlid		
+	
+
 
 def buildResponse(allocated, mapped,VirtualLinks):
 	#global totalLatency
-	
-	response={"usedNFVIPops":[],"usedLL":[],"usedVL":[],"totalLatency":totalLatency}
-	for k in allocated.keys():
-		pop={"NFVIPopID":allocated[k][0],"mappedVNFs":k}
+	response={"usedNFVIPops":[],"usedLLs":[],"usedVLs":[],"totalLatency":totalLatency}
+	allocated2 = {} 
+	for key, value in allocated.items(): 
+   		if value in allocated2:
+   			allocated2[value].append(key) 
+		else:
+			allocated2[value]=[key] 
+	for k in allocated2.keys():
+		pop={"NFVIPoPID":k,"mappedVNFs":allocated2[k]}
 		response["usedNFVIPops"].append(pop)
-	for i in range(len(mapped)):
-		lls={"LLID":mapped[i][0],"mappedVLs":mapped[i][1]}
-		response["usedLL"].append(lls)
-	for l in range(len(VirtualLinks)):
-		vls={"NFVIPoP":VirtualLinks[l][0],"mappedVLs":VirtualLinks[l][1]}
-		response["usedVL"].append(vls)
+	mapped2={}
+	for m in mapped:
+		if  m[0] in mapped2.keys():
+			mapped2[m[0]].append(m[1])
+		else:
+			mapped2[m[0]]=[m[1]]
+	
+	for i in mapped2.keys():
+		lls={"LLID":i,"mappedVLs":mapped2[i]}
+		response["usedLLs"].append(lls)
+	VirtualLinks2={}
+	for m in VirtualLinks:
+		
+		if  m[0] in VirtualLinks2.keys():
+			VirtualLinks2[m[0]].append(m[1])
+		else:
+			VirtualLinks2[m[0]]=[m[1]]
 
-	#print response
+	for l in VirtualLinks2.keys():
+		vls={"NFVIPoP":l,"mappedVLs":VirtualLinks2[l]}
+		response["usedVLs"].append(vls)
+
+	
 	return response

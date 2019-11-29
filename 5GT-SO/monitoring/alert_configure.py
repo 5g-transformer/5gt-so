@@ -119,8 +119,21 @@ def get_pm_alerts(nsd, deployed_vnfs_info, ns_id):
             pm_alert['query'] = summury_alert_query
             pm_alert['label'] = "label"
             pm_alert['severity'] = "warning"
-            pm_alert['value'] = scaling_criteria['scaleOutThreshold']
-            pm_alert['kind'] = scaling_criteria['scaleOutRelationalOperation']
+            if 'scaleOutThreshold' in scaling_criteria:
+                pm_alert['value'] = scaling_criteria['scaleOutThreshold']
+            if 'scaleInThreshold' in scaling_criteria:
+                pm_alert['value'] = scaling_criteria['scaleInThreshold']
+            if 'scaleOutRelationalOperation' in scaling_criteria:
+                pm_alert['kind'] = scaling_criteria['scaleOutRelationalOperation']
+            if 'scaleInRelationalOperation' in scaling_criteria:
+                pm_alert['kind'] = scaling_criteria['scaleInRelationalOperation']
+            try:
+                pm_alert['kind'] = convert_relational_operation_from_nsd_to_monitoring_platform(pm_alert['kind'])
+            except KeyError as e:
+                exception_msg = "Relation operation value for rule " + pm_alert['rule_id'] + " + has wrong format"
+                log_queue.put(["ERROR", exception_msg])
+                raise Exception(exception_msg)
+
             pm_alert['enabled'] = auto_scaling_rule['ruleCondition']['enabled']
             pm_alert['cooldownTime'] = auto_scaling_rule['ruleCondition']['cooldownTime']
             pm_alert['thresholdTime'] = auto_scaling_rule['ruleCondition']['thresholdTime']
@@ -129,6 +142,19 @@ def get_pm_alerts(nsd, deployed_vnfs_info, ns_id):
             alerts.append(pm_alert)
     return alerts
 
+def convert_relational_operation_from_nsd_to_monitoring_platform(operation):
+    # this method convert relation operation from NSD format to monitoring platform format
+    map_translation = {}
+    map_translation['GT'] = 'G'
+    map_translation['GE'] = 'GEQ'
+    map_translation['LT'] = 'L'
+    map_translation['LE'] = 'LEQ'
+    map_translation['EQ'] = 'EQ'
+    map_translation['NEQ'] = 'NEQ'
+
+    monitoring_platform_operation = map_translation[operation]
+
+    return monitoring_platform_operation
 
 def convert_expresion(performance_metric, job_id, ns_id, vnfd_id):
     performance_metric_parts = performance_metric.split(".")
@@ -166,7 +192,7 @@ def get_alerts():
         alerts = resources.decode("utf-8")
         log_queue.put(["DEBUG", "Alerts from Config Manager are:"])
         log_queue.put(["DEBUG", alerts])
-        alerts = json.loads(resources)
+        alerts = json.loads(alerts)
         log_queue.put(["DEBUG", "Alerts from Config Manager are:"])
         log_queue.put(["DEBUG", json.dumps(alerts, indent=4)])
         conn.close()
@@ -196,7 +222,7 @@ def get_alert(alert_id):
         alert = resources.decode("utf-8")
         log_queue.put(["DEBUG", "Alerts from Config Manager are:"])
         log_queue.put(["DEBUG", alert])
-        alert = json.loads(resources)
+        alert = json.loads(alert)
         log_queue.put(["DEBUG", "Alerts from Config Manager are:"])
         log_queue.put(["DEBUG", json.dumps(alert, indent=4)])
         conn.close()
@@ -229,7 +255,7 @@ def create_alert(alert):
         resp_alert = resources.decode("utf-8")
         log_queue.put(["DEBUG", "Alert from Config Manager are:"])
         log_queue.put(["DEBUG", resp_alert])
-        resp_alert = json.loads(resources)
+        resp_alert = json.loads(resp_alert)
         log_queue.put(["DEBUG", "Alert from Config Manager are:"])
         log_queue.put(["DEBUG", json.dumps(resp_alert, indent=4)])
         conn.close()
@@ -264,7 +290,7 @@ def update_alert(alert):
         resp_alert = resources.decode("utf-8")
         log_queue.put(["DEBUG", "Alert from Config Manager are:"])
         log_queue.put(["DEBUG", resp_alert])
-        resp_alert = json.loads(resources)
+        resp_alert = json.loads(resp_alert)
         log_queue.put(["DEBUG", "Alert from Config Manager are:"])
         log_queue.put(["DEBUG", json.dumps(resp_alert, indent=4)])
         conn.close()
@@ -297,7 +323,7 @@ def delete_alert(alert_id):
         resp_alert = resources.decode("utf-8")
         log_queue.put(["DEBUG", "Alert from Config Manager are:"])
         log_queue.put(["DEBUG", resp_alert])
-        resp_alert = json.loads(resources)
+        resp_alert = json.loads(resp_alert)
         log_queue.put(["DEBUG", "Alert from Config Manager are:"])
         log_queue.put(["DEBUG", json.dumps(resp_alert, indent=4)])
         conn.close()

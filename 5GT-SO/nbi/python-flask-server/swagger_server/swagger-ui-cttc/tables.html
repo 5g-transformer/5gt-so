@@ -207,8 +207,8 @@
                                 <th>Status</th>
                                 <th>NSD Id</th>
                                 <th>Sap Info</th>
-                                <th>NS Instantiation Level Id</th>
-                                <th>Flavour Id</th>
+                                <th>Flavour / Instantiation Level Id</th>
+                                <th>Dashboard Info</th>
                                 <th>Used by</th>
                                 <th></th>
                                 <th></th>
@@ -226,8 +226,12 @@
                                 <td>{{ dict_item.status }}</td>
                                 <td>{{ dict_item.nsd_id }}</td>
                                 <td>{{ dict_item.sapInfo }}</td>
-                                <td>{{ dict_item.nsInstantiationLevelId }}</td>
-                                <td>{{ dict_item.flavourId }}</td>
+                                <td>{{ dict_item.flavourId }} / {{ dict_item.nsInstantiationLevelId }}</td>
+                                {% if 'dashboardUrl' in dict_item.dashboard_info %}
+                                <td><a href="{{dict_item.dashboard_info['dashboardUrl']}}" target="_blank">{{ dict_item.dashboard_info['dashboardUrl'] }}</a></td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
                                 <td>{{ dict_item.used_by }}</td>
                                 <td>
                                     <button class="btn btn-default" data-toggle="modal"
@@ -293,8 +297,7 @@
                                 <th>Status</th>
                                 <th>NSD Id</th>
                                 <th>Sap Info</th>
-                                <th>NS Instantiation Level Id</th>
-                                <th>Flavour Id</th>
+                                <th>Flavour / Instantiation Level Id</th>
                                 <th>Nested Ns Id</th>
                                 <th>Nested Service Info</th>
                                 <th></th>
@@ -313,8 +316,7 @@
                                 <td>{{ dict_item.status }}</td>
                                 <td>{{ dict_item.nsd_id }}</td>
                                 <td>{{ dict_item.sapInfo }}</td>
-                                <td>{{ dict_item.nsInstantiationLevelId }}</td>
-                                <td>{{ dict_item.flavourId }}</td>
+                                <td>{{ dict_item.flavourId }} / {{ dict_item.nsInstantiationLevelId }}</td>
                                 <td>{{ dict_item.nestedNsId }}</td>
                                 <td>{{ dict_item.nested_service_info }}</td>
                                 <td>
@@ -689,7 +691,7 @@
                             <div class="form-group">
                                 <label>Flavour Id</label>
                                 <select class="form-control" name="flavourId">
-                                    <option>{{ dict_item.nsdJson['nsd']['nsDf'][0]['flavourKey'] }}</option>
+                                    <option>{{ dict_item.nsdJson['nsd']['nsDf'][0]['nsDfId'] }}</option>
                                 </select>
                             </div>
                             <div class="form-group">

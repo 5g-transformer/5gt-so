@@ -1,7 +1,10 @@
 # 5gt-so
+
+## Final Features
+
+Final Release validates the integration with the 5GT-VS, 5GT-MTP and the 5GT-MON building blocks of the 5G-TRANSFORMER architecture
+
 ## Release 2 Features
-
-
 
 ### Extended REST-based NBI offering catalogue and lifecycle management functions:
 - NFV-NS scaling

@@ -168,6 +168,10 @@ $(function () {
       console.log("url " + url_base_page);
       document.getElementById("ewbi").href = "http://" + url_base_page + ":8085/5gt/so-ewbi/v1/ui/";
 });
+
+$(".alert").fadeTo(2500, 500).slideUp(500, function(){
+    $(this).remove();
+});
 </script>
 
 <!-- jQuery -->

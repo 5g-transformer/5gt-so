@@ -14,6 +14,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
+from swagger_server.models.location_info_im import LocationInfoIm  # noqa: F401,E501
 from swagger_server import util
 
 
@@ -23,7 +24,7 @@ class SapDataIm(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, sapd_id: str=None, sap_name: str=None, description: str=None, address: str=None):  # noqa: E501
+    def __init__(self, sapd_id: str=None, sap_name: str=None, description: str=None, address: str=None, location_info: LocationInfoIm=None):  # noqa: E501
         """SapDataIm - a model defined in Swagger
 
         :param sapd_id: The sapd_id of this SapDataIm.  # noqa: E501
@@ -34,25 +35,30 @@ class SapDataIm(Model):
         :type description: str
         :param address: The address of this SapDataIm.  # noqa: E501
         :type address: str
+        :param location_info: The location_info of this SapDataIm.  # noqa: E501
+        :type location_info: LocationInfoIm
         """
         self.swagger_types = {
             "sapd_id": str,
             "sap_name": str,
             "description": str,
-            "address": str
+            "address": str,
+            "location_info": LocationInfoIm
         }
 
         self.attribute_map = {
             "sapd_id": "sapdId",
             "sap_name": "sapName",
             "description": "description",
-            "address": "address"
+            "address": "address",
+            "location_info": "locationInfo"
         }
 
         self._sapd_id = sapd_id
         self._sap_name = sap_name
         self._description = description
         self._address = address
+        self._location_info = location_info
 
     @classmethod
     def from_dict(cls, dikt) -> "SapDataIm":
@@ -154,3 +160,24 @@ class SapDataIm(Model):
         """
 
         self._address = address
+
+    @property
+    def location_info(self) -> LocationInfoIm:
+        """Gets the location_info of this SapDataIm.
+
+
+        :return: The location_info of this SapDataIm.
+        :rtype: LocationInfoIm
+        """
+        return self._location_info
+
+    @location_info.setter
+    def location_info(self, location_info: LocationInfoIm):
+        """Sets the location_info of this SapDataIm.
+
+
+        :param location_info: The location_info of this SapDataIm.
+        :type location_info: LocationInfoIm
+        """
+
+        self._location_info = location_info

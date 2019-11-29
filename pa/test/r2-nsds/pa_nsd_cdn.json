@@ -119,7 +119,7 @@
                         "qos": {
                             "packetDelayVariation": 0,
                             "priority": 0,
-                            "latency": 0,
+                            "latency": 500,
                             "packetLossRatio": 0
                         },
                         "flavourId": "df_VideoDistribution",
@@ -144,7 +144,7 @@
                         "qos": {
                             "packetDelayVariation": 0,
                             "priority": 0,
-                            "latency": 0,
+                            "latency": 500,
                             "packetLossRatio": 0
                         },
                         "flavourId": "df_mgt",
@@ -169,7 +169,7 @@
                         "qos": {
                             "packetDelayVariation": 0,
                             "priority": 0,
-                            "latency": 0,
+                            "latency": 500,
                             "packetLossRatio": 0
                         },
                         "flavourId": "df_VideoData",

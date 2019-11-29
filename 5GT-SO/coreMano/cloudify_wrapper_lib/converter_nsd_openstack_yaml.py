@@ -1,3 +1,15 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import copy
 import os
 from collections import OrderedDict
@@ -189,7 +201,7 @@ class ConverterNSDOpenstackYAML(object):
                             new_netwoks[new_network_name].update({"provider": True})
                             new_netwoks[new_network_name].update({'NFVIPoPID': server_nfvi_po_pid})
                             port_value['network'] = new_network_name
-                            vlan += 1
+                            # vlan += 1
             self.networks.update(new_netwoks)
 
             # PA delete old interpop network
@@ -292,6 +304,7 @@ class ConverterNSDOpenstackYAML(object):
         security_group_name = "security_group_nfvi_pop_"
         keypair_name = "keypair_"
         script_name = "script_"
+        public_network_name = "public_network_"
 
         self.cloudify_blueprint.add_start_comment("# \n # \n")
         self.cloudify_blueprint.add_tosca_version("cloudify_dsl_1_3")
@@ -303,7 +316,6 @@ class ConverterNSDOpenstackYAML(object):
                 nfvi_pop_id = used_nfvi_pops['NFVIPoPID']
                 dsl_definiftion = OrderedDict()
                 vim = self.__nfvis_pop_info[nfvi_pop_id]['vim']
-                floating_network = vim['external_network']
                 openstack_config = {
                     'username': vim['user'],
                     'password': vim['password'],
@@ -415,8 +427,6 @@ class ConverterNSDOpenstackYAML(object):
                 private_network.set_openstack_config('nfvi_pop_' + network['NFVIPoPID'])
                 self.cloudify_blueprint.add_node_template(private_network.get_yaml())
 
-        public_network = PublicNetwork(floating_network, auth_nfvi_pop)
-        self.cloudify_blueprint.add_node_template(public_network.get_yaml())
 
         if pa_pa_enable == "true" or pa_pa_simulate == "true":
             for used_nfvi_pops in self.__placement_info['usedNFVIPops']:
@@ -425,7 +435,7 @@ class ConverterNSDOpenstackYAML(object):
                 router = Router()
                 router.set_name(router_name + nfvi_pop_id)
                 router.set_openstack_config('nfvi_pop_' + nfvi_pop_id)
-                router.set_external_network(floating_network)
+                router.set_external_network(public_network_name + nfvi_pop_id)
                 self.cloudify_blueprint.add_node_template(router.get_router())
 
                 security_group = SecurityGroup()
@@ -437,6 +447,10 @@ class ConverterNSDOpenstackYAML(object):
                 keypair.set_name(keypair_name + nfvi_pop_id)
                 keypair.set_openstack_config('nfvi_pop_' + nfvi_pop_id)
                 self.cloudify_blueprint.add_node_template(keypair.get_yaml())
+
+                floating_network = self.__nfvis_pop_info[nfvi_pop_id]['vim']['external_network']
+                public_network = PublicNetwork(public_network_name + nfvi_pop_id,  floating_network, 'nfvi_pop_' + nfvi_pop_id)
+                self.cloudify_blueprint.add_node_template(public_network.get_yaml())
 
         else:
             router = Router()
@@ -454,6 +468,10 @@ class ConverterNSDOpenstackYAML(object):
             keypair.set_name(keypair_name + "1")
             keypair.set_openstack_config('nfvi_pop_' + "1")
             self.cloudify_blueprint.add_node_template(keypair.get_yaml())
+
+            floating_network = self.__nfvis_pop_info["1"]['vim']['external_network']
+            public_network = PublicNetwork(public_network_name + nfvi_pop_id, floating_network, 'nfvi_pop_' + "1")
+            self.cloudify_blueprint.add_node_template(public_network.get_yaml())
 
         data = self.cloudify_blueprint.get_blueprint()
         file = open(file_name, 'w')
@@ -613,13 +631,13 @@ class Server(object):
 
 class PublicNetwork(object):
 
-    def __init__(self, name, openstack_config):
+    def __init__(self, name, floating_network_name, openstack_config):
         self.__yaml = \
         "  " + name + ":\n" \
         "    type: cloudify.openstack.nodes.Network\n" \
         "    properties:\n" \
         "      use_external_resource: true\n" \
-        "      resource_id: " + name + "\n" \
+        "      resource_id: " + floating_network_name + "\n" \
         "      openstack_config: *" + openstack_config + "\n\n"
 
     def get_yaml(self):

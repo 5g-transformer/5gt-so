@@ -29,6 +29,7 @@ import wget
 import tarfile
 import os
 import copy
+import socket
 
 # project imports
 from db.ns_db import ns_db
@@ -52,8 +53,12 @@ config.read("../../sm/soe/federation.properties")
 number_fed_domains= int(config.get("FEDERATION", "number"))
 for i in range (1,number_fed_domains+1):
   domain = "Provider"+str(i)
-  fed_domain[domain] = config.get("FEDERATION", domain)
-# log_queue.put(["DEBUG", "SOEp reading federated domains: %s" % (fed_domain)])
+  try:
+    fed_domain[domain] = socket.gethostbyname(config.get("FEDERATION", domain))
+  except socket.gaierror:
+      print(["Error", "Federation domain was not found %s" % (domain)])
+#log_queue.put(["DEBUG", "SOEp reading federated domains: %s" % (fed_domain)])
+
 ewbi_port=config.get("FEDERATION", "ewbi_port")
 ewbi_path=config.get("FEDERATION", "ewbi_path")
 
@@ -61,7 +66,14 @@ config.read("../../sm/soe/vs.properties")
 number_vs= int(config.get("VS", "number"))
 for i in range(1, number_vs+1):
     vs = "VS"+str(i)
-    available_VS.append(config.get("VS", vs))
+    try:
+        vs_name = config.get("VS", vs)
+        addr = socket.gethostbyname(vs_name)
+    except socket.gaierror:
+        addr = "127.0.0.1"
+        print(["Error",  vs + " with name: %s was not found" % (vs_name)])
+        print(["Error", vs + " will be use %s" % (addr)])
+    available_VS.append(addr)
 # log_queue.put(["DEBUG", "SOEp reading available_VS: %s" % (available_VS)])
 
 # Parameters for HTTP Connection
@@ -314,6 +326,7 @@ def instantiate_ns_process(nsId, body, requester):
     -------
     None
     """
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp decomposing NS"])
     # get the nsdId that corresponds to nsId
     nsdId = ns_db.get_nsdId(nsId)
     # first get the ns and vnfs descriptors
@@ -357,7 +370,7 @@ def instantiate_ns_process(nsId, body, requester):
                 if (nsd["nsd"] == nested_record["nsd_id"]):
                     nested_instance[nsd["nsd"]] = body.nested_ns_instance_id[0]
                     local_services.remove(nsd)
-
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp finished decomposing NS and checking references"])
     if "nestedNsdId" in nsd_json["nsd"].keys():
         [network_mapping, renaming_networks] = crooe.mapping_composite_networks_to_nested_networks(nsId, nsd_json, body, nested_instance) 
     else:
@@ -365,13 +378,19 @@ def instantiate_ns_process(nsId, body, requester):
         network_mapping = {}
         renaming_networks = {}
 
+    log_queue.put(["INFO", "*****Time measure: SOEp CROOE finished checking interconnection nested NS and checking references"])
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp instantiating local nested NSs"])
     for nsd in local_services:
+        log_queue.put(["INFO", "*****Time measure: SOEp instantiating local nested NSs %s"%index])
         if (requester != "local"):
-            # in that case, we only iterate once
+            # in that case, we only iterate once, this is the part of the federated service in the provider domain
             networkInfo = crooe.get_federated_network_info_request(body.additional_param_for_ns["nsId"], 
                           nsd['nsd'], requester, ewbi_port, ewbi_path)
+            log_queue.put(["INFO", "*****Time measure: SOEp SOEp receiving networkInfo from local CROOE for nested with index %s"%index])
             log_queue.put(["INFO", "SOEp getting information of the consumer domain from the EWBI: %s" %networkInfo])
             # we need to save the network_mapping for a next iteration with the ewbi after the federated service has been instantiated
+            log_queue.put(["INFO", "SOEp passing info to instantiate_ns_process"])
+            log_queue.put(["INFO", dumps({nsd["nsd"]:[loads(body.additional_param_for_ns["network_mapping"]), networkInfo]},indent=4)])
             soe.instantiate_ns_process(nsId, body, {nsd["nsd"]:[loads(body.additional_param_for_ns["network_mapping"]), networkInfo]})
         else: 
             # new_body = soe.define_new_body_for_composite(nsId, nsd["nsd"], body) #be careful with the pointer
@@ -386,7 +405,6 @@ def instantiate_ns_process(nsId, body, requester):
                      "nested_il": nested_body.ns_instantiation_level_id,
                    }   
             ns_db.update_nested_service_info(nsId, info, "push") 
-
             soe.instantiate_ns_process(nsId, nested_body, {nsd["nsd"]:[network_mapping['nestedVirtualLinkConnectivity'][nsd["nsd"]]]})
             # the service is instantiated
             sapInfo = generate_nested_sap_info(nsId, nsd["nsd"])
@@ -408,18 +426,23 @@ def instantiate_ns_process(nsId, body, requester):
             log_queue.put(["INFO", "Nested NS service instantiated with info: "])
             log_queue.put(["INFO", dumps(info,indent=4)])
             ns_db.update_nested_service_info(nsId, info, "set", nsId_nested)
+            log_queue.put(["INFO", "*****Time measure: SOEp SOEp finishing instantiating local nested NSs %s"%index])
             index = index + 1
             # clean the sap_info of the composite service, 
             ns_db.save_sap_info(nsId, "")
-
+        
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp finished instantiating local nested NSs"])
     if (requester != "local"):            
     # now I can return since the rest of interaction with the consumer domain will be done through the EWBI interface
         log_queue.put(["INFO", "SOEp instantiate_ns_process returning because the rest of the interactions"])
-        log_queue.put(["INFO", "of the federated service are done through the EWBI interface"])
+        log_queue.put(["INFO", "of the federated service are done through the EWBI interface directed by consumer"])
         return
 
     # federated_instance_info = []
+    
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp instantiating federated nested NSs"])
     for nsd in federated_services:
+        log_queue.put(["INFO", "*****Time measure: SOEp SOEp instantiating federated nested NSs %s"%index])
         # steps:
         # 1) ask for an ns identifier to the remote domain
         name = ns_db.get_ns_name(nsId)
@@ -428,12 +451,15 @@ def instantiate_ns_process(nsId, body, requester):
         # 2) ask for the service with the provided id in step 1)
         nested_body = define_new_body_for_composite(nsId, nsd["nsd"], body)
         log_queue.put(["INFO", "SOEp generating federated nested_body: %s" % (nested_body)])
+        log_queue.put(["INFO", "*****Time measure: SOEp SOEp generating request for federated domain for nested %s"%index])
         if (len(nested_services) == 1 and len(federated_services) == 1):
             # it means it is a single delegated NS
             operationId = instantiate_ns_provider (nsId_n, conn, nested_body)
+            log_queue.put(["INFO", "*****Time measure: SOEp SOEp receiving operationId of federated nested %s"%index])
         else:
             federated_mapping = {"nsId": network_mapping["nsId"], "network_mapping": dumps(network_mapping["nestedVirtualLinkConnectivity"][nsd["nsd"]])}
             operationId = instantiate_ns_provider (nsId_n, conn, nested_body, federated_mapping)
+            log_queue.put(["INFO", "*****Time measure: SOEp SOEp receiving operationId of federated nested %s"%index])
         status = "INSTANTIATING"
         # 3) enter in a loop to wait until service is instantiated, checking with the operationid, that the operation 
         # 4) update the register of nested services instantiated
@@ -456,7 +482,9 @@ def instantiate_ns_process(nsId, body, requester):
             # it means it is not a single delegated NS
             key = next(iter(nsd["domain"]))
             log_queue.put(["INFO", "SOEp asking instantiation parameters of %s to %s"%(nsd["nsd"],nsd["domain"][key])]) 
+            log_queue.put(["INFO", "*****Time measure: SOEp SOEp asking instantiation result to federated CROOE of federated nested NSs %s"%index])
             federated_info = crooe.get_federated_network_instance_info_request(nsId_n, nsd["nsd"], nsd["domain"][key], ewbi_port, ewbi_path)
+            log_queue.put(["INFO", "*****Time measure: SOEp SOEp receiving instantiation result to federated CROOE of federated nested NSs %s"%index])
             log_queue.put(["INFO", "SOEp obtained federatedInfo through EWBI: %s"%federated_info])
         # finally this information is relevant for subsequent instantiations
         # 6) update the local registry about information of the federated nested service
@@ -472,17 +500,24 @@ def instantiate_ns_process(nsId, body, requester):
                  "sapInfo": sap_info
                }
         ns_db.update_nested_service_info(nsId, info, "push")
+        log_queue.put(["INFO", "*****Time measure: SOEp SOEp finishing instantiating federated nested NSs %s"%index])
         index = index + 1
 
+    log_queue.put(["DEBUG", "*****Time measure: SOEp SOEp finishing instantiating federated nested NSs"])
     # interconnecting the different nested between them
+    log_queue.put(["DEBUG", "*****Time measure: SOEp SOEp interconnecting nested NSs"])
     if (len(nested_services) > 1):
         # in case of one, it means that it is a single delegation and you do not need to connect it
         # at least one of it will be local, so first we connect the local nested services and then we connect them with the federated
         if (len(local_services) > 1 or (len(local_services) == 1 and body.nested_ns_instance_id)):
+            log_queue.put(["INFO", "*****Time measure: SOEp SOEp-CROOE interconnecting local nested NSs"])
             crooe.connecting_nested_local_services(nsId, nsd_json, network_mapping, local_services, nested_instance, renaming_networks)
+            log_queue.put(["INFO", "*****Time measure: SOEp SOEp-CROOE finishing interconnecting local nested NSs"])
         # once local are connected, connect federated services with the local domain
         if (len(federated_services) > 0):
+            log_queue.put(["INFO", "*****Time measure: SOEp SOEp-CROOE interconnecting federated nested NSs"])
             crooe.connecting_nested_federated_local_services(nsId, nsd_json, network_mapping, local_services, federated_services, nested_instance, renaming_networks)
+            log_queue.put(["INFO", "*****Time measure: SOEp SOEp-CROOE finishing interconnecting federated nested NSs"])
 
     # after instantiating all the nested services, update info of the instantiation    
     operationId = operation_db.get_operationId(nsId, "INSTANTIATION")
@@ -502,6 +537,7 @@ def instantiate_ns_process(nsId, body, requester):
     # once the service is correctly instantiated, link to possible nested instances
     if (body.nested_ns_instance_id):
         ns_db.set_ns_shared_services_ids(body.nested_ns_instance_id[0], nsId)
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp finishing instantiation"])
 
 def scale_ns_process(nsId, body):
     """
@@ -569,7 +605,7 @@ def terminate_ns_process(nsId, aux):
     name: type
         return description
     """
-
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp starting terminating service"])
     log_queue.put(["DEBUG", "SOEp terminating_ns_process with nsId %s" % (nsId)])
     ns_db.set_ns_status(nsId, "TERMINATING")
     nested_record = ns_db.get_ns_record(nsId)
@@ -577,9 +613,11 @@ def terminate_ns_process(nsId, aux):
     # we have to remove in reverse order of creation (list are ordered in python)
     #for index in range(0, len(nested_info)):
     for index in range(len(nested_info)-1, -1, -1):
+        log_queue.put(["INFO", "*****Time measure: SOEp SOEp terminating nested service"])
         nested_service = nested_info[index]
         if (nested_service["domain"] == "local"):
             # local service to be terminated
+            nested_service["status"] = "TERMINATING"
             log_queue.put(["INFO", "SOEp eliminating LOCAL nested service: %s"%nested_service["nested_instance_id"]])
             soe.terminate_ns_process(nested_service["nested_instance_id"], None)
             # update the status
@@ -588,6 +626,7 @@ def terminate_ns_process(nsId, aux):
             # federated service to be terminated
             log_queue.put(["INFO", "SOEp eliminating FEDERATED nested service: %s"%nested_service["nested_instance_id"]])
             [operationId, conn] = terminate_ns_provider(nested_service["nested_instance_id"], nested_service["domain"])
+            nested_service["status"] = "TERMINATING"
             status = "TERMINATING"
             while (status != "SUCCESSFULLY_DONE"):		
                 status = get_operation_status_provider(operationId, conn)
@@ -600,9 +639,11 @@ def terminate_ns_process(nsId, aux):
                 time.sleep(10)
             # update the status
             nested_service["status"] = "TERMINATED"
-
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp finished ALL nested service"])
     #croe remove the local logical links for this composite service (to be reviewed when federation)
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp starting removing nested connections"])
     crooe.remove_nested_connections(nsId)
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp finishing removing nested connections"])
 
     #now declare the composite service as terminated
     operationId = operation_db.get_operationId(nsId, "TERMINATION")
@@ -621,6 +662,7 @@ def terminate_ns_process(nsId, aux):
             nested_instanceId = ns_db.delete_ns_nested_services_ids(nsId)
             ns_db.delete_ns_shared_services_ids(nested_instanceId, nsId)
         ns_db.delete_ns_record(nsId)
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp finished terminating service"])
 
 ########################################################################################################################
 # PUBLIC METHODS                                                                                                       #
@@ -677,7 +719,7 @@ def instantiate_ns(nsId, body, requester):
     string
         Id of the operation associated to the Network Service instantiation.
     """
-
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp instantiating a NS"])
     log_queue.put(["INFO", "instantiate_ns for nsId %s with body: %s" % (nsId, body)])
     #client = MongoClient()
     #fgtso_db = client.fgtso
@@ -742,12 +784,21 @@ def instantiate_ns(nsId, body, requester):
     else:
         # soep should do things: it is a composite, there is a reference, there is delegation, 
         # it is a request coming from a consumer federated domain
-        log_queue.put(["INFO", "SOEp taking charge of the instantiation"])
-        ps = Process(target=instantiate_ns_process, args=(nsId,body, request_origin))
-        ps.start()
-        # save process
-        processes_parent[operationId] = ps
-
+        # update: 19/09/17: For the eHealth usecase, it is considered to add UserData key 
+        # info in body.additional_para_for_ns, so we need to handle this new case
+        if (domain == "local" and body.additional_param_for_ns and ("nsId" not in body.additional_param_for_ns) and ("network_mapping" not in body.additional_param_for_ns) ):
+            log_queue.put(["INFO", "SOEp delegating the INSTANTIATION to SOEc"])
+            ps = Process(target=soe.instantiate_ns_process, args=(nsId, body))
+            ps.start()
+            # save process
+            soe.processes[operationId] = ps
+        else:
+            log_queue.put(["INFO", "SOEp taking charge of the instantiation"])
+            ps = Process(target=instantiate_ns_process, args=(nsId,body, request_origin))
+            ps.start()
+            # save process
+            processes_parent[operationId] = ps
+    # log_queue.put(["INFO", "*****Time measure: finished instantiation at SOEp"])
     return operationId
 
 
@@ -773,7 +824,7 @@ def scale_ns(nsId, body):
     status = ns_db.get_ns_status(nsId)
     if status != "INSTANTIATED":
         return 400
-    ns_db.set_ns_status(nsId, "INSTANTIATING")
+    ns_db.set_ns_status(nsId, "SCALING")
     operationId = create_operation_identifier(nsId, "INSTANTIATION")
     # for the moment, we only consider two cases for scaling:  
     # 1) local scaling and 2) scaling of a single delegated NS
@@ -816,7 +867,7 @@ def terminate_ns(nsId, requester):
     operationId: string
         Identifier of the operation in charge of terminating the service.
     """
-
+    log_queue.put(["INFO", "*****Time measure: SOEp SOEp terminating a NS"])
     if not ns_db.exists_nsId(nsId):
         return 404
     registered_requester = ns_db.get_ns_requester(nsId)
@@ -863,7 +914,7 @@ def terminate_ns(nsId, requester):
         ps.start()
         # save process
         processes_parent[operationId] = ps
-
+    # log_queue.put(["INFO", "*****Time measure: finished termination at SOEp"])
     return operationId
 
 
@@ -1148,6 +1199,7 @@ def onboard_nsd(nsd_json, requester):
         # it is suppose that the nested ones will be available at the database
         domain = "Composite"
         shareable = "False" #composite network services cannot be shared by others
+
     if domain is not None:
         nsd_record = {"nsdId": nsd_json["nsd"]["nsdIdentifier"],
                       # "nsdCloudifyId": nsdCloudifyId["eHealth_v01"],

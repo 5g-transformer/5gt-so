@@ -143,7 +143,6 @@ class Ns(object):
     def create2(self, nsd_name, nsr_name, distribution=None, config=None,
                ssh_keys=None, description='default description',
                admin_status='ENABLED'):
-#        print "voy a crear servicio"
         postdata = {}
         postdata['nsr'] = list()
         nsr = {}
@@ -152,16 +151,13 @@ class Ns(object):
         nsd = self._client.nsd.get(nsd_name)
 	# get the datacenter account list
         datacenters = self._client.vim.list(None)
-#        print "datacenters: ", datacenters
         datacenter_accounts = []
         for account in datacenters:
-#            print account['name']
             datacenter_accounts.append(account['name'])
         #get the number of vnfs in the nsd
         number_vnfs = len(nsd['constituent-vnfd'])
         #print "number_vnfs: ", number_vnfs
         if self._client._so_version == 'v3':
-            #print datacenter_accounts[0]
             datacenter, resource_orchestrator = self._client.vim.get_datacenter(datacenter_accounts[0])
             if datacenter is None or resource_orchestrator is None:
                 raise NotFound("cannot find datacenter account {}".format(datacenter_accounts[0]))
@@ -205,33 +201,10 @@ class Ns(object):
                 datacenter_map = {"datacenter": dat,
                               "member-vnf-index-ref": i+1}
                 distrib.append(datacenter_map)
-        #    print distrib
         else:
-        #    print "en osm, le meto distribution: ", distribution
             distrib = distribution
         nsr['vnf-datacenter-map'] = distrib       
-#        a = {"datacenter": datacenter_accounts[0],
-#             "member-vnf-index-ref": 1}
-#        distrib.append(a)
-#        b = {"datacenter": datacenter_accounts[1],
-#             "member-vnf-index-ref": 2}
-#        distrib.append(b)  
         nsr['vnf-datacenter-map'] = distrib     
-
-#added code 18/09/03 to create the requested networks by the network service
-        #print "In Ns.py, config is: ", config
-
-# code for the os_networks case       
-#        if config is not None: 
-#            for i in range(0, len(config['name'])):
-#                # now find this network
-#                vim_vld_name = config['name'][i]
-
-#                for index, vld in enumerate(nsr['nsd']['vld']):
-#                    if (vim_vld_name.find(vld['vim-network-name']) != -1):
-#                        #this is the network I was looking for
-#                        nsr['nsd']['vld'][index]['vim-network-name'] = vim_vld_name
-#                    #print "in osm, the used networks are: ", vim_vld_name 
 
 #code for the multivim case
         if config is not None: 
@@ -249,8 +222,6 @@ class Ns(object):
                 for index, vld in enumerate(nsr['nsd']['vld']):
                     if (key.find(vld['vim-network-name']) != -1):
                         nsr['nsd']['vld'][index]['vim-network-name'] = vim_vld_name
-
-        # print ("en osm-create ns nsr is: ", nsr)
 
         postdata['nsr'].append(nsr)
         # print "in osm-create2 postdata is: ", postdata

@@ -60,10 +60,10 @@ def add_placement(graph, placement_info):
             if graph.nodes[node]['type'] == 'VLD' and graph.nodes[node]['name'] in used_vl['mappedVLs']:
                 # adding shared placement info in attribute of node of graph as list
                 if 'placement_element' in graph.nodes[node]:
-                    if not "PoP_" + used_vl['NFVIPoPID'] in graph.nodes[node]['placement_element']:
-                        graph.nodes[node]['placement_element'].append("PoP_" + used_vl['NFVIPoPID'])
+                    if not "PoP_" + used_vl['NFVIPoP'] in graph.nodes[node]['placement_element']:
+                        graph.nodes[node]['placement_element'].append("PoP_" + used_vl['NFVIPoP'])
                 else:
-                    graph.nodes[node]['placement_element'] = ["PoP_" + used_vl['NFVIPoPID']]
+                    graph.nodes[node]['placement_element'] = ["PoP_" + used_vl['NFVIPoP']]
                 # graph.nodes[node]['placement_element'] = "PoP_" + used_vl['NFVIPoPID']
     # add label "placement_element" (related to LLs) to VLD nodes
     for used_ll in placement_info['usedLLs']:
@@ -317,14 +317,14 @@ def ifa011_conversion(descriptor):
         if ifa011_vnfd['deploymentFlavour'][0]['scalingAspect']:
             vnfd_list_element['scaling-group-descriptor'] = list()
             scaling_aspect = ifa011_vnfd['deploymentFlavour'][0]['scalingAspect'][0]
-            scaling_policy = [{"name": scaling_aspect['id'],
+            scaling_policy = [{"name": scaling_aspect['id'] + '_manual',
                                "scaling-type": "manual",
                                "threshold-time": 10,
                                "cooldown-time": 120}]
             scaling_vdu = [{"vdu-id-ref": ifa011_vnfd['deploymentFlavour'][0]['vduProfile'][0]['vduId'],
                             "count": 1}]
             vnfd_list_element['scaling-group-descriptor'].append({
-                "name": scaling_aspect['id']+'manual',
+                "name": scaling_aspect['id'] + '_manualscale',
                 "min-instance-count": 0,
                 "max-instance-count": scaling_aspect['maxScaleLevel'],
                 "scaling-policy": scaling_policy,

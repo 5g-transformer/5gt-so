@@ -179,7 +179,6 @@ def nfvipop_to_internal(pop):
   """
   host = {}
   host["host_name"] = pop["id"]
-  host["location"] = pop["location"] # copied as-is, ignored by GA
   host["gw_ip_address"] = pop["gw_ip_address"] # copied as-is, ignored by GA
   host["failure_rate"] = pop["failure_rate"]
   
@@ -187,7 +186,7 @@ def nfvipop_to_internal(pop):
   if "mec" in pop["capabilities"]:
     mecCapable = pop["capabilities"]["mec"]
 
-  if "location" in pop["location"]:
+  if "location" in pop:
     host["location"] = copy.deepcopy(pop["location"])
 
   # we copy the "availableCapabilities" instead of the capabilities, since the latter
@@ -208,7 +207,7 @@ def nfvipop_from_internal(host):
   pop = {}
   pop["id"] = host["host_name"]
   if "location" in host:
-    pop["location"] = host["location"]
+    pop["location"] = copy.deepcopy(host["location"])
   else:
     pop["location"] = {}
   if "gw_ip_address" in host:
@@ -281,6 +280,8 @@ def vnf_to_internal(ext):
     CP: [...], #just copied
     "failure_rate": 0
   }
+  
+  Note that the external format, after preprocessing, may include an is_sap field.
   """
   internal = {}
   internal["vnf_name"] = ext["VNFid"]
@@ -304,6 +305,8 @@ def vnf_to_internal(ext):
   }
   internal["instances"] = ext["instances"] # ignored
   #internal["location"] = ext["location"]
+  if "is_sap" in ext:
+    internal["is_sap"] = ext["is_sap"]
   return internal
   
   
@@ -339,7 +342,7 @@ def vnf_from_internal(internal):
     ext["instances"] = 0
 
   if "location" in internal:
-    ext["location"] = internal["location"]
+    ext["location"] = copy.deepcopy(internal["location"])
   else:
     ext["location"] = {}
 
@@ -413,7 +416,8 @@ def vnf_link_to_internal(ext):
     "source": "vnf1",
     "destination": "vnf2",
     "required_capacity": 10,
-    "traversal_probability": 0
+    "traversal_probability": 0,
+    "latency": 5
   }
 
   # traversal probability may be ignored here
@@ -434,6 +438,7 @@ def vnf_link_to_internal(ext):
   internal["source"] = ext["source"]
   internal["target"] = ext["destination"]
   internal["traffic"] = ext["required_capacity"]
+  internal["latency"] = ext["latency"]
   if internal["source"] == "None":
     internal["source"] = None
   if internal["target"] == "None":
@@ -469,7 +474,8 @@ def vnf_link_from_internal(internal):
   if ext["destination"] is None:
     ext["destination"] = "None" 
   ext["required_capacity"] = internal["traffic"]
-  ext["traversal_probability"] = 1 # tocheck
+  ext["latency"] = internal["latency"]
+  ext["traversal_probability"] = internal["traversal_probability"] # tocheck
   return ext
 
 ########################################
@@ -574,8 +580,13 @@ def _find_pop(pops, popid):
   """Find the pop with the given pop id in list which stores nfvipopid-[list] pairs
   """
   for pop in pops:
-    if pop["NFVIPoPID"] == popid:
-      return pop
+    # Hack to cover both cases for the dictionary key due to inconsistency in the API
+    if "NFVIPoPID" in pop:
+      if pop["NFVIPoPID"] == popid:
+        return pop
+    if "NFVIPoP" in pop:
+      if pop["NFVIPoP"] == popid:
+        return pop    
   return None
 
 
@@ -606,8 +617,11 @@ def translate_solution(solution):
   ext = {}
   used_pops = []
   for v in solution["vnfs"]:
+    if "is_sap" in v and v["is_sap"] == True:
+      # ignore dummy VNFs
+      continue
     if "place_at" in v and len(v["place_at"]) > 0:
-      # If the VNF is placed at some hosts (in our case there are no VNF replicas to place)
+      # If the VNF is placed at some host (in our case there are no VNF replicas to place)
       # find the host and add the VNF to its list (or add the host if not already in used_pops) 
       for pop in v["place_at"]: # there should be just one element in place_at normally
         p = _find_pop(used_pops, pop)
@@ -627,6 +641,10 @@ def translate_solution(solution):
   ext["usedLLs"] = []
   ext["usedVLs"] = []
   for ve in solution["vnf_edges"]:
+    # ignore "dummy VLs that we added to connect SAPs with VNFs
+    if "dummy" in ve and ve["dummy"] == True:
+      continue
+
     # If host_edge is missing from the VNF edge block, there's no
     # host edge mapping info, so we do nothing
     if "host_edge" in ve:
@@ -639,7 +657,7 @@ def translate_solution(solution):
           p["mappedVLs"].append(ve["id"]) # we assume that links between VNFs have IDs.
         else:
           ext["usedVLs"].append({
-            "NFVIPoPID": ve["host_edge"]["source"],
+            "NFVIPoP": ve["host_edge"]["source"],
             "mappedVLs": [ve["id"]]
           })
       else:
@@ -648,7 +666,7 @@ def translate_solution(solution):
         if host_link is None or host_link["id"].endswith("-inv"):
           # search for a link in the reverse direction
           # and if it ends with -inv, this means that it is a reverse link added by the GA,
-          #so just get the forward one
+          #so just get the forward onefin
           host_link = _find_host_link(solution, ve["host_edge"]["target"], ve["host_edge"]["source"])
                     
         # The usedVLs data structure has LLid - [list of mapped VLs] pairs
@@ -719,12 +737,83 @@ def preprocess_external_request(req):
         VLid = c["VNFLink"]["id"]
         for vl in req["nsd"]["VNFLinks"]:
           if vl["id"] == VLid:
-            if not "source" in vl or vl["source"] is None:
+            if  vl["destination"] == 'None':
+              continue
+            elif not "source" in vl or vl["source"] == 'None':
               vl["source"] = v["VNFid"]
             else:
               vl["destination"] = v["VNFid"]
 
+  # Convert SAPs to dummy VNFs with no resource requirements. Mark them as SAPs (is_sap: true)
+  # This applies only to SAPs that are associated with a VL and not a CP. What we do is the following
+  # - Find the VNFLink associated with the SAP
+  # - Find all VNFs associated with this VL
+  # - For each such VNF, and a new SAP-VNF VL
+  # If a SAP is associated
+  # with a VNF CP, we just follow the procedure that follows, where the location constraint of
+  # the SAP is "copied" to the VNF that owns the CP. 
+  
+  counter = 0
+  if "SAP" in req["nsd"]:
+    for s in req["nsd"]["SAP"]:
+      if "CPid" in s:
+        continue
+      vlid = s["VNFLink"]
+      VL = None
+      for vl in req["nsd"]["VNFLinks"]:
+        if vl["id"] == vlid:
+          if vl["destination"] == 'None':
+            vl["destination"] = "sap_" + str(counter)
+          VL = vl
+          break
       
+      if "location" in s:
+        # Add the dummy VNF
+        req["nsd"]["VNFs"].append({
+          "VNFid": "sap_" + str(counter),
+          "requirements": {
+            "cpu": 0,
+            "ram": 0,
+            "storage": 0,
+            "mec": False
+          },
+          "processing_latency": 0,
+          "instances": 1,
+          "failure_rate": 0,
+          "location": s["location"],
+          "is_sap": True
+        })
+      else:
+        # ugly...just do the same but without the location element
+        req["nsd"]["VNFs"].append({
+          "VNFid": "sap_" + str(counter),
+          "requirements": {
+            "cpu": 0,
+            "ram": 0,
+            "storage": 0,
+            "mec": False
+          },
+          "processing_latency": 0,
+          "instances": 1,
+          "failure_rate": 0,
+          "is_sap": True
+        })
+      
+      # "Allow" the new dummy NVF to be placed at any host with zero cost
+      for p in req["nfvi"]["NFVIPoPs"]:
+        req["nfvi"]["VNFCosts"].append({
+          "cost" : 0,
+          "vnfid" : "sap_" + str(counter),
+          "NFVIPoPid" : p["id"]
+        })
+
+      counter += 1
+
+  # workaround for the case there's a VNF with dummy location (lon==lat==0)
+  for v in req["nsd"]["VNFs"]:
+    if "location" in v and v["location"]["center"]["longitude"] == 0 and v["location"]["center"]["latitude"] == 0:
+      # remove location element
+      v.pop("location")
 
   # Augmenting VNFs with location info
   if "SAP" in req["nsd"]:
@@ -739,5 +828,5 @@ def preprocess_external_request(req):
           if c["cpId"] == cpid:
             if "location" in s:
               v["location"] = s["location"]
-          
+
   return req

@@ -14,6 +14,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
+from swagger_server.models.location_info_im import LocationInfoIm  # noqa: F401,E501
 from swagger_server import util
 
 
@@ -23,17 +24,17 @@ class VnfLocationConstraintIm(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, vnf_profile_id: str=None, location_constraints: str=None):  # noqa: E501
+    def __init__(self, vnf_profile_id: str=None, location_constraints: LocationInfoIm=None):  # noqa: E501
         """VnfLocationConstraintIm - a model defined in Swagger
 
         :param vnf_profile_id: The vnf_profile_id of this VnfLocationConstraintIm.  # noqa: E501
         :type vnf_profile_id: str
         :param location_constraints: The location_constraints of this VnfLocationConstraintIm.  # noqa: E501
-        :type location_constraints: str
+        :type location_constraints: LocationInfoIm
         """
         self.swagger_types = {
             "vnf_profile_id": str,
-            "location_constraints": str
+            "location_constraints": LocationInfoIm
         }
 
         self.attribute_map = {

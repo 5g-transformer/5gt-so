@@ -99,6 +99,7 @@ def instantiate_ns_process(nsId, body, nestedInfo=None):
     name: type
         return description
     """
+    log_queue.put(["INFO", "*****Time measure: SOEc SOEc instantiating a NS"])
     log_queue.put(["INFO", "SOEc instantiate_ns_process with nsId %s, body %s" % (nsId, body)])
     # get the nsdId that corresponds to nsId
     nsdId = ns_db.get_nsdId(nsId)
@@ -115,14 +116,16 @@ def instantiate_ns_process(nsId, body, nestedInfo=None):
         vnfds_json[vnfdId] = vnfd_db.get_vnfd_json(vnfdId, None)
     # request RO
     rooe.instantiate_ns(nsId, nsd_json, vnfds_json, body, nestedInfo)
-
+    log_queue.put(["INFO", "*****Time measure: SOEc updated databases instantiating"])
     sap_info = ns_db.get_ns_sap_info(nsId)
-    log_queue.put(["INFO", "sapInfo: %s"% (sap_info)])
-    monitoring.configure_ns_monitoring(nsId, nsd_json, vnfds_json, sap_info)
-    log_queue.put(["INFO", "instantiate_ns monitoring exporters created for nsId %s" % (nsId)])
-    # initiate alerts
-    alert_configure.configure_ns_alerts(nsId, nsdId, nsd_json, vnfds_json, sap_info)
-    log_queue.put(["INFO", "instantiate_ns_process finished for nsId %s" % (nsId)])
+    if (len(sap_info) > 0):
+      log_queue.put(["INFO", "sapInfo: %s"% (sap_info)])
+      monitoring.configure_ns_monitoring(nsId, nsd_json, vnfds_json, sap_info)
+      log_queue.put(["INFO", "instantiate_ns monitoring exporters created for nsId %s" % (nsId)])
+      # initiate alerts
+      alert_configure.configure_ns_alerts(nsId, nsdId, nsd_json, vnfds_json, sap_info)
+      log_queue.put(["INFO", "*****Time measure: SOEc created monitoring exporters and alerts"]) 
+    log_queue.put(["INFO", "*****Time measure: SOEc instantiate_ns_process finished for nsId %s" % (nsId)])
 
 def scale_ns_process(nsId, body):
     """
@@ -156,9 +159,8 @@ def scale_ns_process(nsId, body):
     sap_info = ns_db.get_ns_sap_info(nsId)
     log_queue.put(["INFO", "new sapInfo after scaling: %s"% (sap_info)])
     monitoring.update_ns_monitoring(nsId, nsd_json, vnfds_json, sap_info)
-    # log_queue.put(["DEBUG", "monitoring exporters updated after scaling for nsId %s" % (nsId)])
-    # update alerts
-    # alert_configure.update_ns_alerts(nsId, nsdId, nsd_json, vnfds_json, sap_info)
+    log_queue.put(["DEBUG", "monitoring exporters updated after scaling for nsId %s" % (nsId)])
+    # update alerts: it is not needed
     log_queue.put(["INFO", "scale_ns_process finished for nsId %s" % (nsId)])
 
 
@@ -176,13 +178,17 @@ def terminate_ns_process(nsId, aux):
         return description
     """
     #first terminate the alert/monitoring jobs
+    # When alert rest API will be ready uncomment
     log_queue.put(["INFO", "SOEc eliminating service with nsId: %s"%nsId])
     if (nsId.find("_") == -1):
+        # terminate alerts
         alert_configure.delete_ns_alerts(nsId)
-        #terminate monitoring jobs
+        # terminate monitoring jobs
         monitoring.stop_ns_monitoring(nsId)
-    #terminate alerts
+        log_queue.put(["INFO", "*****Time measure: SOEc terminated monitoring exporters and alerts"])
+    #terminate the service
     rooe.terminate_ns(nsId)
+    log_queue.put(["INFO", "*****Time measure: SOEc updated databases terminating"])
     ns_db.delete_ns_record(nsId)
 
 ########################################################################################################################
@@ -238,7 +244,7 @@ def instantiate_ns(nsId, body, requester):
     string
         Id of the operation associated to the Network Service instantiation.
     """
-
+    log_queue.put(["INFO", "*****Time measure: SOEc SOEc instantiating a nested"])
     log_queue.put(["INFO", "instantiate_ns for nsId %s with body: %s" % (nsId, body)])
     #client = MongoClient()
     #fgtso_db = client.fgtso
@@ -258,7 +264,7 @@ def instantiate_ns(nsId, body, requester):
 
     # save process
     processes[operationId] = ps
-
+    # log_queue.put(["INFO", "*****Time measure: SOEc finished instantiation at SOEc"])
     return operationId
 
 def scale_ns(nsId, body):
@@ -286,7 +292,7 @@ def scale_ns(nsId, body):
     status = ns_db.get_ns_status(nsId)
     if status != "INSTANTIATED":
         return 400
-    ns_db.set_ns_status(nsId, "INSTANTIATING")
+    ns_db.set_ns_status(nsId, "SCALING")
     operationId = create_operation_identifier(nsId, "INSTANTIATION")
     ps = Process(target=scale_ns_process, args=(nsId, body))
     ps.start()
@@ -310,7 +316,7 @@ def terminate_ns(nsId, requester):
     operationId: string
         Identifier of the operation in charge of terminating the service.
     """
-
+    log_queue.put(["INFO", "*****Time measure: SOEc SOEc terminating a nested"])
     if not ns_db.exists_nsId(nsId):
         return 404
     registered_requester = ns_db.get_ns_requester(nsId)
@@ -338,7 +344,7 @@ def terminate_ns(nsId, requester):
 
     # save process
     processes[operationId] = ps
-
+    # log_queue.put(["INFO", "*****Time measure: finished termination at SOEc"])
     return operationId
 
 
@@ -382,6 +388,10 @@ def query_ns(nsId):
         total_sap_info = get_ns_sap_info(nsId,nsd_json["nsd"]["sapd"])
         if total_sap_info is not None:
             info["sapInfo"] = total_sap_info
+    
+    dashboard_info = ns_db.get_dashboard_info(nsId)
+    if "dashboardUrl" in dashboard_info.keys():
+        info["monitoringDashboardUrl"] = dashboard_info["dashboardUrl"]
 
     log_queue.put(["INFO", "query_result: %s"% dumps(info, indent=4, sort_keys=True)])
     return info

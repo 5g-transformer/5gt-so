@@ -135,7 +135,7 @@ class GAFrontEnd(object):
       "solution": None
     }
     # add the request as it was submitted in the above structure
-    req_ext.update(request.json)    
+    req_ext.update(request.json)
     self.db_collection_external.insert_one(req_ext)
 
     # now do the necessary translation to the internal representation

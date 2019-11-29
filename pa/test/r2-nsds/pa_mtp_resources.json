@@ -84,7 +84,6 @@
     "NfviPops": [
         {
             "nfviPopAttributes": {
-                "MecCapable": "True",
                 "vimId": "1",
                 "resourceZoneAttributes": [
                     {
@@ -119,12 +118,13 @@
                     }
                 ],
                 "nfviPopId": "1",
-                "geographicalLocationInfo": "(40.3325323,-3.7675058)"
+                "geographicalLocationInfo": "(0,0)"
             }
         },
         {
             "nfviPopAttributes": {
                 "vimId": "2",
+                "MecCapable": "True",
                 "resourceZoneAttributes": [
                     {
                         "storageResourceAttributes": {
@@ -158,7 +158,7 @@
                     }
                 ],
                 "nfviPopId": "2",
-                "geographicalLocationInfo": "ONS"
+                "geographicalLocationInfo": "(40.3325323,-3.7675058)"
             }
         }
     ]

@@ -19,7 +19,7 @@
                 "virtualLinkDf": [
                     {
                         "qos": {
-                            "latency": 0,
+                            "latency": 500,
                             "priority": 0,
                             "packetLossRatio": 0,
                             "packetDelayVariation": 0
@@ -41,7 +41,7 @@
                 "virtualLinkDf": [
                     {
                         "qos": {
-                            "latency": 0,
+                            "latency": 500,
                             "priority": 0,
                             "packetLossRatio": 0,
                             "packetDelayVariation": 0
@@ -63,7 +63,7 @@
                 "virtualLinkDf": [
                     {
                         "qos": {
-                            "latency": 0,
+                            "latency": 500,
                             "priority": 0,
                             "packetLossRatio": 0,
                             "packetDelayVariation": 0
@@ -85,7 +85,7 @@
                 "virtualLinkDf": [
                     {
                         "qos": {
-                            "latency": 0,
+                            "latency": 500,
                             "priority": 0,
                             "packetLossRatio": 0,
                             "packetDelayVariation": 0
@@ -107,7 +107,7 @@
                 "virtualLinkDf": [
                     {
                         "qos": {
-                            "latency": 0,
+                            "latency": 500,
                             "priority": 0,
                             "packetLossRatio": 0,
                             "packetDelayVariation": 0
@@ -129,7 +129,7 @@
                 "virtualLinkDf": [
                     {
                         "qos": {
-                            "latency": 0,
+                            "latency": 500,
                             "priority": 0,
                             "packetLossRatio": 0,
                             "packetDelayVariation": 0

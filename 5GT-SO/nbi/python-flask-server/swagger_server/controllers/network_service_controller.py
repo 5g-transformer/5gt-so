@@ -54,11 +54,13 @@ def create_ns_identifier(body):  # noqa: E501
 
     :rtype: InlineResponse201
     """
+    log_queue.put(["INFO", "*****Time measure: NBI creation of ns_identifier"])
     if connexion.request.is_json:
         body = CreateNsIdentifierRequest.from_dict(connexion.request.get_json())  # noqa: E501
     nsId = soep.create_ns_identifier(body)
     if nsId == 404:
         return error404("nsdId not found")
+    log_queue.put(["INFO", "*****Time measure: NBI returning operation ID instantiating ns at SM"])
     # TODO: debug, in return the 201 should not be needed but if it is missing the REST API returns a 200
 
     return {"nsId": nsId}, 201
@@ -128,7 +130,7 @@ def instantiate_ns(nsId, body):  # noqa: E501
 
     :rtype: InlineResponse200
     """
-
+    log_queue.put(["INFO", "*****Time measure: NBI starting instantiating ns at SM"])
     if connexion.request.is_json:
         body = NsInstantiationRequest.from_dict(connexion.request.get_json())  # noqa: E501
     requester = connexion.request.remote_addr
@@ -138,7 +140,7 @@ def instantiate_ns(nsId, body):  # noqa: E501
         return error400("network service is not in NOT_INSTANTIATED state")
     if operationId == 404:
         return error404("nsId not found, not a valid requester or nestedInstanceId cannot be shared")
-
+    log_queue.put(["INFO", "*****Time measure: NBI returning operation ID instantiating ns at SM"])
     return {"operationId": operationId}
 
 def onboard_appd(body):  # noqa: E501
@@ -332,10 +334,12 @@ def terminate_ns(nsId):  # noqa: E501
 
     :rtype: InlineResponse200
     """
+    log_queue.put(["INFO", "*****Time measure: NBI starting termination ns at SM"])
     requester = connexion.request.remote_addr   
     operationId = soep.terminate_ns(nsId, requester)
     if operationId == 400:
         return error400("network service is not in INSTANTIATED or INSTANTIATING state")
     if operationId == 404:
         return error404("nsId not found or the requester has not authorization to perform this operation")
+    log_queue.put(["INFO", "*****Time measure: NBI returning operation ID termination ns at SM"])
     return {"operationId": operationId}

@@ -49,14 +49,14 @@ def cluster(PARequest):
         # Find the associated VNFLink
         vnfLink = [vl for vl in scenario['nsd']['VNFLinks'] if vl['id'] == sap['VNFLink']][0]
         sapVNF = {
-            'VNFid': 'sap' + str(i),
+            'VNFid': 'sap_' + vnfLink['id'],
             'SAPidx': sapIdx,
             'instances': 1,
             'requirements': {'cpu': 0, 'ram': 0, 'storage': 0},
             'failure_rate': 0,
             'processing_latency': 0,
             'CP': [{
-                'cpId': 'sap' + str(i),
+                'cpId': 'sap_' + vnfLink['id'],
                 'VNFLink': vnfLink
             }]
         }
