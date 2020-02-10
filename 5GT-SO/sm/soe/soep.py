@@ -661,7 +661,8 @@ def terminate_ns_process(nsId, aux):
         if "nestedNsId" in nested_record: 
             nested_instanceId = ns_db.delete_ns_nested_services_ids(nsId)
             ns_db.delete_ns_shared_services_ids(nested_instanceId, nsId)
-        ns_db.delete_ns_record(nsId)
+        # for the 5GT-VS not to break
+        # ns_db.delete_ns_record(nsId)
     log_queue.put(["INFO", "*****Time measure: SOEp SOEp finished terminating service"])
 
 ########################################################################################################################
@@ -965,44 +966,49 @@ def query_ns(nsId):
         aggregated_user_access_info = []   
         info["sapInfo"] = []
         if "nestedNsdId" in nsd_json["nsd"]:
-            # it is a composite so you need to construct the sap info result
-            # first we make a mapping at crooe with the saps and the nsVirtuaLinkDesc
-            sap_composite_mapping  = crooe.mapping_composite_saps_to_nested_saps(nsId, nsd_json)
-            # sap_mapping: {'mgt_ehealth_mon_sap': {'eHealth-vEPC': ['mgt_vepc_sap'], 'eHealth-BE': ['mgt_ehealth_mon_be_sap']}}
-            nested_info = ns_db.get_nested_service_info(nsId)
-            # now treat the case of a reference
-            reference_ns = ns_db.get_ns_nested_services_ids(nsId)
-            for sap in sap_composite_mapping.keys():
-                sap_info = {}
-                sap_info["address"] = "test for future"
-                sap_info["description"] = sap_composite_mapping[sap]["info"]["description"]
-                sap_info["sapInstanceId"] = "0"
-                sap_info["sapName"] = sap_composite_mapping[sap]["info"]["cpdId"]
-                sap_info["sapdId" ] = sap_composite_mapping[sap]["info"]["cpdId"]
-                sap_info["userAccessInfo"] = []
-                for nested in nested_info:
-                    if nested["nested_id"] in sap_composite_mapping[sap]["nested"].keys():
-                        for sap2 in sap_composite_mapping[sap]["nested"][nested["nested_id"]]:
-                            for sap3 in nested["sapInfo"]:
-                                if (sap2 == sap3["sapdId"]):
-                                    sap_info["userAccessInfo"] = sap_info["userAccessInfo"] +sap3["userAccessInfo"] 
-                info["sapInfo"].append(sap_info)
-            if reference_ns:
+            if vs_status == "NOT_INSTANTIATED":
+                info["sapInfo"] = []
+            else:
+                # it is a composite so you need to construct the sap info result
+                # first we make a mapping at crooe with the saps and the nsVirtuaLinkDesc
+                log_queue.put(["DEBUG", "query_result for nsId: %s" % nsId])
+                sap_composite_mapping  = crooe.mapping_composite_saps_to_nested_saps(nsId, nsd_json)
+                log_queue.put(["DEBUG", "sap_composite_mapping: %s" % dumps(sap_composite_mapping, indent=4, sort_keys=True)])
+                # sap_mapping: {'mgt_ehealth_mon_sap': {'eHealth-vEPC': ['mgt_vepc_sap'], 'eHealth-BE': ['mgt_ehealth_mon_be_sap']}}
+                nested_info = ns_db.get_nested_service_info(nsId)
+                # now treat the case of a reference
                 reference_ns = ns_db.get_ns_nested_services_ids(nsId)
-                reference_nsd_id = ns_db.get_nsdId(reference_ns)
-                reference_nsd_json = nsd_db.get_nsd_json(reference_nsd_id)
                 for sap in sap_composite_mapping.keys():
-                    for sap2 in sap_composite_mapping[sap]["nested"].keys():
-                        if sap2 == reference_nsd_json["nsd"]["nsdIdentifier"]:
-                            if "sapd" in reference_nsd_json["nsd"]:
-                                sap_reference_info = get_ns_sap_info(reference_ns, reference_nsd_json["nsd"]["sapd"])
-                                log_queue.put(["DEBUG", "sap_reference_info: %s"% sap_reference_info])
-                                for sap3 in sap_reference_info:
-                                    for sap4 in sap_composite_mapping[sap]["nested"][sap2]:
-                                        if sap3["sapdId"] == sap4:
-                                            for elem in info["sapInfo"]:
-                                                if elem["sapdId"] == sap:
-                                                    elem["userAccessInfo"] = elem["userAccessInfo"] + sap3["userAccessInfo"]
+                    sap_info = {}
+                    sap_info["address"] = "test for future"
+                    sap_info["description"] = sap_composite_mapping[sap]["info"]["description"]
+                    sap_info["sapInstanceId"] = "0"
+                    sap_info["sapName"] = sap_composite_mapping[sap]["info"]["cpdId"]
+                    sap_info["sapdId" ] = sap_composite_mapping[sap]["info"]["cpdId"]
+                    sap_info["userAccessInfo"] = []
+                    for nested in nested_info:
+                        if nested["nested_id"] in sap_composite_mapping[sap]["nested"].keys():
+                            for sap2 in sap_composite_mapping[sap]["nested"][nested["nested_id"]]:
+                                for sap3 in nested["sapInfo"]:
+                                    if (sap2 == sap3["sapdId"]):
+                                       sap_info["userAccessInfo"] = sap_info["userAccessInfo"] +sap3["userAccessInfo"] 
+                    info["sapInfo"].append(sap_info)
+                if reference_ns:
+                    reference_ns = ns_db.get_ns_nested_services_ids(nsId)
+                    reference_nsd_id = ns_db.get_nsdId(reference_ns)
+                    reference_nsd_json = nsd_db.get_nsd_json(reference_nsd_id)
+                    for sap in sap_composite_mapping.keys():
+                        for sap2 in sap_composite_mapping[sap]["nested"].keys():
+                            if sap2 == reference_nsd_json["nsd"]["nsdIdentifier"]:
+                                if "sapd" in reference_nsd_json["nsd"]:
+                                    sap_reference_info = get_ns_sap_info(reference_ns, reference_nsd_json["nsd"]["sapd"])
+                                    log_queue.put(["DEBUG", "sap_reference_info: %s"% sap_reference_info])
+                                    for sap3 in sap_reference_info:
+                                        for sap4 in sap_composite_mapping[sap]["nested"][sap2]:
+                                            if sap3["sapdId"] == sap4:
+                                                for elem in info["sapInfo"]:
+                                                    if elem["sapdId"] == sap:
+                                                        elem["userAccessInfo"] = elem["userAccessInfo"] + sap3["userAccessInfo"]
         else:
             # it is a delegated one, so we get the info from our databases
             for nested_service in ns_info_record:

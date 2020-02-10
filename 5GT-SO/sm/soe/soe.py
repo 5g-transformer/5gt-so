@@ -189,7 +189,8 @@ def terminate_ns_process(nsId, aux):
     #terminate the service
     rooe.terminate_ns(nsId)
     log_queue.put(["INFO", "*****Time measure: SOEc updated databases terminating"])
-    ns_db.delete_ns_record(nsId)
+    # for the 5GT-VS not to break
+    # ns_db.delete_ns_record(nsId)
 
 ########################################################################################################################
 # PUBLIC METHODS                                                                                                       #
@@ -384,6 +385,12 @@ def query_ns(nsId):
             "flavourId": flavour_id,
             "nsState": vs_status,
     }
+    #turn void the sap_info and the monitoring if the service is terminated
+    if vs_status == "NOT_INSTANTIATED":
+        info["sapInfo"] = []
+        log_queue.put(["INFO", "hola"])
+        return info
+
     if "sapd" in nsd_json["nsd"]:
         total_sap_info = get_ns_sap_info(nsId,nsd_json["nsd"]["sapd"])
         if total_sap_info is not None:
