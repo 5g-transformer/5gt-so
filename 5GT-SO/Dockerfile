@@ -15,7 +15,7 @@ COPY requirements.txt /usr/src/app/
 
 RUN pip3 install --no-cache-dir -r /usr/src/app/requirements.txt
 
-RUN pip install git+https://osm.etsi.org/gerrit/osm/osmclient.git
+RUN pip install git+https://osm.etsi.org/gerrit/osm/osmclient.git@v6.0.0
 
 COPY . /usr/src/app
 WORKDIR /usr/src/app/nbi/python-flask-server
